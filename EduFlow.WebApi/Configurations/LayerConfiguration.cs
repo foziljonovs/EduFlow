@@ -1,4 +1,6 @@
 ﻿using EduFlow.DAL.Data;
+using EduFlow.DAL.Interfaces;
+using EduFlow.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace EduFlow.WebApi.Configurations;
@@ -13,6 +15,15 @@ public static class LayerConfiguration
 
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(connectionString));
+
+        return services;
+    }
+
+    public static IServiceCollection AddRepositoryConfiguration(
+        this IServiceCollection services)
+    {
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
