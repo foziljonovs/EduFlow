@@ -8,7 +8,8 @@ builder.Services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
     .AddOpenApi()
-    .AddDbConnection(builder.Configuration);
+    .AddDbConnection(builder.Configuration)
+    .AddRepositoryConfiguration();
 
 var app = builder.Build();
 
