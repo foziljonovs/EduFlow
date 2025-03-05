@@ -1,4 +1,5 @@
 ﻿using EduFlow.Domain.Entities.Base;
+using EduFlow.Domain.Entities.Payments;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,4 +15,5 @@ public class Student : BaseEntity
     public string? Address { get; set; }
     [Column("phone_number")]
     public required string PhoneNumber { get; set; }
+    public List<Payment> Payments { get; set; } = new List<Payment>();
 }

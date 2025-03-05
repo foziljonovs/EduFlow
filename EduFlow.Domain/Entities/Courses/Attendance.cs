@@ -1,11 +1,10 @@
 ﻿using EduFlow.Domain.Entities.Base;
-using EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Users;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EduFlow.Domain.Entities.Payments;
+namespace EduFlow.Domain.Entities.Courses;
 
-public class Payment : BaseEntity
+public class Attendance : BaseEntity
 {
     [Column("student_id")]
     public required long StudentId { get; set; }
@@ -15,12 +14,8 @@ public class Payment : BaseEntity
     public required long CourseId { get; set; }
     [Column("course")]
     public Course Course { get; set; }
-    [Column("registry_id")]
-    public required long RegistryId { get; set; }
-    [Column("registry")]
-    public Registry Registry { get; set; }
-    [Column("amount")]
-    public required double Amount { get; set; }
-    [Column("payment_date")]
-    public DateTime PaymentDate { get; set; }
+    [Column("date")]
+    public DateTime Date { get; set; }
+    [Column("is_actived")]
+    public bool IsActived { get; set; }
 }

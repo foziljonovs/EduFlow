@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EduFlow.Domain.Entities.Base;
+using EduFlow.Domain.Entities.Courses;
+using EduFlow.Domain.Entities.Users;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EduFlow.Domain.Entities.Messaging
+namespace EduFlow.Domain.Entities.Messaging;
+
+public class Message : BaseEntity
 {
-    internal class Message
-    {
-    }
+    [Column("student_id")]
+    public required long StudentId { get; set; }
+    [Column("student")]
+    public Student Student { get; set; }
+    [Column("course_id")]
+    public required long CourseId { get; set; }
+    [Column("course")]
+    public Course Course { get; set; }
+    [Column("text")]
+    public required string Text { get; set; }
 }
