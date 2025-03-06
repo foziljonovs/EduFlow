@@ -1,6 +1,6 @@
 ﻿using EduFlow.BLL.DTOs.Users.User;
 
-namespace EduFlow.BLL.Interfaces.Users.User;
+namespace EduFlow.BLL.Interfaces.Users;
 
 public interface IUserService
 {
