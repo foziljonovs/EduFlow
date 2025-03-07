@@ -1,4 +1,4 @@
-﻿using EduFlow.Domain.Entities.Courses;
+﻿using Et = EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Payments;
 using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
@@ -18,7 +18,7 @@ public class CourseForResultDto
     public long TeacherId { get; set; }
     public Teacher Teacher { get; set; }
     public long CategoryId { get; set; }
-    public Category Category { get; set; }
+    public Et.Category Category { get; set; }
     public List<Student> Students { get; set; }
     public List<Payment> Payments { get; set; }
 }

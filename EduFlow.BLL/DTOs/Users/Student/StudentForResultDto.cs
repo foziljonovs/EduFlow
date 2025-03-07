@@ -1,4 +1,5 @@
-﻿using EduFlow.Domain.Entities.Payments;
+﻿using EduFlow.Domain.Entities.Courses;
+using EduFlow.Domain.Entities.Payments;
 
 namespace EduFlow.BLL.DTOs.Users.Student;
 
@@ -12,4 +13,5 @@ public class StudentForResultDto
     public string? Address { get; set; }
     public string PhoneNumber { get; set; }
     public List<Payment> Payments { get; set; }
+    public List<Course> Courses { get; set; }
 }
