@@ -1,5 +1,5 @@
 ﻿using EduFlow.Domain.Entities.Courses;
-using EduFlow.Domain.Entities.Payments;
+using Et = EduFlow.Domain.Entities.Payments;
 using EduFlow.Domain.Entities.Users;
 
 namespace EduFlow.BLL.DTOs.Payments.Payment;
@@ -14,7 +14,7 @@ public class PaymentForResultDto
     public long CourseId { get; set; }
     public Course Course { get; set; }
     public long RegistryId { get; set; }
-    public Registry Registry { get; set; }
+    public Et.Registry Registry { get; set; }
     public double Amount { get; set; }
     public DateTime PaymentDate { get; set; }
 }
