@@ -7,8 +7,7 @@ using EduFlow.BLL.Interfaces.Users;
 using EduFlow.DAL.Interfaces;
 using EduFlow.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Logging;
 using System.Net;
 
 namespace EduFlow.BLL.Services.Users;
@@ -16,11 +15,13 @@ namespace EduFlow.BLL.Services.Users;
 public class UserService(
     IUnitOfWork unitOfWork,
     IMapper mapper,
-    ITokenService tokenService) : IUserService
+    ITokenService tokenService,
+    ILogger<UserService> logger) : IUserService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly ITokenService _tokenService = tokenService;
+    private readonly ILogger<UserService> _logger = logger;
     public async Task<bool> ChangePasswordAsync(long id, UserForChangePasswordDto dto, CancellationToken cancellationToken = default)
     {
         try
@@ -28,6 +29,9 @@ public class UserService(
             var user = await _unitOfWork.User.GetAsync(id);
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "User not found.");
+
+            if (user.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This user has been deleted.");
 
             if (!PasswordHelper.Verify(dto.CurrentPassword, user.Password, user.Salt))
                 return false;
@@ -41,7 +45,8 @@ public class UserService(
         }
         catch(Exception ex)
         {
-            throw new Exception($"An error occured while change password the user. {id}");
+            _logger.LogError($"An error occured while change password the user {id}. {ex}");
+            throw;
         }
     }
 
@@ -56,11 +61,12 @@ public class UserService(
             user.IsDeleted = true;
 
             var result = await _unitOfWork.User.UpdateAsync(user);
-            return true;
+            return result;
         }
         catch(Exception ex)
         {
-            throw new Exception($"An error occured while delete the user. {id}");
+            _logger.LogError($"An error occured while delete the user {id}. {ex}");
+            throw;
         }
     }
 
@@ -68,15 +74,20 @@ public class UserService(
     {
         try
         {
-            var users = _unitOfWork.User.GetAllAsync();
+            var users = await _unitOfWork.User
+                .GetAllAsync()
+                .Where(x => x.IsDeleted == false)
+                .ToListAsync(cancellationToken);
+
             if (!users.Any())
-                throw new StatusCodeException(HttpStatusCode.NoContent, "Users not found.");
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Users not found.");
 
             return _mapper.Map<IEnumerable<UserForResultDto>>(users);
         }
         catch(Exception ex)
         {
-            throw new Exception($"An error occured while get all the users.");
+            _logger.LogError($"An error occured while get all the users. {ex}");
+            throw;
         }
     }
 
@@ -88,11 +99,15 @@ public class UserService(
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
 
+            if (user.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This user has been deleted.");
+
             return _mapper.Map<UserForResultDto>(user);
         }
         catch(Exception ex)
         {
-            throw new Exception($"An error occured while get by id: {id} the user.");
+            _logger.LogError($"An error occured while get by id: {id} the user. {ex}");
+            throw;
         }
     }
 
@@ -104,6 +119,9 @@ public class UserService(
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "User not found.");
 
+            if (user.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This user has been deleted.");
+
             var hasher = PasswordHelper.Verify(dto.Password, user.Password, user.Salt);
             if (!hasher)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Password wrong!");
@@ -112,7 +130,8 @@ public class UserService(
         }
         catch(Exception ex)
         {
-            throw new Exception($"An error occured while login the user");
+            _logger.LogError($"An error occured while login the user. {ex}");
+            throw;
         }
     }
 
@@ -134,7 +153,8 @@ public class UserService(
         }
         catch(Exception ex)
         {
-            throw new Exception($"An error occured while register the user");
+            _logger.LogError($"An error occured while register the user");
+            throw;
         }
     }
 
@@ -146,6 +166,9 @@ public class UserService(
             if (userExists is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "User not found.");
 
+            if (userExists.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This user has been deleted.");
+
             var updateUser = _mapper.Map<User>(dto);
             updateUser.Id = id;
             updateUser.UpdatedAt = DateTime.UtcNow.AddHours(5);
@@ -154,7 +177,8 @@ public class UserService(
         }
         catch(Exception ex)
         {
-            throw new Exception($"An error occured while update the user");
+            _logger.LogError($"An error occured while update the user");
+            throw;
         }
     }
 
@@ -166,6 +190,9 @@ public class UserService(
             if (userExists is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
 
+            if (userExists.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This user has been deleted.");
+
             if (!PasswordHelper.Verify(password, userExists.Password, userExists.Salt))
                 return false;
 
@@ -173,7 +200,8 @@ public class UserService(
         }
         catch(Exception ex)
         {
-            throw new Exception($"An error occured while verify password the user");
+            _logger.LogError($"An error occured while verify password the user");
+            throw;
         }
     }
 }

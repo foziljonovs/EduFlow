@@ -2,6 +2,7 @@
 using EduFlow.DAL.Interfaces;
 using EduFlow.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace EduFlow.WebApi.Configurations;
 
@@ -26,5 +27,17 @@ public static class LayerConfiguration
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
+    }
+
+    public static void AddSerilogConfiguration(IHostBuilder host)
+    {
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .WriteTo.File(
+                path: "logs/edu-flow-log.txt",
+                rollingInterval: RollingInterval.Month)
+            .CreateLogger();
+
+        host.UseSerilog();
     }
 }

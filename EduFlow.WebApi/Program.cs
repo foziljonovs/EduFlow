@@ -1,6 +1,9 @@
 using EduFlow.WebApi.Configurations;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+LayerConfiguration.AddSerilogConfiguration(builder.Host);
 
 builder.Services.AddControllers();
 
@@ -18,6 +21,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
