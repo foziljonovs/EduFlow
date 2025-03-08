@@ -1,37 +1,147 @@
-﻿using EduFlow.BLL.DTOs.Users.Student;
+﻿using AutoMapper;
+using EduFlow.BLL.Common.Exceptions;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.Interfaces.Users;
+using EduFlow.DAL.Interfaces;
+using EduFlow.Domain.Entities.Users;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace EduFlow.BLL.Services.Users;
 
-public class StudentService : IStudentService
+public class StudentService(
+    IUnitOfWork unitOfWork,
+    IMapper mapper,
+    ILogger<StudentService> logger) : IStudentService
 {
-    public Task<bool> AddAsync(StudentForCreateDto dto, CancellationToken cancellationToken = default)
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMapper _mapper = mapper;
+    private readonly ILogger<StudentService> _logger = logger;
+    public async Task<bool> AddAsync(StudentForCreateDto dto, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var existsUser = await _unitOfWork.Student
+                .GetAllAsync()
+                .FirstOrDefaultAsync(x => x.PhoneNumber == dto.PhoneNumber);
+
+            if (existsUser is not null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Student already exists.");
+
+            var savedStudent = _mapper.Map<Student>(dto);
+            return await _unitOfWork.Student.AddConfirmAsync(savedStudent);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while adding the student. {ex}");
+            throw;
+        }
     }
 
-    public Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var existsStudent = await _unitOfWork.Student.GetAsync(id);
+            if (existsStudent is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
+
+            existsStudent.IsDeleted = true;
+            return await _unitOfWork.Student.UpdateAsync(existsStudent);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured delete the student {id}. {ex}");
+            throw;
+        }
     }
 
-    public Task<IEnumerable<StudentForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<StudentForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var students = await _unitOfWork.Student
+                .GetAllAsync()
+                .Where(x => x.IsDeleted == false)
+                .ToListAsync(cancellationToken);
+
+            if (!students.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
+
+            return _mapper.Map<IEnumerable<StudentForResultDto>>(students);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while getting the students. {ex}");
+            throw;
+        }
     }
 
-    public Task<StudentForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
+    public async Task<StudentForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var student = await _unitOfWork.Student.GetAsync(id);
+            if (student is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
+
+            if (student.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This student has been deleted.");
+
+            return _mapper.Map<StudentForResultDto>(student);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get by id: {id}. {ex}");
+            throw;
+        }
     }
 
-    public Task<StudentForResultDto> GetByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default)
+    public async Task<StudentForResultDto> GetByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var student = await _unitOfWork.Student
+                .GetAllAsync()
+                .FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
+
+            if (student is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
+
+            if (student.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This student has been deleted");
+
+            return _mapper.Map<StudentForResultDto>(student);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while getting student by phone number: {phoneNumber}. {ex}");
+            throw;
+        }
     }
 
-    public Task<bool> UpdateAsync(long id, StudentForUpdateDto dto, CancellationToken cancellationToken = default)
+    public async Task<bool> UpdateAsync(long id, StudentForUpdateDto dto, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var existsStudent = await _unitOfWork.Student.GetAsync(id);
+            if (existsStudent is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
+
+            if (existsStudent.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This student has been deleted.");
+
+            var updateStudent = _mapper.Map<Student>(dto);
+            updateStudent.Id = id;
+            updateStudent.UpdatedAt = DateTime.UtcNow.AddHours(5);
+
+            return await _unitOfWork.Student.UpdateAsync(updateStudent);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while update the student id: {id}. {ex}");
+            throw;
+        }
     }
 }

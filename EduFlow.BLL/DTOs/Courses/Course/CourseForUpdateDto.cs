@@ -1,6 +1,4 @@
-﻿using EduFlow.Domain.Entities.Courses;
-using EduFlow.Domain.Entities.Payments;
-using EduFlow.Domain.Entities.Users;
+﻿using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
 
 namespace EduFlow.BLL.DTOs.Courses.Course;
@@ -13,4 +11,5 @@ public class CourseForUpdateDto
     public Status Archived { get; set; }
     public long TeacherId { get; set; }
     public long CategoryId { get; set; }
+    public List<Student> Student { get; set; }
 }
