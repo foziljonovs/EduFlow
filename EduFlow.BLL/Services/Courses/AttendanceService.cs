@@ -1,42 +1,172 @@
-﻿using EduFlow.BLL.DTOs.Courses.Attendance;
+﻿using AutoMapper;
+using EduFlow.BLL.Common.Exceptions;
+using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.Interfaces.Courses;
+using EduFlow.DAL.Interfaces;
+using EduFlow.Domain.Entities.Courses;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace EduFlow.BLL.Services.Courses;
 
-public class AttendanceService : IAttendanceService
+public class AttendanceService(
+    IUnitOfWork unitOfWork,
+    IMapper mapper,
+    ILogger<AttendanceService> logger) : IAttendanceService
 {
-    public Task<bool> AddAsync(AttendanceForCraeteDto dto, CancellationToken cancellationToken = default)
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMapper _mapper = mapper;
+    private readonly ILogger<AttendanceService> _logger = logger;
+    public async Task<bool> AddAsync(AttendanceForCraeteDto dto, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
+            if(existsCourse is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+
+            var existsStudent = await _unitOfWork.Student.GetAsync(dto.StudentId);
+            if (existsStudent is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
+
+            var savedAttendance = _mapper.Map<Attendance>(dto);
+            return await _unitOfWork.Attendance.AddConfirmAsync(savedAttendance);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while added the attendance. {ex}");
+            throw;
+        }
     }
 
-    public Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var attendance = await _unitOfWork.Attendance.GetAsync(id);
+            if (attendance is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Attendance not found.");
+
+            attendance.IsDeleted = true;
+            return await _unitOfWork.Attendance.UpdateAsync(attendance);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while delete the attendance id: {id}. {ex}");
+            throw;
+        }
     }
 
-    public Task<IEnumerable<AttendanceForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<AttendanceForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var attendances = await _unitOfWork.Attendance
+                .GetAllAsync()
+                .Where(x => x.IsDeleted == false)
+                .ToListAsync();
+
+            if (!attendances.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Attendances not found.");
+
+            return _mapper.Map<IEnumerable<AttendanceForResultDto>>(attendances);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all attendance. {ex}");
+            throw;
+        }
     }
 
-    public Task<IEnumerable<AttendanceForResultDto>> GetAllByStudentIdAsync(long studentId, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<AttendanceForResultDto>> GetAllByStudentIdAsync(long studentId, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var attendances = await _unitOfWork.Attendance
+                .GetAllAsync()
+                .Where(x => x.StudentId == studentId && x.IsDeleted == false)
+                .ToListAsync();
+
+            if (!attendances.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Attendaces not found.");
+
+            return _mapper.Map<IEnumerable<AttendanceForResultDto>>(attendances);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all attendance by student id: {studentId}. {ex}");
+            throw;
+        }
     }
 
-    public Task<IEnumerable<AttendanceForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<AttendanceForResultDto>> GetAllByCourseIdAsync(long courseId, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var attendances = await _unitOfWork.Attendance
+                .GetAllAsync()
+                .Where(x => x.CourseId == courseId)
+                .ToListAsync();
+
+            if (!attendances.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Attendances not found.");
+
+            return _mapper.Map<IEnumerable<AttendanceForResultDto>>(attendances);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all attendance by course id: {courseId}. {ex}");
+            throw;
+        }
     }
 
-    public Task<AttendanceForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
+    public async Task<AttendanceForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var attendance = await _unitOfWork.Attendance.GetAsync(id);
+            if (attendance is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Attendance not found.");
+
+            if (attendance.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This attendance has been deleted.");
+
+            return _mapper.Map<AttendanceForResultDto>(attendance);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get attendance by id: {id}. {ex}");
+            throw;
+        }
     }
 
-    public Task<bool> UpdateAsync(long id, AttendanceForUpdateDto dto, CancellationToken cancellationToken = default)
+    public async Task<bool> UpdateAsync(long id, AttendanceForUpdateDto dto, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var existsAttendance = await _unitOfWork.Attendance.GetAsync(id);
+            if (existsAttendance is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Attendance not found.");
+
+            var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
+            if (existsCourse is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+
+            var existsStudent = await _unitOfWork.Student.GetAsync(dto.StudentId);
+            if (existsStudent is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
+
+            var updateAttendance = _mapper.Map<Attendance>(dto);
+            updateAttendance.Id = id;
+            updateAttendance.UpdatedAt = DateTime.UtcNow.AddHours(5);
+
+            return await _unitOfWork.Attendance.UpdateAsync(updateAttendance);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while update attendance id: {id}. {ex}");
+            throw;
+        }
     }
 }
