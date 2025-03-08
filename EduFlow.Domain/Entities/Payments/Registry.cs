@@ -1,4 +1,5 @@
 ﻿using EduFlow.Domain.Entities.Base;
+using EduFlow.Domain.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduFlow.Domain.Entities.Payments;
@@ -9,4 +10,6 @@ public class Registry : BaseEntity
     public double Debit { get; set; }
     [Column("credit")]
     public double Credit { get; set; }
+    [Column("type")]
+    public PaymentType Type { get; set; }
 }
