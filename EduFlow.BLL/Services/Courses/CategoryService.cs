@@ -1,32 +1,112 @@
-﻿using EduFlow.BLL.DTOs.Courses.Category;
+﻿using AutoMapper;
+using EduFlow.BLL.Common.Exceptions;
+using EduFlow.BLL.DTOs.Courses.Category;
 using EduFlow.BLL.Interfaces.Courses;
+using EduFlow.DAL.Interfaces;
+using EduFlow.Domain.Entities.Courses;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace EduFlow.BLL.Services.Courses;
 
-public class CategoryService : ICategoryService
+public class CategoryService(
+    IUnitOfWork unitOfWork,
+    IMapper mapper,
+    ILogger<CategoryService> logger) : ICategoryService
 {
-    public Task<bool> AddAsync(CategoryForCraeteDto dto, CancellationToken cancellationToken = default)
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMapper _mapper = mapper;
+    private readonly ILogger<CategoryService> _logger = logger;
+    public async Task<bool> AddAsync(CategoryForCraeteDto dto, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var category = _mapper.Map<Category>(dto);
+            return await _unitOfWork.Category.AddConfirmAsync(category);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while added the category. {ex}");
+            throw;
+        }
     }
 
-    public Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var existsCategory = await _unitOfWork.Category.GetAsync(id);
+            if (existsCategory is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found.");
+
+            existsCategory.IsDeleted = true;
+            return await _unitOfWork.Category.UpdateAsync(existsCategory);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while delete the category id: {id}. {ex}");
+            throw;
+        }
     }
 
-    public Task<IEnumerable<CategoryForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<CategoryForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var categories = await _unitOfWork.Category
+                .GetAllAsync()
+                .Where(x => x.IsDeleted == false)
+                .ToListAsync(cancellationToken);
+
+            if (!categories.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Categories not found.");
+
+            return _mapper.Map<IEnumerable<CategoryForResultDto>>(categories);
+        }
     }
 
-    public Task<CategoryForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
+    public async Task<CategoryForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var category = await _unitOfWork.Category.GetAsync(id);
+            if (category is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found.");
+
+            if (category.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This category has been deleted.");
+
+            return _mapper.Map<CategoryForResultDto>(category);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get category by id: {id}. {ex}");
+            throw;
+        }
     }
 
-    public Task<bool> UpdateAsync(long id, CategoryForUpdateDto dto, CancellationToken cancellationToken = default)
+    public async Task<bool> UpdateAsync(long id, CategoryForUpdateDto dto, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var existsCategory = await _unitOfWork.Category.GetAsync(id);
+            if (existsCategory is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found.");
+
+            if (existsCategory.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This category has been deleted.");
+
+            var updateCategory = _mapper.Map<Category>(dto);
+            updateCategory.Id = id;
+            updateCategory.UpdatedAt = DateTime.UtcNow.AddHours(5);
+
+            return await _unitOfWork.Category.UpdateAsync(updateCategory);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while update the category id: {id}. {ex}");
+            throw;
+        }
     }
 }
