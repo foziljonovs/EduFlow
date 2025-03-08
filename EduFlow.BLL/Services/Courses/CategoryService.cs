@@ -22,6 +22,13 @@ public class CategoryService(
     {
         try
         {
+            var existsCategory = await _unitOfWork.Category
+                .GetAllAsync()
+                .FirstOrDefaultAsync(x => x.Name == dto.Name);
+
+            if (existsCategory is not null)
+                throw new StatusCodeException(HttpStatusCode.Conflict, "Category already exists.");
+
             var category = _mapper.Map<Category>(dto);
             return await _unitOfWork.Category.AddConfirmAsync(category);
         }
