@@ -71,6 +71,11 @@ public class CategoryService(
 
             return _mapper.Map<IEnumerable<CategoryForResultDto>>(categories);
         }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all categories. {ex}");
+            throw;
+        }
     }
 
     public async Task<CategoryForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
