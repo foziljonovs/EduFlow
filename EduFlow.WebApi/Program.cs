@@ -14,6 +14,9 @@ builder.Services
     .AddOpenApi()
     .AddDbConnection(builder.Configuration)
     .AddRepositoryConfiguration()
+    .AddCorsConfiguration()
+    .AddSwaggerConfigurtion()
+    .AddJwtConfiguration(builder.Configuration)
     .AddSignalR();
 
 var app = builder.Build();
