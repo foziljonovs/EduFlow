@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using EduFlow.BLL.Common.Exceptions;
 using EduFlow.BLL.Common.Security;
+using EduFlow.BLL.Common.Validators.Users.Interface;
 using EduFlow.BLL.DTOs.Users.User;
 using EduFlow.BLL.Interfaces.Auth;
 using EduFlow.BLL.Interfaces.Users;
 using EduFlow.DAL.Interfaces;
 using EduFlow.Domain.Entities.Users;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -16,16 +18,22 @@ public class UserService(
     IUnitOfWork unitOfWork,
     IMapper mapper,
     ITokenService tokenService,
+    IUserValidator validator,
     ILogger<UserService> logger) : IUserService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly ITokenService _tokenService = tokenService;
     private readonly ILogger<UserService> _logger = logger;
+    private readonly IUserValidator _validator = validator;
     public async Task<bool> ChangePasswordAsync(long id, UserForChangePasswordDto dto, CancellationToken cancellationToken = default)
     {
         try
         {
+            var validationResult = await _validator.ValidateChangePassword(dto);
+            if(!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var user = await _unitOfWork.User.GetAsync(id);
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "User not found.");
@@ -115,6 +123,10 @@ public class UserService(
     {
         try
         {
+            var validationResult = await _validator.ValidateLogin(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var user = await _unitOfWork.User.GetAllAsync().FirstOrDefaultAsync(x => x.PhoneNumber == dto.PhoneNumber);
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "User not found.");
@@ -139,6 +151,10 @@ public class UserService(
     {
         try
         {
+            var validationResult = await _validator.ValidateCreate(dto);
+            if(!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var userExists = await _unitOfWork.User.GetAllAsync().FirstOrDefaultAsync(x => x.PhoneNumber == dto.PhoneNumber);
             if (userExists is null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "User already exists!");
@@ -162,6 +178,10 @@ public class UserService(
     {
         try
         {
+            var validationResult = await _validator.ValidateUpdate(dto);
+            if(!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var userExists = await _unitOfWork.User.GetAsync(id);
             if (userExists is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "User not found.");
@@ -170,8 +190,12 @@ public class UserService(
                 throw new StatusCodeException(HttpStatusCode.Gone, "This user has been deleted.");
 
             var updateUser = _mapper.Map<User>(dto);
+            var hasher = PasswordHelper.Hash(dto.Password);
+
             updateUser.Id = id;
             updateUser.UpdatedAt = DateTime.UtcNow.AddHours(5);
+            updateUser.Password = hasher.Hash;
+            updateUser.Salt = hasher.Salt;
 
             return await _unitOfWork.User.UpdateAsync(userExists);
         }
