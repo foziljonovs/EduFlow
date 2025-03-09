@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using EduFlow.BLL.Common.Exceptions;
+using EduFlow.BLL.Common.Validators.Users.Interface;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.BLL.Interfaces.Users;
 using EduFlow.DAL.Interfaces;
 using EduFlow.Domain.Entities.Users;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -13,15 +15,21 @@ namespace EduFlow.BLL.Services.Users;
 public class TeacherService(
     IUnitOfWork unitOfWork,
     IMapper mapper,
-    ILogger<TeacherService> logger) : ITeacherService
+    ILogger<TeacherService> logger,
+    ITeacherValidator validator) : ITeacherService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly ILogger<TeacherService> _logger = logger;
+    private readonly ITeacherValidator _validator = validator;
     public async Task<bool> AddAsync(TeacherForCreateDto dto, CancellationToken cancellationToken = default)
     {
         try
         {
+            var validationResult = await _validator.ValidateCreate(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var existsUser = await _unitOfWork.User.GetAsync(dto.UserId);
             if (existsUser != null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "User not found.");
@@ -103,6 +111,10 @@ public class TeacherService(
     {
         try
         {
+            var validationResult = await _validator.ValidateUpdate(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var existsTeacher = await _unitOfWork.Teacher.GetAsync(id);
             if (existsTeacher is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");

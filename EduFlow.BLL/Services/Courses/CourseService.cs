@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using EduFlow.BLL.Common.Exceptions;
+using EduFlow.BLL.Common.Validators.Courses.Interface;
 using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.BLL.Interfaces.Courses;
 using EduFlow.DAL.Interfaces;
 using EduFlow.Domain.Entities.Courses;
+using FluentValidation;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -14,15 +16,21 @@ namespace EduFlow.BLL.Services.Courses;
 public class CourseService(
     IUnitOfWork unitOfWork,
     IMapper mapper,
-    ILogger<CourseService> logger) : ICourseService
+    ILogger<CourseService> logger,
+    ICourseValidator validator) : ICourseService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly ILogger<CourseService> _logger = logger;
+    private readonly ICourseValidator _validator = validator;
     public async Task<bool> AddAsync(CourseForCreateDto dto, CancellationToken cancellationToken = default)
     {
         try
         {
+            var validationResult = await _validator.ValidateCreate(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var teacherExists = await _unitOfWork.Teacher.GetAsync(dto.TeacherId);
             if (teacherExists is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
@@ -165,6 +173,10 @@ public class CourseService(
     {
         try
         {
+            var validationResult = await _validator.ValidateUpdate(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var existsCourse = await _unitOfWork.Course.GetAsync(id);
             if (existsCourse is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
