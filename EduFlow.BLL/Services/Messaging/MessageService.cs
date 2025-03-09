@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using EduFlow.BLL.Common.Exceptions;
+using EduFlow.BLL.Common.Validators.Messages.Interfaces;
 using EduFlow.BLL.DTOs.Messages.Message;
 using EduFlow.BLL.Hubs;
 using EduFlow.BLL.Interfaces.Messaging;
 using EduFlow.DAL.Interfaces;
 using EduFlow.Domain.Entities.Messaging;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -15,12 +17,14 @@ public class MessageService(
     IUnitOfWork unitOfWork,
     NotificationHub notificationHub,
     IMapper mapper,
-    ILogger<MessageService> logger) : IMessageService
+    ILogger<MessageService> logger,
+    IMessageValidator validator) : IMessageService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly NotificationHub _notificationHub = notificationHub;
     private readonly ILogger<MessageService> _logger = logger;
     private readonly IMapper _mapper = mapper;
+    private readonly IMessageValidator _validator = validator;
     public async Task<IEnumerable<MessageForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -108,6 +112,10 @@ public class MessageService(
     {
         try
         {
+            var validationResult = await _validator.ValidateCreate(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
             if (existsCourse is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");

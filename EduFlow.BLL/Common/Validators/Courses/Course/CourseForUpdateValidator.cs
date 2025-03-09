@@ -18,9 +18,9 @@ public class CourseForUpdateValidator : AbstractValidator<CourseForUpdateDto>
             .IsInEnum().WithMessage("Kurs holati tanlanmagan");
 
         RuleFor(x => x.TeacherId)
-            .GreaterThan(0).WithMessage("O'qituvchi tayinlanishi kerak");
+            .GreaterThan(0).WithMessage("O'qituvchi Id si 0 dan katta bo'lishi kerak");
 
         RuleFor(x => x.CategoryId)
-            .GreaterThan(0).WithMessage("Kategoriya bo'lishi shart");
+            .GreaterThan(0).WithMessage("Kategoriya Id si 0 dan katta bo'lishi kerak");
     }
 }

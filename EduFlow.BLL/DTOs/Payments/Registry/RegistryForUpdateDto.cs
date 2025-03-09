@@ -2,7 +2,7 @@
 
 namespace EduFlow.BLL.DTOs.Payments.Registry;
 
-public class UpdateForRegistryDto
+public class RegistryForUpdateDto
 {
     public double Debit { get; set; }
     public double Credit { get; set; }

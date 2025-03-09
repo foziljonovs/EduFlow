@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using EduFlow.BLL.Common.Exceptions;
+using EduFlow.BLL.Common.Validators.Payments.Interfaces;
 using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.Interfaces.Payments;
 using EduFlow.DAL.Interfaces;
 using EduFlow.Domain.Entities.Payments;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -13,15 +15,21 @@ namespace EduFlow.BLL.Services.Payments;
 public class PaymentService(
     IUnitOfWork unitOfWork,
     IMapper mapper,
-    ILogger<PaymentService> logger) : IPaymentService
+    ILogger<PaymentService> logger,
+    IPaymentValidator validator) : IPaymentService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly ILogger<PaymentService> _logger = logger;
+    private readonly IPaymentValidator _validator = validator;
     public async Task<bool> AddToPayAsync(PaymentForCreateDto dto, CancellationToken cancellationToken = default)
     {
         try
         {
+            var validationResult = await _validator.ValidateCreate(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var existsStudent = await _unitOfWork.Student.GetAsync(dto.StudentId);
             if (existsStudent is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
@@ -150,6 +158,10 @@ public class PaymentService(
     {
         try
         {
+            var validationResult = await _validator.ValidateUpdate(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var existsPayment = await _unitOfWork.Payment.GetAsync(id);
             if (existsPayment is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payment not found.");
