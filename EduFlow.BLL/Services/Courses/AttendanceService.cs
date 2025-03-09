@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using EduFlow.BLL.Common.Exceptions;
+using EduFlow.BLL.Common.Validators.Courses.Interfaces;
 using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.Interfaces.Courses;
 using EduFlow.DAL.Interfaces;
 using EduFlow.Domain.Entities.Courses;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -13,15 +15,21 @@ namespace EduFlow.BLL.Services.Courses;
 public class AttendanceService(
     IUnitOfWork unitOfWork,
     IMapper mapper,
-    ILogger<AttendanceService> logger) : IAttendanceService
+    ILogger<AttendanceService> logger,
+    IAttendanceValidator validator) : IAttendanceService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly ILogger<AttendanceService> _logger = logger;
+    private readonly IAttendanceValidator _validator = validator;
     public async Task<bool> AddAsync(AttendanceForCraeteDto dto, CancellationToken cancellationToken = default)
     {
         try
         {
+            var validationResult = await _validator.ValidateCreate(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
             if(existsCourse is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
@@ -145,6 +153,10 @@ public class AttendanceService(
     {
         try
         {
+            var validationResult = await _validator.ValidateUpdate(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
             var existsAttendance = await _unitOfWork.Attendance.GetAsync(id);
             if (existsAttendance is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Attendance not found.");
