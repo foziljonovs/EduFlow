@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduFlow.Desktop", "EduFlow.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduFlow.Desktop.Integrated", "EduFlow.Desktop.Integrated\EduFlow.Desktop.Integrated.csproj", "{8D848DA3-F7D8-4C7B-ABD5-F9C10DC0924F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduFlow.Cashier.Desktop", "EduFlow.Cashier.Desktop\EduFlow.Cashier.Desktop.csproj", "{0530B98B-3CC9-4F82-837F-0A3FB5E9AC81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{8D848DA3-F7D8-4C7B-ABD5-F9C10DC0924F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D848DA3-F7D8-4C7B-ABD5-F9C10DC0924F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D848DA3-F7D8-4C7B-ABD5-F9C10DC0924F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0530B98B-3CC9-4F82-837F-0A3FB5E9AC81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0530B98B-3CC9-4F82-837F-0A3FB5E9AC81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0530B98B-3CC9-4F82-837F-0A3FB5E9AC81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0530B98B-3CC9-4F82-837F-0A3FB5E9AC81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{AE7225E9-2974-4B79-9965-1EA57C4A0130} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{22066A2A-BAEB-4987-AAE2-3ED496160858} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{8D848DA3-F7D8-4C7B-ABD5-F9C10DC0924F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{0530B98B-3CC9-4F82-837F-0A3FB5E9AC81} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88BDF98F-5599-4886-B670-E66BB40CFF5B}
