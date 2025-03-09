@@ -1,3 +1,4 @@
+using EduFlow.BLL.Hubs;
 using EduFlow.WebApi.Configurations;
 using Serilog;
 
@@ -12,7 +13,8 @@ builder.Services
     .AddSwaggerGen()
     .AddOpenApi()
     .AddDbConnection(builder.Configuration)
-    .AddRepositoryConfiguration();
+    .AddRepositoryConfiguration()
+    .AddSignalR();
 
 var app = builder.Build();
 
@@ -28,5 +30,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<NotificationHub>("/notification-hub");
 
 app.Run();
