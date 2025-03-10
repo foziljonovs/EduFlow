@@ -26,9 +26,4 @@
     <ProjectReference Include="..\EduFlow.BLL\EduFlow.BLL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Common\Messages\" />
-    <Folder Include="Controllers\Common\Payments\" />
-  </ItemGroup>
-
 </Project>
