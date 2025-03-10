@@ -26,8 +26,4 @@
     <ProjectReference Include="..\EduFlow.BLL\EduFlow.BLL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Common\Messages\" />
-  </ItemGroup>
-
 </Project>
