@@ -11,7 +11,7 @@ using EduFlow.DAL.Repositories.Users;
 
 namespace EduFlow.DAL.Repositories;
 
-public class UnitOfWork(AppDbContext context) : IUnitOfWork
+public class UnitOfWork(AppDbContext context) : IUnitOfWork, IDisposable
 {
     public IUserRepository User { get; set; } = new UserRepository(context);
     public ITeacherRepository Teacher { get; set; } = new TeacherRepository(context);
@@ -22,4 +22,10 @@ public class UnitOfWork(AppDbContext context) : IUnitOfWork
     public IRegistryRepository Registry { get; set; } = new RegistryRepository(context);
     public IPaymentRepository Payment { get; set; } = new PaymentRepository(context);
     public IMessageRepository Message { get; set; } = new MessageRepository(context);
+
+    public void Dispose()
+        => GC.SuppressFinalize(this);
+
+    public async Task<int> SaveAsync(CancellationToken cancellation = default)
+        => await context.SaveChangesAsync(cancellation);
 }

@@ -57,7 +57,7 @@ public class AttendanceService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Attendance not found.");
 
             attendance.IsDeleted = true;
-            return await _unitOfWork.Attendance.UpdateAsync(attendance);
+            return await _unitOfWork.SaveAsync(cancellationToken) > 0;
         }
         catch(Exception ex)
         {

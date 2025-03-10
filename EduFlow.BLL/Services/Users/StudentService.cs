@@ -56,7 +56,7 @@ public class StudentService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
 
             existsStudent.IsDeleted = true;
-            return await _unitOfWork.Student.UpdateAsync(existsStudent);
+            return await _unitOfWork.SaveAsync(cancellationToken) > 0;
         }
         catch(Exception ex)
         {

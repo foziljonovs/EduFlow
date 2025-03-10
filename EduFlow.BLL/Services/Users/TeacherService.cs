@@ -57,7 +57,7 @@ public class TeacherService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
 
             existsTeacher.IsDeleted = true;
-            return await _unitOfWork.Teacher.UpdateAsync(existsTeacher);
+            return await _unitOfWork.SaveAsync(cancellationToken) > 0;
         }
         catch (Exception ex)
         {

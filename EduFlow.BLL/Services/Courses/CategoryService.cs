@@ -48,7 +48,7 @@ public class CategoryService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found.");
 
             existsCategory.IsDeleted = true;
-            return await _unitOfWork.Category.UpdateAsync(existsCategory);
+            return await _unitOfWork.SaveAsync(cancellationToken) > 0;
         }
         catch(Exception ex)
         {

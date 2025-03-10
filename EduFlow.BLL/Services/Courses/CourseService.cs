@@ -69,7 +69,7 @@ public class CourseService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 
             course.IsDeleted = true;
-            return await _unitOfWork.Course.UpdateAsync(course);
+            return await _unitOfWork.SaveAsync(cancellationToken) > 0;
         }
         catch(Exception ex)
         {

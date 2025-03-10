@@ -68,7 +68,7 @@ public class UserService(
 
             user.IsDeleted = true;
 
-            var result = await _unitOfWork.User.UpdateAsync(user);
+            var result = await _unitOfWork.SaveAsync(cancellationToken) > 0;
             return result;
         }
         catch(Exception ex)
