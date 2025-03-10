@@ -1,25 +1,25 @@
 ﻿using EduFlow.BLL.Common.Exceptions;
-using EduFlow.BLL.DTOs.Users.Student;
-using EduFlow.BLL.Interfaces.Users;
+using EduFlow.BLL.DTOs.Courses.Category;
+using EduFlow.BLL.Interfaces.Courses;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EduFlow.WebApi.Controllers.Common.Users;
+namespace EduFlow.WebApi.Controllers.Common.Courses;
 
-[Route("api/students")]
+[Route("api/categories")]
 [ApiController, Authorize]
-public class StudentController(
-    IStudentService service) : ControllerBase
+public class CategoryController(
+    ICategoryService service) : ControllerBase
 {
-    private readonly IStudentService _service = service;
+    private readonly ICategoryService _service = service;
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetAllAsync(CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.GetAllAsync(cancellationToken);
+            var response = await _service.GetAllAsync(cancellation);
             return Ok(response);
         }
         catch(StatusCodeException ex)
@@ -32,7 +32,7 @@ public class StudentController(
         }
     }
 
-    [HttpGet("id:long")]
+    [HttpGet("{id:long}")]
     public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellation = default)
     {
         try
@@ -40,7 +40,7 @@ public class StudentController(
             var response = await _service.GetByIdAsync(id, cancellation);
             return Ok(response);
         }
-        catch (StatusCodeException ex)
+        catch(StatusCodeException ex)
         {
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
@@ -51,7 +51,7 @@ public class StudentController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddAsync([FromBody] StudentForCreateDto dto, CancellationToken cancellation = default)
+    public async Task<IActionResult> AddAsync([FromBody] CategoryForCraeteDto dto, CancellationToken cancellation = default)
     {
         try
         {
@@ -91,7 +91,7 @@ public class StudentController(
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] StudentForUpdateDto dto, CancellationToken cancellation = default)
+    public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] CategoryForUpdateDto dto, CancellationToken cancellation = default)
     {
         try
         {
@@ -101,24 +101,6 @@ public class StudentController(
         catch(ValidationException ex)
         {
             return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
-        }
-        catch(StatusCodeException ex)
-        {
-            return StatusCode((int)ex.StatusCode, ex.Message);
-        }
-        catch(Exception ex)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-        }
-    }
-
-    [HttpGet("{phoneNumber:string}/phone-number")]
-    public async Task<IActionResult> GetAllByPhoneNumberAsync([FromRoute] string phoneNumber, CancellationToken cancellation = default)
-    {
-        try
-        {
-            var response = await _service.GetByPhoneNumberAsync(phoneNumber, cancellation);
-            return Ok(response);
         }
         catch(StatusCodeException ex)
         {

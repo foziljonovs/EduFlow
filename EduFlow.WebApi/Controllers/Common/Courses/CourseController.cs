@@ -1,18 +1,18 @@
 ﻿using EduFlow.BLL.Common.Exceptions;
-using EduFlow.BLL.DTOs.Users.Student;
-using EduFlow.BLL.Interfaces.Users;
+using EduFlow.BLL.DTOs.Courses.Course;
+using EduFlow.BLL.Interfaces.Courses;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EduFlow.WebApi.Controllers.Common.Users;
+namespace EduFlow.WebApi.Controllers.Common.Courses;
 
-[Route("api/students")]
+[Route("api/courses")]
 [ApiController, Authorize]
-public class StudentController(
-    IStudentService service) : ControllerBase
+public class CourseController(
+    ICourseService service) : ControllerBase
 {
-    private readonly IStudentService _service = service;
+    private readonly ICourseService _service = service;
 
     [HttpGet]
     public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken = default)
@@ -32,7 +32,7 @@ public class StudentController(
         }
     }
 
-    [HttpGet("id:long")]
+    [HttpGet("{id:long}")]
     public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellation = default)
     {
         try
@@ -40,7 +40,7 @@ public class StudentController(
             var response = await _service.GetByIdAsync(id, cancellation);
             return Ok(response);
         }
-        catch (StatusCodeException ex)
+        catch(StatusCodeException ex)
         {
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
@@ -51,7 +51,7 @@ public class StudentController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddAsync([FromBody] StudentForCreateDto dto, CancellationToken cancellation = default)
+    public async Task<IActionResult> AddAsync([FromBody] CourseForCreateDto dto, CancellationToken cancellation = default)
     {
         try
         {
@@ -91,7 +91,7 @@ public class StudentController(
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] StudentForUpdateDto dto, CancellationToken cancellation = default)
+    public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] CourseForUpdateDto dto, CancellationToken cancellation = default)
     {
         try
         {
@@ -104,6 +104,24 @@ public class StudentController(
         }
         catch(StatusCodeException ex)
         {
+            return StatusCode((int)ex.StatusCode,ex.Message);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("{teacherId:long}/teacher")]
+    public async Task<IActionResult> GetAllByTeacherIdAsync([FromRoute] long teacherId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.GetAllByTeacherIdAsync(teacherId, cancellation); 
+            return Ok(response);
+        }
+        catch(StatusCodeException ex)
+        {
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
         catch(Exception ex)
@@ -112,12 +130,12 @@ public class StudentController(
         }
     }
 
-    [HttpGet("{phoneNumber:string}/phone-number")]
-    public async Task<IActionResult> GetAllByPhoneNumberAsync([FromRoute] string phoneNumber, CancellationToken cancellation = default)
+    [HttpGet("{categoryId:long}/category")]
+    public async Task<IActionResult> GetAllByCategoryIdAsync([FromRoute] long categoryId, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.GetByPhoneNumberAsync(phoneNumber, cancellation);
+            var response = await _service.GetAllByCategoryIdAsync(categoryId, cancellation);
             return Ok(response);
         }
         catch(StatusCodeException ex)
