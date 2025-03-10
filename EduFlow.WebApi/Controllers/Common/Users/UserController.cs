@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace EduFlow.WebApi.Controllers.Common.Users;
 
 [Route("api/users")]
-[ApiController, Authorize]
+[ApiController]
 public class UserController(
     IUserService service) : ControllerBase
 {
     private readonly IUserService _service = service;
 
-    [HttpGet]
+    [HttpGet, Authorize]
     public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -32,7 +32,7 @@ public class UserController(
         }
     }
 
-    [HttpGet("{id:long}")]
+    [HttpGet("{id:long}"), Authorize]
     public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellation = default)
     {
         try
@@ -94,12 +94,12 @@ public class UserController(
         }
     }
 
-    [HttpDelete("{id:long}")]
+    [HttpDelete("{id:long}"), Authorize(Roles = "Manager")]
     public async Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellation = default)
     {
         try
         {
-            var repsonse = await _service.DeleteAsync(id, cancellation);
+            var response = await _service.DeleteAsync(id, cancellation);
             return Ok(response);
         }
         catch(StatusCodeException ex)

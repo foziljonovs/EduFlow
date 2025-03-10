@@ -7,6 +7,7 @@ using EduFlow.BLL.Interfaces.Messaging;
 using EduFlow.DAL.Interfaces;
 using EduFlow.Domain.Entities.Messaging;
 using FluentValidation;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -15,13 +16,13 @@ namespace EduFlow.BLL.Services.Messaging;
 
 public class MessageService(
     IUnitOfWork unitOfWork,
-    NotificationHub notificationHub,
+    IHubContext<NotificationHub> hubContext,
     IMapper mapper,
     ILogger<MessageService> logger,
     IMessageValidator validator) : IMessageService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    private readonly NotificationHub _notificationHub = notificationHub;
+    private readonly IHubContext<NotificationHub> _hubContext = hubContext;
     private readonly ILogger<MessageService> _logger = logger;
     private readonly IMapper _mapper = mapper;
     private readonly IMessageValidator _validator = validator;
@@ -130,9 +131,11 @@ public class MessageService(
             var message = _mapper.Map<Message>(dto);
             var savedMessage = await _unitOfWork.Message.AddConfirmAsync(message);
 
-            await _notificationHub.SendNotificationAsync(
-                existsCourse.TeacherId.ToString(),
-                dto.Text);
+            await _hubContext.Clients
+                .User(existsCourse.TeacherId.ToString())
+                .SendAsync(
+                    "ReceiveMessage",
+                    dto.Text);
 
             _logger.LogInformation($"{existsCourse.TeacherId} - send message.");
 

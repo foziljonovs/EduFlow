@@ -5,7 +5,7 @@ using FluentValidation.Results;
 
 namespace EduFlow.BLL.Common.Validators.Courses.Services;
 
-public class CourseService(
+public class CourseValidator(
     IValidator<CourseForCreateDto> createValidator,
     IValidator<CourseForUpdateDto> updateValidator) : ICourseValidator
 {

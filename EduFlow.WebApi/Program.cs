@@ -1,3 +1,4 @@
+using EduFlow.BLL.Common.Mapping;
 using EduFlow.BLL.Hubs;
 using EduFlow.WebApi.Configurations;
 using Serilog;
@@ -14,9 +15,13 @@ builder.Services
     .AddOpenApi()
     .AddDbConnection(builder.Configuration)
     .AddRepositoryConfiguration()
+    .AddServiceConfiguration()
+    .AddValidationServiceConfiguration()
+    .AddValidationConfiguration()
     .AddCorsConfiguration()
     .AddSwaggerConfigurtion()
     .AddJwtConfiguration(builder.Configuration)
+    .AddAutoMapper(typeof(MappingProfile))
     .AddSignalR();
 
 var app = builder.Build();

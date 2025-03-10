@@ -15,6 +15,7 @@ public class PaymentController(
 {
     private readonly IPaymentService _service = service;
 
+    [HttpGet]
     public async Task<IActionResult> GetAllAsync(CancellationToken cancellation = default)
     {
         try

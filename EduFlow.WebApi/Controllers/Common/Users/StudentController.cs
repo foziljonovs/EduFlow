@@ -112,7 +112,7 @@ public class StudentController(
         }
     }
 
-    [HttpGet("{phoneNumber:string}/phone-number")]
+    [HttpGet("{phoneNumber}/phone-number")]
     public async Task<IActionResult> GetAllByPhoneNumberAsync([FromRoute] string phoneNumber, CancellationToken cancellation = default)
     {
         try
