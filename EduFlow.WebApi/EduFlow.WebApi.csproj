@@ -27,7 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="Controllers\Common\Courses\" />
+    <Folder Include="Controllers\Common\Messages\" />
+    <Folder Include="Controllers\Common\Payments\" />
   </ItemGroup>
 
 </Project>
