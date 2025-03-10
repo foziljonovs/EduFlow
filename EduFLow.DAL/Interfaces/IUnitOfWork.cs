@@ -16,4 +16,5 @@ public interface IUnitOfWork
     public IRegistryRepository Registry { get; set; }
     public IPaymentRepository Payment { get; set; }
     public IMessageRepository Message { get; set; }
+    public Task<int> SaveAsync(CancellationToken cancellation = default);
 }

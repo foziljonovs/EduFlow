@@ -62,7 +62,7 @@ public class PaymentService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payment not found.");
 
             payment.IsDeleted = true;
-            return await _unitOfWork.Payment.UpdateAsync(payment);
+            return await _unitOfWork.SaveAsync(cancellationToken) > 0;
         }
         catch(Exception ex)
         {
