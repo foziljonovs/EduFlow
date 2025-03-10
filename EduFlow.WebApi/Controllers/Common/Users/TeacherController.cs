@@ -1,5 +1,5 @@
 ﻿using EduFlow.BLL.Common.Exceptions;
-using EduFlow.BLL.DTOs.Users.User;
+using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.BLL.Interfaces.Users;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EduFlow.WebApi.Controllers.Common.Users;
 
-[Route("api/users")]
+[Route("api/teachers")]
 [ApiController, Authorize]
-public class UserController(
-    IUserService service) : ControllerBase
+public class TeacherController(
+    ITeacherService service) : ControllerBase
 {
-    private readonly IUserService _service = service;
+    private readonly ITeacherService _service = service;
 
     [HttpGet]
     public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken = default)
@@ -40,7 +40,7 @@ public class UserController(
             var response = await _service.GetByIdAsync(id, cancellation);
             return Ok(response);
         }
-        catch(StatusCodeException ex)
+        catch (StatusCodeException ex)
         {
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
@@ -51,11 +51,11 @@ public class UserController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> RegisterAsync([FromBody] UserForCreateDto dto, CancellationToken cancellation = default)
+    public async Task<IActionResult> AddAsync([FromBody] TeacherForCreateDto dto, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.RegisterAsync(dto, cancellation);
+            var response = await _service.AddAsync(dto, cancellation);
             return Ok(response);
         }
         catch(ValidationException ex)
@@ -73,14 +73,14 @@ public class UserController(
     }
 
     [HttpPut("{id:long}")]
-    public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] UserForUpdateDto dto, CancellationToken cancellation = default)
+    public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] TeacherForUpdateDto dto, CancellationToken cancellation = default)
     {
         try
         {
             var response = await _service.UpdateAsync(id, dto, cancellation);
             return Ok(response);
         }
-        catch (ValidationException ex)
+        catch(ValidationException ex)
         {
             return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
         }
@@ -99,43 +99,7 @@ public class UserController(
     {
         try
         {
-            var repsonse = await _service.DeleteAsync(id, cancellation);
-            return Ok(response);
-        }
-        catch(StatusCodeException ex)
-        {
-            return StatusCode((int)ex.StatusCode, ex.Message);
-        }
-        catch(Exception ex)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-        }
-    }
-
-    [HttpGet("{id:long}/verify")]
-    public async Task<IActionResult> VerifyAsync([FromRoute] long id, string password, CancellationToken cancellation = default)
-    {
-        try
-        {
-            var response = await _service.VerifyPasswordAsync(id, password, cancellation);
-            return Ok(response);
-        }
-        catch(StatusCodeException ex)
-        {
-            return StatusCode((int)ex.StatusCode, ex.Message);
-        }
-        catch(Exception ex)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-        }
-    }
-
-    [HttpPost("{id:long}/change-password")]
-    public async Task<IActionResult> ChangePasswordAsync([FromRoute] long id, [FromBody] UserForChangePasswordDto dto, CancellationToken cancellation = default)
-    {
-        try
-        {
-            var response = await _service.ChangePasswordAsync(id, dto, cancellation);
+            var response = await _service.DeleteAsync(id, cancellation);
             return Ok(response);
         }
         catch(StatusCodeException ex)
