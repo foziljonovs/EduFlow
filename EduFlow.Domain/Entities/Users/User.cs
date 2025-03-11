@@ -11,7 +11,7 @@ public class User : BaseEntity
     public required string Firstname { get; set; }
     [Column("last_name"), MaxLength(50)]
     public required string Lastname { get; set; }
-    [Column("password"), MaxLength(8)]
+    [Column("password")]
     public required string Password { get; set; }
     [Column("phone_number"), MaxLength(13)]
     public required string PhoneNumber { get; set; }

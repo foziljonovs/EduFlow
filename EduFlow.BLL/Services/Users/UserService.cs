@@ -156,7 +156,7 @@ public class UserService(
                 throw new ValidationException(validationResult.Errors);
 
             var userExists = await _unitOfWork.User.GetAllAsync().FirstOrDefaultAsync(x => x.PhoneNumber == dto.PhoneNumber);
-            if (userExists is null)
+            if (userExists is not null)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "User already exists!");
 
             var hasher = PasswordHelper.Hash(dto.Password);

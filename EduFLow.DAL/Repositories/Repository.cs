@@ -11,8 +11,8 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
     private AppDbContext _context;
     public Repository(AppDbContext context)
     {
-        this._dbSet = _context.Set<TEntity>();
         this._context = context;
+        this._dbSet = _context.Set<TEntity>();
     }
     public async Task<long> AddAsync(TEntity entity)
     {
