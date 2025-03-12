@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:EduFlow.Desktop" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="EduFlow - dashboard"
-        MinHeight="500"
-        MinWidth="800"
         Height="600" 
         Width="1024"
         WindowStartupLocation="CenterScreen"
-        WindowState="Normal">
+        WindowState="Normal"
+        WindowStyle="None"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
@@ -33,7 +33,7 @@
                 </Grid.ColumnDefinitions>
 
                 <materialDesign:PackIcon
-                    Kind="School"
+                    Kind="SchoolOutline"
                     Height="40"
                     Width="40"
                     HorizontalAlignment="Right"
@@ -47,10 +47,53 @@
                            VerticalAlignment="Center"/>
             </Grid>
 
+            <StackPanel Grid.Row="1"
+                        Margin="0 10">
+                <RadioButton x:Name="MainButton"
+                        Style="{DynamicResource MainButton}"
+                        Click="MainButton_Click"/>
+
+                <RadioButton x:Name="CoursesButton"
+                        Style="{DynamicResource CourseButton}"
+                        Click="CoursesButton_Click"/>
+            </StackPanel>
+
             <Button x:Name="CloseBtn"
                     Grid.Row="3"
-                    Margin="5"
-                    Style="{DynamicResource MainCloseButton}"/>
+                    Style="{DynamicResource MainCloseButton}"
+                    Click="CloseBtn_Click"/>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <StackPanel Orientation="Horizontal"
+                            Margin="10 0"
+                            Width="85"
+                            HorizontalAlignment="Right">
+                    <RadioButton x:Name="MinButton"
+                                 Style="{DynamicResource StateButton}"
+                                 Tag="ChevronDown"
+                                 ToolTip="Minimize"
+                                 Click="MinButton_Click"/>
+
+                    <RadioButton x:Name="NormalButton"
+                                 Style="{DynamicResource StateButton}"
+                                 Tag="ArrowCollapse"
+                                 ToolTip="Restore"
+                                 Click="NormalButton_Click"/>
+
+                    <RadioButton x:Name="MaxButton"
+                                 Style="{DynamicResource StateButton}"
+                                 Tag="ArrowExpand"
+                                 ToolTip="Maximize"
+                                 Click="MaxButton_Click"/>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </Window>
