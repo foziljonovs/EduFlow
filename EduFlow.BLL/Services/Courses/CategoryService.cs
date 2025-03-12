@@ -109,11 +109,10 @@ public class CategoryService(
             if (existsCategory.IsDeleted)
                 throw new StatusCodeException(HttpStatusCode.Gone, "This category has been deleted.");
 
-            var updateCategory = _mapper.Map<Category>(dto);
-            updateCategory.Id = id;
-            updateCategory.UpdatedAt = DateTime.UtcNow.AddHours(5);
+            _mapper.Map(dto, existsCategory);
+            existsCategory.UpdatedAt = DateTime.UtcNow.AddHours(5);
 
-            return await _unitOfWork.Category.UpdateAsync(updateCategory);
+            return await _unitOfWork.Category.UpdateAsync(existsCategory);
         }
         catch(Exception ex)
         {
