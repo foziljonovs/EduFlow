@@ -7,7 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 LayerConfiguration.AddSerilogConfiguration(builder.Host);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    });
 
 builder.Services
     .AddEndpointsApiExplorer()
