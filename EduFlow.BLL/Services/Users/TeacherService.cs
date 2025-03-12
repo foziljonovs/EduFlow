@@ -31,7 +31,7 @@ public class TeacherService(
                 throw new ValidationException(validationResult.Errors);
 
             var existsUser = await _unitOfWork.User.GetAsync(dto.UserId);
-            if (existsUser != null)
+            if (existsUser is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "User not found.");
 
             var existsTeacher = await _unitOfWork.Teacher.GetAllAsync().FirstOrDefaultAsync(x => x.UserId == dto.UserId);
@@ -126,11 +126,11 @@ public class TeacherService(
             if (existsUser is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "User not found.");
 
-            var updateTeacher = _mapper.Map<Teacher>(dto);
-            updateTeacher.Id = id;
-            updateTeacher.UpdatedAt = DateTime.UtcNow.AddHours(5);
+            _mapper.Map(dto, existsTeacher);
+            existsTeacher.Id = id;
+            existsTeacher.UpdatedAt = DateTime.UtcNow.AddHours(5);
 
-            return await _unitOfWork.Teacher.UpdateAsync(updateTeacher);
+            return await _unitOfWork.Teacher.UpdateAsync(existsTeacher);
         }
         catch(Exception ex)
         {

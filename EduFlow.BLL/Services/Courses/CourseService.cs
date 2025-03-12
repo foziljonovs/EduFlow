@@ -189,18 +189,18 @@ public class CourseService(
             if (existsCategory is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found.");
 
-            var updateCourse = _mapper.Map<Course>(dto);
-            updateCourse.Id = id;
-            updateCourse.UpdatedAt = DateTime.UtcNow.AddHours(5);
+            _mapper.Map(dto, existsCourse);
+            existsCourse.Id = id;
+            existsCourse.UpdatedAt = DateTime.UtcNow.AddHours(5);
 
             foreach (var item in dto.StudentIds)
             {
                 var studentExists = await _unitOfWork.Student.GetAsync(item);
                 if (studentExists is not null)
-                    updateCourse.Students.Add(studentExists);
+                    existsCourse.Students.Add(studentExists);
             }
 
-            return await _unitOfWork.Course.UpdateAsync(updateCourse);
+            return await _unitOfWork.Course.UpdateAsync(existsCourse);
         }
         catch(Exception ex)
         {

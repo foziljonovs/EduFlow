@@ -181,11 +181,11 @@ public class PaymentService(
             if (existsRegistry is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Registry not found.");
 
-            var updatePayment = _mapper.Map<Payment>(dto);
-            updatePayment.Id = id;
-            updatePayment.UpdatedAt = DateTime.UtcNow.AddHours(5);
+            _mapper.Map(dto, existsPayment);
+            existsPayment.Id = id;
+            existsPayment.UpdatedAt = DateTime.UtcNow.AddHours(5);
 
-            return await _unitOfWork.Payment.UpdateAsync(updatePayment);
+            return await _unitOfWork.Payment.UpdateAsync(existsPayment);
         }
         catch(Exception ex)
         {

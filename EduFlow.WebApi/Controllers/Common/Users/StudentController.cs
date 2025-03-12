@@ -32,7 +32,7 @@ public class StudentController(
         }
     }
 
-    [HttpGet("id:long")]
+    [HttpGet("{id:long}")]
     public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellation = default)
     {
         try
