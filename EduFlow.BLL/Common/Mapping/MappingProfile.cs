@@ -30,48 +30,51 @@ public class MappingProfile : Profile
         /*----------------------------------Teacher------------------------------------*/
         CreateMap<Teacher, TeacherForResultDto>();
         CreateMap<TeacherForResultDto, Teacher>();
-        CreateMap<Teacher, TeacherForCreateDto>();
-        CreateMap<Teacher, TeacherForUpdateDto>();
+        CreateMap<TeacherForCreateDto, Teacher>();
+        CreateMap<TeacherForUpdateDto, Teacher>();
 
         /*------------------------------------Student--------------------------------------*/
         CreateMap<Student, StudentForResultDto>();
         CreateMap<StudentForResultDto, Student>();
-        CreateMap<Student, StudentForCreateDto>();
-        CreateMap<Student, StudentForUpdateDto>();
+        CreateMap<StudentForCreateDto, Student>();
+        CreateMap<StudentForUpdateDto, Student>();
 
         /*--------------------------------------Course---------------------------------------*/
         CreateMap<Course, CourseForResultDto>();
         CreateMap<CourseForResultDto, Course>();
-        CreateMap<Course, CourseForCreateDto>();
-        CreateMap<Course, CourseForUpdateDto>();
+        CreateMap<CourseForCreateDto, Course>();
+        CreateMap<CourseForUpdateDto, Course>();
 
         /*-------------------------------------Category-----------------------------------------*/
         CreateMap<Category, CategoryForResultDto>();
         CreateMap<CategoryForResultDto, Category>();
-        CreateMap<Category, CourseForCreateDto>();
-        CreateMap<Category, CategoryForUpdateDto>();
+        CreateMap<CategoryForCraeteDto, Category>()
+            .ForMember(dest => dest.Courses, opt => opt.Ignore());
+
+        CreateMap<CategoryForUpdateDto, Category>()
+            .ForMember(dest => dest.Courses, opt => opt.Ignore());
 
         /*--------------------------------------Attendance----------------------------------------*/
         CreateMap<Attendance, AttendanceForResultDto>();
         CreateMap<AttendanceForResultDto, Attendance>();
-        CreateMap<Attendance, AttendanceForCraeteDto>();
-        CreateMap<Attendance, AttendanceForUpdateDto>();
+        CreateMap<AttendanceForCraeteDto, Attendance>();
+        CreateMap<AttendanceForUpdateDto, Attendance>();
 
         /*--------------------------------------Message------------------------------------------*/
         CreateMap<Message, MessageForResultDto>();
         CreateMap<MessageForResultDto, Message>();
-        CreateMap<Message, MessageForCreateDto>();
-        CreateMap<Message, MessageForUpdateDto>();
+        CreateMap<MessageForCreateDto, Message>();
+        CreateMap<MessageForUpdateDto, Message>();
 
         /*-------------------------------------Payment-----------------------------------------*/
         CreateMap<Payment, PaymentForResultDto>();
         CreateMap<PaymentForResultDto, Payment>();
-        CreateMap<Payment, PaymentForCreateDto>();
-        CreateMap<Payment, PaymentForUpdateDto>();
+        CreateMap<PaymentForCreateDto, Payment>();
+        CreateMap<PaymentForUpdateDto, Payment>();
 
         /*--------------------------------------Registry---------------------------------------*/
         CreateMap<Registry, RegistryForResultDto>();
         CreateMap<RegistryForResultDto, Registry>();
-        CreateMap<Registry, RegistryForCreateDto>();
+        CreateMap<RegistryForCreateDto, Registry>();
     }
 }

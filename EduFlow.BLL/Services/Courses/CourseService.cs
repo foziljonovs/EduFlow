@@ -41,14 +41,11 @@ public class CourseService(
 
             var savedCourse = _mapper.Map<Course>(dto);
 
-            if (dto.Students.Any())
+            foreach(var item in dto.StudentIds)
             {
-                foreach(var student in dto.Students)
-                {
-                    var studentExists = await _unitOfWork.Student.GetAsync(student.Id);
-                    if (studentExists is not null)
-                        savedCourse.Students.Add(studentExists);
-                }
+                var studentExists = await _unitOfWork.Student.GetAsync(item);
+                if(studentExists is not null)
+                    savedCourse.Students.Add(studentExists);
             }
 
             return await _unitOfWork.Course.AddConfirmAsync(savedCourse);
@@ -196,14 +193,11 @@ public class CourseService(
             updateCourse.Id = id;
             updateCourse.UpdatedAt = DateTime.UtcNow.AddHours(5);
 
-            if(dto.Student.Any())
+            foreach (var item in dto.StudentIds)
             {
-                foreach(var student in dto.Student)
-                {
-                    var existsStudent = await _unitOfWork.Student.GetAsync(student.Id);
-                    if (existsStudent is not null)
-                        updateCourse.Students.Add(existsStudent);
-                }
+                var studentExists = await _unitOfWork.Student.GetAsync(item);
+                if (studentExists is not null)
+                    updateCourse.Students.Add(studentExists);
             }
 
             return await _unitOfWork.Course.UpdateAsync(updateCourse);
