@@ -169,11 +169,11 @@ public class AttendanceService(
             if (existsStudent is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
 
-            var updateAttendance = _mapper.Map<Attendance>(dto);
-            updateAttendance.Id = id;
-            updateAttendance.UpdatedAt = DateTime.UtcNow.AddHours(5);
+            _mapper.Map(dto, existsAttendance);
+            existsAttendance.Id = id;
+            existsAttendance.UpdatedAt = DateTime.UtcNow.AddHours(5);
 
-            return await _unitOfWork.Attendance.UpdateAsync(updateAttendance);
+            return await _unitOfWork.Attendance.UpdateAsync(existsAttendance);
         }
         catch(Exception ex)
         {

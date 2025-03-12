@@ -144,11 +144,11 @@ public class StudentService(
             if (existsStudent.IsDeleted)
                 throw new StatusCodeException(HttpStatusCode.Gone, "This student has been deleted.");
 
-            var updateStudent = _mapper.Map<Student>(dto);
-            updateStudent.Id = id;
-            updateStudent.UpdatedAt = DateTime.UtcNow.AddHours(5);
+            _mapper.Map(dto, existsStudent);
+            existsStudent.Id = id;
+            existsStudent.UpdatedAt = DateTime.UtcNow.AddHours(5);
 
-            return await _unitOfWork.Student.UpdateAsync(updateStudent);
+            return await _unitOfWork.Student.UpdateAsync(existsStudent);
         }
         catch(Exception ex)
         {
