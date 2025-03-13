@@ -43,9 +43,8 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="B" Property="Background" Value="LightGray"/>
-                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -95,9 +94,8 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="B" Property="Background" Value="LightGray"/>
-                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="True">
@@ -154,9 +152,8 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="B" Property="Background" Value="LightGray"/>
-                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="True">
@@ -198,8 +195,7 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="B" Property="Background" Value="LightGray"/>
-                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="True">
