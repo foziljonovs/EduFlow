@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using EduFlow.Desktop.Pages.MainForPage;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace EduFlow.Desktop.Windows;
@@ -34,11 +35,13 @@ public partial class MainWindow : Window
     private void MaxButton_Click(object sender, RoutedEventArgs e)
         => this.WindowState = WindowState.Maximized;
 
-    private void CloseBtn_Click(object sender, RoutedEventArgs e)
-        => this.Close();
-
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         NormalButton.IsChecked = true;
+        MainPage page = new MainPage();
+        Navigate.Content = page;
     }
+
+    private void CloseBtn_Click(object sender, RoutedEventArgs e)
+        => this.Close();
 }
