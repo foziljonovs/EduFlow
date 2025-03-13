@@ -70,7 +70,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid>
+            <Grid Grid.Row="0">
                 <StackPanel Orientation="Horizontal"
                             Margin="10 0"
                             Width="85"
@@ -93,6 +93,11 @@
                                  ToolTip="Maximize"
                                  Click="MaxButton_Click"/>
                 </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0 5 10 5">
+                <Frame Name="Navigate"
+                       NavigationUIVisibility="Hidden"/>
             </Grid>
         </Grid>
     </Grid>
