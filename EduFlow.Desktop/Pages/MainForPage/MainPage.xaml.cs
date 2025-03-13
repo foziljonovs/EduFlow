@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EduFlow.Desktop.Pages
+namespace EduFlow.Desktop.Pages.MainForPage
 {
     /// <summary>
     /// Interaction logic for MainPage.xaml
