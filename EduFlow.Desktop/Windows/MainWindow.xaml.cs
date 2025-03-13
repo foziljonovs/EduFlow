@@ -34,11 +34,11 @@ public partial class MainWindow : Window
     private void MaxButton_Click(object sender, RoutedEventArgs e)
         => this.WindowState = WindowState.Maximized;
 
-    private void CloseBtn_Click(object sender, RoutedEventArgs e)
-        => this.Close();
-
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         NormalButton.IsChecked = true;
     }
+
+    private void CloseBtn_Click(object sender, RoutedEventArgs e)
+        => this.Close();
 }
