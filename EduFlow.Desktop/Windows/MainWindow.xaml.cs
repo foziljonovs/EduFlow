@@ -14,17 +14,8 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private void MainButton_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is RadioButton clickedButton)
-            clickedButton.IsChecked = true;
-    }
-
-    private void CoursesButton_Click(object sender, RoutedEventArgs e)
-    {
-        if(sender is RadioButton clickedButton)
-            clickedButton.IsChecked = true;
-    }
+    public void NavigatePage(Page page)
+        => Navigate.Content = page;
 
     private void MinButton_Click(object sender, RoutedEventArgs e)
         => this.WindowState = WindowState.Minimized;
@@ -38,8 +29,8 @@ public partial class MainWindow : Window
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         NormalButton.IsChecked = true;
-        MainPage page = new MainPage();
-        Navigate.Content = page;
+        TeacherNavigationPage page = new TeacherNavigationPage();
+        MainMenuNavigation.Content = page;
     }
 
     private void CloseBtn_Click(object sender, RoutedEventArgs e)

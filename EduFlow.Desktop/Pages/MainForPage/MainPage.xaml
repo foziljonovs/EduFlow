@@ -14,7 +14,8 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0"
-              Margin="10 5">
+              HorizontalAlignment="Left"
+              Width="700">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
