@@ -127,6 +127,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0"
