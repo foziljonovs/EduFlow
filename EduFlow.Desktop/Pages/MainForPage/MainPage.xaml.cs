@@ -19,7 +19,7 @@ public partial class MainPage : Page
         int count = 0;
         stCourses.Children.Clear();
 
-        for(int i = count; i < 10; i++)
+        for(int i = count; i < 20; i++)
         {
             MainForCourseComponent component = new MainForCourseComponent();
             component.SetValues(count, long.Parse(count.ToString()), "Foundation", 10, "Abdulvosid");
