@@ -16,6 +16,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock x:Name="tbNumber"
@@ -50,6 +51,24 @@
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
+
+            <StackPanel Grid.Column="4"
+                        Orientation="Horizontal">
+                <Button x:Name="ViewButton"
+                        Style="{DynamicResource CrudButton}"
+                        Background="DeepSkyBlue"
+                        Tag="Eye"/>
+
+                <Button x:Name="EditButton"
+                        Style="{DynamicResource CrudButton}"
+                        Background="Gold"
+                        Tag="Pencil"/>
+
+                <Button x:Name="DeleteButton"
+                        Style="{DynamicResource CrudButton}"
+                        Background="Tomato"
+                        Tag="TrashCan"/>
+            </StackPanel>
         </Grid>
     </Border>
 </UserControl>
