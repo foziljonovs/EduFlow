@@ -67,25 +67,25 @@
                     <RadioButton x:Name="MinButton"
                                  Style="{DynamicResource StateButton}"
                                  Tag="ChevronDown"
-                                 ToolTip="Minimize"
+                                 ToolTip="Yashirish"
                                  Click="MinButton_Click"/>
 
                     <RadioButton x:Name="NormalButton"
                                  Style="{DynamicResource StateButton}"
                                  Tag="ArrowCollapse"
-                                 ToolTip="Restore"
+                                 ToolTip="Oddiy holat"
                                  Click="NormalButton_Click"/>
 
                     <RadioButton x:Name="MaxButton"
                                  Style="{DynamicResource StateButton}"
                                  Tag="ArrowExpand"
-                                 ToolTip="Maximize"
+                                 ToolTip="Kattalashtirish"
                                  Click="MaxButton_Click"/>
 
                     <RadioButton x:Name="CloseBtn"
                                  Style="{DynamicResource StateButton}"
                                  Tag="Close"
-                                 ToolTip="Close"
+                                 ToolTip="Yopish"
                                  Click="CloseBtn_Click"/>
                 </StackPanel>
             </Grid>

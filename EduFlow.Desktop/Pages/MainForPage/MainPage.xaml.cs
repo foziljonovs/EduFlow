@@ -1,28 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EduFlow.Desktop.Components.MainForComponents;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace EduFlow.Desktop.Pages.MainForPage
+namespace EduFlow.Desktop.Pages.MainForPage;
+
+/// <summary>
+/// Interaction logic for MainPage.xaml
+/// </summary>
+public partial class MainPage : Page
 {
-    /// <summary>
-    /// Interaction logic for MainPage.xaml
-    /// </summary>
-    public partial class MainPage : Page
+    public MainPage()
     {
-        public MainPage()
+        InitializeComponent();
+    }
+
+    private void GetAllCourse()
+    {
+        int count = 0;
+        stCourses.Children.Clear();
+
+        for(int i = count; i < 10; i++)
         {
-            InitializeComponent();
+            MainForCourseComponent component = new MainForCourseComponent();
+            component.SetValues(count, long.Parse(count.ToString()), "Foundation", 10, "Abdulvosid");
+            stCourses.Children.Add(component);
+            count++;
         }
+    }
+
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        GetAllCourse();
     }
 }
