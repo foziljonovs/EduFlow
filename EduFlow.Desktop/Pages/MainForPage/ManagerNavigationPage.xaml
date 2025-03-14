@@ -1,0 +1,17 @@
+﻿<Page x:Class="EduFlow.Desktop.Pages.MainForPage.ManagerNavigationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:EduFlow.Desktop.Pages.MainForPage"
+      mc:Ignorable="d" 
+      Title="ManagerNavigationPage">
+
+    <StackPanel>
+        <RadioButton x:Name="MainButton"
+                    Style="{DynamicResource MainButton}"/>
+
+        <RadioButton x:Name="CoursesButton"
+                    Style="{DynamicResource CourseButton}"/>
+    </StackPanel>
+</Page>

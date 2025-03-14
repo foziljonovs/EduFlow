@@ -46,16 +46,11 @@
                            VerticalAlignment="Center"/>
             </Grid>
 
-            <StackPanel Grid.Row="1"
+            <Grid Grid.Row="1"
                         Margin="0 10">
-                <RadioButton x:Name="MainButton"
-                        Style="{DynamicResource MainButton}"
-                        Click="MainButton_Click"/>
-
-                <RadioButton x:Name="CoursesButton"
-                        Style="{DynamicResource CourseButton}"
-                        Click="CoursesButton_Click"/>
-            </StackPanel>
+                <Frame Name="MainMenuNavigation"
+                       NavigationUIVisibility="Hidden"/>
+            </Grid>
         </Grid>
 
         <Grid Grid.Column="1">
