@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EduFlow.Desktop.Windows.AuthForWindow"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
         mc:Ignorable="d"
         Title="LoginWindow"
         Width="400"
@@ -41,24 +42,33 @@
 
             <StackPanel Grid.Row="0"
                         VerticalAlignment="Center">
-                <TextBox Style="{DynamicResource PhoneNumberTextBoxStyle}"
+                <TextBox x:Name="PhoneNumberTxt"
+                         Style="{DynamicResource PhoneNumberTextBoxStyle}"
                          materialDesign:HintAssist.Hint ="Telefon raqam..."
                          MaxLength="13"
                          Text="+998"
                          FontWeight="SemiBold"
                          materialDesign:HintAssist.IsFloating="true"/>
 
-                <PasswordBox Style="{DynamicResource PasswordTextBoxStyle}"
+                <PasswordBox x:Name="PasswordPwd"
+                             Style="{DynamicResource PasswordTextBoxStyle}"
                              materialDesign:HintAssist.Hint="Parol..."
                              FontWeight="SemiBold"
                              MaxLength="8"
                              materialDesign:HintAssist.IsFloating="True"/>
             </StackPanel>
 
-            <Button x:Name="LoginBtn"
-                    Grid.Row="1"
-                    Height="50"
-                    Style="{DynamicResource MainButtonTwo}"/>
+            <StackPanel Grid.Row="1">
+                <Button x:Name="LoginBtn"
+                        Height="50"
+                        Style="{DynamicResource MainButtonTwo}"
+                        Click="LoginBtn_Click"/>
+
+                <local1:Loader x:Name="LoginLoader"
+                               Visibility="Collapsed"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

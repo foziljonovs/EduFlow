@@ -20,7 +20,7 @@ public static class TokenHandler
             switch(claim.Type)
             {
                 case "Id": identity.Id = long.Parse(claim.Value); break;
-                case "Fullname": identity.Fullname = claim.Value; break;
+                case "Name": identity.Name = claim.Value; break;
                 case "PhoneNumber": identity.PhoneNumber = claim.Value; break;
                 case "Role": identity.Role = Enum.Parse<UserRole>(claim.Value); break;
             }
