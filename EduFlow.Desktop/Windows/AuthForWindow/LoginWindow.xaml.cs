@@ -1,0 +1,17 @@
+﻿using System.Windows;
+
+namespace EduFlow.Desktop.Windows.AuthForWindow;
+
+/// <summary>
+/// Interaction logic for LoginWindow.xaml
+/// </summary>
+public partial class LoginWindow : Window
+{
+    public LoginWindow()
+    {
+        InitializeComponent();
+    }
+
+    private void CloseBtn_Click(object sender, RoutedEventArgs e)
+        => this.Close();
+}
