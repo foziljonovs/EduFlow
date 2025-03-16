@@ -40,7 +40,7 @@
                 <ComboBox x:Name="categoryComboBox"
                           Width="140"
                           VerticalAlignment="Center"
-                          Margin="10 0 10 0">
+                          Margin="10 0">
                     <ComboBoxItem Content="Foundation"/>
                     <ComboBoxItem Content="AKT"/>
                     <ComboBoxItem Content="Grafik Design"/>
@@ -50,7 +50,7 @@
                 <ComboBox x:Name="teacherComboBox"
                           Width="140"
                           VerticalAlignment="Center"
-                          Margin="10 0 10 0">
+                          Margin="10 0">
                     <ComboBoxItem Content="Abdulvosid"/>
                     <ComboBoxItem Content="Sanjarbek"/>
                     <ComboBoxItem Content="Temur"/>
@@ -128,7 +128,8 @@
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="120"/>
-                    </Grid.ColumnDefinitions>
+                     <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0"
                                Text="No"
@@ -161,7 +162,15 @@
                                FontFamily="Jetbrains Mono"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"/>
-                </Grid>
+
+                    <TextBlock Grid.Column="4"
+                               Text="Boshlangan sana"
+                               FontSize="12"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="ExtraBold"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"/>
+            </Grid>
 
             <Grid Grid.Row="1">
                 <ScrollViewer>

@@ -17,6 +17,7 @@
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock x:Name="tbNumber"
@@ -52,7 +53,15 @@
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
 
-            <StackPanel Grid.Column="4"
+            <TextBlock x:Name="tbStartedDate"
+                       Grid.Column="4"
+                       Text="16-03-2024"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"/>
+
+            <StackPanel Grid.Column="5"
                         Orientation="Horizontal">
                 <Button x:Name="ViewButton"
                         Style="{DynamicResource CrudButton}"
