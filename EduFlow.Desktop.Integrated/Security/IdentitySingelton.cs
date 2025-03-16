@@ -16,7 +16,7 @@ public class IdentitySingelton
 
     public string Token { get; set; } = string.Empty;
     public long Id { get; set; }
-    public string Fullname { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public UserRole Role { get; set; }
 
@@ -24,7 +24,7 @@ public class IdentitySingelton
     {
         Token = string.Empty;
         Id = 0;
-        Fullname = string.Empty;
+        Name = string.Empty;
         PhoneNumber = string.Empty;
         Role = UserRole.Administrator;
     }

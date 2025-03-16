@@ -6,14 +6,13 @@ using System.Text;
 
 namespace EduFlow.Desktop.Integrated.Servers.Repositories.Auth;
 
-public class AuthServer(IHttpClientFactory httpClientFactory) : IAuthServer
+public class AuthServer : IAuthServer
 {
-    private readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
     public async Task<(bool result, string token)> LoginAsync(UserForLoginDto dto)
     {
         try
         {
-            using var client = _httpClientFactory.CreateClient();
+            HttpClient client = new HttpClient();
             using var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"{AuthApi.LOGIN_URL}")
             {
                 Content = new StringContent(
