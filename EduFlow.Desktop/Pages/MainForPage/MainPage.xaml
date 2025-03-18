@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EduFlow.Desktop.Pages.MainForPage" 
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
       mc:Ignorable="d"
       Title="MainPage"
       Loaded="Page_Loaded">
@@ -169,9 +169,22 @@
             </Grid>
 
             <Grid Grid.Row="1">
+                <local1:Loader x:Name="courseForLoader"
+                               HorizontalAlignment="Center"
+                               Visibility="Collapsed"/>
+
                 <ScrollViewer>
                     <StackPanel x:Name="stCourses"/>
                 </ScrollViewer>
+
+                <TextBlock x:Name="emptyDataForCourse"
+                           Text="Kurslar topilmadi!"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Visibility="Collapsed"/>
             </Grid>
         </Grid>
     </Grid>

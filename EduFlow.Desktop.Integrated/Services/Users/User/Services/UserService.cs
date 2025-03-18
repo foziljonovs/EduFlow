@@ -12,38 +12,94 @@ public class UserService : IUserService
     {
         this._server = new UserServer();
     }
-    public Task<bool> ChangePasswordAsync(long id, UserForChangePasswordDto dto)
+    public async Task<bool> ChangePasswordAsync(long id, UserForChangePasswordDto dto)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var result = await _server.ChangePasswordAsync(id, dto);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
     }
 
-    public Task<bool> DeleteAsync(long id)
+    public async Task<bool> DeleteAsync(long id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var result = await _server.DeleteAsync(id);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
     }
 
-    public Task<List<UserForResultDto>> GetAllAsync()
+    public async Task<List<UserForResultDto>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            var result = await _server.GetAllAsync();
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new List<UserForResultDto>();
+        }
     }
 
-    public Task<UserForResultDto> GetByIdAsync(long id)
+    public async Task<UserForResultDto> GetByIdAsync(long id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var result = await _server.GetByIdAsync(id);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new UserForResultDto();
+        }
     }
 
-    public Task<bool> RegisterAsync(UserForCreateDto dto)
+    public async Task<bool> RegisterAsync(UserForCreateDto dto)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var result = await _server.RegisterAsync(dto);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
     }
 
-    public Task<bool> UpdateAsync(long id, UserForUpdateDto dto)
+    public async Task<bool> UpdateAsync(long id, UserForUpdateDto dto)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var result = await _server.UpdateAsync(id, dto);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
     }
 
-    public Task<bool> VerifyPasswordAsync(long id, string password)
+    public async Task<bool> VerifyPasswordAsync(long id, string password)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var result = await _server.VerifyPasswordAsync(id, password);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
     }
 }
