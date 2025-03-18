@@ -14,6 +14,7 @@
   <ItemGroup>
     <Folder Include="Servers\Interfaces\Courses\" />
     <Folder Include="Servers\Repositories\Courses\" />
+    <Folder Include="Services\Courses\" />
   </ItemGroup>
 
 </Project>
