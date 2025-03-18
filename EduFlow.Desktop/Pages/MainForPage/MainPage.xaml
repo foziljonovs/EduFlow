@@ -38,23 +38,19 @@
                             Margin="10 0 10 0"/>
 
                 <ComboBox x:Name="categoryComboBox"
+                          ToolTip="Kurslar tanlash"
                           Width="140"
                           VerticalAlignment="Center"
                           Margin="10 0">
-                    <ComboBoxItem Content="Foundation"/>
-                    <ComboBoxItem Content="AKT"/>
-                    <ComboBoxItem Content="Grafik Design"/>
-                    <ComboBoxItem Content="Web Dasturlash"/>
+                    <ComboBoxItem Content="Kurslar" IsSelected="True" IsEnabled="False"/>
                 </ComboBox>
 
                 <ComboBox x:Name="teacherComboBox"
+                          ToolTip="O'qituvchi tanlash"
                           Width="140"
                           VerticalAlignment="Center"
                           Margin="10 0">
-                    <ComboBoxItem Content="Abdulvosid"/>
-                    <ComboBoxItem Content="Sanjarbek"/>
-                    <ComboBoxItem Content="Temur"/>
-                    <ComboBoxItem Content="Habibulloh"/>
+                    <ComboBoxItem Content="O'qituvchilar" IsSelected="True" IsEnabled="False"/>
                 </ComboBox>
             </StackPanel>
 
