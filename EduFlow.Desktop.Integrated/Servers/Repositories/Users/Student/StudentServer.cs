@@ -1,15 +1,17 @@
 ﻿using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
+using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
 using Newtonsoft.Json;
-using System.Data.Common;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace EduFlow.Desktop.Integrated.Servers.Repositories.Users.Student;
 
 public class StudentServer : IStudentServer
 {
-    public Task<bool> AddAsync(TeacherForCreateDto dto)
+    public async Task<bool> AddAsync(StudentForCreateDto dto)
     {
         try
         {
@@ -40,7 +42,7 @@ public class StudentServer : IStudentServer
         }
     }
 
-    public Task<bool> DeleteAsync(long id)
+    public async Task<bool> DeleteAsync(long id)
     {
         try
         {
@@ -63,7 +65,7 @@ public class StudentServer : IStudentServer
         }
     }
 
-    public Task<List<TeacherForResultDto>> GetAllAsync()
+    public async Task<List<StudentForResultDto>> GetAllAsync()
     {
         try
         {
@@ -87,7 +89,7 @@ public class StudentServer : IStudentServer
         }
     }
 
-    public Task<TeacherForResultDto> GetByIdAsync(long id)
+    public async Task<StudentForResultDto> GetByIdAsync(long id)
     {
         try
         {
@@ -111,7 +113,7 @@ public class StudentServer : IStudentServer
         }
     }
 
-    public Task<bool> UpdateAsync(long id, TeacherForUpdateDto dto)
+    public async Task<bool> UpdateAsync(long id, StudentForUpdateDto dto)
     {
         try
         {

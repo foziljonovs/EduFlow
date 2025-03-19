@@ -1,8 +1,8 @@
 ﻿using EduFlow.BLL.DTOs.Users.Student;
 
-namespace EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
+namespace EduFlow.Desktop.Integrated.Services.Users.Student;
 
-public interface IStudentServer
+public interface IStudentService
 {
     Task<List<StudentForResultDto>> GetAllAsync();
     Task<StudentForResultDto> GetByIdAsync(long id);
