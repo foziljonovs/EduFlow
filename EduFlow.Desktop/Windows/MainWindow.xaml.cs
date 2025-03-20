@@ -1,4 +1,5 @@
-﻿using EduFlow.Desktop.Pages.MainForPage;
+﻿using EduFlow.Desktop.Integrated.Security;
+using EduFlow.Desktop.Pages.MainForPage;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -29,8 +30,17 @@ public partial class MainWindow : Window
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         NormalButton.IsChecked = true;
-        TeacherNavigationPage page = new TeacherNavigationPage();
-        MainMenuNavigation.Content = page;
+        var role = IdentitySingelton.GetInstance().Role;
+        if (role is Domain.Enums.UserRole.Teacher)
+        {
+            TeacherNavigationPage page = new TeacherNavigationPage();
+            MainMenuNavigation.Content = page;
+        }
+        else if(role is Domain.Enums.UserRole.Administrator)
+        {
+            ManagerNavigationPage page = new ManagerNavigationPage();
+            MainMenuNavigation.Content = page;
+        }
     }
 
     private void CloseBtn_Click(object sender, RoutedEventArgs e)

@@ -21,38 +21,38 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0"
-                        HorizontalAlignment="Right"
-                        Width="640"
-                        Orientation="Horizontal">
-                <DatePicker x:Name="dtStartDate"
-                            materialDesign:HintAssist.Hint="Boshlanish sanasi"
-                            Width="140"
-                            VerticalAlignment="Center"
-                            Margin="10 0 10 0"/>
+            <Grid Grid.Row="0">
+                <StackPanel HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                    <DatePicker x:Name="dtStartDate"
+                                materialDesign:HintAssist.Hint="Boshlanish sanasi"
+                                Width="140"
+                                VerticalAlignment="Center"
+                                Margin="10 0 10 0"/>
 
-                <DatePicker x:Name="dtEndDate"
-                            materialDesign:HintAssist.Hint="Tugash sanasini tanlang"
-                            Width="140"
-                            VerticalAlignment="Center"
-                            Margin="10 0 10 0"/>
+                    <DatePicker x:Name="dtEndDate"
+                                materialDesign:HintAssist.Hint="Tugash sanasini tanlang"
+                                Width="140"
+                                VerticalAlignment="Center"
+                                Margin="10 0 10 0"/>
 
-                <ComboBox x:Name="categoryComboBox"
-                          ToolTip="Kurslar tanlash"
-                          Width="140"
-                          VerticalAlignment="Center"
-                          Margin="10 0">
-                    <ComboBoxItem Content="Kurslar" IsSelected="True" IsEnabled="False"/>
-                </ComboBox>
+                    <ComboBox x:Name="categoryComboBox"
+                              ToolTip="Kurslar tanlash"
+                              Width="140"
+                              VerticalAlignment="Center"
+                              Margin="10 0">
+                        <ComboBoxItem Content="Kurslar" IsSelected="True" IsEnabled="False"/>
+                    </ComboBox>
 
-                <ComboBox x:Name="teacherComboBox"
-                          ToolTip="O'qituvchi tanlash"
-                          Width="140"
-                          VerticalAlignment="Center"
-                          Margin="10 0">
-                    <ComboBoxItem Content="O'qituvchilar" IsSelected="True" IsEnabled="False"/>
-                </ComboBox>
-            </StackPanel>
+                    <ComboBox x:Name="teacherComboBox"
+                              ToolTip="O'qituvchi tanlash"
+                              Width="140"
+                              VerticalAlignment="Center"
+                              Margin="10 0">
+                        <ComboBoxItem Content="O'qituvchilar" IsSelected="True" IsEnabled="False"/>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
 
             <Grid Grid.Row="1"
                   HorizontalAlignment="Left"
