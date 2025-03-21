@@ -95,6 +95,7 @@ public partial class LoginWindow : Window
                     notifier.ShowWarning("Telefon raqam noto'g'ri formatda!");
                     LoginLoader.Visibility = Visibility.Collapsed;
                     LoginBtn.Visibility = Visibility.Visible;
+                    return;
                 }
 
                 if(VerifyForPassword(PasswordPwd.Password))
@@ -104,6 +105,7 @@ public partial class LoginWindow : Window
                     notifier.ShowWarning("Parol noto'g'ri formatda! raqam va harflar bo'lishi kerak");
                     LoginLoader.Visibility = Visibility.Collapsed;
                     LoginBtn.Visibility = Visibility.Visible;
+                    return;
                 }
 
                 var res = await _service.LoginAsync(dto);

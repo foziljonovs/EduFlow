@@ -9,4 +9,5 @@ public interface ITeacherServer
     Task<bool> AddAsync(TeacherForCreateDto dto);
     Task<bool> UpdateAsync(long id, TeacherForUpdateDto dto);
     Task<bool> DeleteAsync(long id);
+    Task<TeacherForResultDto> GetByUserIdAsync(long userId);
 }

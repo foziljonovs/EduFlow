@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Course;
+using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.MainForComponents;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
@@ -18,7 +19,8 @@ namespace EduFlow.Desktop.Pages.MainForPage;
 public partial class MainPage : Page
 {
     private readonly ICourseService _courseService;
-    private readonly IteacherService _teacherService;
+    private readonly ITeacherService _teacherService;
+    private TeacherForResultDto _teacher;
 
     public MainPage()
     {
@@ -79,7 +81,7 @@ public partial class MainPage : Page
                     course.Id,
                     course.Name,
                     course.Students?.Count ?? 0,
-                    course.Teacher?.User.Firstname ?? "Topilmadi");
+                    course.Teacher?.User?.Firstname ?? "Topilmadi");
 
                 stCourses.Children.Add(component);
                 count++;
@@ -92,6 +94,20 @@ public partial class MainPage : Page
         }
     }
 
+    private async Task<long> GetTeacher(long userId)
+    {
+        var teacher = await Task.Run(async () => await _teacherService.GetByUserIdAsync(userId));
+
+        if(teacher is null)
+        {
+            notifier.ShowInformation("Ustoz topilmadi!");
+            return 0;
+        }
+
+        _teacher = teacher;
+        return teacher.Id;
+    }
+
     private async Task LoadPage()
     {
         var id = IdentitySingelton.GetInstance().Id;
@@ -100,12 +116,14 @@ public partial class MainPage : Page
 
         if (role is Domain.Enums.UserRole.Teacher)
         {
-            await GetAllTeacherCourses(id);
+            var teacherId = await GetTeacher(id);
+
+            await GetAllTeacherCourses(teacherId);
             categoryComboBox.Visibility = Visibility.Collapsed;
             teacherComboBox.Visibility = Visibility.Collapsed;
             notifier.ShowInformation($"{fullName} xush kelibsiz ustoz!");
         }
-        else if(role is Domain.Enums.UserRole.Administrator)
+        else
         {
             await GetAllCourse();
             notifier.ShowInformation($"{fullName} xush kelibsiz!");

@@ -107,6 +107,29 @@ public class TeacherService(
         }
     }
 
+    public async Task<TeacherForResultDto> GetByUserIdAsync(long userId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var teacher = await _unitOfWork.Teacher
+                .GetAllAsync()
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+
+            if(teacher is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
+
+            if (teacher.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This teacher has been deleted.");
+
+            return _mapper.Map<TeacherForResultDto>(teacher);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get by user id the teacher. {ex}");
+            throw;
+        }
+    }
+
     public async Task<bool> UpdateAsync(long id, TeacherForUpdateDto dto, CancellationToken cancellationToken = default)
     {
         try
