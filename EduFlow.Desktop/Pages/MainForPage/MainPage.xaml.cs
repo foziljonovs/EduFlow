@@ -123,7 +123,7 @@ public partial class MainPage : Page
             teacherComboBox.Visibility = Visibility.Collapsed;
             notifier.ShowInformation($"{fullName} xush kelibsiz ustoz!");
         }
-        else if(role is Domain.Enums.UserRole.Administrator)
+        else
         {
             await GetAllCourse();
             notifier.ShowInformation($"{fullName} xush kelibsiz!");
