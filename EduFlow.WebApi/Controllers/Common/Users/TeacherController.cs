@@ -111,4 +111,22 @@ public class TeacherController(
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpGet("{userId:long}/user")]
+    public async Task<IActionResult> GetByUserIdAsync([FromRoute] long userId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.GetByUserIdAsync(userId, cancellation);
+            return Ok(response);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }

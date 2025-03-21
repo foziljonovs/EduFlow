@@ -4,7 +4,7 @@ using EduFlow.Desktop.Integrated.Servers.Repositories.Users.Teacher;
 
 namespace EduFlow.Desktop.Integrated.Services.Users.Teacher;
 
-public class TeacherService : IteacherService
+public class TeacherService : ITeacherService
 {
     private readonly ITeacherServer _server;
     public TeacherService()
@@ -55,6 +55,19 @@ public class TeacherService : IteacherService
         try
         {
             var result = await _server.GetByIdAsync(id);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return new TeacherForResultDto();
+        }
+    }
+
+    public async Task<TeacherForResultDto> GetByUserIdAsync(long userId)
+    {
+        try
+        {
+            var result = await _server.GetByUserIdAsync(userId);
             return result;
         }
         catch (Exception ex)

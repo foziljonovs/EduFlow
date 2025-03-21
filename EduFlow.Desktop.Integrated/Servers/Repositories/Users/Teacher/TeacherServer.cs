@@ -3,7 +3,6 @@ using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Teacher;
 using Newtonsoft.Json;
-using System.Data.Common;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -106,6 +105,30 @@ public class TeacherServer : ITeacherServer
             return result;
         }
         catch(Exception ex)
+        {
+            return new TeacherForResultDto();
+        }
+    }
+
+    public async Task<TeacherForResultDto> GetByUserIdAsync(long userId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/teachers/{userId}/user");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage message = await client.GetAsync(client.BaseAddress);
+
+            var response = await message.Content.ReadAsStringAsync();
+            
+            var result = JsonConvert.DeserializeObject<TeacherForResultDto>(response)!;
+            
+            return result;
+        }
+        catch (Exception ex)
         {
             return new TeacherForResultDto();
         }
