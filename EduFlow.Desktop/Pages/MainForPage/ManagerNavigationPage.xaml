@@ -5,13 +5,16 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EduFlow.Desktop.Pages.MainForPage"
       mc:Ignorable="d" 
-      Title="ManagerNavigationPage">
+      Title="ManagerNavigationPage"
+      Loaded="Page_Loaded">
 
     <StackPanel>
         <RadioButton x:Name="MainButton"
-                    Style="{DynamicResource MainButton}"/>
+                     Style="{DynamicResource MainButton}"
+                     Click="MainButton_Click"/>
 
         <RadioButton x:Name="CoursesButton"
-                    Style="{DynamicResource CourseButton}"/>
+                     Style="{DynamicResource CourseButton}"
+                     Click="CoursesButton_Click"/>
     </StackPanel>
 </Page>

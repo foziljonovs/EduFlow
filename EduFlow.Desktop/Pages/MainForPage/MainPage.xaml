@@ -71,7 +71,7 @@
                         Background="Tomato">
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock x:Name="YourCoursesCount"
-                                   Text="3"
+                                   Text="0"
                                    Foreground="White"
                                    FontSize="22"
                                    HorizontalAlignment="Center"
@@ -93,7 +93,7 @@
                         Background="DeepSkyBlue">
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock x:Name="YourStudentsCount"
-                                   Text="3"
+                                   Text="0"
                                    Foreground="White"
                                    FontSize="22"
                                    HorizontalAlignment="Center"

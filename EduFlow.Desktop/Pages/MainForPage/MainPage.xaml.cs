@@ -56,6 +56,26 @@ public partial class MainPage : Page
         ShowCourse(courses);
     }
 
+    private async Task GetAllTeachers()
+    {
+        var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+
+        if (teachers.Any())
+        {
+            foreach(var teacher in teachers)
+            {
+                ComboBoxItem item = new ComboBoxItem();
+                item.Content = teacher.User.Firstname;
+                item.Tag = teacher.Id;
+                teacherComboBox.Items.Add(item);
+            }
+        }
+        else
+        {
+            notifier.ShowInformation("Ustozlar topilmadi!");
+        }
+    }
+
     private async Task GetAllCourse()
     {
         stCourses.Children.Clear();
@@ -86,6 +106,9 @@ public partial class MainPage : Page
                 stCourses.Children.Add(component);
                 count++;
             }
+
+            YourCoursesCount.Text = count.ToString();
+            YourStudentsCount.Text = courses.Sum(x => x.Students.Count).ToString();
         }
         else
         {
@@ -126,6 +149,7 @@ public partial class MainPage : Page
         else
         {
             await GetAllCourse();
+            await GetAllTeachers();
             notifier.ShowInformation($"{fullName} xush kelibsiz!");
         }
     }

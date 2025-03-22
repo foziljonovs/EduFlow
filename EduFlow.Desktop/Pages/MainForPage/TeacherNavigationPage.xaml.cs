@@ -24,6 +24,7 @@ public partial class TeacherNavigationPage : Page
 
     private void GetMainPage()
     {
+        MainButton.IsChecked = true;
         MainPage page = new MainPage();
         var window = getWindow();
         if (window != null)
@@ -37,6 +38,7 @@ public partial class TeacherNavigationPage : Page
 
     private void CoursesButton_Click(object sender, RoutedEventArgs e)
     {
+        CoursesButton.IsChecked = true;
         CoursePage page = new CoursePage();
         var window = getWindow();
         if(window != null)
