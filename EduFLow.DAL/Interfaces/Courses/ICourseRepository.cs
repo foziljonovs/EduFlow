@@ -4,5 +4,5 @@ namespace EduFlow.DAL.Interfaces.Courses;
 
 public interface ICourseRepository : IRepository<Course>
 {
-    Task<List<Course>> GetAllFullInformationAsync();
+    IQueryable<Course> GetAllFullInformation();
 }

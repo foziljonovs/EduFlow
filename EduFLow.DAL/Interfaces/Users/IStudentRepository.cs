@@ -4,5 +4,5 @@ namespace EduFlow.DAL.Interfaces.Users;
 
 public interface IStudentRepository : IRepository<Student>
 {
-    Task<List<Student>> GetAllFullInformationAsync();
+    IQueryable<Student> GetAllFullInformation();
 }

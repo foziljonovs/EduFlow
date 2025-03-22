@@ -80,8 +80,7 @@ public class CourseService(
         try
         {
             var courses = await _unitOfWork.Course
-                .GetAllAsync()
-                .Where(x => x.IsDeleted == false)
+                .GetAllFullInformation()
                 .ToListAsync();
 
             if (!courses.Any())
@@ -105,8 +104,8 @@ public class CourseService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found.");
 
             var courses = await _unitOfWork.Course
-                .GetAllAsync()
-                .Where(x => x.CategoryId == categoryId && x.IsDeleted == false)
+                .GetAllFullInformation()
+                .Where(x => x.CategoryId == categoryId)
                 .ToListAsync();
 
             if (!courses.Any())
@@ -130,8 +129,8 @@ public class CourseService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
 
             var courses = await _unitOfWork.Course
-                .GetAllAsync()
-                .Where(x => x.TeacherId == teacherId && x.IsDeleted == false)
+                .GetAllFullInformation()
+                .Where(x => x.TeacherId == teacherId)
                 .ToListAsync();
 
             if (!courses.Any())

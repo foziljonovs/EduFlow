@@ -71,8 +71,7 @@ public class TeacherService(
         try
         {
             var teachers = await _unitOfWork.Teacher
-                .GetAllAsync()
-                .Where(x => x.IsDeleted == false)
+                .GetAllFullInformation()
                 .ToListAsync(cancellationToken);
 
             if (!teachers.Any())
@@ -112,7 +111,7 @@ public class TeacherService(
         try
         {
             var teacher = await _unitOfWork.Teacher
-                .GetAllAsync()
+                .GetAllFullInformation()
                 .FirstOrDefaultAsync(x => x.UserId == userId);
 
             if(teacher is null)

@@ -15,11 +15,11 @@ public class CourseRepository : Repository<Course>, ICourseRepository
         this._dbSet = _context.Set<Course>();
     }
 
-    public async Task<List<Course>> GetAllFullInformationAsync()
-        => await _context.Courses
+    public IQueryable<Course> GetAllFullInformation()
+        => _dbSet
+            .Where(x => !x.IsDeleted)
             .Include(x => x.Category)
             .Include(x => x.Teacher)
             .Include(x => x.Students)
-            .Include(x => x.Payments)
-            .ToListAsync();
+            .Include(x => x.Payments);
 }

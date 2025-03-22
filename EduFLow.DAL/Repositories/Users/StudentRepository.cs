@@ -15,9 +15,9 @@ public class StudentRepository : Repository<Student>, IStudentRepository
         this._dbSet = _context.Set<Student>();
     }
 
-    public async Task<List<Student>> GetAllFullInformationAsync()
-        => await _context.Students
+    public IQueryable<Student> GetAllFullInformation()
+        => _dbSet
+            .Where(x => !x.IsDeleted)
             .Include(x => x.Payments)
-            .Include(x => x.Courses)
-            .ToListAsync();
+            .Include(x => x.Courses);
 }
