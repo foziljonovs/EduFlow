@@ -70,8 +70,7 @@ public class StudentService(
         try
         {
             var students = await _unitOfWork.Student
-                .GetAllAsync()
-                .Where(x => x.IsDeleted == false)
+                .GetAllFullInformation()
                 .ToListAsync(cancellationToken);
 
             if (!students.Any())
@@ -111,7 +110,7 @@ public class StudentService(
         try
         {
             var student = await _unitOfWork.Student
-                .GetAllAsync()
+                .GetAllFullInformation()
                 .FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
 
             if (student is null)

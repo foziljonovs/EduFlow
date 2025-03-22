@@ -36,7 +36,7 @@ public partial class MainWindow : Window
             TeacherNavigationPage page = new TeacherNavigationPage();
             MainMenuNavigation.Content = page;
         }
-        else if(role is Domain.Enums.UserRole.Administrator)
+        else
         {
             ManagerNavigationPage page = new ManagerNavigationPage();
             MainMenuNavigation.Content = page;

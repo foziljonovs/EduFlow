@@ -4,4 +4,5 @@ namespace EduFlow.DAL.Interfaces.Users;
 
 public interface ITeacherRepository : IRepository<Teacher>
 {
+    IQueryable<Teacher> GetAllFullInformation();
 }
