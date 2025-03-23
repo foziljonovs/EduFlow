@@ -143,7 +143,10 @@ public partial class MainPage : Page
 
             await GetAllTeacherCourses(teacherId);
             categoryComboBox.Visibility = Visibility.Collapsed;
+            createCategoryBtn.Visibility = Visibility.Collapsed;
             teacherComboBox.Visibility = Visibility.Collapsed;
+            createTeacherBtn.Visibility = Visibility.Collapsed;
+            createCourseBtn.Visibility = Visibility.Visible;
             notifier.ShowInformation($"{fullName} xush kelibsiz ustoz!");
         }
         else
