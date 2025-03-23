@@ -20,6 +20,7 @@ public class CourseRepository : Repository<Course>, ICourseRepository
             .Where(x => !x.IsDeleted)
             .Include(x => x.Category)
             .Include(x => x.Teacher)
+                .ThenInclude(t => t.User)
             .Include(x => x.Students)
             .Include(x => x.Payments);
 }

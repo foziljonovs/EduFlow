@@ -11,10 +11,12 @@
     <StackPanel>
         <RadioButton x:Name="MainButton"
                      Style="{DynamicResource MainButton}"
-                     Click="MainButton_Click"/>
+                     Click="MainButton_Click"
+                     ToolTip="Asosiy sahifa"/>
 
         <RadioButton x:Name="CoursesButton"
                      Style="{DynamicResource CourseButton}"
-                     Click="CoursesButton_Click"/>
+                     Click="CoursesButton_Click"
+                     ToolTip="Kurslar sahifasi"/>
     </StackPanel>
 </Page>

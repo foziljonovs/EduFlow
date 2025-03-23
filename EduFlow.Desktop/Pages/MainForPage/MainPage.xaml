@@ -35,22 +35,37 @@
                                 Width="140"
                                 VerticalAlignment="Center"
                                 Margin="10 0 10 0"/>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="categoryComboBox"
+                                  ToolTip="Kurslar tanlash"
+                                  Width="140"
+                                  VerticalAlignment="Center"
+                                  Margin="10 0">
+                            <ComboBoxItem Content="Kurslar" IsSelected="True" IsEnabled="False"/>
+                        </ComboBox>
 
-                    <ComboBox x:Name="categoryComboBox"
-                              ToolTip="Kurslar tanlash"
-                              Width="140"
-                              VerticalAlignment="Center"
-                              Margin="10 0">
-                        <ComboBoxItem Content="Kurslar" IsSelected="True" IsEnabled="False"/>
-                    </ComboBox>
+                        <Button x:Name="createCategoryBtn"
+                                Style="{DynamicResource CrudButton}"
+                                Tag="groupadd"
+                                Background="DeepSkyBlue"
+                                ToolTip="Kurs qo'shish"/>
+                    </StackPanel>
 
-                    <ComboBox x:Name="teacherComboBox"
-                              ToolTip="O'qituvchi tanlash"
-                              Width="140"
-                              VerticalAlignment="Center"
-                              Margin="10 0">
-                        <ComboBoxItem Content="O'qituvchilar" IsSelected="True" IsEnabled="False"/>
-                    </ComboBox>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="teacherComboBox"
+                                  ToolTip="O'qituvchi tanlash"
+                                  Width="140"
+                                  VerticalAlignment="Center"
+                                  Margin="10 0">
+                            <ComboBoxItem Content="O'qituvchilar" IsSelected="True" IsEnabled="False"/>
+                        </ComboBox>
+
+                        <Button x:Name="createTeacherBtn"
+                                Style="{DynamicResource CrudButton}"
+                                Tag="personadd"
+                                Background="DarkSalmon"
+                                ToolTip="O'qituvchi qo'shish"/>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
 
@@ -113,7 +128,7 @@
         <Grid Grid.Row="1"
               Margin="0 10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0"
@@ -124,8 +139,8 @@
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="120"/>
-                     <ColumnDefinition Width="120"/>
-                </Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0"
                                Text="No"
@@ -166,6 +181,14 @@
                                FontWeight="ExtraBold"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"/>
+
+                <Button Grid.Column="5"
+                        x:Name="createCourseBtn"
+                        Style="{DynamicResource CrudButton}"
+                        Tag="add"
+                        Background="MediumSeaGreen"
+                        HorizontalAlignment="Right"
+                        ToolTip="Kurs yaratish"/>
             </Grid>
 
             <Grid Grid.Row="1">

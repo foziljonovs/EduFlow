@@ -2,8 +2,10 @@
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.MainForComponents;
 using EduFlow.Desktop.Integrated.Security;
+using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Internal;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -20,6 +22,7 @@ public partial class MainPage : Page
 {
     private readonly ICourseService _courseService;
     private readonly ITeacherService _teacherService;
+    private readonly ICategoryService _categoryService;
     private TeacherForResultDto _teacher;
 
     public MainPage()
@@ -27,6 +30,7 @@ public partial class MainPage : Page
         InitializeComponent();
         this._courseService = new CourseService();
         this._teacherService = new TeacherService();
+        this._categoryService = new CategoryService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -46,6 +50,21 @@ public partial class MainPage : Page
         cfg.DisplayOptions.Width = 200;
         cfg.DisplayOptions.TopMost = true;
     });
+
+    private async Task GetAllCategories()
+    {
+        var categories = await Task.Run(async () => await _categoryService.GetAllAsync());
+        if (categories.Any())
+        {
+            foreach (var category in categories)
+            {
+                ComboBoxItem item = new ComboBoxItem();
+                item.Content = category.Name;
+                item.Tag = category.Id;
+                categoryComboBox.Items.Add(item);
+            }
+        }
+    }
 
     private async Task GetAllTeacherCourses(long teacherId)
     {
@@ -107,7 +126,7 @@ public partial class MainPage : Page
                 count++;
             }
 
-            YourCoursesCount.Text = count.ToString();
+            YourCoursesCount.Text = courses.Count.ToString();
             YourStudentsCount.Text = courses.Sum(x => x.Students.Count).ToString();
         }
         else
@@ -143,13 +162,17 @@ public partial class MainPage : Page
 
             await GetAllTeacherCourses(teacherId);
             categoryComboBox.Visibility = Visibility.Collapsed;
+            createCategoryBtn.Visibility = Visibility.Collapsed;
             teacherComboBox.Visibility = Visibility.Collapsed;
+            createTeacherBtn.Visibility = Visibility.Collapsed;
+            createCourseBtn.Visibility = Visibility.Visible;
             notifier.ShowInformation($"{fullName} xush kelibsiz ustoz!");
         }
         else
         {
             await GetAllCourse();
             await GetAllTeachers();
+            await GetAllCategories();
             notifier.ShowInformation($"{fullName} xush kelibsiz!");
         }
     }
