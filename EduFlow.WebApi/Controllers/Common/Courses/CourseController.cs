@@ -147,4 +147,22 @@ public class CourseController(
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpGet("filter")]
+    public async Task<IActionResult> FilterAsync([FromQuery] CourseForFilterDto dto, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.FilterAsync(dto, cancellation);
+            return Ok(response);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }

@@ -11,4 +11,5 @@ public interface ICourseService
     Task<bool> DeleteAsync(long id);
     Task<List<CourseForResultDto>> GetAllByTeacherIdAsync(long teacherId);
     Task<List<CourseForResultDto>> GetAllByCategoryIdAsync(long categoryId);
+    Task<List<CourseForResultDto>> FilterAsync(CourseForFilterDto dto);
 }

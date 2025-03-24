@@ -5,7 +5,6 @@ using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Internal;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -66,6 +65,38 @@ public partial class MainPage : Page
         }
     }
 
+    private async Task FilterCourses()
+    {
+        stCourses.Children.Clear();
+        courseForLoader.Visibility = Visibility.Visible;
+
+        CourseForFilterDto dto = new CourseForFilterDto();
+
+        if(dtStartDate.SelectedDate is not null)
+            dto.StartedDate = dtStartDate.SelectedDate.Value;
+
+        if(dtEndDate.SelectedDate is not null)
+            dto.FinishedDate = dtEndDate.SelectedDate.Value;
+
+        if (categoryComboBox.SelectedItem is ComboBoxItem selectedCategoryItem
+            && selectedCategoryItem.Tag != null)
+            dto.CategoryId = (long)selectedCategoryItem.Tag;
+
+        if(teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem
+            && selectedTeacherItem.Tag != null)
+            dto.TeacherId = (long)selectedTeacherItem.Tag;
+
+        var courses = await Task.Run(async () => await _courseService.FilterAsync(dto));
+
+        if(courses.Any()) 
+            ShowCourse(courses);
+        else
+        {
+            courseForLoader.Visibility = Visibility.Collapsed;
+            emptyDataForCourse.Visibility = Visibility.Visible;
+        }    
+    }
+
     private async Task GetAllTeacherCourses(long teacherId)
     {
         stCourses.Children.Clear();
@@ -110,6 +141,7 @@ public partial class MainPage : Page
 
         if (courses.Any())
         {
+            courseForLoader.Visibility = Visibility.Collapsed;
             courseForLoader.Visibility = Visibility.Collapsed;
             foreach (var course in courses)
             {
@@ -176,9 +208,31 @@ public partial class MainPage : Page
             notifier.ShowInformation($"{fullName} xush kelibsiz!");
         }
     }
-
+    private bool isPageLoaded = false;
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        LoadPage();
+        if(!isPageLoaded)
+        {
+            isPageLoaded = true;
+            LoadPage();
+        }
+    }
+
+    private void dtEndDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if(isPageLoaded)
+            FilterCourses();
+    }
+
+    private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (isPageLoaded)
+            FilterCourses();
+    }
+
+    private void teacherComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (isPageLoaded)
+            FilterCourses();
     }
 }

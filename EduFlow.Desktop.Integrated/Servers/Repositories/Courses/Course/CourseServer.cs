@@ -1,5 +1,4 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Course;
-using EduFlow.BLL.DTOs.Users.User;
 using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Courses.Course;
@@ -62,6 +61,38 @@ public class CourseServer : ICourseServer
         catch (Exception ex)
         {
             return false;
+        }
+    }
+
+    public async Task<List<CourseForResultDto>> FilterAsync(CourseForFilterDto dto)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/courses/filter");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, client.BaseAddress)
+            {
+                Content = new StringContent(
+                    JsonConvert.SerializeObject(dto),
+                    Encoding.UTF8,
+                    "application/json")
+            };
+
+            var response = await client.SendAsync(request);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<CourseForResultDto> courses = JsonConvert.DeserializeObject<List<CourseForResultDto>>(result)!;
+
+            return courses;
+        }
+        catch(Exception ex)
+        {
+            return new List<CourseForResultDto>();
         }
     }
 
