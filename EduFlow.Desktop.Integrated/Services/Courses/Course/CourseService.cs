@@ -37,6 +37,19 @@ public class CourseService : ICourseService
         }
     }
 
+    public async Task<List<CourseForResultDto>> FilterAsync(CourseForFilterDto dto)
+    {
+        try
+        {
+            var res = await _server.FilterAsync(dto);
+            return res;
+        }
+        catch (Exception ex)
+        {
+            return new List<CourseForResultDto>();
+        }
+    }
+
     public async Task<List<CourseForResultDto>> GetAllAsync()
     {
         try

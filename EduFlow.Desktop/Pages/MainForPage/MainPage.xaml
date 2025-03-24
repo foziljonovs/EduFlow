@@ -34,13 +34,15 @@
                                 materialDesign:HintAssist.Hint="Tugash sanasini tanlang"
                                 Width="140"
                                 VerticalAlignment="Center"
-                                Margin="10 0 10 0"/>
+                                Margin="10 0 10 0"
+                                SelectedDateChanged="dtEndDate_SelectedDateChanged"/>
                     <StackPanel Orientation="Horizontal">
                         <ComboBox x:Name="categoryComboBox"
                                   ToolTip="Kurslar tanlash"
                                   Width="140"
                                   VerticalAlignment="Center"
-                                  Margin="10 0">
+                                  Margin="10 0"
+                                  SelectionChanged="categoryComboBox_SelectionChanged">
                             <ComboBoxItem Content="Kurslar" IsSelected="True" IsEnabled="False"/>
                         </ComboBox>
 
@@ -56,7 +58,8 @@
                                   ToolTip="O'qituvchi tanlash"
                                   Width="140"
                                   VerticalAlignment="Center"
-                                  Margin="10 0">
+                                  Margin="10 0"
+                                  SelectionChanged="teacherComboBox_SelectionChanged">
                             <ComboBoxItem Content="O'qituvchilar" IsSelected="True" IsEnabled="False"/>
                         </ComboBox>
 
