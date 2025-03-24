@@ -75,6 +75,43 @@ public class CourseService(
         }
     }
 
+    public async Task<IEnumerable<CourseForResultDto>> FilterAsync(CourseForFilterDto dto, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var courseQuery = _unitOfWork.Course
+                .GetAllFullInformation();
+
+            if(!courseQuery.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+
+            if(dto.StartedDate.HasValue && dto.FinishedDate.HasValue)
+                courseQuery = courseQuery.Where(x => 
+                    x.CreatedAt >= dto.StartedDate && 
+                    x.CreatedAt <= dto.FinishedDate);
+
+            if(dto.CategoryId > 0)
+                courseQuery = courseQuery
+                    .Where(x => x.CategoryId == dto.CategoryId);
+
+            if(dto.TeacherId > 0)
+                courseQuery = courseQuery
+                    .Where(x => x.TeacherId == dto.TeacherId);
+
+            var courses = await courseQuery.ToListAsync(cancellationToken);
+
+            if(!courses.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+
+            return _mapper.Map<IEnumerable<CourseForResultDto>>(courses);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while filter the course. {ex}");
+            throw;
+        }
+    }
+
     public async Task<IEnumerable<CourseForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         try
