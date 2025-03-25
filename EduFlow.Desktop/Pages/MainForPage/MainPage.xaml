@@ -191,7 +191,7 @@
                         Tag="add"
                         Background="MediumSeaGreen"
                         HorizontalAlignment="Right"
-                        ToolTip="Kurs yaratish"/>
+                        ToolTip="Guruh yaratish"/>
             </Grid>
 
             <Grid Grid.Row="1">
@@ -204,7 +204,7 @@
                 </ScrollViewer>
 
                 <TextBlock x:Name="emptyDataForCourse"
-                           Text="Kurslar topilmadi!"
+                           Text="Guruhlar topilmadi!"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="14"
