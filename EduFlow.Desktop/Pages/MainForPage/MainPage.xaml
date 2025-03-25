@@ -95,7 +95,7 @@
                                    HorizontalAlignment="Center"
                                    FontWeight="Heavy"/>
 
-                        <TextBlock Text="Kurslar soni"
+                        <TextBlock Text="Guruhlar soni"
                                    Foreground="White"
                                    FontSize="14"
                                    HorizontalAlignment="Center"
