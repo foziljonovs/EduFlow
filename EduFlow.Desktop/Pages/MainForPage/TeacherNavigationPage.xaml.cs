@@ -37,15 +37,6 @@ public partial class TeacherNavigationPage : Page
         GetMainPage();
     }
 
-    private void CoursesButton_Click(object sender, RoutedEventArgs e)
-    {
-        CoursesButton.IsChecked = true;
-        CoursePage page = new CoursePage();
-        var window = getWindow();
-        if(window != null)
-            window.NavigatePage(page);
-    }
-
     private void StudentsButton_Click(object sender, RoutedEventArgs e)
     {
         StudentsButton.IsChecked = true;

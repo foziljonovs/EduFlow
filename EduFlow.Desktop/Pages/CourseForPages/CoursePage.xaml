@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:EduFlow.Desktop.Pages.CourseForPages" 
       xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
       mc:Ignorable="d"
-      Title="CoursePage">
+      Title="CoursePage"
+      Loaded="Page_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,8 +20,8 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
@@ -28,7 +29,7 @@
                        Text="No"
                        FontSize="12"
                        FontFamily="Jetbrains Mono"
-                       FontWeight="SemiBold"
+                       FontWeight="ExtraBold"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
@@ -36,21 +37,22 @@
                        Text="Nomi"
                        FontSize="12"
                        FontFamily="Jetbrains Mono"
-                       FontWeight="SemiBold"
+                       FontWeight="ExtraBold"
                        VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="2"
                        Text="Guruhlar soni"
                        FontSize="12"
                        FontFamily="Jetbrains Mono"
-                       FontWeight="SemiBold"
+                       FontWeight="ExtraBold"
+                       HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="3"
                        Text="O'quvchi soni"
                        FontSize="12"
                        FontFamily="Jetbrains Mono"
-                       FontWeight="SemiBold"
+                       FontWeight="ExtraBold"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
 

@@ -14,8 +14,8 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
@@ -42,6 +42,7 @@
                        FontFamily="Jetbrains Mono"
                        FontSize="14"
                        FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
             <TextBlock x:Name="tbStudentCount"
