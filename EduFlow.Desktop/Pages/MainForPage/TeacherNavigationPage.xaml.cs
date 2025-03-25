@@ -1,4 +1,5 @@
 ﻿using EduFlow.Desktop.Pages.CourseForPages;
+using EduFlow.Desktop.Pages.StudentForPages;
 using EduFlow.Desktop.Windows;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,12 +37,12 @@ public partial class TeacherNavigationPage : Page
         GetMainPage();
     }
 
-    private void CoursesButton_Click(object sender, RoutedEventArgs e)
+    private void StudentsButton_Click(object sender, RoutedEventArgs e)
     {
-        CoursesButton.IsChecked = true;
-        CoursePage page = new CoursePage();
+        StudentsButton.IsChecked = true;
+        StudentPage page = new StudentPage();
         var window = getWindow();
-        if(window != null)
+        if (window != null)
             window.NavigatePage(page);
     }
 }
