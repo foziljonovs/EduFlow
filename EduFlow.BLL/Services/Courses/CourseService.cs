@@ -86,9 +86,13 @@ public class CourseService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 
             if(dto.StartedDate.HasValue && dto.FinishedDate.HasValue)
-                courseQuery = courseQuery.Where(x => 
-                    x.CreatedAt >= dto.StartedDate && 
-                    x.CreatedAt <= dto.FinishedDate);
+            {
+                var startedDateUtc = DateTime.SpecifyKind(dto.StartedDate.Value, DateTimeKind.Utc);
+                var finishedDateUtc = DateTime.SpecifyKind(dto.FinishedDate.Value, DateTimeKind.Utc);
+                courseQuery = courseQuery.Where(x =>
+                    x.CreatedAt >= startedDateUtc &&
+                    x.CreatedAt <= finishedDateUtc);
+            }
 
             if(dto.CategoryId > 0)
                 courseQuery = courseQuery

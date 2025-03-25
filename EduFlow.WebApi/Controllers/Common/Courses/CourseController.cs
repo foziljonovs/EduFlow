@@ -148,8 +148,8 @@ public class CourseController(
         }
     }
 
-    [HttpGet("filter")]
-    public async Task<IActionResult> FilterAsync([FromQuery] CourseForFilterDto dto, CancellationToken cancellation = default)
+    [HttpPost("filter")]
+    public async Task<IActionResult> FilterAsync([FromBody] CourseForFilterDto dto, CancellationToken cancellation = default)
     {
         try
         {

@@ -142,7 +142,7 @@ public partial class MainPage : Page
         if (courses.Any())
         {
             courseForLoader.Visibility = Visibility.Collapsed;
-            courseForLoader.Visibility = Visibility.Collapsed;
+            emptyDataForCourse.Visibility = Visibility.Collapsed;
             foreach (var course in courses)
             {
                 MainForCourseComponent component = new MainForCourseComponent();
