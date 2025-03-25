@@ -74,7 +74,7 @@ public class CourseServer : ICourseServer
             client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/courses/filter");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var request = new HttpRequestMessage(HttpMethod.Get, client.BaseAddress)
+            var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress)
             {
                 Content = new StringContent(
                     JsonConvert.SerializeObject(dto),
