@@ -5,6 +5,7 @@ using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using EduFlow.Desktop.Windows;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -85,6 +86,10 @@ public partial class MainPage : Page
         if(teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem
             && selectedTeacherItem.Tag != null)
             dto.TeacherId = (long)selectedTeacherItem.Tag;
+
+        var window = Window.GetWindow(this) as MainWindow;
+        if (window.MainMenuNavigation.Content is TeacherNavigationPage)
+            dto.TeacherId = _teacher.Id;
 
         var courses = await Task.Run(async () => await _courseService.FilterAsync(dto));
 
@@ -186,7 +191,6 @@ public partial class MainPage : Page
     {
         var id = IdentitySingelton.GetInstance().Id;
         var role = IdentitySingelton.GetInstance().Role;
-        var fullName = IdentitySingelton.GetInstance().Name;
 
         if (role is Domain.Enums.UserRole.Teacher)
         {
@@ -198,14 +202,12 @@ public partial class MainPage : Page
             teacherComboBox.Visibility = Visibility.Collapsed;
             createTeacherBtn.Visibility = Visibility.Collapsed;
             createCourseBtn.Visibility = Visibility.Visible;
-            notifier.ShowInformation($"{fullName} xush kelibsiz ustoz!");
         }
         else
         {
             await GetAllCourse();
             await GetAllTeachers();
             await GetAllCategories();
-            notifier.ShowInformation($"{fullName} xush kelibsiz!");
         }
     }
     private bool isPageLoaded = false;
