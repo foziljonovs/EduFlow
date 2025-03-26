@@ -64,9 +64,8 @@ public partial class CoursePage : Page
                 component.Tag = category;
                 component.SetValues(count, category.Id, category.Name, category.Courses.Count, category.Courses.Sum(x => x.Students.Count));
                 stCategories.Children.Add(component);
+                count++;
             }
-
-            count++;
         }
         else
         {

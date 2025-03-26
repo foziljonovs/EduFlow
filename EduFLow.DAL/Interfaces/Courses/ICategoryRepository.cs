@@ -4,4 +4,5 @@ namespace EduFlow.DAL.Interfaces.Courses;
 
 public interface ICategoryRepository : IRepository<Category>
 {
+    IQueryable<Category> GetAllFullInformation();
 }
