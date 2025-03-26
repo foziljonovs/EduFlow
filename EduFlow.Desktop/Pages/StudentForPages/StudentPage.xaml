@@ -3,11 +3,48 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:EduFlow.Desktop.Pages.StudentForPages"
+      xmlns:local="clr-namespace:EduFlow.Desktop.Pages.StudentForPages" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d"
       Title="StudentPage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Border Width="200"
+                        Height="35"
+                        CornerRadius="8"
+                        Background="White"
+                        BorderBrush="Gray"
+                        BorderThickness="1">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <materialDesign:PackIcon Grid.Column="0"
+                                                 Width="25"
+                                                 Height="25"
+                                                 HorizontalAlignment="Center"
+                                                 Kind="Search"/>
+
+                        <TextBox Grid.Column="1"
+                                 x:Name="searchPhoneNumberForStudentTxt"
+                                 FontSize="14"
+                                 FontFamily="Jetbrains Mono"
+                                 FontWeight="SemiBold"
+                                 VerticalContentAlignment="Center"
+                                 BorderThickness="0"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
