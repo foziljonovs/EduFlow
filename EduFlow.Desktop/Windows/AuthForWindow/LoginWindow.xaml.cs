@@ -25,6 +25,24 @@ public partial class LoginWindow : Window
     Notifier notifier = new Notifier(cfg =>
     {
         cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
+            corner: Corner.TopRight,
+            offsetX: 20,
+            offsetY: 20);
+
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+
+        cfg.Dispatcher = Application.Current.Dispatcher;
+
+        cfg.DisplayOptions.Width = 200;
+        cfg.DisplayOptions.TopMost = true;
+    });
+
+    Notifier notifierThis = new Notifier(cfg =>
+    {
+        cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.MainWindow,
             corner: Corner.TopRight,
             offsetX: 20,
@@ -92,7 +110,7 @@ public partial class LoginWindow : Window
                     dto.PhoneNumber = PhoneNumberTxt.Text;
                 else
                 {
-                    notifier.ShowWarning("Telefon raqam noto'g'ri formatda!");
+                    notifierThis.ShowWarning("Telefon raqam noto'g'ri formatda!");
                     LoginLoader.Visibility = Visibility.Collapsed;
                     LoginBtn.Visibility = Visibility.Visible;
                     return;
@@ -102,7 +120,7 @@ public partial class LoginWindow : Window
                     dto.Password = PasswordPwd.Password;
                 else
                 {
-                    notifier.ShowWarning("Parol noto'g'ri formatda! raqam va harflar bo'lishi kerak");
+                    notifierThis.ShowWarning("Parol noto'g'ri formatda! raqam va harflar bo'lishi kerak");
                     LoginLoader.Visibility = Visibility.Collapsed;
                     LoginBtn.Visibility = Visibility.Visible;
                     return;
@@ -113,29 +131,31 @@ public partial class LoginWindow : Window
                 {
                     TokenHandler.ParseToken(res.token);
                     SetIdentity(res.token);
+                    var fullName = IdentitySingelton.GetInstance().Name;
 
                     MainWindow window = new MainWindow();
                     window.Show();
 
                     this.Close();
+                    notifier.ShowInformation($"{fullName} - xush kelibsiz!");
                 }
                 else
                 {
-                    notifier.ShowError("Kirishda xatolik yuz berdi!");
+                    notifierThis.ShowError("Kirishda xatolik yuz berdi!");
                     LoginLoader.Visibility = Visibility.Collapsed;
                     LoginBtn.Visibility = Visibility.Visible;
                 }
             }
             else
             {
-                notifier.ShowWarning("Ma'lumotlar kiritilganini tekshiring!");
+                notifierThis.ShowWarning("Ma'lumotlar kiritilganini tekshiring!");
                 LoginLoader.Visibility = Visibility.Collapsed;
                 LoginBtn.Visibility = Visibility.Visible;
             }
         }
         catch(Exception ex)
         {
-            notifier.ShowError("Xatolik yuz berdi, qayta urining");
+            notifierThis.ShowError("Xatolik yuz berdi, qayta urining");
             LoginLoader.Visibility = Visibility.Collapsed;  
             LoginBtn.Visibility = Visibility.Visible;
         }

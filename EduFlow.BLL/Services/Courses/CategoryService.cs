@@ -62,8 +62,7 @@ public class CategoryService(
         try
         {
             var categories = await _unitOfWork.Category
-                .GetAllAsync()
-                .Where(x => x.IsDeleted == false)
+                .GetAllFullInformation()
                 .ToListAsync(cancellationToken);
 
             if (!categories.Any())
