@@ -2,10 +2,10 @@
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.StudentForComponents;
 using EduFlow.Desktop.Integrated.Security;
+using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Domain.Enums;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -22,12 +22,14 @@ public partial class StudentPage : Page
 {
     private readonly IStudentService _service;
     private readonly ITeacherService _teacherService;
+    private readonly ICategoryService _categoryService;
     private TeacherForResultDto _teacher;
     public StudentPage()
     {
         InitializeComponent();
         this._service = new StudentService();
         this._teacherService = new TeacherService();
+        this._categoryService = new CategoryService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -64,6 +66,26 @@ public partial class StudentPage : Page
         var students = await Task.Run(async () => await _service.GetAllByTeacherIdAsync(teacherId));
 
         ShowStudents(students);
+    }
+
+    private async Task GetAllCategory()
+    {
+        var categories = await Task.Run(async () => await _categoryService.GetAllAsync());
+
+        if (categories.Any())
+        {
+            foreach (var category in categories)
+            {
+                ComboBoxItem item = new ComboBoxItem();
+                item.Content = category.Name;
+                item.Tag = category.Id;
+                courseComboBox.Items.Add(item);
+            }
+        }
+        else
+        {
+            notifier.ShowInformation("Kurslar topilmadi!");
+        }
     }
 
     private void ShowStudents(List<StudentForResultDto> students)
@@ -135,6 +157,7 @@ public partial class StudentPage : Page
         else
         {
             await GetAllStudent();
+            await GetAllCategory();
         }
     }
 
