@@ -196,6 +196,13 @@ public partial class MainPage : Page
         {
             var teacherId = await GetTeacher(id);
 
+            if(teacherId == 0)
+            {
+                stCourses.Children.Clear();
+                emptyDataForCourse.Visibility = Visibility.Visible;
+                return;
+            }
+
             await GetAllTeacherCourses(teacherId);
             categoryComboBox.Visibility = Visibility.Collapsed;
             createCategoryBtn.Visibility = Visibility.Collapsed;

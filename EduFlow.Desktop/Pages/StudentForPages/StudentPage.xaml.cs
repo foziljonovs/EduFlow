@@ -1,9 +1,17 @@
 ﻿using EduFlow.BLL.DTOs.Users.Student;
+using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.StudentForComponents;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
+using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Domain.Enums;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace EduFlow.Desktop.Pages.StudentForPages;
 
@@ -13,11 +21,32 @@ namespace EduFlow.Desktop.Pages.StudentForPages;
 public partial class StudentPage : Page
 {
     private readonly IStudentService _service;
+    private readonly ITeacherService _teacherService;
+    private TeacherForResultDto _teacher;
     public StudentPage()
     {
         InitializeComponent();
         this._service = new StudentService();
+        this._teacherService = new TeacherService();
     }
+
+    Notifier notifier = new Notifier(cfg =>
+    {
+        cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
+            corner: Corner.TopRight,
+            offsetX: 20,
+            offsetY: 20);
+
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+
+        cfg.Dispatcher = Application.Current.Dispatcher;
+
+        cfg.DisplayOptions.Width = 200;
+        cfg.DisplayOptions.TopMost = true;
+    });
 
     private async Task GetAllStudent()
     {
@@ -61,8 +90,45 @@ public partial class StudentPage : Page
         }
     }
 
+    private async Task<long> GetTeacher(long userId)
+    {
+        var teacher = await Task.Run(async () => await _teacherService.GetByUserIdAsync(userId));
+
+        if (teacher is null)
+        {
+            notifier.ShowInformation("Ustoz topilmadi!");
+            return 0;
+        }
+
+        _teacher = teacher;
+        return teacher.Id;
+    }
+
+    private async Task LoadPage()
+    {
+        var id = IdentitySingelton.GetInstance().Id;
+        var role = IdentitySingelton.GetInstance().Role;
+
+        if(role is UserRole.Teacher)
+        {
+            var teacherId = await GetTeacher(id);
+            if(teacherId == 0)
+            {
+                stStudents.Children.Clear();
+                emptyDataForStudent.Visibility = Visibility.Visible;
+                return;
+            }
+
+
+        }
+        else
+        {
+            await GetAllStudent();
+        }
+    }
+
     private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
     {
-        GetAllStudent();
+        LoadPage();
     }
 }
