@@ -64,8 +64,8 @@
                        VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="5"
-                       x:Name="tbActive"
-                       Text="O'qiyapdi"
+                       x:Name="tbCourse"
+                       Text="AKT Pro - 1"
                        FontFamily="Jetbrains Mono"
                        FontSize="14"
                        FontWeight="SemiBold"

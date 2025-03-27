@@ -1,5 +1,4 @@
 ﻿using EduFlow.BLL.DTOs.Users.Student;
-using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
 using EduFlow.Desktop.Integrated.Servers.Repositories.Users.Student;
 
@@ -43,6 +42,19 @@ public class StudentService : IStudentService
         try
         {
             var result = await _server.GetAllAsync();
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return new List<StudentForResultDto>();
+        }
+    }
+
+    public async Task<List<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId)
+    {
+        try
+        {
+            var result = await _server.GetAllByTeacherIdAsync(teacherId);
             return result;
         }
         catch (Exception ex)

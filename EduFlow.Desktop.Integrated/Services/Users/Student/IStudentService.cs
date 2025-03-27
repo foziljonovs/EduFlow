@@ -9,4 +9,5 @@ public interface IStudentService
     Task<bool> AddAsync(StudentForCreateDto dto);
     Task<bool> UpdateAsync(long id, StudentForUpdateDto dto);
     Task<bool> DeleteAsync(long id);
+    Task<List<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId);
 }

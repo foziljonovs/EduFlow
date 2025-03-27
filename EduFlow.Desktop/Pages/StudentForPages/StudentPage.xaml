@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EduFlow.Desktop.Pages.StudentForPages" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
       mc:Ignorable="d"
-      Title="StudentPage">
+      Title="StudentPage"
+      Loaded="Page_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -109,7 +110,7 @@
                        VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="5"
-                       Text="Holati"
+                       Text="Guruh"
                        FontSize="12"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"
@@ -138,7 +139,7 @@
                        Text="O'quvchilar topilmadi!"
                        FontSize="14"
                        FontFamily="Jetbrains Mono"
-                       FontWeight="ExtraBold"
+                       FontWeight="SemiBold"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        Visibility="Collapsed"/>
