@@ -57,6 +57,15 @@ public partial class StudentPage : Page
         ShowStudents(students);
     }
 
+    private async Task GetAllStudentByTeacher(long teacherId)
+    {
+        stStudents.Children.Clear();
+        studentLoader.Visibility = Visibility.Visible;
+        var students = await Task.Run(async () => await _service.GetAllByTeacherIdAsync(teacherId));
+
+        ShowStudents(students);
+    }
+
     private void ShowStudents(List<StudentForResultDto> students)
     {
         int count = 1;
@@ -111,6 +120,8 @@ public partial class StudentPage : Page
 
         if(role is UserRole.Teacher)
         {
+            courseComboBox.Visibility = Visibility.Collapsed;
+
             var teacherId = await GetTeacher(id);
             if(teacherId == 0)
             {
@@ -119,7 +130,7 @@ public partial class StudentPage : Page
                 return;
             }
 
-
+            await GetAllStudentByTeacher(teacherId);
         }
         else
         {

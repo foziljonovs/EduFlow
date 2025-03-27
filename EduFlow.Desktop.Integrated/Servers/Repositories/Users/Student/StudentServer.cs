@@ -1,5 +1,4 @@
 ﻿using EduFlow.BLL.DTOs.Users.Student;
-using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
@@ -73,6 +72,30 @@ public class StudentServer : IStudentServer
             var token = IdentitySingelton.GetInstance().Token;
 
             client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<StudentForResultDto> students = JsonConvert.DeserializeObject<List<StudentForResultDto>>(result)!;
+
+            return students;
+        }
+        catch(Exception ex)
+        {
+            return new List<StudentForResultDto>();
+        }
+    }
+
+    public async Task<List<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/{teacherId}/teacher");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await client.GetAsync(client.BaseAddress);

@@ -85,6 +85,31 @@ public class StudentService(
         }
     }
 
+    public async Task<IEnumerable<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var existsTeacher = await _unitOfWork.Teacher.GetAsync(teacherId);
+            if (existsTeacher is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
+
+            var students = await _unitOfWork.Student
+                .GetAllFullInformation()
+                .Where(x => x.Courses.Any(x => x.TeacherId == existsTeacher.Id))
+                .ToListAsync(cancellationToken);
+
+            if (!students.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
+
+            return _mapper.Map<IEnumerable<StudentForResultDto>>(students);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all by teacher id: {teacherId}. {ex}");
+            throw;
+        }
+    }
+
     public async Task<StudentForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
         try

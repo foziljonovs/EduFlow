@@ -148,6 +148,7 @@ public partial class MainPage : Page
         {
             courseForLoader.Visibility = Visibility.Collapsed;
             emptyDataForCourse.Visibility = Visibility.Collapsed;
+
             foreach (var course in courses)
             {
                 MainForCourseComponent component = new MainForCourseComponent();
@@ -194,6 +195,12 @@ public partial class MainPage : Page
 
         if (role is Domain.Enums.UserRole.Teacher)
         {
+            categoryComboBox.Visibility = Visibility.Collapsed;
+            createCategoryBtn.Visibility = Visibility.Collapsed;
+            teacherComboBox.Visibility = Visibility.Collapsed;
+            createTeacherBtn.Visibility = Visibility.Collapsed;
+            createCourseBtn.Visibility = Visibility.Visible;
+
             var teacherId = await GetTeacher(id);
 
             if(teacherId == 0)
@@ -204,11 +211,6 @@ public partial class MainPage : Page
             }
 
             await GetAllTeacherCourses(teacherId);
-            categoryComboBox.Visibility = Visibility.Collapsed;
-            createCategoryBtn.Visibility = Visibility.Collapsed;
-            teacherComboBox.Visibility = Visibility.Collapsed;
-            createTeacherBtn.Visibility = Visibility.Collapsed;
-            createCourseBtn.Visibility = Visibility.Visible;
         }
         else
         {
