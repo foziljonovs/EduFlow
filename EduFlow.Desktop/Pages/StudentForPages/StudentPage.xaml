@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:EduFlow.Desktop.Pages.StudentForPages" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:EduFlow.Desktop.Pages.StudentForPages" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
       mc:Ignorable="d"
       Title="StudentPage">
 
@@ -22,6 +22,8 @@
                         CornerRadius="8"
                         Background="White"
                         BorderBrush="Gray"
+                        Margin="10 0"
+                        ToolTip="Telefon raqam orqali qidirish"
                         BorderThickness="1">
                     <Grid Margin="5">
                         <Grid.ColumnDefinitions>
@@ -44,7 +46,102 @@
                                  BorderThickness="0"/>
                     </Grid>
                 </Border>
+
+                <ComboBox x:Name="courseComboBox"
+                          Width="140"
+                          ToolTip="Kursni tanlash"
+                          VerticalAlignment="Center"
+                          Margin="10 0"
+                          FontSize="14"
+                          FontFamily="Jetbrains Mono">
+                    <ComboBoxItem Content="Kurslar" IsSelected="True" IsEnabled="False"/>
+                </ComboBox>
             </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Margin="3 0 18 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="No"
+                       FontSize="12"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="1"
+                       Text="Ism"
+                       FontSize="12"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBlack"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="2"
+                       Text="Yosh"
+                       FontSize="12"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="3"
+                       Text="Manzil"
+                       FontSize="12"
+                       FontFamily="Jetbrains Mono"
+                       VerticalAlignment="Center"
+                       FontWeight="ExtraBold"/>
+
+            <TextBlock Grid.Column="4"
+                       Text="Telefon raqam"
+                       FontSize="12"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="5"
+                       Text="Holati"
+                       FontSize="12"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+
+            <Button Grid.Column="6"
+                    x:Name="createStudent"
+                    Style="{DynamicResource CrudButton}"
+                    Tag="add"
+                    ToolTip="O'quvchi qo'shish"
+                    HorizontalAlignment="Right"
+                    Background="MediumSeaGreen"/>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <local1:Loader x:Name="studentLoader"
+                           HorizontalAlignment="Center"
+                           Visibility="Collapsed"/>
+
+            <ScrollViewer>
+                <StackPanel x:Name="stStudents"/>
+            </ScrollViewer>
+
+            <TextBlock x:Name="emptyDataForStudent"
+                       Text="O'quvchilar topilmadi!"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Visibility="Collapsed"/>
         </Grid>
     </Grid>
 </Page>
