@@ -1,5 +1,6 @@
 ﻿using EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Payments;
+using EduFlow.Domain.Enums;
 
 namespace EduFlow.BLL.DTOs.Users.Student;
 
