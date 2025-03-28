@@ -54,7 +54,8 @@
                           VerticalAlignment="Center"
                           Margin="10 0"
                           FontSize="14"
-                          FontFamily="Jetbrains Mono">
+                          FontFamily="Jetbrains Mono"
+                          SelectionChanged="courseComboBox_SelectionChanged">
                     <ComboBoxItem Content="Kurslar" IsSelected="True" IsEnabled="False"/>
                 </ComboBox>
             </StackPanel>
