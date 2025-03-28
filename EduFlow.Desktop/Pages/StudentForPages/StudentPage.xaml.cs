@@ -52,7 +52,6 @@ public partial class StudentPage : Page
 
     private async Task GetAllStudent()
     {
-        stStudents.Children.Clear();
         studentLoader.Visibility = Visibility.Visible;
         var students = await Task.Run(async () => await _service.GetAllAsync());
 
@@ -61,7 +60,6 @@ public partial class StudentPage : Page
 
     private async Task GetAllStudentByTeacher(long teacherId)
     {
-        stStudents.Children.Clear();
         studentLoader.Visibility = Visibility.Visible;
         var students = await Task.Run(async () => await _service.GetAllByTeacherIdAsync(teacherId));
 
@@ -91,7 +89,6 @@ public partial class StudentPage : Page
     private async Task GetAllStudentByCategory()
     {
         long categoryId = 0;
-        stStudents.Children.Clear();
         studentLoader.Visibility = Visibility.Visible;
 
         if(courseComboBox.SelectedItem is ComboBoxItem selectedComboBoxItem
@@ -106,6 +103,7 @@ public partial class StudentPage : Page
     private void ShowStudents(List<StudentForResultDto> students)
     {
         int count = 1;
+        stStudents.Children.Clear();
 
         if (students.Any())
         {
@@ -183,6 +181,6 @@ public partial class StudentPage : Page
 
     private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        GetAllCategory();
+        GetAllStudentByCategory();
     }
 }
