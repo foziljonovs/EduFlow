@@ -88,6 +88,29 @@ public class StudentServer : IStudentServer
         }
     }
 
+    public async Task<List<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/{categoryId}/category");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync(client.BaseAddress);
+            
+            var result = await response.Content.ReadAsStringAsync();
+            
+            List<StudentForResultDto> students = JsonConvert.DeserializeObject<List<StudentForResultDto>>(result)!;
+            
+            return students;
+        }
+        catch (Exception ex)
+        {
+            return new List<StudentForResultDto>();
+        }
+    }
     public async Task<List<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId)
     {
         try

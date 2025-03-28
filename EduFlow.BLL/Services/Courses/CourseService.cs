@@ -57,6 +57,37 @@ public class CourseService(
         }
     }
 
+    public async Task<bool> AddStudentsAsync(long id, List<long> studentIds, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var existsCourse = await _unitOfWork.Course.GetAsync(id);
+            if(existsCourse is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+
+            if(existsCourse.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This course has been deleted.");
+
+            if(!studentIds.Any())
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Student ids cannot be empty.");
+
+            foreach (var item in studentIds)
+            {
+                var studentExists = await _unitOfWork.Student.GetAsync(item);
+
+                if (studentExists is not null)
+                    existsCourse.Students.Add(studentExists);
+            }
+
+            var result = await _unitOfWork.Course.UpdateAsync(existsCourse);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            throw new Exception("An error occured while adding students to the course.", ex);
+        }
+    }
+
     public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
     {
         try

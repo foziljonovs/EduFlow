@@ -8,6 +8,7 @@ using EduFlow.Domain.Entities.Users;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Dynamic;
 using System.Net;
 
 namespace EduFlow.BLL.Services.Users;
@@ -81,6 +82,31 @@ public class StudentService(
         catch(Exception ex)
         {
             _logger.LogError($"An error occured while getting the students. {ex}");
+            throw;
+        }
+    }
+
+    public async Task<IEnumerable<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var existsCategory = await _unitOfWork.Category.GetAsync(categoryId);
+            if(existsCategory is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found.");
+
+            var students = await _unitOfWork.Student
+                .GetAllFullInformation()
+                .Where(x => x.Courses.Any(x => x.CategoryId == existsCategory.Id))
+                .ToListAsync(cancellationToken);
+
+            if(!students.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
+
+            return _mapper.Map<IEnumerable<StudentForResultDto>>(students);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all by category id: {categoryId}. {ex}");
             throw;
         }
     }

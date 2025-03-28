@@ -24,6 +24,19 @@ public class CourseService : ICourseService
         }
     }
 
+    public async Task<bool> AddStudentsAsync(long id, List<long> studentIds)
+    {
+        try
+        {
+            var res = await _server.AddStudentsAsync(id, studentIds);
+            return res;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
     public async Task<bool> DeleteAsync(long id)
     {
         try

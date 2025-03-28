@@ -88,6 +88,21 @@ public partial class StudentPage : Page
         }
     }
 
+    private async Task GetAllStudentByCategory()
+    {
+        long categoryId = 0;
+        stStudents.Children.Clear();
+        studentLoader.Visibility = Visibility.Visible;
+
+        if(courseComboBox.SelectedItem is ComboBoxItem selectedComboBoxItem
+            && selectedComboBoxItem.Tag != null)
+            categoryId = (long)selectedComboBoxItem.Tag;
+
+        var students = await Task.Run(async () => await _service.GetAllByCategoryIdAsync(categoryId));
+        
+        ShowStudents(students);
+    }
+
     private void ShowStudents(List<StudentForResultDto> students)
     {
         int count = 1;
@@ -164,5 +179,10 @@ public partial class StudentPage : Page
     private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
     {
         LoadPage();
+    }
+
+    private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        GetAllCategory();
     }
 }
