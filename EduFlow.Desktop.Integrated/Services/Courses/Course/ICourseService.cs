@@ -12,4 +12,5 @@ public interface ICourseService
     Task<List<CourseForResultDto>> GetAllByTeacherIdAsync(long teacherId);
     Task<List<CourseForResultDto>> GetAllByCategoryIdAsync(long categoryId);
     Task<List<CourseForResultDto>> FilterAsync(CourseForFilterDto dto);
+    Task<bool> AddStudentsAsync(long id, List<long> studentIds);
 }

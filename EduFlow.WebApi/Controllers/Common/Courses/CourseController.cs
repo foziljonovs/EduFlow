@@ -165,4 +165,22 @@ public class CourseController(
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpPost("{id:long}/students")]
+    public async Task<IActionResult> AddStudentsAsync([FromRoute] long id, [FromBody] List<long> studentIds, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.AddStudentsAsync(id, studentIds, cancellation);
+            return Ok(response);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }
