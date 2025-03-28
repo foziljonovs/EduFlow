@@ -10,4 +10,5 @@ public interface IStudentService
     Task<bool> UpdateAsync(long id, StudentForUpdateDto dto);
     Task<bool> DeleteAsync(long id);
     Task<List<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId);
+    Task<List<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId);
 }
