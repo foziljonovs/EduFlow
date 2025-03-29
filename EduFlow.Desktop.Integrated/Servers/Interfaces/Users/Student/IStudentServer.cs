@@ -9,6 +9,7 @@ public interface IStudentServer
     Task<bool> AddAsync(StudentForCreateDto dto);
     Task<bool> UpdateAsync(long id, StudentForUpdateDto dto);
     Task<bool> DeleteAsync(long id);
+    Task<StudentForResultDto> GetByPhoneNumberAsync(string phoneNumber);
     Task<List<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId);
     Task<List<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId);
 }

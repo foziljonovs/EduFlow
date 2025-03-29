@@ -44,7 +44,9 @@
                                  FontFamily="Jetbrains Mono"
                                  FontWeight="SemiBold"
                                  VerticalContentAlignment="Center"
-                                 BorderThickness="0"/>
+                                 BorderThickness="0"
+                                 MaxLength="9"
+                                 KeyDown="searchPhoneNumberForStudentTxt_KeyDown"/>
                     </Grid>
                 </Border>
 
