@@ -174,13 +174,19 @@ public partial class StudentPage : Page
         }
     }
 
+    private bool isPageLoaded = false;
     private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
     {
-        LoadPage();
+        if(!isPageLoaded)
+        {
+            isPageLoaded = true;
+            LoadPage();
+        }
     }
 
     private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        GetAllStudentByCategory();
+        if(isPageLoaded)
+            GetAllStudentByCategory();
     }
 }
