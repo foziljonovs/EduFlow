@@ -89,6 +89,19 @@ public class StudentService : IStudentService
         }
     }
 
+    public async Task<StudentForResultDto> GetByPhoneNumberAsync(string phoneNumber)
+    {
+        try
+        {
+            var result = await _server.GetByPhoneNumberAsync(phoneNumber);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return new StudentForResultDto();
+        }
+    }
+
     public async Task<bool> UpdateAsync(long id, StudentForUpdateDto dto)
     {
         try

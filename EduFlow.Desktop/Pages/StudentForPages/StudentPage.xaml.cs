@@ -174,13 +174,44 @@ public partial class StudentPage : Page
         }
     }
 
+    private bool isPageLoaded = false;
     private void Page_Loaded(object sender, System.Windows.RoutedEventArgs e)
     {
-        LoadPage();
+        if(!isPageLoaded)
+        {
+            isPageLoaded = true;
+            LoadPage();
+        }
     }
 
     private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        GetAllStudentByCategory();
+        if(isPageLoaded)
+            GetAllStudentByCategory();
+    }
+
+    private async Task GetStudentByPhoneNumber(string phoneNumber)
+    {
+        studentLoader.Visibility = Visibility.Visible;
+
+        var student = await Task.Run(async () => await _service.GetByPhoneNumberAsync(phoneNumber));
+
+        ShowStudents(new List<StudentForResultDto> { student });
+    }
+
+    private void searchPhoneNumberForStudentTxt_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+        {
+            if (string.IsNullOrWhiteSpace(searchPhoneNumberForStudentTxt.Text))
+            {
+                notifier.ShowError("Telefon raqam no'to'g'ri kiritildi!");
+                return;
+            }
+
+            var phoneNumber = "+998" + searchPhoneNumberForStudentTxt.Text;
+
+            GetStudentByPhoneNumber(phoneNumber);
+        }
     }
 }

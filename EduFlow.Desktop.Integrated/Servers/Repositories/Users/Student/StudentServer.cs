@@ -159,6 +159,30 @@ public class StudentServer : IStudentServer
         }
     }
 
+    public async Task<StudentForResultDto> GetByPhoneNumberAsync(string phoneNumber)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/{phoneNumber}/phone-number");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            StudentForResultDto student = JsonConvert.DeserializeObject<StudentForResultDto>(result)!;
+
+            return student;
+        }
+        catch(Exception ex)
+        {
+            return new StudentForResultDto();
+        }
+    }
+
     public async Task<bool> UpdateAsync(long id, StudentForUpdateDto dto)
     {
         try
