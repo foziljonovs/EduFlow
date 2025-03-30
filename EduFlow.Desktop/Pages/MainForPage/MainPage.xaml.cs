@@ -199,7 +199,7 @@ public partial class MainPage : Page
             createCategoryBtn.Visibility = Visibility.Collapsed;
             teacherComboBox.Visibility = Visibility.Collapsed;
             createTeacherBtn.Visibility = Visibility.Collapsed;
-            createCourseBtn.Visibility = Visibility.Visible;
+            createCourseBtn.Visibility = Visibility.Collapsed;
 
             var teacherId = await GetTeacher(id);
 

@@ -196,6 +196,12 @@ public partial class StudentPage : Page
 
         var student = await Task.Run(async () => await _service.GetByPhoneNumberAsync(phoneNumber));
 
+        if(!string.IsNullOrEmpty(student.PhoneNumber))
+        {
+            stStudents.Children.Clear();
+            emptyDataForStudent.Visibility = Visibility.Visible;
+        }
+
         ShowStudents(new List<StudentForResultDto> { student });
     }
 
