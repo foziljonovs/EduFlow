@@ -5,6 +5,7 @@ using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using EduFlow.Desktop.Windows.StudentForWindows;
 using EduFlow.Domain.Enums;
 using System.Windows;
 using System.Windows.Controls;
@@ -219,5 +220,11 @@ public partial class StudentPage : Page
 
             GetStudentByPhoneNumber(phoneNumber);
         }
+    }
+
+    private void createStudent_Click(object sender, RoutedEventArgs e)
+    {
+        StudentForCreateWindow window = new StudentForCreateWindow();
+        window.ShowDialog();
     }
 }
