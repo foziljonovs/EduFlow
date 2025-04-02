@@ -89,20 +89,18 @@
         <Setter Property="Height" Value="40"/>
         <Setter Property="Margin" Value="0 10"/>
         <Setter Property="FontSize" Value="18"/>
-        <Setter Property="Padding" Value="10"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="5"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="#FFCCCCCC"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
                     <Border CornerRadius="10" 
-                            Background="#FFF5F5F5" 
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                        Background="#FFF5F5F5" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}">
                         <ScrollViewer x:Name="PART_ContentHost"
-                                  Margin="{TemplateBinding Padding}"
-                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                  Margin="5,0,0,0"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -113,5 +111,4 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
 </ResourceDictionary>

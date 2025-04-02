@@ -286,7 +286,7 @@
                     <Border x:Name="B"
                             CornerRadius="5"
                             BorderThickness="1"
-                            BorderBrush="#FFCCCCCC"
+                            BorderBrush="MediumSeaGreen"
                             Background="Transparent">
                         <Label
                             x:Name="Lbl"
@@ -303,7 +303,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
-                            <Setter TargetName="B" Property="Background" Value="Silver"/>
+                            <Setter TargetName="B" Property="Background" Value="MediumSpringGreen"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
