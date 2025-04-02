@@ -126,7 +126,8 @@
                     Tag="add"
                     ToolTip="O'quvchi qo'shish"
                     HorizontalAlignment="Right"
-                    Background="MediumSeaGreen"/>
+                    Background="MediumSeaGreen"
+                    Click="createStudent_Click"/>
         </Grid>
 
         <Grid Grid.Row="2">
