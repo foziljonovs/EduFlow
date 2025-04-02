@@ -277,24 +277,22 @@
     </Style>
 
     <Style x:Key="saveButton" TargetType="{x:Type Button}">
-        <Setter Property="Height" Value="40"/>
+        <Setter Property="Height" Value="45"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Margin" Value="0 5"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="B"
-                            CornerRadius="5"
-                            BorderThickness="1"
-                            BorderBrush="MediumSeaGreen"
-                            Background="Transparent">
+                            CornerRadius="10"
+                            Background="MediumSeaGreen">
                         <Label
                             x:Name="Lbl"
                             Grid.Column="1"
                             FontFamily="Jetbrains Mono"
                             Content="Saqlash"
                             FontWeight="SemiBold"
-                            Foreground="Black"
+                            Foreground="White"
                             FontSize="16"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"/>

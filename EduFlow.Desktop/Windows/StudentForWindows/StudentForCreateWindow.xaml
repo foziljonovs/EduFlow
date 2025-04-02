@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EduFlow.Desktop.Windows.StudentForWindows"
         mc:Ignorable="d"
         Title="StudentForCreateWindow"
-        Height="400"
+        Height="450"
         Width="450"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None">
@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <TextBlock Text="O'quvchini ro'yxatga olish"
+            <TextBlock Text="Ro'yxatga olish"
                    FontSize="20"
                    FontFamily="Jetbrains Mono"
                    FontWeight="SemiBold"
@@ -40,8 +40,7 @@
                        Margin="10 0"/>
             <TextBox x:Name="fullNameTxt"
                      Style="{StaticResource CustomTextBoxStyle}"
-                     FontWeight="SemiBold"
-                     Text="salom"/>
+                     FontWeight="SemiBold"/>
 
 
             <TextBlock Text="Yosh"
