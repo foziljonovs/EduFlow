@@ -24,6 +24,19 @@ public class StudentService : IStudentService
         }
     }
 
+    public async Task<bool> AddStudentByCourseAsync(long studentId, long courseId)
+    {
+        try
+        {
+            var result = await _server.AddStudentByCourseAsync(studentId, courseId);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
     public async Task<bool> DeleteAsync(long id)
     {
         try

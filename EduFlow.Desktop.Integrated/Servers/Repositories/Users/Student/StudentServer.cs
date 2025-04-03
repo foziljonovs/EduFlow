@@ -41,6 +41,31 @@ public class StudentServer : IStudentServer
         }
     }
 
+    public async Task<bool> AddStudentByCourseAsync(long studentId, long courseId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/{studentId}/courses/{courseId}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress);
+
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return false;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
     public async Task<bool> DeleteAsync(long id)
     {
         try
