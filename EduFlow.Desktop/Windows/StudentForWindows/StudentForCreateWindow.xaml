@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EduFlow.Desktop.Windows.StudentForWindows"
         mc:Ignorable="d"
         Title="StudentForCreateWindow"
-        Height="450"
+        Height="470"
         Width="450"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None">
@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <TextBlock Text="Ro'yxatga olish"
+            <TextBlock Text="O'quvchi ro'yxatga olish"
                    FontSize="20"
                    FontFamily="Jetbrains Mono"
                    FontWeight="SemiBold"
@@ -32,7 +32,7 @@
         </Grid>
 
         <StackPanel Grid.Row="1"
-                    Margin="10 0">
+                    Margin="10 5">
             <TextBlock Text="To'liq ism"
                        FontSize="13"
                        Foreground="Gray"
@@ -42,12 +42,27 @@
                      Style="{StaticResource CustomTextBoxStyle}"
                      FontWeight="SemiBold"/>
 
-
-            <TextBlock Text="Yosh"
+            <TextBlock Text="Yashash manzil"
                        FontSize="13"
                        Foreground="Gray"
                        FontWeight="Medium"
                        Margin="10 0"/>
+            <TextBox x:Name="addressTxt"
+                     Style="{DynamicResource CustomTextBoxStyle}"
+                     FontWeight="SemiBold"/>
+            
+            <TextBlock Text="Telefon raqam"
+                       FontSize="13"
+                       Foreground="Gray"
+                       FontWeight="Medium"
+                       Margin="10 0"/>
+            <TextBox x:Name="phoneNumberTxt"
+                     Text="+998"
+                     Style="{DynamicResource CustomTextBoxStyle}"
+                     FontWeight="SemiBold"
+                     MaxLength="13"/>
+
+
             <ComboBox x:Name="AgeComboBox"
                       Height="40"
                       FontSize="18"
@@ -55,6 +70,7 @@
                       FontFamily="Jetbrains Mono"
                       FontWeight="SemiBold"
                       Margin="0 5 0 10">
+                <ComboBoxItem Content="O'quvchi yoshini tanlang" IsSelected="True" IsEnabled="False"/>
                 <ComboBoxItem Content="7"/>
                 <ComboBoxItem Content="8"/>
                 <ComboBoxItem Content="9"/>
@@ -76,24 +92,15 @@
                 <ComboBoxItem Content="25"/>
             </ComboBox>
 
-            <TextBlock Text="Yashash manzil"
-                       FontSize="13"
-                       Foreground="Gray"
-                       FontWeight="Medium"
-                       Margin="10 0"/>
-            <TextBox x:Name="addressTxt"
-                     Style="{DynamicResource CustomTextBoxStyle}"
-                     FontWeight="SemiBold"/>
-
-            <TextBlock Text="Telefon raqam"
-                       FontSize="13"
-                       Foreground="Gray"
-                       FontWeight="Medium"
-                       Margin="10 0"/>
-            <TextBox x:Name="phoneNumberTxt"
-                     Style="{DynamicResource CustomTextBoxStyle}"
-                     FontWeight="SemiBold"/>
-
+            <ComboBox x:Name="CourseComboBox"
+                      Height="40"
+                      FontSize="18"
+                      VerticalContentAlignment="Center"
+                      FontFamily="Jetbrains Mono"
+                      FontWeight="SemiBold"
+                      Margin="0 5 0 10">
+                <ComboBoxItem Content="Kurs tanlang" IsSelected="True" IsEnabled="False"/>
+            </ComboBox>
             <Button x:Name="saveBtn"
                     Style="{DynamicResource saveButton}"/>
         </StackPanel>
