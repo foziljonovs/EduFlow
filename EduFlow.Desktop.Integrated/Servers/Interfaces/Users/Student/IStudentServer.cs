@@ -12,4 +12,5 @@ public interface IStudentServer
     Task<StudentForResultDto> GetByPhoneNumberAsync(string phoneNumber);
     Task<List<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId);
     Task<List<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId);
+    Task<bool> AddStudentByCourseAsync(long studentId, long courseId);
 }

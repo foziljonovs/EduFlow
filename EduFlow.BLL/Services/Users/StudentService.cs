@@ -48,6 +48,30 @@ public class StudentService(
         }
     }
 
+    public async Task<bool> AddStudentByCourseAsync(long studentId, long courseId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var existsStudent = await _unitOfWork.Student.GetAsync(studentId);
+            if (existsStudent is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
+
+            var existsCourse = await _unitOfWork.Course.GetAsync(courseId);
+            if (existsCourse is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+
+            existsStudent.Courses.Add(existsCourse);
+            var res = await _unitOfWork.Student.UpdateAsync(existsStudent);
+
+            return res;
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while add student by course - id: {courseId}. {ex}");
+            throw;
+        }
+    }
+
     public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
     {
         try

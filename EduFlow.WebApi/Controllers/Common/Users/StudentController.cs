@@ -4,6 +4,7 @@ using EduFlow.BLL.Interfaces.Users;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace EduFlow.WebApi.Controllers.Common.Users;
 
@@ -161,6 +162,24 @@ public class StudentController(
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
         catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpPost("{studentId:long}/courses/{courseId:long}")]
+    public async Task<IActionResult> AddStudentByCourseAsync([FromRoute] long studentId, [FromRoute] long courseId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.AddStudentByCourseAsync(studentId, courseId, cancellation);
+            return Ok(response);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch(Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
