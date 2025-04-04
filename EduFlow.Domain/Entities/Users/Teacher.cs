@@ -10,6 +10,11 @@ public class Teacher : BaseEntity
     public string[] Skills { get; set; }
     [Column("user_id")]
     public required long UserId { get; set; }
+    [Column("user")]
     public User User { get; set; }
-    public List<Course> Courses { get; set; } = new List<Course>();
+    [Column("course_id")]
+    public required long CourseId { get; set; }
+    [Column("course")]
+    public Course Course { get; set; }
+    public List<Group> Groups { get; set; } = new List<Group>();
 }

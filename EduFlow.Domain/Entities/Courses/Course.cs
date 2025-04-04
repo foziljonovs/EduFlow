@@ -1,5 +1,4 @@
 ﻿using EduFlow.Domain.Entities.Base;
-using EduFlow.Domain.Entities.Payments;
 using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,6 +23,5 @@ public class Course : BaseEntity
     public long CategoryId { get; set; }
     [Column("category")]
     public Category Category { get; set; }
-    public List<Student> Students { get; set; } = new List<Student>();
-    public List<Payment> Payments { get; set; } = new List<Payment>();
+    public List<Group> Groups { get; set; } = new List<Group>();
 }
