@@ -12,6 +12,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Teacher> Teachers { get; set; }
     public DbSet<Student> Students { get; set; }
     public DbSet<Course> Courses { get; set; }
+    public DbSet<Group> Groups { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Attendance> Attendances { get; set; }
     public DbSet<Registry> Registry { get; set; }

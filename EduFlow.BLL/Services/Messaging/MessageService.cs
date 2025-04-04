@@ -53,7 +53,7 @@ public class MessageService(
         {
             var messages = await _unitOfWork.Message
                 .GetAllAsync()
-                .Where(x => x.CourseId == courseId && x.IsDeleted == false)
+                .Where(x => x.GroupId == courseId && x.IsDeleted == false)
                 .ToListAsync();
 
             if (!messages.Any())
@@ -132,12 +132,12 @@ public class MessageService(
             var savedMessage = await _unitOfWork.Message.AddConfirmAsync(message);
 
             await _hubContext.Clients
-                .User(existsCourse.TeacherId.ToString())
+                .User(existsCourse.Teachers.First().User.Firstname)
                 .SendAsync(
                     "ReceiveMessage",
                     dto.Text);
 
-            _logger.LogInformation($"{existsCourse.TeacherId} - send message.");
+            _logger.LogInformation($"{existsCourse.Teachers.First().Id} - send message.");
 
             return savedMessage;
         }

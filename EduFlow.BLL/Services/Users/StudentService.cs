@@ -60,7 +60,7 @@ public class StudentService(
             if (existsCourse is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 
-            existsStudent.Courses.Add(existsCourse);
+            //existsStudent.Groups.Add(existsCourse);
             var res = await _unitOfWork.Student.UpdateAsync(existsStudent);
 
             return res;
@@ -120,7 +120,7 @@ public class StudentService(
 
             var students = await _unitOfWork.Student
                 .GetAllFullInformation()
-                .Where(x => x.Courses.Any(x => x.CategoryId == existsCategory.Id))
+                //.Where(x => x.Groups.Any(x => x.CategoryId == existsCategory.Id))
                 .ToListAsync(cancellationToken);
 
             if(!students.Any())
@@ -145,7 +145,7 @@ public class StudentService(
 
             var students = await _unitOfWork.Student
                 .GetAllFullInformation()
-                .Where(x => x.Courses.Any(x => x.TeacherId == existsTeacher.Id))
+                //.Where(x => x.Courses.Any(x => x.TeacherId == existsTeacher.Id))
                 .ToListAsync(cancellationToken);
 
             if (!students.Any())

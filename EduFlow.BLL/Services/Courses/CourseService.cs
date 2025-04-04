@@ -44,8 +44,8 @@ public class CourseService(
             foreach(var item in dto.StudentIds)
             {
                 var studentExists = await _unitOfWork.Student.GetAsync(item);
-                if(studentExists is not null)
-                    savedCourse.Students.Add(studentExists);
+                //if(studentExists is not null)
+                    //savedCourse.Students.Add(studentExists);
             }
 
             return await _unitOfWork.Course.AddConfirmAsync(savedCourse);
@@ -75,8 +75,8 @@ public class CourseService(
             {
                 var studentExists = await _unitOfWork.Student.GetAsync(item);
 
-                if (studentExists is not null)
-                    existsCourse.Students.Add(studentExists);
+                //if (studentExists is not null)
+                //    existsCourse.Students.Add(studentExists);
             }
 
             var result = await _unitOfWork.Course.UpdateAsync(existsCourse);
@@ -131,7 +131,7 @@ public class CourseService(
 
             if(dto.TeacherId > 0)
                 courseQuery = courseQuery
-                    .Where(x => x.TeacherId == dto.TeacherId);
+                    .Where(x => x.Teachers.Any(t => t.Id == dto.TeacherId));
 
             var courses = await courseQuery.ToListAsync(cancellationToken);
 
@@ -202,7 +202,7 @@ public class CourseService(
 
             var courses = await _unitOfWork.Course
                 .GetAllFullInformation()
-                .Where(x => x.TeacherId == teacherId)
+                .Where(x => x.Teachers.Any(t => t.Id == teacherId))
                 .ToListAsync();
 
             if (!courses.Any())
@@ -267,8 +267,8 @@ public class CourseService(
             foreach (var item in dto.StudentIds)
             {
                 var studentExists = await _unitOfWork.Student.GetAsync(item);
-                if (studentExists is not null)
-                    existsCourse.Students.Add(studentExists);
+                //if (studentExists is not null)
+                //    existsCourse.Students.Add(studentExists);
             }
 
             return await _unitOfWork.Course.UpdateAsync(existsCourse);
