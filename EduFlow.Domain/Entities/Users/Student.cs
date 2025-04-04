@@ -17,5 +17,5 @@ public class Student : BaseEntity
     [Column("phone_number")]
     public required string PhoneNumber { get; set; }
     public List<Payment> Payments { get; set; } = new List<Payment>();
-    public List<Course> Courses { get; set; } = new List<Course>();
+    public List<Group> Groups { get; set; } = new List<Group>();
 }

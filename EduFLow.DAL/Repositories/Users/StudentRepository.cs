@@ -19,5 +19,5 @@ public class StudentRepository : Repository<Student>, IStudentRepository
         => _dbSet
             .Where(x => !x.IsDeleted)
             .Include(x => x.Payments)
-            .Include(x => x.Courses);
+            .Include(x => x.Groups);
 }

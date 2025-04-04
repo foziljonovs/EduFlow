@@ -22,21 +22,6 @@ namespace EduFlow.DAL.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CourseStudent", b =>
-                {
-                    b.Property<long>("CoursesId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("StudentsId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("CoursesId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("CourseStudent");
-                });
-
             modelBuilder.Entity("EduFlow.Domain.Entities.Courses.Attendance", b =>
                 {
                     b.Property<long>("Id")
@@ -46,10 +31,6 @@ namespace EduFlow.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("CourseId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("course_id");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
@@ -57,6 +38,10 @@ namespace EduFlow.DAL.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("date");
+
+                    b.Property<long>("GroupId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("group_id");
 
                     b.Property<bool>("IsActived")
                         .HasColumnType("boolean")
@@ -76,7 +61,7 @@ namespace EduFlow.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId");
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("StudentId");
 
@@ -150,10 +135,6 @@ namespace EduFlow.DAL.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("price");
 
-                    b.Property<long>("TeacherId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("teacher_id");
-
                     b.Property<DateTime>("Term")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("term");
@@ -166,9 +147,47 @@ namespace EduFlow.DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("EduFlow.Domain.Entities.Courses.Group", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("CourseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<int>("IsStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<long?>("TeacherId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("EduFlow.Domain.Entities.Messaging.Message", b =>
@@ -180,13 +199,13 @@ namespace EduFlow.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("CourseId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("course_id");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<long>("GroupId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("group_id");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
@@ -211,7 +230,7 @@ namespace EduFlow.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId");
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("StudentId");
 
@@ -231,13 +250,13 @@ namespace EduFlow.DAL.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("amount");
 
-                    b.Property<long>("CourseId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("course_id");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<long>("GroupId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("group_id");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
@@ -261,7 +280,7 @@ namespace EduFlow.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId");
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("RegistryId");
 
@@ -360,6 +379,10 @@ namespace EduFlow.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<long>("CourseId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("course_id");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
@@ -381,6 +404,8 @@ namespace EduFlow.DAL.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("UserId");
 
@@ -444,26 +469,26 @@ namespace EduFlow.DAL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CourseStudent", b =>
+            modelBuilder.Entity("GroupStudent", b =>
                 {
-                    b.HasOne("EduFlow.Domain.Entities.Courses.Course", null)
-                        .WithMany()
-                        .HasForeignKey("CoursesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<long>("GroupsId")
+                        .HasColumnType("bigint");
 
-                    b.HasOne("EduFlow.Domain.Entities.Users.Student", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<long>("StudentsId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("GroupsId", "StudentsId");
+
+                    b.HasIndex("StudentsId");
+
+                    b.ToTable("GroupStudent");
                 });
 
             modelBuilder.Entity("EduFlow.Domain.Entities.Courses.Attendance", b =>
                 {
-                    b.HasOne("EduFlow.Domain.Entities.Courses.Course", "Course")
+                    b.HasOne("EduFlow.Domain.Entities.Courses.Group", "Group")
                         .WithMany()
-                        .HasForeignKey("CourseId")
+                        .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -473,7 +498,7 @@ namespace EduFlow.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Course");
+                    b.Navigation("Group");
 
                     b.Navigation("Student");
                 });
@@ -486,22 +511,25 @@ namespace EduFlow.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EduFlow.Domain.Entities.Users.Teacher", "Teacher")
-                        .WithMany("Courses")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Category");
+                });
 
-                    b.Navigation("Teacher");
+            modelBuilder.Entity("EduFlow.Domain.Entities.Courses.Group", b =>
+                {
+                    b.HasOne("EduFlow.Domain.Entities.Courses.Course", null)
+                        .WithMany("Groups")
+                        .HasForeignKey("CourseId");
+
+                    b.HasOne("EduFlow.Domain.Entities.Users.Teacher", null)
+                        .WithMany("Groups")
+                        .HasForeignKey("TeacherId");
                 });
 
             modelBuilder.Entity("EduFlow.Domain.Entities.Messaging.Message", b =>
                 {
-                    b.HasOne("EduFlow.Domain.Entities.Courses.Course", "Course")
+                    b.HasOne("EduFlow.Domain.Entities.Courses.Group", "Group")
                         .WithMany()
-                        .HasForeignKey("CourseId")
+                        .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -511,16 +539,16 @@ namespace EduFlow.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Course");
+                    b.Navigation("Group");
 
                     b.Navigation("Student");
                 });
 
             modelBuilder.Entity("EduFlow.Domain.Entities.Payments.Payment", b =>
                 {
-                    b.HasOne("EduFlow.Domain.Entities.Courses.Course", "Course")
+                    b.HasOne("EduFlow.Domain.Entities.Courses.Group", "Group")
                         .WithMany("Payments")
-                        .HasForeignKey("CourseId")
+                        .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -536,7 +564,7 @@ namespace EduFlow.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Course");
+                    b.Navigation("Group");
 
                     b.Navigation("Registry");
 
@@ -545,13 +573,36 @@ namespace EduFlow.DAL.Migrations
 
             modelBuilder.Entity("EduFlow.Domain.Entities.Users.Teacher", b =>
                 {
+                    b.HasOne("EduFlow.Domain.Entities.Courses.Course", "Course")
+                        .WithMany("Teachers")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EduFlow.Domain.Entities.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Course");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("GroupStudent", b =>
+                {
+                    b.HasOne("EduFlow.Domain.Entities.Courses.Group", null)
+                        .WithMany()
+                        .HasForeignKey("GroupsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EduFlow.Domain.Entities.Users.Student", null)
+                        .WithMany()
+                        .HasForeignKey("StudentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EduFlow.Domain.Entities.Courses.Category", b =>
@@ -560,6 +611,13 @@ namespace EduFlow.DAL.Migrations
                 });
 
             modelBuilder.Entity("EduFlow.Domain.Entities.Courses.Course", b =>
+                {
+                    b.Navigation("Groups");
+
+                    b.Navigation("Teachers");
+                });
+
+            modelBuilder.Entity("EduFlow.Domain.Entities.Courses.Group", b =>
                 {
                     b.Navigation("Payments");
                 });
@@ -571,7 +629,7 @@ namespace EduFlow.DAL.Migrations
 
             modelBuilder.Entity("EduFlow.Domain.Entities.Users.Teacher", b =>
                 {
-                    b.Navigation("Courses");
+                    b.Navigation("Groups");
                 });
 #pragma warning restore 612, 618
         }

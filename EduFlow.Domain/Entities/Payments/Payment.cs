@@ -11,10 +11,10 @@ public class Payment : BaseEntity
     public required long StudentId { get; set; }
     [Column("student")]
     public Student Student { get; set; }
-    [Column("course_id")]
-    public required long CourseId { get; set; }
-    [Column("course")]
-    public Course Course { get; set; }
+    [Column("group_id")]
+    public required long GroupId { get; set; }
+    [Column("group")]
+    public Group Group { get; set; }
     [Column("registry_id")]
     public required long RegistryId { get; set; }
     [Column("registry")]

@@ -18,6 +18,5 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
     public IQueryable<Category> GetAllFullInformation()
         => _dbSet
             .Where(x => !x.IsDeleted)
-            .Include(x => x.Courses)
-                .ThenInclude(c => c.Students);
+            .Include(x => x.Courses);
 }

@@ -62,7 +62,7 @@ public partial class CoursePage : Page
             {
                 CourseForComponent component = new CourseForComponent();
                 component.Tag = category;
-                component.SetValues(count, category.Id, category.Name, category.Courses.Count, category.Courses.Sum(x => x.Students.Count));
+                //component.SetValues(count, category.Id, category.Name, category.Courses.Count, category.Courses.Sum(x => x.Students.Count));
                 stCategories.Children.Add(component);
                 count++;
             }

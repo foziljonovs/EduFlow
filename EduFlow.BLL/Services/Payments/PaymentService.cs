@@ -98,7 +98,7 @@ public class PaymentService(
         {
             var payments = await _unitOfWork.Payment
                 .GetAllAsync()
-                .Where(x => x.CourseId == courseId && x.IsDeleted == false)
+                .Where(x => x.GroupId == courseId && x.IsDeleted == false)
                 .ToListAsync(cancellationToken);
 
             if (!payments.Any())
