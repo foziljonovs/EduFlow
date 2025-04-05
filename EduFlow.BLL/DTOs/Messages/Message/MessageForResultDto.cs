@@ -10,8 +10,8 @@ public class MessageForResultDto
     public DateTime UpdatedAt { get; set; }
     public long StudentId { get; set; }
     public Student Student { get; set; }
-    public long CourseId { get; set; }
-    public Course Course { get; set; }
+    public long GroupId { get; set; }
+    public Group Group { get; set; }
     public string Text { get; set; }
     public string PhoneNumber { get; set; }
 }

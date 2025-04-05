@@ -47,13 +47,13 @@ public class MessageService(
         }
     }
 
-    public async Task<IEnumerable<MessageForResultDto>> GetAllByCourseIdAsync(long courseId, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<MessageForResultDto>> GetAllByGroupIdAsync(long groupId, CancellationToken cancellationToken = default)
     {
         try
         {
             var messages = await _unitOfWork.Message
                 .GetAllAsync()
-                .Where(x => x.GroupId == courseId && x.IsDeleted == false)
+                .Where(x => x.GroupId == groupId && x.IsDeleted == false)
                 .ToListAsync();
 
             if (!messages.Any())
@@ -63,7 +63,7 @@ public class MessageService(
         }
         catch(Exception ex)
         {
-            _logger.LogError($"An error occured while get all message by course id: {courseId}. {ex}");
+            _logger.LogError($"An error occured while get all message by course id: {groupId}. {ex}");
             throw;
         }
     }
@@ -117,7 +117,7 @@ public class MessageService(
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
+            var existsCourse = await _unitOfWork.Course.GetAsync(dto.GroupId);
             if (existsCourse is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 

@@ -31,22 +31,11 @@ public class CourseService(
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var teacherExists = await _unitOfWork.Teacher.GetAsync(dto.TeacherId);
-            if (teacherExists is null)
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
-
             var categoryExists = await _unitOfWork.Category.GetAsync(dto.CategoryId);
             if (categoryExists is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found.");
 
             var savedCourse = _mapper.Map<Course>(dto);
-
-            foreach(var item in dto.StudentIds)
-            {
-                var studentExists = await _unitOfWork.Student.GetAsync(item);
-                //if(studentExists is not null)
-                    //savedCourse.Students.Add(studentExists);
-            }
 
             return await _unitOfWork.Course.AddConfirmAsync(savedCourse);
         }
@@ -54,37 +43,6 @@ public class CourseService(
         {
             _logger.LogError($"An error occured adding the course. {ex}");
             throw;
-        }
-    }
-
-    public async Task<bool> AddStudentsAsync(long id, List<long> studentIds, CancellationToken cancellation = default)
-    {
-        try
-        {
-            var existsCourse = await _unitOfWork.Course.GetAsync(id);
-            if(existsCourse is null)
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
-
-            if(existsCourse.IsDeleted)
-                throw new StatusCodeException(HttpStatusCode.Gone, "This course has been deleted.");
-
-            if(!studentIds.Any())
-                throw new StatusCodeException(HttpStatusCode.BadRequest, "Student ids cannot be empty.");
-
-            foreach (var item in studentIds)
-            {
-                var studentExists = await _unitOfWork.Student.GetAsync(item);
-
-                //if (studentExists is not null)
-                //    existsCourse.Students.Add(studentExists);
-            }
-
-            var result = await _unitOfWork.Course.UpdateAsync(existsCourse);
-            return result;
-        }
-        catch(Exception ex)
-        {
-            throw new Exception("An error occured while adding students to the course.", ex);
         }
     }
 
@@ -252,10 +210,6 @@ public class CourseService(
             if (existsCourse.IsDeleted)
                 throw new StatusCodeException(HttpStatusCode.Gone, "This course has been deleted.");
 
-            var existsTeacher = await _unitOfWork.Teacher.GetAsync(dto.TeacherId);
-            if (existsTeacher is null)
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
-
             var existsCategory = await _unitOfWork.Category.GetAsync(dto.CategoryId);
             if (existsCategory is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found.");
@@ -263,13 +217,6 @@ public class CourseService(
             _mapper.Map(dto, existsCourse);
             existsCourse.Id = id;
             existsCourse.UpdatedAt = DateTime.UtcNow.AddHours(5);
-
-            foreach (var item in dto.StudentIds)
-            {
-                var studentExists = await _unitOfWork.Student.GetAsync(item);
-                //if (studentExists is not null)
-                //    existsCourse.Students.Add(studentExists);
-            }
 
             return await _unitOfWork.Course.UpdateAsync(existsCourse);
         }

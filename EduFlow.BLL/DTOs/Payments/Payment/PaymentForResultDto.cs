@@ -11,8 +11,8 @@ public class PaymentForResultDto
     public DateTime UpdatedAt { get; set; }
     public long StudentId { get; set; }
     public Student Student { get; set; }
-    public long CourseId { get; set; }
-    public Course Course { get; set; }
+    public long GroupId { get; set; }
+    public Group Group { get; set; }
     public long RegistryId { get; set; }
     public Et.Registry Registry { get; set; }
     public double Amount { get; set; }

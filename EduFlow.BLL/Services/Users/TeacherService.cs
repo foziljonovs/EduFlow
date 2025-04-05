@@ -38,6 +38,10 @@ public class TeacherService(
             if (existsTeacher is not null)
                 throw new StatusCodeException(HttpStatusCode.Conflict, "Teacher already exists.");
 
+            var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
+            if (existsCourse is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+
             var savedTeacher = _mapper.Map<Teacher>(dto);
             return await _unitOfWork.Teacher.AddConfirmAsync(savedTeacher);
         }
@@ -143,6 +147,13 @@ public class TeacherService(
 
             if (existsTeacher.IsDeleted)
                 throw new StatusCodeException(HttpStatusCode.Gone, "This teacher has been deleted.");
+
+            var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
+            if (existsCourse is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+
+            if (existsCourse.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This course has been deleted.");
 
             var existsUser = await _unitOfWork.User.GetAsync(dto.UserId);
             if (existsUser is null)
