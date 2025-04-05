@@ -122,7 +122,7 @@ public partial class StudentPage : Page
                     student.Age,
                     student.Address,
                     student.PhoneNumber,
-                    student.Courses.FirstOrDefault(x => x.Archived == Status.Active).Name);
+                    student.Groups.First().Name);
 
                 stStudents.Children.Add(component);
                 count++;

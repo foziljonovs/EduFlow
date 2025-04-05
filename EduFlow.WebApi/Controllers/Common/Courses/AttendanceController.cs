@@ -130,12 +130,12 @@ public class AttendanceController(
         }
     }
 
-    [HttpGet("{courseId:long}/course")]
-    public async Task<IActionResult> GetAllByCourseIdAsync([FromRoute] long courseId, CancellationToken cancellation = default)
+    [HttpGet("{groupId:long}/group")]
+    public async Task<IActionResult> GetAllByGroupIdAsync([FromRoute] long groupId, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.GetAllByCourseIdAsync(courseId, cancellation);
+            var response = await _service.GetAllByGroupIdAsync(groupId, cancellation);
             return Ok(response);
         }
         catch(StatusCodeException ex)
