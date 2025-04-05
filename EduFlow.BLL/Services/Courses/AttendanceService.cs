@@ -30,7 +30,7 @@ public class AttendanceService(
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
+            var existsCourse = await _unitOfWork.Course.GetAsync(dto.GroupId);
             if(existsCourse is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 
@@ -108,13 +108,13 @@ public class AttendanceService(
         }
     }
 
-    public async Task<IEnumerable<AttendanceForResultDto>> GetAllByCourseIdAsync(long courseId, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<AttendanceForResultDto>> GetAllByGroupIdAsync(long groupId, CancellationToken cancellationToken = default)
     {
         try
         {
             var attendances = await _unitOfWork.Attendance
                 .GetAllAsync()
-                .Where(x => x.GroupId == courseId)
+                .Where(x => x.GroupId == groupId)
                 .ToListAsync();
 
             if (!attendances.Any())
@@ -124,7 +124,7 @@ public class AttendanceService(
         }
         catch(Exception ex)
         {
-            _logger.LogError($"An error occured while get all attendance by course id: {courseId}. {ex}");
+            _logger.LogError($"An error occured while get all attendance by course id: {groupId}. {ex}");
             throw;
         }
     }
@@ -161,7 +161,7 @@ public class AttendanceService(
             if (existsAttendance is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Attendance not found.");
 
-            var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
+            var existsCourse = await _unitOfWork.Course.GetAsync(dto.GroupId);
             if (existsCourse is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 

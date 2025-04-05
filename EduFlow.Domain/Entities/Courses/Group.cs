@@ -2,12 +2,15 @@
 using EduFlow.Domain.Entities.Payments;
 using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduFlow.Domain.Entities.Courses;
 
 public class Group : BaseEntity
 {
+    [Column("name"), MaxLength(60)]
+    public required string Name { get; set; }
     public List<Student> Students { get; set; } = new List<Student>();
     public List<Payment> Payments { get; set; } = new List<Payment>();
     [Column("status")]

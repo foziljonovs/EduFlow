@@ -157,15 +157,15 @@ public partial class MainPage : Page
                     count,
                     course.Id,
                     course.Name,
-                    course.Students?.Count ?? 0,
-                    course.Teacher?.User?.Firstname ?? "Topilmadi");
+                    course.Groups?.Count ?? 0,
+                    course.Teachers.First().User?.Firstname ?? "Topilmadi");
 
                 stCourses.Children.Add(component);
                 count++;
             }
 
             YourCoursesCount.Text = courses.Count.ToString();
-            YourStudentsCount.Text = courses.Sum(x => x.Students.Count).ToString();
+            YourStudentsCount.Text = courses.Sum(x => x.Groups.Sum(x => x.Students.Count)).ToString();
         }
         else
         {

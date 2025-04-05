@@ -48,7 +48,7 @@ public class StudentService(
         }
     }
 
-    public async Task<bool> AddStudentByCourseAsync(long studentId, long courseId, CancellationToken cancellationToken = default)
+    public async Task<bool> AddStudentByGroupAsync(long studentId, long groupId, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -56,9 +56,9 @@ public class StudentService(
             if (existsStudent is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
 
-            var existsCourse = await _unitOfWork.Course.GetAsync(courseId);
-            if (existsCourse is null)
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+            //var existsCourse = await _unitOfWork.Group.GetAsync(groupId);
+            //if (existsCourse is null)
+            //    throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 
             //existsStudent.Groups.Add(existsCourse);
             var res = await _unitOfWork.Student.UpdateAsync(existsStudent);
@@ -67,7 +67,7 @@ public class StudentService(
         }
         catch(Exception ex)
         {
-            _logger.LogError($"An error occured while add student by course - id: {courseId}. {ex}");
+            _logger.LogError($"An error occured while add student by course - id: {groupId}. {ex}");
             throw;
         }
     }

@@ -34,7 +34,7 @@ public class PaymentService(
             if (existsStudent is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
 
-            var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
+            var existsCourse = await _unitOfWork.Course.GetAsync(dto.GroupId);
             if (existsCourse is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 
@@ -92,13 +92,13 @@ public class PaymentService(
         }
     }
 
-    public async Task<IEnumerable<PaymentForResultDto>> GetAllByCourseIdAsync(long courseId, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<PaymentForResultDto>> GetAllByGroupIdAsync(long groupId, CancellationToken cancellationToken = default)
     {
         try
         {
             var payments = await _unitOfWork.Payment
                 .GetAllAsync()
-                .Where(x => x.GroupId == courseId && x.IsDeleted == false)
+                .Where(x => x.GroupId == groupId && x.IsDeleted == false)
                 .ToListAsync(cancellationToken);
 
             if (!payments.Any())
@@ -108,7 +108,7 @@ public class PaymentService(
         }
         catch(Exception ex)
         {
-            _logger.LogError($"An error occured while get all payment by course id: {courseId}. {ex}");
+            _logger.LogError($"An error occured while get all payment by course id: {groupId}. {ex}");
             throw;
         }
     }
@@ -173,7 +173,7 @@ public class PaymentService(
             if (existsStudent is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
 
-            var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
+            var existsCourse = await _unitOfWork.Course.GetAsync(dto.GroupId);
             if (existsCourse is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 

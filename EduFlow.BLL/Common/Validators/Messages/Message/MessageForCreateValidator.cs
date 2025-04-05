@@ -7,7 +7,7 @@ public class MessageForCreateValidator : AbstractValidator<MessageForCreateDto>
 {
     public MessageForCreateValidator()
     {
-        RuleFor(x => x.CourseId)
+        RuleFor(x => x.GroupId)
             .GreaterThan(0).WithMessage("Kurs Id si 0 dan katta bo'lishi kerak");
 
         RuleFor(x => x.StudentId)

@@ -11,5 +11,7 @@ public class TeacherForResultDto
     public string[] Skills { get; set; }
     public long UserId { get; set; }
     public Et.User? User { get; set; }
-    public List<Course> Courses { get; set; }
+    public long CourseId { get; set; }
+    public Course Course { get; set; }
+    public List<Group> Groups { get; set; }
 }

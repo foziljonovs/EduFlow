@@ -167,12 +167,12 @@ public class StudentController(
         }
     }
 
-    [HttpPost("{studentId:long}/courses/{courseId:long}")]
-    public async Task<IActionResult> AddStudentByCourseAsync([FromRoute] long studentId, [FromRoute] long courseId, CancellationToken cancellation = default)
+    [HttpPost("{studentId:long}/courses/{groupId:long}")]
+    public async Task<IActionResult> AddStudentByCourseAsync([FromRoute] long studentId, [FromRoute] long groupId, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.AddStudentByCourseAsync(studentId, courseId, cancellation);
+            var response = await _service.AddStudentByGroupAsync(studentId, groupId, cancellation);
             return Ok(response);
         }
         catch (StatusCodeException ex)
