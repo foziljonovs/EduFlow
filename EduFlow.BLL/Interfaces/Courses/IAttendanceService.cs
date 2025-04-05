@@ -10,5 +10,5 @@ public interface IAttendanceService
     Task<bool> UpdateAsync(long id, AttendanceForUpdateDto dto, CancellationToken cancellationToken = default);
     Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default);
     Task<IEnumerable<AttendanceForResultDto>> GetAllByStudentIdAsync(long studentId, CancellationToken cancellationToken = default);
-    Task<IEnumerable<AttendanceForResultDto>> GetAllByCourseIdAsync(long courseId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<AttendanceForResultDto>> GetAllByGroupIdAsync(long groupId, CancellationToken cancellationToken = default);
 }
