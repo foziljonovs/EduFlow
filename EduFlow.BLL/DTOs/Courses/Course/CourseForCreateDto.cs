@@ -9,7 +9,5 @@ public class CourseForCreateDto
     public double Price { get; set; }
     public DateTime Term { get; set; }
     public Status Archived { get; set; }
-    public long TeacherId { get; set; }
     public long CategoryId { get; set; }
-    public List<long> StudentIds { get; set; }
 }
