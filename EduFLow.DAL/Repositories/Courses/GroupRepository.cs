@@ -14,4 +14,13 @@ public class GroupRepository : Repository<Group>, IGroupRepository
         this._context = context;
         this._dbSet = _context.Set<Group>();
     }
+
+    public IQueryable<Group> GetAllFullInformation()
+        => _dbSet
+            .Where(x => !x.IsDeleted)
+            .Include(x => x.Course)
+                .ThenInclude(c => c.Category)
+            .Include(x => x.Course)
+                .ThenInclude(c => c.Teachers)
+            .Include(x => x.Students);
 }

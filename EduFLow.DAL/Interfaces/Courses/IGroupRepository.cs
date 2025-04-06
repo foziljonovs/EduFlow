@@ -4,4 +4,5 @@ namespace EduFlow.DAL.Interfaces.Courses;
 
 public interface IGroupRepository : IRepository<Group>
 {
+    IQueryable<Group> GetAllFullInformation();
 }

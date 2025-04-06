@@ -61,9 +61,7 @@ public class GroupService(
     {
         try
         {
-            var groupQuery = await _unitOfWork.Group.GetAllAsync()
-                .Where(x => x.IsDeleted == false)
-                .ToListAsync();
+            var groupQuery = _unitOfWork.Group.GetAllFullInformation();
 
             if(!groupQuery.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
@@ -74,21 +72,24 @@ public class GroupService(
                 var finishedDateUtc = DateTime.SpecifyKind(dto.FinishedDate.Value, DateTimeKind.Utc);
                 groupQuery = groupQuery.Where(x =>
                     x.CreatedAt >= startedDateUtc &&
-                    x.CreatedAt <= finishedDateUtc)
-                    .ToList();
+                    x.CreatedAt <= finishedDateUtc);
             }
 
             if (!string.IsNullOrEmpty(dto.Name))
                 groupQuery = groupQuery
-                    .Where(x => x.Name.ToLower().Contains(dto.Name.ToLower()))
-                    .ToList();
+                    .Where(x => x.Name.ToLower().Contains(dto.Name.ToLower()));
 
             if (dto.IsStatus.HasValue)
                 groupQuery = groupQuery
-                    .Where(x => x.IsStatus == dto.IsStatus)
-                    .ToList();
+                    .Where(x => x.IsStatus == dto.IsStatus);
 
-            return _mapper.Map<IEnumerable<GroupForResultDto>>(groupQuery);
+            var groups = await groupQuery
+                .ToListAsync(cancellationToken);
+
+            if(!groups.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
+
+            return _mapper.Map<IEnumerable<GroupForResultDto>>(groups);
         }
         catch (Exception ex)
         {
@@ -101,9 +102,7 @@ public class GroupService(
     {
         try
         {
-            var groups = await _unitOfWork.Group
-                .GetAllAsync()
-                .Where(x => x.IsDeleted == false)
+            var groups = await _unitOfWork.Group.GetAllFullInformation()
                 .ToListAsync(cancellationToken);
 
             if (!groups.Any())
@@ -122,9 +121,8 @@ public class GroupService(
     {
         try
         {
-            var groups = await _unitOfWork.Group
-                .GetAllAsync()
-                .Where(x => x.IsDeleted == false && x.CourseId == courseId)
+            var groups = await _unitOfWork.Group.GetAllFullInformation()
+                .Where(x => x.CourseId == courseId)
                 .ToListAsync(cancellationToken);
 
             if (!groups.Any())
