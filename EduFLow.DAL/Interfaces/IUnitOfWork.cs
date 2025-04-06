@@ -11,6 +11,7 @@ public interface IUnitOfWork
     public ITeacherRepository Teacher { get; set; }
     public IStudentRepository Student { get; set; }
     public ICourseRepository Course { get; set; }
+    public IGroupRepository Group { get; set; }
     public ICategoryRepository Category { get; set; }
     public IAttendanceRepository Attendance { get; set; }
     public IRegistryRepository Registry { get; set; }
