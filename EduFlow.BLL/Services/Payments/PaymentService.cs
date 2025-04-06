@@ -34,12 +34,12 @@ public class PaymentService(
             if (existsStudent is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
 
-            var existsCourse = await _unitOfWork.Course.GetAsync(dto.GroupId);
-            if (existsCourse is null)
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+            var existsGroup = await _unitOfWork.Course.GetAsync(dto.GroupId);
+            if (existsGroup is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
 
             var existsRegistry = await _unitOfWork.Registry.GetAsync(dto.RegistryId);
-            if (existsCourse is null)
+            if (existsGroup is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Registry not found.");
 
             var savedPayment = _mapper.Map<Payment>(dto);
@@ -173,9 +173,9 @@ public class PaymentService(
             if (existsStudent is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
 
-            var existsCourse = await _unitOfWork.Course.GetAsync(dto.GroupId);
-            if (existsCourse is null)
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+            var existsGroup = await _unitOfWork.Course.GetAsync(dto.GroupId);
+            if (existsGroup is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
 
             var existsRegistry = await _unitOfWork.Registry.GetAsync(dto.RegistryId);
             if (existsRegistry is null)
