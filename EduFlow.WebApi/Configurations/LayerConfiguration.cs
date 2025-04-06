@@ -1,5 +1,6 @@
 ﻿using EduFlow.BLL.Common.Validators.Courses.Attendance;
 using EduFlow.BLL.Common.Validators.Courses.Course;
+using EduFlow.BLL.Common.Validators.Courses.Group;
 using EduFlow.BLL.Common.Validators.Courses.Interface;
 using EduFlow.BLL.Common.Validators.Courses.Interfaces;
 using EduFlow.BLL.Common.Validators.Courses.Services;
@@ -17,6 +18,7 @@ using EduFlow.BLL.Common.Validators.Users.Teacher;
 using EduFlow.BLL.Common.Validators.Users.User;
 using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.DTOs.Courses.Course;
+using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Messages.Message;
 using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Payments.Registry;
@@ -84,6 +86,7 @@ public static class LayerConfiguration
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 
@@ -108,6 +111,7 @@ public static class LayerConfiguration
         services.AddScoped<IStudentService, StudentService>();
 
         services.AddScoped<ICourseService, CourseService>();
+        services.AddScoped<IGroupService, GroupService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IAttendanceService, AttendanceService>();
 
@@ -127,6 +131,7 @@ public static class LayerConfiguration
         services.AddTransient<IStudentValidator, StudentValidator>();
 
         services.AddTransient<ICourseValidator, CourseValidator>();
+        services.AddTransient<IGroupValidator, GroupValidator>();
         services.AddTransient<IAttendanceValidator, AttendanceValidator>();
 
         services.AddTransient<IPaymentValidator, PaymentValidator>();
@@ -153,6 +158,9 @@ public static class LayerConfiguration
 
         services.AddTransient<IValidator<CourseForCreateDto>, CourseForCreateValidator>();
         services.AddTransient<IValidator<CourseForUpdateDto>, CourseForUpdateValidator>();
+
+        services.AddTransient<IValidator<GroupForCreateDto>, GroupForCreateValidator>();
+        services.AddTransient<IValidator<GroupForUpdateDto>, GroupForUpdateValidator>();
 
         services.AddTransient<IValidator<AttendanceForCraeteDto>, AttendanceForCreateValidator>();
         services.AddTransient<IValidator<AttendanceForUpdateDto>, AttendanceForUpdateValidator>();
