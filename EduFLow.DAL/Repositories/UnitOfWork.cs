@@ -22,6 +22,7 @@ public class UnitOfWork(AppDbContext context) : IUnitOfWork, IDisposable
     public IRegistryRepository Registry { get; set; } = new RegistryRepository(context);
     public IPaymentRepository Payment { get; set; } = new PaymentRepository(context);
     public IMessageRepository Message { get; set; } = new MessageRepository(context);
+    public IGroupRepository Group { get; set; } = new GroupRepository(context);
 
     public void Dispose()
         => GC.SuppressFinalize(this);

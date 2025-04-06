@@ -11,6 +11,9 @@ public class Group : BaseEntity
 {
     [Column("name"), MaxLength(60)]
     public required string Name { get; set; }
+    [Column("course_id")]
+    public required long CourseId { get; set; }
+    public Course Course { get; set; }
     public List<Student> Students { get; set; } = new List<Student>();
     public List<Payment> Payments { get; set; } = new List<Payment>();
     [Column("status")]

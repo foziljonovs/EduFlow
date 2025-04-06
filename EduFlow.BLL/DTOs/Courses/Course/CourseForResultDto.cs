@@ -1,7 +1,6 @@
 ﻿using Et = EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
-using EduFlow.Domain.Entities.Courses;
 
 namespace EduFlow.BLL.DTOs.Courses.Course;
 
@@ -17,5 +16,5 @@ public class CourseForResultDto
     public long CategoryId { get; set; }
     public Et.Category Category { get; set; }
     public List<Teacher> Teachers { get; set; }
-    public List<Group> Groups { get; set; }
+    public List<Et.Group> Groups { get; set; }
 }
