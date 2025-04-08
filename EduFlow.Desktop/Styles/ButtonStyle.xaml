@@ -152,7 +152,65 @@
         </Setter>
     </Style>
 
-    <Style x:Key="StudentButton" TargetType="{x:Type RadioButton}">
+    <Style x:Key="StudentsButton" TargetType="{x:Type RadioButton}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="5 0 5 5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border x:Name="B"
+                            CornerRadius="5"
+                            BorderThickness="0"
+                            Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon
+                                    Grid.Column="0"
+                                    x:Name="Icon"
+                                    Kind="AccountStudent"
+                                    Foreground="Black"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Width="25"
+                                    Height="25"/>
+
+                            <Label
+                                    x:Name="Lbl"
+                                    Grid.Column="1"
+                                    FontFamily="Jetbrains Mono"
+                                    Content="O'quvchilar"
+                                    FontWeight="SemiBold"
+                                    Foreground="Black"
+                                    FontSize="16"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="Silver"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GroupsButton" TargetType="{x:Type RadioButton}">
         <Setter Property="Height" Value="40"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Margin" Value="5 0 5 5"/>
@@ -172,7 +230,7 @@
                             <materialDesign:PackIcon
                                 Grid.Column="0"
                                 x:Name="Icon"
-                                Kind="Person"
+                                Kind="Group"
                                 Foreground="Black"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
@@ -183,7 +241,7 @@
                                 x:Name="Lbl"
                                 Grid.Column="1"
                                 FontFamily="Jetbrains Mono"
-                                Content="O'quvchilar"
+                                Content="Guruhlar"
                                 FontWeight="SemiBold"
                                 Foreground="Black"
                                 FontSize="16"
@@ -209,7 +267,64 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <Style x:Key="TeachersButton" TargetType="{x:Type RadioButton}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="5 0 5 5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border x:Name="B"
+                            CornerRadius="5"
+                            BorderThickness="0"
+                            Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
+                            <materialDesign:PackIcon
+                                    Grid.Column="0"
+                                    x:Name="Icon"
+                                    Kind="Teacher"
+                                    Foreground="Black"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Width="25"
+                                    Height="25"/>   
+
+                            <Label
+                                    x:Name="Lbl"
+                                    Grid.Column="1"
+                                    FontFamily="Jetbrains Mono"
+                                    Content="O'qituvchilar"
+                                    FontWeight="SemiBold"
+                                    Foreground="Black"
+                                    FontSize="16"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="Silver"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="StateButton" TargetType="{x:Type RadioButton}">
         <Setter Property="Height" Value="25"/>
