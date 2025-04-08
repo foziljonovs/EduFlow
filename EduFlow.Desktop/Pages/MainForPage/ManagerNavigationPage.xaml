@@ -18,10 +18,18 @@
                      Style="{DynamicResource CourseButton}"
                      Click="CoursesButton_Click"
                      ToolTip="Kurslar sahifasi"/>
+        
+        <RadioButton x:Name="GroupsButton"
+                     Style="{DynamicResource GroupsButton}"
+                     ToolTip="Guruhlar sahifasi"/>
 
         <RadioButton x:Name="StudentsButton"
-                     Style="{DynamicResource StudentButton}"
-                     Click="StudentsButton_Click"
+                     Style="{DynamicResource StudentsButton}"
                      ToolTip="O'quvchilar sahifasi"/>
+
+        <RadioButton x:Name="TeachersButton"
+                     Style="{DynamicResource TeachersButton}"
+                     ToolTip="O'qituvchilar sahifasi"/>
+
     </StackPanel>
 </Page>

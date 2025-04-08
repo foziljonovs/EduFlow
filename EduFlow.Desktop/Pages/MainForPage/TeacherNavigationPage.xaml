@@ -15,8 +15,12 @@
                      ToolTip="Asosiy sahifa"/>
 
         <RadioButton x:Name="StudentsButton"
-                     Style="{DynamicResource StudentButton}"
+                     Style="{DynamicResource StudentsButton}"
                      Click="StudentsButton_Click"
                      ToolTip="O'quvchilar sahifasi"/>
+
+        <RadioButton x:Name="GroupsButton"
+                     Style="{DynamicResource GroupsButton}"
+                     ToolTip="Guruhlar sahifasi"/>
     </StackPanel>
 </Page>
