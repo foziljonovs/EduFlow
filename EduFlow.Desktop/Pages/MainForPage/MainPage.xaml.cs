@@ -1,11 +1,14 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Course;
+using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.MainForComponents;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
+using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Windows;
+using EduFlow.Domain.Entities.Courses;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -23,6 +26,7 @@ public partial class MainPage : Page
     private readonly ICourseService _courseService;
     private readonly ITeacherService _teacherService;
     private readonly ICategoryService _categoryService;
+    private readonly IGroupService _groupService;
     private TeacherForResultDto _teacher;
 
     public MainPage()
@@ -31,6 +35,7 @@ public partial class MainPage : Page
         this._courseService = new CourseService();
         this._teacherService = new TeacherService();
         this._categoryService = new CategoryService();
+        this._groupService = new GroupService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -131,13 +136,62 @@ public partial class MainPage : Page
         }
     }
 
-    private async Task GetAllCourse()
+    private async Task GetAllGroup()
     {
         stCourses.Children.Clear();
         courseForLoader.Visibility = Visibility.Visible;
 
+        var groups = await Task.Run(async () => await _groupService.GetAllAsync());
+        ShowGroup(groups);
+    }
+
+    private void ShowGroup(List<GroupForResultDto> groups)
+    {
+        int count = 1;
+        if (groups.Any())
+        {
+            courseForLoader.Visibility = Visibility.Collapsed;
+            emptyDataForCourse.Visibility = Visibility.Collapsed;
+
+            foreach (var group in groups)
+            {
+                MainForCourseComponent component = new MainForCourseComponent();
+                component.Tag = group;
+                var teacherName = group.Course.Teachers.Any() ? (group.Course.Teachers.First().User?.Firstname) : "Topilmadi"; //vaqtincha
+
+                component.SetValues(
+                count,
+                    group.Id,
+                    group.Name,
+                    group.Students?.Count ?? 0,
+                    teacherName);
+
+                stCourses.Children.Add(component);
+                count++;
+            }
+        }
+        else
+        {
+            courseForLoader.Visibility = Visibility.Collapsed;
+            emptyDataForCourse.Visibility = Visibility.Visible;
+        }
+    }
+
+    private async Task GetAllCourse()
+    {
         var courses = await Task.Run(async () => await _courseService.GetAllAsync());
-        ShowCourse(courses);
+        //ShowCourse(courses);
+
+        if (courses.Any())
+        {
+            foreach (var course in courses)
+            {
+                ComboBoxItem item = new ComboBoxItem();
+                item.Content = course.Name;
+                item.Tag = course.Id;
+                categoryComboBox.Items.Add(item);
+            }
+        }
     }
 
     private void ShowCourse(List<CourseForResultDto> courses)
@@ -153,12 +207,14 @@ public partial class MainPage : Page
             {
                 MainForCourseComponent component = new MainForCourseComponent();
                 component.Tag = course;
+                var teacherName = course.Teachers.Any() ? (course.Teachers.First().User?.Firstname) : "Topilmadi"; //vaqtincha
+
                 component.SetValues(
                     count,
                     course.Id,
                     course.Name,
-                    course.Groups?.Count ?? 0,
-                    course.Teachers.First().User?.Firstname ?? "Topilmadi");
+                    course.Groups?.Sum(x => x.Students.Count) ?? 0,
+                    teacherName);
 
                 stCourses.Children.Add(component);
                 count++;
@@ -216,7 +272,8 @@ public partial class MainPage : Page
         {
             await GetAllCourse();
             await GetAllTeachers();
-            await GetAllCategories();
+            await GetAllGroup();
+            //await GetAllCategories();
         }
     }
     private bool isPageLoaded = false;

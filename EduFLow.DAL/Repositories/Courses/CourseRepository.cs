@@ -21,5 +21,6 @@ public class CourseRepository : Repository<Course>, ICourseRepository
             .Include(x => x.Category)
             .Include(x => x.Teachers)
                 .ThenInclude(t => t.User)
-            .Include(x => x.Groups);
+            .Include(x => x.Groups)
+                .ThenInclude(s => s.Students);
 }
