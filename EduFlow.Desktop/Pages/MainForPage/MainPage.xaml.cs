@@ -153,12 +153,14 @@ public partial class MainPage : Page
             {
                 MainForCourseComponent component = new MainForCourseComponent();
                 component.Tag = course;
+                var teacherName = course.Teachers.Any() ? (course.Teachers.First().User?.Firstname) : "Topilmadi"; //vaqtincha
+
                 component.SetValues(
                     count,
                     course.Id,
                     course.Name,
-                    course.Groups?.Count ?? 0,
-                    course.Teachers.First().User?.Firstname ?? "Topilmadi");
+                    course.Groups?.Sum(x => x.Students.Count) ?? 0,
+                    teacherName);
 
                 stCourses.Children.Add(component);
                 count++;
