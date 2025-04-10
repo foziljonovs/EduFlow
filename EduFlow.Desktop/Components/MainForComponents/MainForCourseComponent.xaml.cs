@@ -13,12 +13,11 @@ public partial class MainForCourseComponent : UserControl
         InitializeComponent();
     }
 
-    public void SetValues(int number, long id, string name, int studentCount, string teacherName)
+    public void SetValues(int number, long id, string name, int studentCount)
     {
         this.Id = id;
         tbNumber.Text = number.ToString();
         tbName.Text = name;
         tbStudentCount.Text = studentCount.ToString();
-        tbTeacherName.Text = teacherName;
     }
 }

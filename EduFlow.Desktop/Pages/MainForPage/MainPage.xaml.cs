@@ -157,14 +157,12 @@ public partial class MainPage : Page
             {
                 MainForCourseComponent component = new MainForCourseComponent();
                 component.Tag = group;
-                var teacherName = group.Course.Teachers.Any() ? (group.Course.Teachers.First().User?.Firstname) : "Topilmadi"; //vaqtincha
 
                 component.SetValues(
-                count,
+                    count,
                     group.Id,
                     group.Name,
-                    group.Students?.Count ?? 0,
-                    teacherName);
+                    group.Students?.Count ?? 0);
 
                 stCourses.Children.Add(component);
                 count++;
@@ -207,14 +205,12 @@ public partial class MainPage : Page
             {
                 MainForCourseComponent component = new MainForCourseComponent();
                 component.Tag = course;
-                var teacherName = course.Teachers.Any() ? (course.Teachers.First().User?.Firstname) : "Topilmadi"; //vaqtincha
 
                 component.SetValues(
                     count,
                     course.Id,
                     course.Name,
-                    course.Groups?.Sum(x => x.Students.Count) ?? 0,
-                    teacherName);
+                    course.Groups?.Sum(x => x.Students.Count) ?? 0);
 
                 stCourses.Children.Add(component);
                 count++;

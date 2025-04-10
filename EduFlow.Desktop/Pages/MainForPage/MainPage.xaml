@@ -140,7 +140,6 @@
                         <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="120"/>
                         <ColumnDefinition Width="120"/>
                     </Grid.ColumnDefinitions>
@@ -170,14 +169,6 @@
                                VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Column="3"
-                               Text="O'qituvchi"
-                               FontSize="12"
-                               FontWeight="ExtraBold"
-                               FontFamily="Jetbrains Mono"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"/>
-
-                    <TextBlock Grid.Column="4"
                                Text="Boshlangan sana"
                                FontSize="12"
                                FontFamily="Jetbrains Mono"
@@ -185,7 +176,7 @@
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"/>
 
-                <Button Grid.Column="5"
+                <Button Grid.Column="4"
                         x:Name="createCourseBtn"
                         Style="{DynamicResource CrudButton}"
                         Tag="add"
