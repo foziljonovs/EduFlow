@@ -26,27 +26,45 @@
                             Orientation="Horizontal">
                     <DatePicker x:Name="dtStartDate"
                                 materialDesign:HintAssist.Hint="Boshlanish sanasi"
-                                Width="140"
+                                Width="110"
                                 VerticalAlignment="Center"
                                 Margin="10 0 10 0"/>
 
                     <DatePicker x:Name="dtEndDate"
                                 materialDesign:HintAssist.Hint="Tugash sanasini tanlang"
-                                Width="140"
+                                Width="110"
                                 VerticalAlignment="Center"
                                 Margin="10 0 10 0"
                                 SelectedDateChanged="dtEndDate_SelectedDateChanged"/>
+
                     <StackPanel Orientation="Horizontal">
                         <ComboBox x:Name="categoryComboBox"
+                                  ToolTip="Kategoriya tanlash"
+                                  Width="110"
+                                  VerticalAlignment="Center"
+                                  Margin="10 0"
+                                  SelectionChanged="categoryComboBox_SelectionChanged_1">
+                            <ComboBoxItem Content="Kategoriyalar" IsSelected="True" IsEnabled="False"/>
+                        </ComboBox>
+
+                        <Button x:Name="createCategoryBtn"
+                                Style="{DynamicResource CrudButton}"
+                                Tag="add"
+                                Background="Gold"
+                                ToolTip="Kategoriya qo'shish"/>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="courseComboBox"
                                   ToolTip="Kurslar tanlash"
-                                  Width="140"
+                                  Width="110"
                                   VerticalAlignment="Center"
                                   Margin="10 0"
                                   SelectionChanged="categoryComboBox_SelectionChanged">
                             <ComboBoxItem Content="Kurslar" IsSelected="True" IsEnabled="False"/>
                         </ComboBox>
 
-                        <Button x:Name="createCategoryBtn"
+                        <Button x:Name="createGroupBtn"
                                 Style="{DynamicResource CrudButton}"
                                 Tag="groupadd"
                                 Background="DeepSkyBlue"
@@ -56,7 +74,7 @@
                     <StackPanel Orientation="Horizontal">
                         <ComboBox x:Name="teacherComboBox"
                                   ToolTip="O'qituvchi tanlash"
-                                  Width="140"
+                                  Width="110"
                                   VerticalAlignment="Center"
                                   Margin="10 0"
                                   SelectionChanged="teacherComboBox_SelectionChanged">

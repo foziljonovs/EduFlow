@@ -91,6 +91,10 @@ public class GroupService(
                 groupQuery = groupQuery
                     .Where(x => x.Course.Teachers.Any(x => x.Id == dto.TeacherId));
 
+            if(dto.CategoryId.HasValue)
+                groupQuery = groupQuery
+                    .Where(x => x.Course.CategoryId == dto.CategoryId);
+
             if (dto.IsStatus.HasValue)
                 groupQuery = groupQuery
                     .Where(x => x.IsStatus == dto.IsStatus);

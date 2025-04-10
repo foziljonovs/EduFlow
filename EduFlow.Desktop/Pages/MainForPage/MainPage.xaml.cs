@@ -84,7 +84,11 @@ public partial class MainPage : Page
         if(dtEndDate.SelectedDate is not null)
             dto.FinishedDate = dtEndDate.SelectedDate.Value;
 
-        if (categoryComboBox.SelectedItem is ComboBoxItem selectedCourseItem
+        if (categoryComboBox.SelectedItem is ComboBoxItem selectedCategoryItem
+            && selectedCategoryItem.Tag != null)
+            dto.CategoryId = (long)selectedCategoryItem.Tag;
+
+        if (courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem
             && selectedCourseItem.Tag != null)
             dto.CourseId = (long)selectedCourseItem.Tag;
 
@@ -169,6 +173,9 @@ public partial class MainPage : Page
                 stCourses.Children.Add(component);
                 count++;
             }
+
+            YourCoursesCount.Text = groups.Count.ToString();
+            YourStudentsCount.Text = groups.Sum(x => x.Students.Count).ToString();
         }
         else
         {
@@ -189,7 +196,7 @@ public partial class MainPage : Page
                 ComboBoxItem item = new ComboBoxItem();
                 item.Content = course.Name;
                 item.Tag = course.Id;
-                categoryComboBox.Items.Add(item);
+                courseComboBox.Items.Add(item);
             }
         }
     }
@@ -251,6 +258,8 @@ public partial class MainPage : Page
         {
             categoryComboBox.Visibility = Visibility.Collapsed;
             createCategoryBtn.Visibility = Visibility.Collapsed;
+            courseComboBox.Visibility = Visibility.Collapsed;
+            createCourseBtn.Visibility = Visibility.Collapsed;
             teacherComboBox.Visibility = Visibility.Collapsed;
             createTeacherBtn.Visibility = Visibility.Collapsed;
             createCourseBtn.Visibility = Visibility.Collapsed;
@@ -268,10 +277,10 @@ public partial class MainPage : Page
         }
         else
         {
+            await GetAllCategories();
             await GetAllCourse();
             await GetAllTeachers();
             await GetAllGroup();
-            //await GetAllCategories();
         }
     }
     private bool isPageLoaded = false;
@@ -299,6 +308,12 @@ public partial class MainPage : Page
     private void teacherComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (isPageLoaded)
+            FilterCourses();
+    }
+
+    private void categoryComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+    {
+        if(isPageLoaded)
             FilterCourses();
     }
 }

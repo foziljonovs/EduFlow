@@ -8,5 +8,6 @@ public class GroupForFilterDto
     public DateTime? FinishedDate { get; set; }
     public long? CourseId { get; set; }
     public long? TeacherId { get; set; }
+    public long? CategoryId { get; set; }
     public Status? IsStatus { get; set; }
 }
