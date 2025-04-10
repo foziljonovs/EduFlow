@@ -83,9 +83,17 @@ public class GroupService(
                     x.CreatedAt <= finishedDateUtc);
             }
 
-            if (!string.IsNullOrEmpty(dto.Name))
+            if (dto.CourseId.HasValue)
                 groupQuery = groupQuery
-                    .Where(x => x.Name.ToLower().Contains(dto.Name.ToLower()));
+                    .Where(x => x.CourseId == dto.CourseId);
+
+            if (dto.TeacherId.HasValue)
+                groupQuery = groupQuery
+                    .Where(x => x.Course.Teachers.Any(x => x.Id == dto.TeacherId));
+
+            if(dto.CategoryId.HasValue)
+                groupQuery = groupQuery
+                    .Where(x => x.Course.CategoryId == dto.CategoryId);
 
             if (dto.IsStatus.HasValue)
                 groupQuery = groupQuery

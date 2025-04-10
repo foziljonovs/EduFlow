@@ -76,7 +76,7 @@ public partial class MainPage : Page
         stCourses.Children.Clear();
         courseForLoader.Visibility = Visibility.Visible;
 
-        CourseForFilterDto dto = new CourseForFilterDto();
+        GroupForFilterDto dto = new GroupForFilterDto();
 
         if(dtStartDate.SelectedDate is not null)
             dto.StartedDate = dtStartDate.SelectedDate.Value;
@@ -88,18 +88,24 @@ public partial class MainPage : Page
             && selectedCategoryItem.Tag != null)
             dto.CategoryId = (long)selectedCategoryItem.Tag;
 
+        if (courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem
+            && selectedCourseItem.Tag != null)
+            dto.CourseId = (long)selectedCourseItem.Tag;
+
         if(teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem
             && selectedTeacherItem.Tag != null)
             dto.TeacherId = (long)selectedTeacherItem.Tag;
+
+        dto.IsStatus = Domain.Enums.Status.Active;
 
         var window = Window.GetWindow(this) as MainWindow;
         if (window.MainMenuNavigation.Content is TeacherNavigationPage)
             dto.TeacherId = _teacher.Id;
 
-        var courses = await Task.Run(async () => await _courseService.FilterAsync(dto));
+        var groups = await Task.Run(async () => await _groupService.FilterAsync(dto));
 
-        if(courses.Any()) 
-            ShowCourse(courses);
+        if(groups.Any()) 
+            ShowGroup(groups);
         else
         {
             courseForLoader.Visibility = Visibility.Collapsed;
@@ -157,18 +163,19 @@ public partial class MainPage : Page
             {
                 MainForCourseComponent component = new MainForCourseComponent();
                 component.Tag = group;
-                var teacherName = group.Course.Teachers.Any() ? (group.Course.Teachers.First().User?.Firstname) : "Topilmadi"; //vaqtincha
 
                 component.SetValues(
-                count,
+                    count,
                     group.Id,
                     group.Name,
-                    group.Students?.Count ?? 0,
-                    teacherName);
+                    group.Students?.Count ?? 0);
 
                 stCourses.Children.Add(component);
                 count++;
             }
+
+            YourCoursesCount.Text = groups.Count.ToString();
+            YourStudentsCount.Text = groups.Sum(x => x.Students.Count).ToString();
         }
         else
         {
@@ -189,7 +196,7 @@ public partial class MainPage : Page
                 ComboBoxItem item = new ComboBoxItem();
                 item.Content = course.Name;
                 item.Tag = course.Id;
-                categoryComboBox.Items.Add(item);
+                courseComboBox.Items.Add(item);
             }
         }
     }
@@ -207,14 +214,12 @@ public partial class MainPage : Page
             {
                 MainForCourseComponent component = new MainForCourseComponent();
                 component.Tag = course;
-                var teacherName = course.Teachers.Any() ? (course.Teachers.First().User?.Firstname) : "Topilmadi"; //vaqtincha
 
                 component.SetValues(
                     count,
                     course.Id,
                     course.Name,
-                    course.Groups?.Sum(x => x.Students.Count) ?? 0,
-                    teacherName);
+                    course.Groups?.Sum(x => x.Students.Count) ?? 0);
 
                 stCourses.Children.Add(component);
                 count++;
@@ -253,6 +258,8 @@ public partial class MainPage : Page
         {
             categoryComboBox.Visibility = Visibility.Collapsed;
             createCategoryBtn.Visibility = Visibility.Collapsed;
+            courseComboBox.Visibility = Visibility.Collapsed;
+            createCourseBtn.Visibility = Visibility.Collapsed;
             teacherComboBox.Visibility = Visibility.Collapsed;
             createTeacherBtn.Visibility = Visibility.Collapsed;
             createCourseBtn.Visibility = Visibility.Collapsed;
@@ -270,10 +277,10 @@ public partial class MainPage : Page
         }
         else
         {
+            await GetAllCategories();
             await GetAllCourse();
             await GetAllTeachers();
             await GetAllGroup();
-            //await GetAllCategories();
         }
     }
     private bool isPageLoaded = false;
@@ -301,6 +308,12 @@ public partial class MainPage : Page
     private void teacherComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (isPageLoaded)
+            FilterCourses();
+    }
+
+    private void categoryComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+    {
+        if(isPageLoaded)
             FilterCourses();
     }
 }
