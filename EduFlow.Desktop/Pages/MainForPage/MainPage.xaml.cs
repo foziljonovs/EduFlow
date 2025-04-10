@@ -76,7 +76,7 @@ public partial class MainPage : Page
         stCourses.Children.Clear();
         courseForLoader.Visibility = Visibility.Visible;
 
-        CourseForFilterDto dto = new CourseForFilterDto();
+        GroupForFilterDto dto = new GroupForFilterDto();
 
         if(dtStartDate.SelectedDate is not null)
             dto.StartedDate = dtStartDate.SelectedDate.Value;
@@ -84,22 +84,24 @@ public partial class MainPage : Page
         if(dtEndDate.SelectedDate is not null)
             dto.FinishedDate = dtEndDate.SelectedDate.Value;
 
-        if (categoryComboBox.SelectedItem is ComboBoxItem selectedCategoryItem
-            && selectedCategoryItem.Tag != null)
-            dto.CategoryId = (long)selectedCategoryItem.Tag;
+        if (categoryComboBox.SelectedItem is ComboBoxItem selectedCourseItem
+            && selectedCourseItem.Tag != null)
+            dto.CourseId = (long)selectedCourseItem.Tag;
 
         if(teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem
             && selectedTeacherItem.Tag != null)
             dto.TeacherId = (long)selectedTeacherItem.Tag;
 
+        dto.IsStatus = Domain.Enums.Status.Active;
+
         var window = Window.GetWindow(this) as MainWindow;
         if (window.MainMenuNavigation.Content is TeacherNavigationPage)
             dto.TeacherId = _teacher.Id;
 
-        var courses = await Task.Run(async () => await _courseService.FilterAsync(dto));
+        var groups = await Task.Run(async () => await _groupService.FilterAsync(dto));
 
-        if(courses.Any()) 
-            ShowCourse(courses);
+        if(groups.Any()) 
+            ShowGroup(groups);
         else
         {
             courseForLoader.Visibility = Visibility.Collapsed;
