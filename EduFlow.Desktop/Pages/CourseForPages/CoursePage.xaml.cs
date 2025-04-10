@@ -1,6 +1,9 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Category;
+using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.Desktop.Components.CourseForComponents;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
+using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -16,10 +19,12 @@ namespace EduFlow.Desktop.Pages.CourseForPages;
 public partial class CoursePage : Page
 {
     private readonly ICategoryService _categoryService;
+    private readonly ICourseService _courseService;
     public CoursePage()
     {
         InitializeComponent();
         this._categoryService = new CategoryService();
+        this._courseService = new CourseService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -42,41 +47,108 @@ public partial class CoursePage : Page
 
     private async Task GetAllCategory()
     {
-        courseLoader.Visibility = Visibility.Visible;
         var categories = await Task.Run(async () => await _categoryService.GetAllAsync());
 
-        ShowCategories(categories);
+        if (categories.Any())
+        {
+            foreach(var item in categories)
+            {
+                ComboBoxItem comboBoxItem = new ComboBoxItem();
+                comboBoxItem.Content = item.Name;
+                comboBoxItem.Tag = item.Id;
+                categoryComboBox.Items.Add(comboBoxItem);
+            }
+        }
     }
 
-    private void ShowCategories(List<CategoryForResultDto> categories)
+    private async Task GetAllCourse()
+    {
+        stCategories.Children.Clear();
+        courseLoader.Visibility = Visibility.Visible;
+        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+
+        ShowCourses(courses);
+    }
+
+    private async Task GetAllByTeacherId(long id)
+    {
+        stCategories.Children.Clear();
+        courseLoader.Visibility = Visibility.Visible;
+        var courses = await Task.Run(async () => await _courseService.GetAllByTeacherIdAsync(id));
+        ShowCourses(courses);
+    }
+
+    private async Task GetAllCourseByCategory(long id)
+    {
+        stCategories.Children.Clear();
+        courseLoader.Visibility = Visibility.Visible;
+        var courses = await Task.Run(async () => await _courseService.GetAllByCategoryIdAsync(id));
+        ShowCourses(courses);
+    }
+
+    private void ShowCourses(List<CourseForResultDto> courses)
     {
         int count = 1;
         stCategories.Children.Clear();
-
-        if(categories.Any())
+        if (courses.Any())
         {
             courseLoader.Visibility = Visibility.Collapsed;
             emptyDataForCategories.Visibility = Visibility.Collapsed;
-
-            foreach (var category in categories)
+            foreach (var course in courses)
             {
                 CourseForComponent component = new CourseForComponent();
-                component.Tag = category;
-                //component.SetValues(count, category.Id, category.Name, category.Courses.Count, category.Courses.Sum(x => x.Students.Count));
+                component.Tag = course;
+                component.SetValues(count, course.Id, course.Name, course.Groups.Count, course.Groups.Sum(x => x.Students.Count));
                 stCategories.Children.Add(component);
                 count++;
             }
         }
         else
         {
-            notifier.ShowInformation("Kategoriyalar topilmadi!");
+            notifier.ShowInformation("Kurslar topilmadi!");
             courseLoader.Visibility = Visibility.Collapsed;
             emptyDataForCategories.Visibility = Visibility.Visible;
         }
     }
 
+    private async Task LoadPage()
+    {
+        var id = IdentitySingelton.GetInstance().Id;
+        var role = IdentitySingelton.GetInstance().Role;
+
+        if(role == Domain.Enums.UserRole.Teacher)
+        {
+            categoryComboBox.Visibility = Visibility.Collapsed;
+            await GetAllByTeacherId(id);
+        }
+        else
+        {
+            categoryComboBox.Visibility = Visibility.Visible;
+            await GetAllCategory();
+            await GetAllCourse();
+        }
+    }
+
+    private bool isPageLoaded = false;
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        GetAllCategory();
+        if(!isPageLoaded)
+        {
+            LoadPage();
+            isPageLoaded = true;
+        }
+    }
+
+    private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (isPageLoaded)
+        {
+            if(categoryComboBox.SelectedItem is ComboBoxItem item
+                && item.Tag != null)
+            {
+                long categoryId = (long)item.Tag;
+                GetAllCourseByCategory(categoryId);
+            }
+        }
     }
 }

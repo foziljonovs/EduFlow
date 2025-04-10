@@ -16,7 +16,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
@@ -54,23 +54,25 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
-            <StackPanel Grid.Column="4"
-                        Orientation="Horizontal">
-                <Button x:Name="ViewButton"
-                        Style="{DynamicResource CrudButton}"
-                        Background="DeepSkyBlue"
-                        Tag="Eye"/>
+            <Grid Grid.Column="4">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    <Button x:Name="ViewButton"
+                            Style="{DynamicResource CrudButton}"
+                            Background="DeepSkyBlue"
+                            Tag="Eye"/>
 
-                <Button x:Name="EditButton"
-                        Style="{DynamicResource CrudButton}"
-                        Background="Gold"
-                        Tag="Pencil"/>
+                    <Button x:Name="EditButton"
+                            Style="{DynamicResource CrudButton}"
+                            Background="Gold"
+                            Tag="Pencil"/>
 
-                <Button x:Name="DeleteButton"
-                        Style="{DynamicResource CrudButton}"
-                        Background="Tomato"
-                        Tag="TrashCan"/>
-            </StackPanel>
+                    <Button x:Name="DeleteButton"
+                            Style="{DynamicResource CrudButton}"
+                            Background="Tomato"
+                            Tag="TrashCan"/>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>
