@@ -44,7 +44,7 @@
                                   VerticalAlignment="Center"
                                   Margin="10 0"
                                   SelectionChanged="categoryComboBox_SelectionChanged_1">
-                            <ComboBoxItem Content="Kategoriyalar" IsSelected="True" IsEnabled="False"/>
+                            <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
                         </ComboBox>
 
                         <Button x:Name="createCategoryBtn"
@@ -61,7 +61,7 @@
                                   VerticalAlignment="Center"
                                   Margin="10 0"
                                   SelectionChanged="categoryComboBox_SelectionChanged">
-                            <ComboBoxItem Content="Kurslar" IsSelected="True" IsEnabled="False"/>
+                            <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
                         </ComboBox>
 
                         <Button x:Name="createGroupBtn"
@@ -78,7 +78,7 @@
                                   VerticalAlignment="Center"
                                   Margin="10 0"
                                   SelectionChanged="teacherComboBox_SelectionChanged">
-                            <ComboBoxItem Content="O'qituvchilar" IsSelected="True" IsEnabled="False"/>
+                            <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
                         </ComboBox>
 
                         <Button x:Name="createTeacherBtn"
