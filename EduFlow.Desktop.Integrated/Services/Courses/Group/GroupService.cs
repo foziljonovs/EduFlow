@@ -76,6 +76,19 @@ public class GroupService : IGroupService
         }
     }
 
+    public async Task<List<GroupForResultDto>> GetAllByTeacherIdAsync(long teacherId)
+    {
+        try
+        {
+            var res = await _server.GetAllByTeacherIdAsync(teacherId);
+            return res;
+        }
+        catch(Exception ex)
+        {
+            return new List<GroupForResultDto>();
+        }
+    }
+
     public async Task<GroupForResultDto> GetByIdAsync(long id)
     {
         try

@@ -151,6 +151,14 @@ public partial class MainPage : Page
         ShowGroup(groups);
     }
 
+    private async Task GetAllGroupByTeacherId(long teacherId)
+    {
+        stCourses.Children.Clear();
+        courseForLoader.Visibility = Visibility.Visible;
+        var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(teacherId));
+        ShowGroup(groups);
+    }
+
     private void ShowGroup(List<GroupForResultDto> groups)
     {
         int count = 1;
@@ -250,7 +258,7 @@ public partial class MainPage : Page
     }
 
     private async Task LoadPage()
-    {
+    { 
         var id = IdentitySingelton.GetInstance().Id;
         var role = IdentitySingelton.GetInstance().Role;
 
@@ -273,6 +281,7 @@ public partial class MainPage : Page
                 return;
             }
 
+            await GetAllGroupByTeacherId(teacherId);
             await GetAllTeacherCourses(teacherId);
         }
         else
