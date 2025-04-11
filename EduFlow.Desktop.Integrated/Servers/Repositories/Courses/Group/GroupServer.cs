@@ -145,6 +145,30 @@ public class GroupServer : IGroupServer
         }
     }
 
+    public async Task<List<GroupForResultDto>> GetAllByTeacherIdAsync(long teacherId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/groups/{teacherId}/teacher");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<GroupForResultDto> groups = JsonConvert.DeserializeObject<List<GroupForResultDto>>(result)!;
+
+            return groups;
+        }
+        catch (Exception ex)
+        {
+            return new List<GroupForResultDto>();
+        }
+    }
+
     public async Task<GroupForResultDto> GetByIdAsync(long id)
     {
         try

@@ -9,6 +9,7 @@ public interface IGroupServer
     Task<bool> AddAsync(GroupForCreateDto dto);
     Task<bool> UpdateAsync(long id, GroupForUpdateDto dto);
     Task<bool> DeleteAsync(long id);
+    Task<List<GroupForResultDto>> GetAllByTeacherIdAsync(long teacherId);
     Task<List<GroupForResultDto>> GetAllByCourseIdAsync(long courseId);
     Task<List<GroupForResultDto>> FilterAsync(GroupForFilterDto dto);
 }

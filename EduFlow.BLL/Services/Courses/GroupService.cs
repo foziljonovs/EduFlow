@@ -153,6 +153,26 @@ public class GroupService(
         }
     }
 
+    public async Task<IEnumerable<GroupForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var groups = await _unitOfWork.Group.GetAllFullInformation()
+                .Where(x => x.Course.Teachers.Any(x => x.Id == teacherId))
+                .ToListAsync(cancellationToken);
+
+            if (!groups.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
+
+            return _mapper.Map<IEnumerable<GroupForResultDto>>(groups);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"An error occured while getting all groups by teacher id: {ex}");
+            throw;
+        }
+    }
+
     public async Task<GroupForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
         try
