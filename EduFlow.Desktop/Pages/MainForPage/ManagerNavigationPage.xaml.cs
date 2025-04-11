@@ -1,4 +1,5 @@
 ﻿using EduFlow.Desktop.Pages.CourseForPages;
+using EduFlow.Desktop.Pages.GroupForPages;
 using EduFlow.Desktop.Pages.StudentForPages;
 using EduFlow.Desktop.Windows;
 using System.Windows;
@@ -50,6 +51,15 @@ public partial class ManagerNavigationPage : Page
     {
         StudentsButton.IsChecked = true;
         StudentPage page = new StudentPage();
+        var window = GetMainWindow();
+        if (window != null)
+            window.NavigatePage(page);
+    }
+
+    private void GroupsButton_Click(object sender, RoutedEventArgs e)
+    {
+        GroupsButton.IsChecked = true;
+        GroupPage page = new GroupPage();
         var window = GetMainWindow();
         if (window != null)
             window.NavigatePage(page);
