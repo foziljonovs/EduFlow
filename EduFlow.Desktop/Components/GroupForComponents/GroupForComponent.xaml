@@ -74,7 +74,7 @@
                        HorizontalAlignment="Center"/>
 
             <TextBlock Grid.Column="6"
-                       x:Name="tbStatedDate"
+                       x:Name="tbStartedDate"
                        Text="2025-04-11"
                        FontSize="14"
                        FontFamily="Jetbrains Mono"

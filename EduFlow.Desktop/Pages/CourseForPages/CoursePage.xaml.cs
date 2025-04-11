@@ -1,9 +1,10 @@
-﻿using EduFlow.BLL.DTOs.Courses.Category;
-using EduFlow.BLL.DTOs.Courses.Course;
+﻿using EduFlow.BLL.DTOs.Courses.Course;
+using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.CourseForComponents;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
+using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -20,11 +21,14 @@ public partial class CoursePage : Page
 {
     private readonly ICategoryService _categoryService;
     private readonly ICourseService _courseService;
+    private readonly ITeacherService _teacherService;
+    private TeacherForResultDto _teacher;
     public CoursePage()
     {
         InitializeComponent();
         this._categoryService = new CategoryService();
         this._courseService = new CourseService();
+        this._teacherService = new TeacherService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -58,6 +62,10 @@ public partial class CoursePage : Page
                 comboBoxItem.Tag = item.Id;
                 categoryComboBox.Items.Add(comboBoxItem);
             }
+        }
+        else
+        {
+            notifier.ShowWarning("Kategoriya topilmadi!");
         }
     }
 
@@ -110,6 +118,19 @@ public partial class CoursePage : Page
             emptyDataForCategories.Visibility = Visibility.Visible;
         }
     }
+    private async Task<long> GetTeacher(long userId)
+    {
+        var teacher = await Task.Run(async () => await _teacherService.GetByUserIdAsync(userId));
+
+        if (teacher is null)
+        {
+            notifier.ShowInformation("Ustoz topilmadi!");
+            return 0;
+        }
+
+        _teacher = teacher;
+        return teacher.Id;
+    }
 
     private async Task LoadPage()
     {
@@ -119,6 +140,15 @@ public partial class CoursePage : Page
         if(role == Domain.Enums.UserRole.Teacher)
         {
             categoryComboBox.Visibility = Visibility.Collapsed;
+            var teacherId = await GetTeacher(id);
+
+            if(teacherId == 0)
+            {
+                stCategories.Children.Clear();
+                emptyDataForCategories.Visibility = Visibility.Visible;
+                return;
+            }
+
             await GetAllByTeacherId(id);
         }
         else
