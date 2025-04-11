@@ -1,0 +1,151 @@
+﻿<Page x:Class="EduFlow.Desktop.Pages.GroupForPages.GroupPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:EduFlow.Desktop.Pages.GroupForPages" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
+      mc:Ignorable="d" 
+      Title="GroupPage"
+      Loaded="Page_Loaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <ComboBox x:Name="courseComboBox"
+                      Width="110"
+                      ToolTip="Kurs tanlash"
+                      VerticalAlignment="Center"
+                      Margin="10 0"
+                      >
+                <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
+            </ComboBox>
+
+            <ComboBox x:Name="teacherComboBox"
+                      Width="110"
+                      ToolTip="O'qituvchi tanlash"
+                      VerticalAlignment="Center"
+                      Margin="10 0">
+                <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
+            </ComboBox>
+
+            <ComboBox x:Name="activeComboBox"
+                      Width="110"
+                      ToolTip="Guruh holatini tanlash"
+                      VerticalAlignment="Center"
+                      Margin="10 0">
+                <ComboBoxItem Content="Faol" IsSelected="True"/>
+                <ComboBoxItem Content="Arxivlangan"/>
+                <ComboBoxItem Content="Yakunlangan"/>
+            </ComboBox>
+        </StackPanel>
+
+        <Grid Grid.Row="1"
+              Margin="0 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"
+                  Margin="3 0 18 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           Text="No"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"/>
+
+                <TextBlock Grid.Column="1"
+                           Text="Nomi"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"/>
+
+                <TextBlock Grid.Column="2"
+                            Text="Kurs"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="ExtraBold"
+                            FontFamily="Jetbrains Mono"/>
+
+                <TextBlock Grid.Column="3"
+                            Text="O'qituvchi"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="ExtraBold"
+                            FontFamily="Jetbrains Mono"/>
+
+                <TextBlock Grid.Column="4"
+                           Text="O'quvchilar soni"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"/>
+
+                <TextBlock Grid.Column="5"
+                           Text="Holati"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"/>
+
+                <TextBlock Grid.Column="6"
+                           Text="Boshlangan sana"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"/>
+
+                <Button Grid.Column="7"
+                        x:Name="createGroupBtn"
+                        Style="{DynamicResource CrudButton}"
+                        Tag="add"
+                        Background="MediumSeaGreen"
+                        HorizontalAlignment="Right"
+                        ToolTip="Guruh yaratish"/>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <local1:Loader x:Name="groupLoader"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="Collapsed"/>
+
+                <ScrollViewer>
+                    <StackPanel x:Name="stGroups"/>
+                </ScrollViewer>
+
+                <TextBlock x:Name="emptyData"
+                           Text="Guruhlar topilmadi!"
+                           FontSize="14"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Visibility="Collapsed"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

@@ -8,7 +8,6 @@ using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Windows;
-using EduFlow.Domain.Entities.Courses;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;

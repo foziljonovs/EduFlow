@@ -21,6 +21,7 @@
         
         <RadioButton x:Name="GroupsButton"
                      Style="{DynamicResource GroupsButton}"
+                     Click="GroupsButton_Click"
                      ToolTip="Guruhlar sahifasi"/>
 
         <RadioButton x:Name="StudentsButton"
