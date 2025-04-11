@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EduFlow.Desktop.Pages.GroupForPages" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
       mc:Ignorable="d" 
-      Title="GroupPage">
+      Title="GroupPage"
+      Loaded="Page_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
