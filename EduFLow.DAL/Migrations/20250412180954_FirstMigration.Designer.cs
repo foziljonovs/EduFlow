@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduFlow.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250406175519_UpdateGroupEntity")]
-    partial class UpdateGroupEntity
+    [Migration("20250412180954_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -183,8 +183,9 @@ namespace EduFlow.DAL.Migrations
                         .HasColumnType("character varying(60)")
                         .HasColumnName("name");
 
-                    b.Property<long?>("TeacherId")
-                        .HasColumnType("bigint");
+                    b.Property<long>("TeacherId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("teacher_id");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -531,11 +532,15 @@ namespace EduFlow.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EduFlow.Domain.Entities.Users.Teacher", null)
+                    b.HasOne("EduFlow.Domain.Entities.Users.Teacher", "Teacher")
                         .WithMany("Groups")
-                        .HasForeignKey("TeacherId");
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Course");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("EduFlow.Domain.Entities.Messaging.Message", b =>

@@ -150,9 +150,10 @@ namespace EduFlow.DAL.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
+                    course_id = table.Column<long>(type: "bigint", nullable: false),
+                    teacher_id = table.Column<long>(type: "bigint", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false),
-                    CourseId = table.Column<long>(type: "bigint", nullable: true),
-                    TeacherId = table.Column<long>(type: "bigint", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false)
@@ -161,15 +162,17 @@ namespace EduFlow.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Groups", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Groups_Courses_CourseId",
-                        column: x => x.CourseId,
+                        name: "FK_Groups_Courses_course_id",
+                        column: x => x.course_id,
                         principalTable: "Courses",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Groups_Teachers_TeacherId",
-                        column: x => x.TeacherId,
+                        name: "FK_Groups_Teachers_teacher_id",
+                        column: x => x.teacher_id,
                         principalTable: "Teachers",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -312,14 +315,14 @@ namespace EduFlow.DAL.Migrations
                 column: "category_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Groups_CourseId",
+                name: "IX_Groups_course_id",
                 table: "Groups",
-                column: "CourseId");
+                column: "course_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Groups_TeacherId",
+                name: "IX_Groups_teacher_id",
                 table: "Groups",
-                column: "TeacherId");
+                column: "teacher_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GroupStudent_StudentsId",
