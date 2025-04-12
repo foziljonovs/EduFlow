@@ -124,10 +124,10 @@ public partial class GroupPage : Page
                     count,
                     item.Name,
                     item.Course.Name,
-                    "Abdulvosid", //vaqtinchalik, keyinroq guruh va o'qituvchi releashion ship qilinib togri chaqiriladi
+                    item.Teacher.User.Firstname,
                     item.Students.Count,
                     item.IsStatus,
-                    DateTime.UtcNow.AddHours(5)); // vaqtincha, keyinroq startedDate ni chaqrib qoyiladi
+                    item.CreatedAt);
 
                 stGroups.Children.Add(component);
                 count++;

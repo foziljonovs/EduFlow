@@ -13,6 +13,8 @@ public class GroupForResultDto
     public string Name { get; set; }
     public long CourseId { get; set; }
     public Et.Course Course { get; set; }
+    public long TeacherId { get; set; }
+    public Teacher Teacher { get; set; }
     public List<Student> Students { get; set; }
     public List<Payment> Payments { get; set; }
     public Status IsStatus { get; set; }

@@ -34,7 +34,11 @@ public class GroupService(
             if(existsCourse is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 
-            if(existsCourse.IsDeleted)
+            var existsTeacher = await _unitOfWork.Teacher.GetAsync(dto.TeacherId);
+            if (existsCourse is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
+
+            if (existsCourse.IsDeleted)
                 throw new StatusCodeException(HttpStatusCode.Gone, "This course has been deleted.");
 
             var savedCourse = _mapper.Map<Group>(dto);
@@ -89,7 +93,7 @@ public class GroupService(
 
             if (dto.TeacherId.HasValue)
                 groupQuery = groupQuery
-                    .Where(x => x.Course.Teachers.Any(x => x.Id == dto.TeacherId));
+                    .Where(x => x.TeacherId == dto.TeacherId);
 
             if(dto.CategoryId.HasValue)
                 groupQuery = groupQuery
@@ -158,7 +162,7 @@ public class GroupService(
         try
         {
             var groups = await _unitOfWork.Group.GetAllFullInformation()
-                .Where(x => x.Course.Teachers.Any(x => x.Id == teacherId))
+                .Where(x => x.TeacherId == teacherId)
                 .ToListAsync(cancellationToken);
 
             if (!groups.Any())
@@ -211,6 +215,14 @@ public class GroupService(
 
             if(group.IsDeleted)
                 throw new StatusCodeException(HttpStatusCode.Gone, "This group has been deleted.");
+
+            var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
+            if (existsCourse is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+
+            var existsTeacher = await _unitOfWork.Teacher.GetAsync(dto.TeacherId);
+            if (existsTeacher is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
 
             var updatedGroup = _mapper.Map(dto, group);
             updatedGroup.Id = id;

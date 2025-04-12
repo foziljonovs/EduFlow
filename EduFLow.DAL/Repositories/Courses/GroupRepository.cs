@@ -21,6 +21,8 @@ public class GroupRepository : Repository<Group>, IGroupRepository
             .Include(x => x.Course)
                 .ThenInclude(c => c.Category)
             .Include(x => x.Course)
-                .ThenInclude(c => c.Teachers)
-            .Include(x => x.Students);
+            .Include(x => x.Students)
+            .Include(x => x.Teacher)
+            .Include(x => x.Teacher)
+                .ThenInclude(x => x.User);
 }
