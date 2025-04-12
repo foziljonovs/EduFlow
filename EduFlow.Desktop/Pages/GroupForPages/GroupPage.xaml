@@ -22,7 +22,7 @@
                       ToolTip="Kurs tanlash"
                       VerticalAlignment="Center"
                       Margin="10 0"
-                      >
+                      SelectionChanged="courseComboBox_SelectionChanged">
                 <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
             </ComboBox>
 
@@ -30,7 +30,8 @@
                       Width="110"
                       ToolTip="O'qituvchi tanlash"
                       VerticalAlignment="Center"
-                      Margin="10 0">
+                      Margin="10 0"
+                      SelectionChanged="teacherComboBox_SelectionChanged">
                 <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
             </ComboBox>
 
@@ -38,7 +39,8 @@
                       Width="110"
                       ToolTip="Guruh holatini tanlash"
                       VerticalAlignment="Center"
-                      Margin="10 0">
+                      Margin="10 0"
+                      SelectionChanged="activeComboBox_SelectionChanged">
                 <ComboBoxItem Content="Faol" IsSelected="True"/>
                 <ComboBoxItem Content="Arxivlangan"/>
                 <ComboBoxItem Content="Yakunlangan"/>

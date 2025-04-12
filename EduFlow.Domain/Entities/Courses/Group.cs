@@ -14,6 +14,9 @@ public class Group : BaseEntity
     [Column("course_id")]
     public required long CourseId { get; set; }
     public Course Course { get; set; }
+    [Column("teacher_id")]
+    public required long TeacherId { get; set; }
+    public Teacher Teacher { get; set; }
     public List<Student> Students { get; set; } = new List<Student>();
     public List<Payment> Payments { get; set; } = new List<Payment>();
     [Column("status")]

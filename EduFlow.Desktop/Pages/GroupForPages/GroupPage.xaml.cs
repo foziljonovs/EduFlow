@@ -124,10 +124,10 @@ public partial class GroupPage : Page
                     count,
                     item.Name,
                     item.Course.Name,
-                    "Abdulvosid", //vaqtinchalik, keyinroq guruh va o'qituvchi releashion ship qilinib togri chaqiriladi
+                    item.Teacher.User.Firstname,
                     item.Students.Count,
                     item.IsStatus,
-                    DateTime.UtcNow.AddHours(5)); // vaqtincha, keyinroq startedDate ni chaqrib qoyiladi
+                    item.CreatedAt);
 
                 stGroups.Children.Add(component);
                 count++;
@@ -139,6 +139,61 @@ public partial class GroupPage : Page
             emptyData.Visibility = Visibility.Visible;
         }
     }
+
+    private async Task Filter()
+    {
+        stGroups.Children.Clear();
+        emptyData.Visibility = Visibility.Collapsed;
+        groupLoader.Visibility = Visibility.Visible;
+
+        GroupForFilterDto dto = new GroupForFilterDto();
+
+        if(courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem
+            && selectedCourseItem.Tag != null)
+            dto.CourseId = (long)selectedCourseItem.Tag;
+
+        if (teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem
+            && selectedTeacherItem.Tag != null)
+            dto.TeacherId = (long)selectedTeacherItem.Tag;
+
+        if(IdentitySingelton.GetInstance().Role == Domain.Enums.UserRole.Teacher)
+            dto.TeacherId = _teacher.Id;
+
+        if (activeComboBox.SelectedItem is ComboBoxItem selectedActiveItem)
+        {
+            string status = selectedActiveItem.Content.ToString();
+
+            switch (status)
+            {
+                case "Faol":
+                    dto.IsStatus = Domain.Enums.Status.Active;
+                    break;
+                case "Arxivlangan":
+                    dto.IsStatus = Domain.Enums.Status.Archived;
+                    break;
+                case "Yakunlangan":
+                    dto.IsStatus = Domain.Enums.Status.Graduated;
+                    break;
+                default:
+                    dto.IsStatus = null;
+                    break;
+            }
+        }
+
+        var groups = await Task.Run(async () => await _groupService.FilterAsync(dto));
+        if (groups.Any())
+        {
+            groupLoader.Visibility = Visibility.Collapsed;
+            emptyData.Visibility = Visibility.Collapsed;
+            ShowGroups(groups);
+        }
+        else
+        {
+            groupLoader.Visibility = Visibility.Collapsed;
+            emptyData.Visibility = Visibility.Visible;
+        }
+    }
+
     private async Task<long> GetTeacher(long userId)
     {
         var teacher = await Task.Run(async () => await _teacherService.GetByUserIdAsync(userId));
@@ -182,8 +237,31 @@ public partial class GroupPage : Page
         }
     }
 
+    private bool isLoadPage = false;
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        LoadPage();
+        if(!isLoadPage)
+        {
+            isLoadPage = true;
+            LoadPage();
+        }
+    }
+
+    private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (isLoadPage)
+            Filter();
+    }
+
+    private void teacherComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if(isLoadPage)
+            Filter();
+    }
+
+    private void activeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (isLoadPage)
+            Filter();
     }
 }
