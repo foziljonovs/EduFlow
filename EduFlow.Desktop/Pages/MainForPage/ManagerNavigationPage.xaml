@@ -31,7 +31,8 @@
 
         <RadioButton x:Name="TeachersButton"
                      Style="{DynamicResource TeachersButton}"
-                     ToolTip="O'qituvchilar sahifasi"/>
+                     ToolTip="O'qituvchilar sahifasi"
+                     Click="TeachersButton_Click"/>
 
     </StackPanel>
 </Page>

@@ -58,6 +58,7 @@
             <TextBlock Grid.Column="4"
                        Text="Guruhlar soni"
                        VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
                        FontSize="12"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"/>

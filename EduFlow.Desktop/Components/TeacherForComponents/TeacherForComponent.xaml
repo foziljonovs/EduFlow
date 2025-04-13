@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="EduFlow.Desktop.Components.TeacherForComponents.TeacherForComponent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EduFlow.Desktop.Components.TeacherForComponents"
+             mc:Ignorable="d"
+             Height="45">
+    <Border
+        CornerRadius="5"
+        BorderThickness="1"
+        Margin="5 3 5 0"
+        BorderBrush="Gray">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       x:Name="tbNumber"
+                       Text="1"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"/>
+            
+            <TextBlock Grid.Column="1"
+                       x:Name="tbFirstname"
+                       Text="Abdulvosid"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"/>
+
+            <TextBlock Grid.Column="2"
+                       x:Name="tbPhoneNumber"
+                       Text="Abdulvosid"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"/>
+
+            <TextBlock Grid.Column="3"
+                       x:Name="tbCourse"
+                       Text="Foundation"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"/>
+
+            <TextBlock Grid.Column="4"
+                       x:Name="tbGroupCount"
+                       Text="6"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"/>
+
+            <TextBlock Grid.Column="5"
+                       x:Name="tbSkills"
+                       Text="C#"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"/>
+
+            <StackPanel Grid.Column="6"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button x:Name="ViewBtn"
+                        Style="{DynamicResource CrudButton}"
+                        Tag="eye"
+                        Background="DeepSkyBlue"/>
+
+                <Button x:Name="EditBtn"
+                        Style="{DynamicResource CrudButton}"
+                        Tag="pencil"
+                        Background="Gold"/>
+
+                <Button x:Name="DeleteBtn"
+                        Style="{DynamicResource CrudButton}"
+                        Tag="trash"
+                        Background="Tomato"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>
