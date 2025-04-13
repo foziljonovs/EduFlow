@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EduFlow.Desktop.Pages.TeacherForPages" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
       mc:Ignorable="d"
-      Title="TeacherPage">
+      Title="TeacherPage"
+      Loaded="Page_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -17,11 +18,11 @@
               Margin="3 0 18 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
 
@@ -43,7 +44,6 @@
             <TextBlock Grid.Column="2"
                        Text="Telefon raqam"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
                        FontSize="12"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"/>

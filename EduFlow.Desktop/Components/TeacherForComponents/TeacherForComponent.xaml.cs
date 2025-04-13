@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
-namespace EduFlow.Desktop.Components.TeacherForComponents
+namespace EduFlow.Desktop.Components.TeacherForComponents;
+
+/// <summary>
+/// Interaction logic for TeacherForComponent.xaml
+/// </summary>
+public partial class TeacherForComponent : UserControl
 {
-    /// <summary>
-    /// Interaction logic for TeacherForComponent.xaml
-    /// </summary>
-    public partial class TeacherForComponent : UserControl
+    private long Id { get; set; }
+    public TeacherForComponent()
     {
-        public TeacherForComponent()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
+
+    public void setValues(long id, int number, string firstName, string courseName, string phoneNumber, int groupCount, string[] skills)
+    {
+        Id = id;
+        tbNumber.Text = number.ToString();
+        tbFirstname.Text = firstName;
+        tbCourse.Text = courseName;
+        tbPhoneNumber.Text = phoneNumber;
+        tbGroupCount.Text = groupCount.ToString();
+        tbSkills.Text = skills[0];
     }
 }

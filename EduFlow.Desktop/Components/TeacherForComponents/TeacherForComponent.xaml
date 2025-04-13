@@ -9,16 +9,16 @@
     <Border
         CornerRadius="5"
         BorderThickness="1"
-        Margin="5 3 5 0"
+        Margin="3 5 3 0"
         BorderBrush="Gray">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
 
@@ -34,16 +34,16 @@
             <TextBlock Grid.Column="1"
                        x:Name="tbFirstname"
                        Text="Abdulvosid"
-                       HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        FontSize="14"
+                       Margin="0 0 5 0"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"/>
 
             <TextBlock Grid.Column="2"
                        x:Name="tbPhoneNumber"
-                       Text="Abdulvosid"
-                       HorizontalAlignment="Center"
+                       Text="+998945666964"
+                       Margin="0 0 5 0"
                        VerticalAlignment="Center"
                        FontSize="14"
                        FontFamily="Jetbrains Mono"
