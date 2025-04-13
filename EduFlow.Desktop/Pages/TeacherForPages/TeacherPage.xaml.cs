@@ -24,5 +24,10 @@ namespace EduFlow.Desktop.Pages.TeacherForPages
         {
             InitializeComponent();
         }
+
+        private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
