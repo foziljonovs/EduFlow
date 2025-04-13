@@ -38,6 +38,9 @@ public class GroupService(
             if (existsCourse is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
 
+            if(existsTeacher.CourseId != dto.CourseId)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "This teacher does not teach this course.");
+
             if (existsCourse.IsDeleted)
                 throw new StatusCodeException(HttpStatusCode.Gone, "This course has been deleted.");
 
