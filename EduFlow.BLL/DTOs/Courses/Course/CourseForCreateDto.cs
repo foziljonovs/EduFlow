@@ -1,5 +1,4 @@
-﻿using EduFlow.Domain.Entities.Users;
-using EduFlow.Domain.Enums;
+﻿using EduFlow.Domain.Enums;
 
 namespace EduFlow.BLL.DTOs.Courses.Course;
 
