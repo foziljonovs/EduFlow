@@ -8,6 +8,7 @@ using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Windows;
+using EduFlow.Desktop.Windows.CategoryForWindows;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -323,5 +324,11 @@ public partial class MainPage : Page
     {
         if(isPageLoaded)
             FilterCourses();
+    }
+
+    private void createCategoryBtn_Click(object sender, RoutedEventArgs e)
+    {
+        CategoryForCreateWindow window = new CategoryForCreateWindow();
+        window.ShowDialog();
     }
 }
