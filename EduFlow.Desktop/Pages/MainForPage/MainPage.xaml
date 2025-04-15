@@ -69,7 +69,8 @@
                                 Style="{DynamicResource CrudButton}"
                                 Tag="groupadd"
                                 Background="DeepSkyBlue"
-                                ToolTip="Kurs qo'shish"/>
+                                ToolTip="Kurs qo'shish"
+                                Click="createCourseBtn_Click"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">

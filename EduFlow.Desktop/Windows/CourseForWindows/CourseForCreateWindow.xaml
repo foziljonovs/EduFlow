@@ -10,7 +10,7 @@
         Width="400"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
-    <Grid Margin="10 0">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -19,6 +19,7 @@
         <Grid Grid.Row="0">
             <TextBlock Text="Kurs yaratish"
                        FontSize="18"
+                       Margin="10 0"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -31,7 +32,8 @@
         </Grid>
 
         <StackPanel Grid.Row="1"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Center"
+                    Margin="10 0">
             <TextBlock Text="Nomi"
                        FontSize="16"
                        Margin="10 0 10 5"
