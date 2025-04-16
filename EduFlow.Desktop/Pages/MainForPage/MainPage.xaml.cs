@@ -10,6 +10,8 @@ using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Windows;
 using EduFlow.Desktop.Windows.CategoryForWindows;
 using EduFlow.Desktop.Windows.CourseForWindows;
+using EduFlow.Desktop.Windows.GroupForWindows;
+using EduFlow.Desktop.Windows.TeacherForWindows;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -336,6 +338,18 @@ public partial class MainPage : Page
     private void createCourseBtn_Click(object sender, RoutedEventArgs e)
     {
         CourseForCreateWindow window = new CourseForCreateWindow();
+        window.ShowDialog();
+    }
+
+    private void createTeacherBtn_Click(object sender, RoutedEventArgs e)
+    {
+        TeacherForCreateWindow window = new TeacherForCreateWindow();
+        window.ShowDialog();
+    }
+
+    private void createGroupBtn_Click(object sender, RoutedEventArgs e)
+    {
+        GroupForCreateWindow window = new GroupForCreateWindow();
         window.ShowDialog();
     }
 }

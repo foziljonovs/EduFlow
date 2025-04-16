@@ -87,7 +87,8 @@
                                 Style="{DynamicResource CrudButton}"
                                 Tag="personadd"
                                 Background="DarkSalmon"
-                                ToolTip="O'qituvchi qo'shish"/>
+                                ToolTip="O'qituvchi qo'shish"
+                                Click="createTeacherBtn_Click"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -202,7 +203,8 @@
                         Tag="add"
                         Background="MediumSeaGreen"
                         HorizontalAlignment="Right"
-                        ToolTip="Guruh yaratish"/>
+                        ToolTip="Guruh yaratish"
+                        Click="createGroupBtn_Click"/>
             </Grid>
 
             <Grid Grid.Row="1">

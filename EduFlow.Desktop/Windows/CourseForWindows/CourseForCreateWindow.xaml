@@ -35,47 +35,28 @@
                     VerticalAlignment="Center"
                     Margin="10 0">
             <TextBlock Text="Nomi"
-                       FontSize="16"
-                       Margin="10 0 10 5"
-                       Foreground="Black"
+                       FontSize="13"
+                       Margin="10 0 0 0"
+                       Foreground="Gray"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"/>
 
-            <Border CornerRadius="8"
-                    BorderThickness="1"
-                    BorderBrush="#FFCCCCCC"
-                    Height="45">
                 <TextBox x:Name="nameTxt"
-                         FontSize="18"
-                         FontFamily="Jetbrains Mono"
-                         FontWeight="SemiBold"
-                         Margin="10 5"
-                         BorderThickness="0"
-                         VerticalContentAlignment="Center"/>
-            </Border>
-            
-            <TextBlock Text="Narxi"
-                       FontSize="16"
-                       Margin="10 10 10 5"
-                       Foreground="Black"
+                         Style="{DynamicResource CustomTextBoxStyle}"
+                         FontWeight="SemiBold"/>
+
+                <TextBlock Text="Narxi"
+                       FontSize="13"
+                       Margin="10 0 0 0"
+                       Foreground="Gray"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"/>
 
-            <Border CornerRadius="8"
-                    BorderThickness="1"
-                    BorderBrush="#FFCCCCCC"
-                    Height="45">
                 <TextBox x:Name="priceTxt"
-                         FontSize="18"
-                         FontFamily="Jetbrains Mono"
-                         FontWeight="SemiBold"
-                         Margin="10 5"
-                         BorderThickness="0"
-                         PreviewTextInput="priceTxt_PreviewTextInput"
-                         VerticalContentAlignment="Center"/>
-            </Border>
+                         Style="{DynamicResource CustomTextBoxStyle}"
+                         FontWeight="SemiBold"/>
 
-            <ComboBox Margin="0 15 0 0"
+            <ComboBox Margin="0 5 0 0"
                       FontSize="18"
                       FontFamily="Jetbrains Mono"
                       FontWeight="SemiBold"
