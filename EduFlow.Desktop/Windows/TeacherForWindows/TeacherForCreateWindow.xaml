@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EduFlow.Desktop.Windows.TeacherForWindows"
         mc:Ignorable="d"
         Title="TeacherForCreateWindow" 
-        Height="550"
+        Height="520"
         Width="400"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
