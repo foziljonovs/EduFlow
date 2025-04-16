@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
-namespace EduFlow.Desktop.Windows.GroupForWindows
+namespace EduFlow.Desktop.Windows.GroupForWindows;
+
+/// <summary>
+/// Interaction logic for GroupForCreateWindow.xaml
+/// </summary>
+public partial class GroupForCreateWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for GroupForCreateWindow.xaml
-    /// </summary>
-    public partial class GroupForCreateWindow : Window
+    public GroupForCreateWindow()
     {
-        public GroupForCreateWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
+
+    private void closeBtn_Click(object sender, RoutedEventArgs e)
+        => this.Close();
 }
