@@ -87,7 +87,8 @@
                                 Style="{DynamicResource CrudButton}"
                                 Tag="personadd"
                                 Background="DarkSalmon"
-                                ToolTip="O'qituvchi qo'shish"/>
+                                ToolTip="O'qituvchi qo'shish"
+                                Click="createTeacherBtn_Click"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
