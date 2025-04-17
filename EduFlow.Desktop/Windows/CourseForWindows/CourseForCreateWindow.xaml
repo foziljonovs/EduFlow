@@ -9,7 +9,8 @@
         Height="420"
         Width="400"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -56,7 +57,8 @@
                          Style="{DynamicResource CustomTextBoxStyle}"
                          FontWeight="SemiBold"/>
 
-            <ComboBox Margin="0 5 0 0"
+            <ComboBox x:Name="termComboBox"
+                      Margin="0 5 0 0"
                       FontSize="18"
                       FontFamily="Jetbrains Mono"
                       FontWeight="SemiBold"
@@ -76,7 +78,8 @@
                 <ComboBoxItem Content="12"/>
             </ComboBox>
             
-            <ComboBox Margin="0 15 0 0"
+            <ComboBox x:Name="statusComboBox"
+                      Margin="0 15 0 0"
                       FontSize="18"
                       FontFamily="Jetbrains Mono"
                       FontWeight="SemiBold"
@@ -87,7 +90,8 @@
             </ComboBox>
 
 
-            <ComboBox Margin="0 15"
+            <ComboBox x:Name="categoryComboBox"
+                      Margin="0 15"
                       FontSize="18"
                       FontFamily="Jetbrains Mono"
                       FontWeight="SemiBold"
@@ -96,7 +100,8 @@
             </ComboBox>
 
             <Button x:Name="SaveBtn"
-                    Style="{DynamicResource saveButton}"/>
+                    Style="{DynamicResource saveButton}"
+                    Click="SaveBtn_Click"/>
         </StackPanel>
     </Grid>
 </Window>
