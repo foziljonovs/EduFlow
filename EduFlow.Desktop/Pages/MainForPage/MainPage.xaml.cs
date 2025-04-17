@@ -212,6 +212,15 @@ public partial class MainPage : Page
 
         if (courses.Any())
         {
+            courseComboBox.Items.Clear();
+
+            courseComboBox.Items.Add(new ComboBoxItem
+            {
+                Content = "Barcha",
+                IsSelected = true,
+                IsEnabled = false
+            });
+
             foreach (var course in courses)
             {
                 ComboBoxItem item = new ComboBoxItem();
