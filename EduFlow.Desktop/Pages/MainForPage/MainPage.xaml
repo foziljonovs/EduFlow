@@ -44,7 +44,6 @@
                                   VerticalAlignment="Center"
                                   Margin="10 0"
                                   SelectionChanged="categoryComboBox_SelectionChanged_1">
-                            <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
                         </ComboBox>
 
                         <Button x:Name="createCategoryBtn"
@@ -62,7 +61,6 @@
                                   VerticalAlignment="Center"
                                   Margin="10 0"
                                   SelectionChanged="categoryComboBox_SelectionChanged">
-                            <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
                         </ComboBox>
 
                         <Button x:Name="createCourseBtn"
