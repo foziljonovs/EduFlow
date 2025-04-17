@@ -64,6 +64,15 @@ public partial class MainPage : Page
         var categories = await Task.Run(async () => await _categoryService.GetAllAsync());
         if (categories.Any())
         {
+            categoryComboBox.Items.Clear();
+
+            categoryComboBox.Items.Add(new ComboBoxItem
+            {
+                Content = "Barcha",
+                IsSelected = true,
+                IsEnabled = false
+            });
+
             foreach (var category in categories)
             {
                 ComboBoxItem item = new ComboBoxItem();
@@ -147,7 +156,6 @@ public partial class MainPage : Page
 
     private async Task GetAllGroup()
     {
-        stCourses.Children.Clear();
         courseForLoader.Visibility = Visibility.Visible;
 
         var groups = await Task.Run(async () => await _groupService.GetAllAsync());
@@ -156,7 +164,6 @@ public partial class MainPage : Page
 
     private async Task GetAllGroupByTeacherId(long teacherId)
     {
-        stCourses.Children.Clear();
         courseForLoader.Visibility = Visibility.Visible;
         var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(teacherId));
         ShowGroup(groups);
@@ -164,6 +171,8 @@ public partial class MainPage : Page
 
     private void ShowGroup(List<GroupForResultDto> groups)
     {
+        stCourses.Children.Clear();
+
         int count = 1;
         if (groups.Any())
         {
@@ -329,10 +338,11 @@ public partial class MainPage : Page
             FilterCourses();
     }
 
-    private void createCategoryBtn_Click(object sender, RoutedEventArgs e)
+    private async void createCategoryBtn_Click(object sender, RoutedEventArgs e)
     {
         CategoryForCreateWindow window = new CategoryForCreateWindow();
         window.ShowDialog();
+        await GetAllCategories();
     }
 
     private void createCourseBtn_Click(object sender, RoutedEventArgs e)
