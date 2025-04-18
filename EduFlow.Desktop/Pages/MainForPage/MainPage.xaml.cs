@@ -12,7 +12,6 @@ using EduFlow.Desktop.Windows.CategoryForWindows;
 using EduFlow.Desktop.Windows.CourseForWindows;
 using EduFlow.Desktop.Windows.GroupForWindows;
 using EduFlow.Desktop.Windows.TeacherForWindows;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -141,7 +140,18 @@ public partial class MainPage : Page
 
         if (teachers.Any())
         {
-            foreach(var teacher in teachers)
+            teacherComboBox.Items.Clear();
+
+            var defaultItem = new ComboBoxItem
+            {
+                Content = "Barcha",
+                IsSelected = true,
+                IsEnabled = false
+            };
+
+            teacherComboBox.Items.Add(defaultItem);
+
+            foreach (var teacher in teachers)
             {
                 ComboBoxItem item = new ComboBoxItem();
                 item.Content = teacher.User.Firstname;
@@ -362,10 +372,11 @@ public partial class MainPage : Page
         await GetAllCourse();
     }
 
-    private void createTeacherBtn_Click(object sender, RoutedEventArgs e)
+    private async void createTeacherBtn_Click(object sender, RoutedEventArgs e)
     {
         TeacherForCreateWindow window = new TeacherForCreateWindow();
         window.ShowDialog();
+        await GetAllTeachers();
     }
 
     private void createGroupBtn_Click(object sender, RoutedEventArgs e)
