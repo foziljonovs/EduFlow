@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduFlow.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250412180954_FirstMigration")]
+    [Migration("20250418161707_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -138,8 +138,8 @@ namespace EduFlow.DAL.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("price");
 
-                    b.Property<DateTime>("Term")
-                        .HasColumnType("timestamp with time zone")
+                    b.Property<byte>("Term")
+                        .HasColumnType("smallint")
                         .HasColumnName("term");
 
                     b.Property<DateTime>("UpdatedAt")

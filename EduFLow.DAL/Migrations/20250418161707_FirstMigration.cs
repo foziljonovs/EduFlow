@@ -96,7 +96,7 @@ namespace EduFlow.DAL.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "text", nullable: true),
                     price = table.Column<double>(type: "double precision", nullable: false),
-                    term = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    term = table.Column<byte>(type: "smallint", nullable: false),
                     archived = table.Column<int>(type: "integer", nullable: false),
                     category_id = table.Column<long>(type: "bigint", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
