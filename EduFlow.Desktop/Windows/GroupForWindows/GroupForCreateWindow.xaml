@@ -9,7 +9,8 @@
         Height="300"
         Width="400"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -66,7 +67,8 @@
             </ComboBox>
 
             <Button x:Name="saveBtn"
-                    Style="{DynamicResource saveButton}"/>
+                    Style="{DynamicResource saveButton}"
+                    Click="saveBtn_Click"/>
         </StackPanel>
     </Grid>
 </Window>

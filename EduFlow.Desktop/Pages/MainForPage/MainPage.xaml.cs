@@ -12,6 +12,7 @@ using EduFlow.Desktop.Windows.CategoryForWindows;
 using EduFlow.Desktop.Windows.CourseForWindows;
 using EduFlow.Desktop.Windows.GroupForWindows;
 using EduFlow.Desktop.Windows.TeacherForWindows;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -379,9 +380,10 @@ public partial class MainPage : Page
         await GetAllTeachers();
     }
 
-    private void createGroupBtn_Click(object sender, RoutedEventArgs e)
+    private async void createGroupBtn_Click(object sender, RoutedEventArgs e)
     {
         GroupForCreateWindow window = new GroupForCreateWindow();
         window.ShowDialog();
+        await GetAllGroup();
     }
 }

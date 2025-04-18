@@ -1,4 +1,13 @@
-﻿using System.Windows;
+﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.Desktop.Integrated.Services.Courses.Course;
+using EduFlow.Desktop.Integrated.Services.Courses.Group;
+using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using System.Windows;
+using System.Windows.Controls;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace EduFlow.Desktop.Windows.GroupForWindows;
 
@@ -7,11 +16,160 @@ namespace EduFlow.Desktop.Windows.GroupForWindows;
 /// </summary>
 public partial class GroupForCreateWindow : Window
 {
+    private readonly IGroupService _groupService;
+    private readonly ICourseService _courseService;
+    private readonly ITeacherService _teacherService;
     public GroupForCreateWindow()
     {
         InitializeComponent();
+        this._groupService = new GroupService();
+        this._courseService = new CourseService();
+        this._teacherService = new TeacherService();
     }
+
+    Notifier notifier = new Notifier(cfg =>
+    {
+        cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.MainWindow,
+            corner: Corner.TopRight,
+            offsetX: 20,
+            offsetY: 20);
+
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+
+        cfg.Dispatcher = Application.Current.Dispatcher;
+
+        cfg.DisplayOptions.Width = 200;
+        cfg.DisplayOptions.TopMost = true;
+    });
+
+    Notifier notifierThis = new Notifier(cfg =>
+    {
+        cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
+            corner: Corner.TopRight,
+            offsetX: 20,
+            offsetY: 20);
+
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+
+        cfg.Dispatcher = Application.Current.Dispatcher;
+
+        cfg.DisplayOptions.Width = 200;
+        cfg.DisplayOptions.TopMost = true;
+    });
 
     private void closeBtn_Click(object sender, RoutedEventArgs e)
         => this.Close();
+
+    private async Task GetAllCourse()
+    {
+        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+
+        if (courses.Any())
+        {
+            foreach (var course in courses)
+            {
+                var item = new ComboBoxItem();
+                item.Content = course.Name;
+                item.Tag = course.Id;
+                this.courseComboBox.Items.Add(item);
+            }
+        }
+    }
+
+    private async Task GetAllTeacher()
+    {
+        var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+
+        if (teachers.Any())
+        {
+            foreach (var teacher in teachers)
+            {
+                var item = new ComboBoxItem();
+                item.Content = teacher.User.Firstname + " " + teacher.User.Lastname;
+                item.Tag = teacher.Id;
+                this.teacherComboBox.Items.Add(item);
+            }
+        }
+    }
+
+    private async Task SavedAsync()
+    {
+        try
+        {
+            GroupForCreateDto dto = new GroupForCreateDto();
+
+            if(!string.IsNullOrEmpty(nameTxt.Text))
+                dto.Name = nameTxt.Text;
+            else
+            {
+                notifierThis.ShowWarning("Guruh nomi kiritilmadi!");
+                nameTxt.Focus();
+                SaveButtonEnable();
+                return;
+            }
+
+            if(courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem && selectedCourseItem.Tag is long courseId)
+                dto.CourseId = courseId;
+            else
+            {
+                notifierThis.ShowWarning("Kurs tanlanmadi!");
+                courseComboBox.Focus();
+                SaveButtonEnable();
+                return;
+            }
+
+            if (teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem && selectedTeacherItem.Tag is long teacherId)
+                dto.TeacherId = teacherId;
+            else
+            {
+                notifierThis.ShowWarning("O'qituvchi tanlanmadi!");
+                teacherComboBox.Focus();
+                SaveButtonEnable();
+                return;
+            }
+
+            var result = await _groupService.AddAsync(dto);
+
+            if (result)
+            {
+                this.Close();
+                notifier.ShowSuccess("Guruh muvaffaqiyatli saqlandi!");
+            }
+            else
+            {
+                notifierThis.ShowError("Guruhni saqlashda xatolik yuz berdi!");
+                SaveButtonEnable();
+            }
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("Xatolik yuz berdi!");
+            SaveButtonEnable();
+        }
+    }
+
+    private bool SaveButtonEnable()
+        => saveBtn.IsEnabled = true;
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        GetAllCourse();
+        GetAllTeacher();
+    }
+
+    private async void saveBtn_Click(object sender, RoutedEventArgs e)
+    {
+        saveBtn.IsEnabled = false;
+
+        if (!saveBtn.IsEnabled)
+            await SavedAsync();
+        else
+            notifierThis.ShowWarning("Iltimos, kuting!");
+    }
 }
