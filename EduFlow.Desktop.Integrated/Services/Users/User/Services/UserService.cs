@@ -77,6 +77,19 @@ public class UserService : IUserService
         }
     }
 
+    public async Task<long> RegisterWithIdAsync(UserForCreateDto dto)
+    {
+        try
+        {
+            var result = await _server.RegisterWithIdAsync(dto);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+        }
+    }
+
     public async Task<bool> UpdateAsync(long id, UserForUpdateDto dto)
     {
         try

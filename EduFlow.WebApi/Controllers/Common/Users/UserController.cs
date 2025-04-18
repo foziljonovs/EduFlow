@@ -72,6 +72,28 @@ public class UserController(
         }
     }
 
+    [HttpPost("register/id")]
+    public async Task<IActionResult> RegisterWithIdAsync([FromBody] UserForCreateDto dto, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.AddAsync(dto, cancellation);
+            return Ok(response);
+        }
+        catch (ValidationException ex)
+        {
+            return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
     [HttpPut("{id:long}")]
     public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] UserForUpdateDto dto, CancellationToken cancellation = default)
     {
