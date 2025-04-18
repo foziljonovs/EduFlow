@@ -6,7 +6,6 @@ using EduFlow.BLL.Interfaces.Courses;
 using EduFlow.DAL.Interfaces;
 using EduFlow.Domain.Entities.Courses;
 using FluentValidation;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Net;
