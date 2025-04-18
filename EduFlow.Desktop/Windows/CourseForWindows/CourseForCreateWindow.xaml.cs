@@ -124,16 +124,16 @@ public partial class CourseForCreateWindow : Window
                 return;
             }
 
-            if (termComboBox.SelectedItem is ComboBoxItem selectedTermItem && selectedTermItem.Content is byte termDate)
-                dto.Term = termDate;
+            if (termComboBox.SelectedItem is ComboBoxItem selectedTermItem)
+                dto.Term = byte.Parse(selectedTermItem.Content.ToString());
             else
             {
                 notifierThis.ShowWarning("Kurs muddatini tanlang!");
                 return;
             }
 
-            if (statusComboBox.SelectedItem != null)
-                dto.Archived = statusComboBox.SelectedItem.ToString() switch
+            if (statusComboBox.SelectedItem is ComboBoxItem selectedStatusItem)
+                dto.Archived = selectedStatusItem.Content.ToString() switch
                 {
                     "Faol" => Domain.Enums.Status.Active,
                     "Saqlangan" => Domain.Enums.Status.Archived,
@@ -150,7 +150,7 @@ public partial class CourseForCreateWindow : Window
             if (result)
             {
                 this.Close();
-                notifierThis.ShowSuccess("Kurs muvaffaqiyatli saqlandi!");
+                notifier.ShowSuccess("Kurs muvaffaqiyatli saqlandi!");
             }
             else
             {
