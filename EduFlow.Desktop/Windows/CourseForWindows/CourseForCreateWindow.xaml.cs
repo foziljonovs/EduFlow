@@ -124,7 +124,7 @@ public partial class CourseForCreateWindow : Window
                 return;
             }
 
-            if (termComboBox.SelectedItem is ComboBoxItem selectedTermItem && selectedTermItem.Content is DateTime termDate)
+            if (termComboBox.SelectedItem is ComboBoxItem selectedTermItem && selectedTermItem.Content is byte termDate)
                 dto.Term = termDate;
             else
             {

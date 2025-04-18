@@ -135,8 +135,8 @@ namespace EduFlow.DAL.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("price");
 
-                    b.Property<DateTime>("Term")
-                        .HasColumnType("timestamp with time zone")
+                    b.Property<byte>("Term")
+                        .HasColumnType("smallint")
                         .HasColumnName("term");
 
                     b.Property<DateTime>("UpdatedAt")

@@ -12,7 +12,7 @@ public class Course : BaseEntity
     [Column("price")]
     public required double Price { get; set; }
     [Column("term")]
-    public DateTime Term { get; set; }
+    public byte Term { get; set; }
     [Column("archived")]
     public Status Archived { get; set; }
     [Column("category_id")]
