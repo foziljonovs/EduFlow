@@ -26,6 +26,34 @@ public class UserService(
     private readonly ITokenService _tokenService = tokenService;
     private readonly ILogger<UserService> _logger = logger;
     private readonly IUserValidator _validator = validator;
+
+    public async Task<long> AddAsync(UserForCreateDto dto, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var validationResult = await _validator.ValidateCreate(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
+            var userExists = await _unitOfWork.User.GetAllAsync().FirstOrDefaultAsync(x => x.PhoneNumber == dto.PhoneNumber);
+            if (userExists is not null)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "User already exists!");
+
+            var hasher = PasswordHelper.Hash(dto.Password);
+            var savedUser = _mapper.Map<User>(dto);
+
+            savedUser.Password = hasher.Hash;
+            savedUser.Salt = hasher.Salt;
+
+            return await _unitOfWork.User.AddAsync(savedUser);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"An error occured while register the user");
+            throw;
+        }
+    }
+
     public async Task<bool> ChangePasswordAsync(long id, UserForChangePasswordDto dto, CancellationToken cancellationToken = default)
     {
         try

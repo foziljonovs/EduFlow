@@ -12,4 +12,5 @@ public interface IUserService
     Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default);
     Task<bool> ChangePasswordAsync(long id, UserForChangePasswordDto dto, CancellationToken cancellationToken = default);
     Task<bool> VerifyPasswordAsync(long id, string password, CancellationToken cancellationToken = default);
+    Task<long> AddAsync(UserForCreateDto dto, CancellationToken cancellationToken = default);
 }
