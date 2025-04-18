@@ -106,6 +106,8 @@ public partial class CourseForCreateWindow : Window
             else
             {
                 notifierThis.ShowWarning("Kurs nomini kiriting!");
+                nameTxt.Focus();
+                SaveButtonEnable();
                 return;
             }
 
@@ -114,6 +116,8 @@ public partial class CourseForCreateWindow : Window
             else
             {
                 notifierThis.ShowWarning("Kurs narxini kiriting!");
+                priceTxt.Focus();
+                SaveButtonEnable();
                 return;
             }
 
@@ -122,6 +126,8 @@ public partial class CourseForCreateWindow : Window
             else
             {
                 notifierThis.ShowWarning("Kurs kategoriyasini tanlang!");
+                categoryComboBox.Focus();
+                SaveButtonEnable();
                 return;
             }
 
@@ -130,6 +136,8 @@ public partial class CourseForCreateWindow : Window
             else
             {
                 notifierThis.ShowWarning("Kurs muddatini tanlang!");
+                termComboBox.Focus();
+                SaveButtonEnable();
                 return;
             }
 
@@ -143,6 +151,8 @@ public partial class CourseForCreateWindow : Window
             else
             {
                 notifierThis.ShowWarning("Kurs holatini tanlang!");
+                statusComboBox.Focus();
+                SaveButtonEnable();
                 return;
             }
 
@@ -156,11 +166,13 @@ public partial class CourseForCreateWindow : Window
             else
             {
                 notifierThis.ShowError("Kurs saqlashda xatolik yuz berdi!");
+                SaveButtonEnable();
             }
         }
         catch (Exception ex)
         {
             notifierThis.ShowError("Xatolik yuz berdi!");
+            SaveButtonEnable();
         }
     }
 
@@ -168,6 +180,9 @@ public partial class CourseForCreateWindow : Window
     {
         GetAllCategory();
     }
+
+    private bool SaveButtonEnable()
+        => SaveBtn.IsEnabled = true;
 
     private async void SaveBtn_Click(object sender, RoutedEventArgs e)
     {

@@ -4,8 +4,10 @@ using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Integrated.Services.Users.User.Interfaces;
 using EduFlow.Desktop.Integrated.Services.Users.User.Services;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
@@ -106,20 +108,34 @@ public partial class TeacherForCreateWindow : Window
                 var firstName = fullNameTxt.Text.Split(' ')[0];
                 var lastName = fullNameTxt.Text.Split(' ')[1];
 
-                userDto.Firstname = firstName;
-                userDto.Lastname = lastName;
+                if(!string.IsNullOrEmpty(firstName) || !string.IsNullOrEmpty(lastName))
+                {
+                    userDto.Firstname = firstName;
+                    userDto.Lastname = lastName;
+                }
+                else
+                {
+                    notifierThis.ShowWarning("Ism va familiya to'g'ri kiritilmagan!");
+                    fullNameTxt.Focus();
+                    SaveButtonEnable();
+                    return;
+                }
             }
             else
             {
                 notifierThis.ShowWarning("Ism va familyani kiriting!");
+                fullNameTxt.Focus();
+                SaveButtonEnable();
                 return;
             }
 
-            if (!string.IsNullOrEmpty(phoneNumberTxt.Text))
+            if (!string.IsNullOrEmpty(phoneNumberTxt.Text) && phoneNumberTxt.Text.Length == 13)
                 userDto.PhoneNumber = phoneNumberTxt.Text;
             else
             {
                 notifierThis.ShowWarning("Telefon raqamini kiriting!");
+                phoneNumberTxt.Focus();
+                SaveButtonEnable();
                 return;
             }
 
@@ -128,14 +144,18 @@ public partial class TeacherForCreateWindow : Window
             else
             {
                 notifierThis.ShowWarning("Parolni kiriting!");
+                passwordTxt.Focus();
+                SaveButtonEnable();
                 return;
             }
 
-            if(ageComboBox.SelectedItem is ComboBoxItem selectedAgeItem && selectedAgeItem.Content is int age)
+            if (ageComboBox.SelectedItem is ComboBoxItem selectedAgeItem && int.TryParse(selectedAgeItem.Content.ToString(), out int age))
                 userDto.Age = age;
             else
             {
                 notifierThis.ShowWarning("Yoshni tanlang!");
+                ageComboBox.Focus();
+                SaveButtonEnable();
                 return;
             }
 
@@ -144,26 +164,31 @@ public partial class TeacherForCreateWindow : Window
             else
             {
                 notifierThis.ShowWarning("Kursni tanlang!");
+                courseComboBox.Focus();
+                SaveButtonEnable();
                 return;
             }
 
-            if (!string.IsNullOrEmpty(skillTxt.Text)
-                && skillTxt.Text.Split(',').All(skill => !string.IsNullOrWhiteSpace(skill)))
+            if (!string.IsNullOrEmpty(skillTxt.Text))
             {
                 teacherDto.Skills = skillTxt.Text.Split(',').Select(skill => skill.Trim()).ToArray();
             }
             else
             {
                 notifierThis.ShowWarning("O'qituvchi ko'nikmalari kiriting! har bir ko'nikmani vergul bilan ajrating.");
+                skillTxt.Focus();
+                SaveButtonEnable();
                 return;
             }
 
             userDto.Role = Domain.Enums.UserRole.Teacher;
 
-            var userResult = await Task.Run(async () => await _userService.RegisterAsync(userDto));
+            var userResult = await Task.Run(async () => await _userService.RegisterWithIdAsync(userDto));
 
-            if (userResult)
+            if (userResult > 0)
             {
+                teacherDto.UserId = userResult;
+
                 var teacherResult = await Task.Run(async () => await _teacherService.AddAsync(teacherDto));
 
                 if (teacherResult)
@@ -174,18 +199,21 @@ public partial class TeacherForCreateWindow : Window
                 else
                 {
                     notifierThis.ShowError("O'qituvchi qo'shishda xatolik yuz berdi!");
+                    SaveButtonEnable();
                     return;
                 }
             }
             else
             {
                 notifierThis.ShowError("O'qituvchi qo'shishda xatolik yuz berdi!");
+                SaveButtonEnable();
                 return;
             }
         }
         catch(Exception ex)
         {
             notifierThis.ShowError("Xatolik yuz berdi!");
+            SaveButtonEnable();
         }
     }
 
@@ -196,6 +224,9 @@ public partial class TeacherForCreateWindow : Window
     {
         GetAllCourse();
     }
+
+    private bool SaveButtonEnable() 
+        => saveBtn.IsEnabled = true;
 
     private async void saveBtn_Click(object sender, RoutedEventArgs e)
     {

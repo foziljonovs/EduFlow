@@ -67,6 +67,8 @@ public partial class CategoryForCreateWindow : Window
             if (string.IsNullOrEmpty(nameTxt.Text))
             {
                 notifierThis.ShowWarning("Kategoriya nomi kiriting!");
+                nameTxt.Focus();
+                SaveButtonEnable();
                 return;
             }
 
@@ -85,12 +87,19 @@ public partial class CategoryForCreateWindow : Window
             else
             {
                 notifierThis.ShowError("Saqlashda xatolik yuz berdi!");
+                SaveButtonEnable();
             }
         }
         catch (Exception ex)
         {
             notifierThis.ShowError("Xatolik yuz berdi!");
+            SaveButtonEnable();
         }
+    }
+
+    private bool SaveButtonEnable()
+    {
+        return SaveBtn.IsEnabled = true;
     }
 
     private async void SaveBtn_Click(object sender, RoutedEventArgs e)
