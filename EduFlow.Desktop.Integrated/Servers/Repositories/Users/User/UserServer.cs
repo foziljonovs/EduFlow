@@ -133,6 +133,38 @@ public class UserServer : IUserServer
         }
     }
 
+    public async Task<long> RegisterWithIdAsync(UserForCreateDto dto)
+    {
+        try
+        {
+            using(var client = new HttpClient())
+            {
+                client.Timeout = TimeSpan.FromSeconds(30);
+
+                using (var request = new HttpRequestMessage(HttpMethod.Post, AuthApi.BASE_URL + "/api/users/register/id"))
+                {
+                    var json = JsonConvert.SerializeObject(dto);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+                    request.Content = content;
+
+                    var response = await client.SendAsync(request);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+                        return long.Parse(result);
+                    }
+                    else
+                        return 0;
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            return 0;
+        }
+    }
+
     public async Task<bool> UpdateAsync(long id, UserForUpdateDto dto)
     {
         try

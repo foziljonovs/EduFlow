@@ -7,6 +7,7 @@ public interface IUserService
     Task<List<UserForResultDto>> GetAllAsync();
     Task<UserForResultDto> GetByIdAsync(long id);
     Task<bool> RegisterAsync(UserForCreateDto dto);
+    Task<long> RegisterWithIdAsync(UserForCreateDto dto);
     Task<bool> UpdateAsync(long id, UserForUpdateDto dto);
     Task<bool> DeleteAsync(long id);
     Task<bool> ChangePasswordAsync(long id, UserForChangePasswordDto dto);
