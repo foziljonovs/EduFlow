@@ -1,6 +1,7 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -168,8 +169,13 @@ public partial class CourseForCreateWindow : Window
         GetAllCategory();
     }
 
-    private void SaveBtn_Click(object sender, RoutedEventArgs e)
+    private async void SaveBtn_Click(object sender, RoutedEventArgs e)
     {
-        SavedAsync();
+        SaveBtn.IsEnabled = false;
+
+        if (!SaveBtn.IsEnabled)
+            await SavedAsync();
+        else 
+            notifierThis.ShowWarning("Iltimos, kuting!");
     }
 }

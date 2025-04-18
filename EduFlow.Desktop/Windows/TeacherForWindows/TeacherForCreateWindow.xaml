@@ -9,7 +9,8 @@
         Height="520"
         Width="400"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -95,7 +96,8 @@
                        Margin="10 0"/>
             <TextBox x:Name="skillTxt"
                      Style="{DynamicResource CustomTextBoxStyle}"
-                     FontWeight="SemiBold"/>
+                     FontWeight="SemiBold"
+                     TextWrapping="Wrap"/>
 
             <ComboBox x:Name="courseComboBox"
                       FontSize="18"
@@ -103,11 +105,11 @@
                       FontFamily="Jetbrains Mono"
                       FontWeight="SemiBold"
                       Margin="0 0 0 10">
-                <ComboBoxItem Content="Kurs tanlang" IsSelected="True" IsEnabled="False"/>
             </ComboBox>
 
             <Button x:Name="saveBtn"
-                    Style="{DynamicResource saveButton}"/>
+                    Style="{DynamicResource saveButton}"
+                    Click="saveBtn_Click"/>
         </StackPanel>
     </Grid>
 </Window>
