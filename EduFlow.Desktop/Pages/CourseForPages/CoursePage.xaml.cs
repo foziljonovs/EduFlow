@@ -5,6 +5,8 @@ using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using EduFlow.Desktop.Windows.CourseForWindows;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -180,5 +182,12 @@ public partial class CoursePage : Page
                 GetAllCourseByCategory(categoryId);
             }
         }
+    }
+
+    private async void AddCourseBtn_Click(object sender, RoutedEventArgs e)
+    {
+        CourseForCreateWindow window = new CourseForCreateWindow();
+        window.ShowDialog();
+        await GetAllCourse();
     }
 }

@@ -5,6 +5,7 @@ using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using EduFlow.Desktop.Windows.GroupForWindows;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -263,5 +264,12 @@ public partial class GroupPage : Page
     {
         if (isLoadPage)
             Filter();
+    }
+
+    private async void createGroupBtn_Click(object sender, RoutedEventArgs e)
+    {
+        GroupForCreateWindow window = new GroupForCreateWindow();
+        window.ShowDialog();
+        await GetAllGroup();
     }
 }

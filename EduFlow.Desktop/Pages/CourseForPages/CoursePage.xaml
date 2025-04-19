@@ -73,7 +73,8 @@
                             Tag="add"
                             Background="MediumSeaGreen"
                             HorizontalAlignment="Right"
-                            ToolTip="Guruh yaratish"/>
+                            ToolTip="Guruh yaratish"
+                            Click="AddCourseBtn_Click"/>
                 </StackPanel>
             </Grid>
         </Grid>

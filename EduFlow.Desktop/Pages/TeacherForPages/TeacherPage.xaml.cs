@@ -8,6 +8,8 @@ using ToastNotifications;
 using ToastNotifications.Position;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
+using EduFlow.Desktop.Windows.TeacherForWindows;
+using System.Threading.Tasks;
 
 namespace EduFlow.Desktop.Pages.TeacherForPages;
 
@@ -118,5 +120,12 @@ public partial class TeacherPage : Page
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
         PageLoaded();
+    }
+
+    private async void craeteTeacherBtn_Click(object sender, RoutedEventArgs e)
+    {
+        TeacherForCreateWindow window = new TeacherForCreateWindow();
+        window.ShowDialog();
+        await GetAllTeacher();
     }
 }

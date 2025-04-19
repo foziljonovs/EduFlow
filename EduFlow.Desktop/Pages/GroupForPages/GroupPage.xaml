@@ -126,7 +126,8 @@
                         Tag="add"
                         Background="MediumSeaGreen"
                         HorizontalAlignment="Right"
-                        ToolTip="Guruh yaratish"/>
+                        ToolTip="Guruh yaratish"
+                        Click="createGroupBtn_Click"/>
             </Grid>
 
             <Grid Grid.Row="1">

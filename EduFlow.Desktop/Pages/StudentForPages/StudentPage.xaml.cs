@@ -222,9 +222,10 @@ public partial class StudentPage : Page
         }
     }
 
-    private void createStudent_Click(object sender, RoutedEventArgs e)
+    private async void createStudent_Click(object sender, RoutedEventArgs e)
     {
         StudentForCreateWindow window = new StudentForCreateWindow();
         window.ShowDialog();
+        await GetAllStudent();
     }
 }
