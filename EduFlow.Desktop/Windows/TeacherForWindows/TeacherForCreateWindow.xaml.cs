@@ -4,10 +4,8 @@ using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Integrated.Services.Users.User.Interfaces;
 using EduFlow.Desktop.Integrated.Services.Users.User.Services;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
@@ -129,7 +127,7 @@ public partial class TeacherForCreateWindow : Window
                 return;
             }
 
-            if (!string.IsNullOrEmpty(phoneNumberTxt.Text) && phoneNumberTxt.Text.Length == 13)
+            if (!string.IsNullOrEmpty(phoneNumberTxt.Text))
                 userDto.PhoneNumber = phoneNumberTxt.Text;
             else
             {
@@ -236,5 +234,13 @@ public partial class TeacherForCreateWindow : Window
             await SavedAsync();
         else
             notifierThis.ShowWarning("Iltimos, kuting!");
+    }
+
+    private void phoneNumberTxt_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+        var textBox = sender as TextBox;
+        string futureText = textBox.Text.Insert(textBox.SelectionStart, e.Text);
+        var regex = new System.Text.RegularExpressions.Regex(@"^\+998\d{0,9}$");
+        e.Handled = !regex.IsMatch(futureText);
     }
 }

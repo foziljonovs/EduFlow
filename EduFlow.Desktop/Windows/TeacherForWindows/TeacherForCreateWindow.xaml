@@ -54,7 +54,8 @@
             <TextBox x:Name="phoneNumberTxt"
                      Style="{DynamicResource CustomTextBoxStyle}"
                      FontWeight="SemiBold"
-                     Text="+998"/>
+                     Text="+998"
+                     PreviewTextInput="phoneNumberTxt_PreviewTextInput"/>
 
             <TextBlock Text="Parol"
                        FontSize="13"
