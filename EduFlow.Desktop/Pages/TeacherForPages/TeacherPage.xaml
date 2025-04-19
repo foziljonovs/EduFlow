@@ -90,7 +90,8 @@
                         Style="{DynamicResource CrudButton}"
                         Tag="add"
                         Background="MediumSeaGreen"
-                        ToolTip="O'qituvchi yaratish"/>
+                        ToolTip="O'qituvchi yaratish"
+                        Click="craeteTeacherBtn_Click"/>
             </StackPanel>
         </Grid>
 
