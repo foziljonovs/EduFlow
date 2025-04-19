@@ -17,8 +17,8 @@ public class Course : BaseEntity
     public Status Archived { get; set; }
     [Column("category_id")]
     public long CategoryId { get; set; }
-    [Column("category")]
     public Category Category { get; set; }
     public List<Teacher> Teachers { get; set; } = new List<Teacher>();
     public List<Group> Groups { get; set; } = new List<Group>();
+    public List<StudentCourse> Students { get; set; }
 }
