@@ -1,19 +1,18 @@
 ﻿using EduFlow.Domain.Entities.Base;
 using EduFlow.Domain.Entities.Users;
+using EduFlow.Domain.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduFlow.Domain.Entities.Courses;
 
-public class Attendance : BaseEntity
+public class StudentCourse : BaseEntity
 {
     [Column("student_id")]
     public required long StudentId { get; set; }
     public Student Student { get; set; }
-    [Column("group_id")]
-    public required long GroupId { get; set; }
-    public Group Group { get; set; }
-    [Column("date")]
-    public DateTime Date { get; set; }
-    [Column("is_actived")]
-    public bool IsActived { get; set; }
+    [Column("course_id")]
+    public required long CourseId { get; set; }
+    public Course Course { get; set; }
+    [Column("status")]
+    public EnrollmentStatus Status { get; set; }
 }

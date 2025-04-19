@@ -10,11 +10,9 @@ public class Message : BaseEntity
 {
     [Column("student_id")]
     public required long StudentId { get; set; }
-    [Column("student")]
     public Student Student { get; set; }
     [Column("group_id")]
     public required long GroupId { get; set; }
-    [Column("group")]
     public Group Group { get; set; }
     [Column("text")]
     public required string Text { get; set; }

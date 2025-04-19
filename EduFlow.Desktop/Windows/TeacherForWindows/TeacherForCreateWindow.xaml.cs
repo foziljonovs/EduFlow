@@ -127,7 +127,7 @@ public partial class TeacherForCreateWindow : Window
                 return;
             }
 
-            if (!string.IsNullOrEmpty(phoneNumberTxt.Text))
+            if (!string.IsNullOrEmpty(phoneNumberTxt.Text) && phoneNumberTxt.Text.Length == 13)
                 userDto.PhoneNumber = phoneNumberTxt.Text;
             else
             {
