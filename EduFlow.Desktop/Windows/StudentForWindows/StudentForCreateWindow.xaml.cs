@@ -119,11 +119,11 @@ public partial class StudentForCreateWindow : Window
                 return;
             }
 
-            if(!string.IsNullOrEmpty(phoneNumberTxt.Text))
+            if(!string.IsNullOrEmpty(phoneNumberTxt.Text) && phoneNumberTxt.Text.Length == 13)
                 dto.PhoneNumber = phoneNumberTxt.Text;
             else
             {
-                notifierThis.ShowWarning("Telefon raqami kiritilmadi!");
+                notifierThis.ShowWarning("Telefon raqami kiritilmadi yoki no'to'gri formatda!");
                 phoneNumberTxt.Focus();
                 SaveButtonEnable();
                 return;
@@ -180,5 +180,10 @@ public partial class StudentForCreateWindow : Window
         string futureText = textBox.Text.Insert(textBox.SelectionStart, e.Text);
         var regex = new System.Text.RegularExpressions.Regex(@"^\+998\d{0,9}$");
         e.Handled = !regex.IsMatch(futureText);
+    }
+
+    private async void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        await GetAllCourse();
     }
 }
