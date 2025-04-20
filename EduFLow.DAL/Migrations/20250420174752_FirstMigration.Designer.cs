@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduFlow.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250419190700_FirstMigration")]
+    [Migration("20250420174752_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -239,7 +239,7 @@ namespace EduFlow.DAL.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentCourse");
+                    b.ToTable("StudentCourses");
                 });
 
             modelBuilder.Entity("EduFlow.Domain.Entities.Messaging.Message", b =>

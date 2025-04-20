@@ -115,7 +115,7 @@ namespace EduFlow.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StudentCourse",
+                name: "StudentCourses",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
@@ -129,15 +129,15 @@ namespace EduFlow.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentCourse", x => x.id);
+                    table.PrimaryKey("PK_StudentCourses", x => x.id);
                     table.ForeignKey(
-                        name: "FK_StudentCourse_Courses_course_id",
+                        name: "FK_StudentCourses_Courses_course_id",
                         column: x => x.course_id,
                         principalTable: "Courses",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentCourse_Students_student_id",
+                        name: "FK_StudentCourses_Students_student_id",
                         column: x => x.student_id,
                         principalTable: "Students",
                         principalColumn: "id",
@@ -385,13 +385,13 @@ namespace EduFlow.DAL.Migrations
                 column: "student_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentCourse_course_id",
-                table: "StudentCourse",
+                name: "IX_StudentCourses_course_id",
+                table: "StudentCourses",
                 column: "course_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentCourse_student_id",
-                table: "StudentCourse",
+                name: "IX_StudentCourses_student_id",
+                table: "StudentCourses",
                 column: "student_id");
 
             migrationBuilder.CreateIndex(
@@ -421,7 +421,7 @@ namespace EduFlow.DAL.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "StudentCourse");
+                name: "StudentCourses");
 
             migrationBuilder.DropTable(
                 name: "Groups");

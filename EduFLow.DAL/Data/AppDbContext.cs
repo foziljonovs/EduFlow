@@ -18,4 +18,5 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Registry> Registry { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Message> Messages { get; set; }
+    public DbSet<StudentCourse> StudentCourses { get; set; }
 }
