@@ -3,6 +3,7 @@ using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.DTOs.Courses.Category;
 using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Courses.StudentCourse;
 using EduFlow.BLL.DTOs.Messages.Message;
 using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Payments.Registry;
@@ -56,6 +57,12 @@ public class MappingProfile : Profile
         CreateMap<GroupForUpdateDto, Group>()
             .ForMember(dest => dest.Students, opt => opt.Ignore())
             .ForMember(dest => dest.Payments, opt => opt.Ignore());
+
+        /*-------------------------------------StudentCourse----------------------------------*/
+        CreateMap<StudentCourse, StudentCourseForResultDto>();
+        CreateMap<StudentCourseForResultDto, StudentCourse>();
+        CreateMap<StudentCourseForCreateDto, StudentCourse>();
+        CreateMap<StudentCourseForUpdateDto, StudentCourse>();
 
         /*-------------------------------------Category-----------------------------------------*/
         CreateMap<Category, CategoryForResultDto>();

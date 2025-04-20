@@ -236,7 +236,7 @@ namespace EduFlow.DAL.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentCourse");
+                    b.ToTable("StudentCourses");
                 });
 
             modelBuilder.Entity("EduFlow.Domain.Entities.Messaging.Message", b =>

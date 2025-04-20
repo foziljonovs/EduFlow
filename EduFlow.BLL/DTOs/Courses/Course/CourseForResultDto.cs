@@ -17,4 +17,5 @@ public class CourseForResultDto
     public Et.Category Category { get; set; }
     public List<Teacher> Teachers { get; set; }
     public List<Et.Group> Groups { get; set; }
+    public List<Et.StudentCourse> Students { get; set; }
 }
