@@ -4,6 +4,7 @@ using EduFlow.BLL.Common.Validators.Courses.Group;
 using EduFlow.BLL.Common.Validators.Courses.Interface;
 using EduFlow.BLL.Common.Validators.Courses.Interfaces;
 using EduFlow.BLL.Common.Validators.Courses.Services;
+using EduFlow.BLL.Common.Validators.Courses.StudentCourse;
 using EduFlow.BLL.Common.Validators.Messages.Interfaces;
 using EduFlow.BLL.Common.Validators.Messages.Message;
 using EduFlow.BLL.Common.Validators.Messages.Services;
@@ -19,6 +20,7 @@ using EduFlow.BLL.Common.Validators.Users.User;
 using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Courses.StudentCourse;
 using EduFlow.BLL.DTOs.Messages.Message;
 using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Payments.Registry;
@@ -89,6 +91,7 @@ public static class LayerConfiguration
         services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+        services.AddScoped<IStudentCourseRepository, StudentCourseRepository>();
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
@@ -114,6 +117,7 @@ public static class LayerConfiguration
         services.AddScoped<IGroupService, GroupService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IAttendanceService, AttendanceService>();
+        services.AddScoped<IStudentCourseService, StudentCourseService>();
 
         services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<IRegistryService, RegistryService>();
@@ -133,6 +137,7 @@ public static class LayerConfiguration
         services.AddTransient<ICourseValidator, CourseValidator>();
         services.AddTransient<IGroupValidator, GroupValidator>();
         services.AddTransient<IAttendanceValidator, AttendanceValidator>();
+        services.AddTransient<IStudentCourseValidator, StudentCourseValidator>();
 
         services.AddTransient<IPaymentValidator, PaymentValidator>();
         services.AddTransient<IRegistryValidator, RegistryValidator>();
@@ -164,6 +169,9 @@ public static class LayerConfiguration
 
         services.AddTransient<IValidator<AttendanceForCraeteDto>, AttendanceForCreateValidator>();
         services.AddTransient<IValidator<AttendanceForUpdateDto>, AttendanceForUpdateValidator>();
+
+        services.AddTransient<IValidator<StudentCourseForCreateDto>, StudentCourseForCreateValidator>();
+        services.AddTransient<IValidator<StudentCourseForUpdateDto>, StudentCourseForUpdateValidator>();
 
         services.AddTransient<IValidator<PaymentForCreateDto>, PaymentForCreateValidator>();
         services.AddTransient<IValidator<PaymentForUpdateDto>, PaymentForUpdateValidator>();
