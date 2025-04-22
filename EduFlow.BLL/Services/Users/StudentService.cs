@@ -8,7 +8,6 @@ using EduFlow.Domain.Entities.Users;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Dynamic;
 using System.Net;
 
 namespace EduFlow.BLL.Services.Users;
@@ -23,6 +22,34 @@ public class StudentService(
     private readonly IMapper _mapper = mapper;
     private readonly ILogger<StudentService> _logger = logger;
     private readonly IStudentValidator _validator = validator;
+
+    public async Task<long> AddAndReturnIdAsync(StudentForCreateDto dto, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var validationResult = await _validator.ValidateCreate(dto);
+
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
+            var existsUser = _unitOfWork.Student
+                .GetAllAsync()
+                .FirstOrDefaultAsync(x => x.PhoneNumber == dto.PhoneNumber);
+            
+            if (existsUser is not null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Student already exists.");
+            
+            var savedStudent = _mapper.Map<Student>(dto);
+            
+            return await _unitOfWork.Student.AddAsync(savedStudent);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"An error occured while adding the student. {ex}");
+            throw;
+        }
+    }
+
     public async Task<bool> AddAsync(StudentForCreateDto dto, CancellationToken cancellationToken = default)
     {
         try
