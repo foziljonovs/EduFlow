@@ -7,6 +7,7 @@ public interface IStudentServer
     Task<List<StudentForResultDto>> GetAllAsync();
     Task<StudentForResultDto> GetByIdAsync(long id);
     Task<bool> AddAsync(StudentForCreateDto dto);
+    Task<long> AddAndReturnIdAsync(StudentForCreateDto dto);
     Task<bool> UpdateAsync(long id, StudentForUpdateDto dto);
     Task<bool> DeleteAsync(long id);
     Task<StudentForResultDto> GetByPhoneNumberAsync(string phoneNumber);

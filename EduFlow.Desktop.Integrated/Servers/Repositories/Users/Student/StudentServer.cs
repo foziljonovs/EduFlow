@@ -10,6 +10,41 @@ namespace EduFlow.Desktop.Integrated.Servers.Repositories.Users.Student;
 
 public class StudentServer : IStudentServer
 {
+    public async Task<long> AddAndReturnIdAsync(StudentForCreateDto dto)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/with-id");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress)
+            {
+                Content = new StringContent(
+                    JsonConvert.SerializeObject(dto),
+                    Encoding.UTF8,
+                    "application/json")
+            };
+
+            var response = await client.SendAsync(request);
+
+            if(response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                long id = JsonConvert.DeserializeObject<long>(result)!;
+                return id;
+            }
+            else
+                return 0;
+        }
+        catch(Exception ex)
+        {
+            return 0;
+        }
+    }
+
     public async Task<bool> AddAsync(StudentForCreateDto dto)
     {
         try
