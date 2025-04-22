@@ -1,5 +1,7 @@
-﻿using EduFlow.BLL.DTOs.Users.Student;
+﻿using EduFlow.BLL.DTOs.Courses.StudentCourse;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
+using EduFlow.Desktop.Integrated.Services.Courses.StudentCourse;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,11 +18,13 @@ namespace EduFlow.Desktop.Windows.StudentForWindows;
 public partial class StudentForCreateWindow : Window
 {
     private readonly IStudentService _studentService;
+    private readonly IStudentCourseService _studentCourseService;
     private readonly ICourseService _courseService;
     public StudentForCreateWindow()
     {
         InitializeComponent();
         this._studentService = new StudentService();
+        this._studentCourseService = new StudentCourseService();
         this._courseService = new CourseService();
     }
 
@@ -109,7 +113,7 @@ public partial class StudentForCreateWindow : Window
                 return;
             }
 
-            if(!string.IsNullOrEmpty(addressTxt.Text))
+            if (!string.IsNullOrEmpty(addressTxt.Text))
                 dto.Address = addressTxt.Text;
             else
             {
@@ -119,7 +123,7 @@ public partial class StudentForCreateWindow : Window
                 return;
             }
 
-            if(!string.IsNullOrEmpty(phoneNumberTxt.Text) && phoneNumberTxt.Text.Length == 13)
+            if (!string.IsNullOrEmpty(phoneNumberTxt.Text) && phoneNumberTxt.Text.Length == 13)
                 dto.PhoneNumber = phoneNumberTxt.Text;
             else
             {
@@ -129,7 +133,7 @@ public partial class StudentForCreateWindow : Window
                 return;
             }
 
-            if (AgeComboBox.SelectedItem is ComboBoxItem selectedAgeItem && int.TryParse(selectedAgeItem.Tag.ToString(), out int age))
+            if (AgeComboBox.SelectedItem is ComboBoxItem selectedAgeItem && int.TryParse(selectedAgeItem.Content.ToString(), out int age))
                 dto.Age = age;
             else
             {
@@ -139,9 +143,30 @@ public partial class StudentForCreateWindow : Window
                 return;
             }
 
-            //if(CourseComboBox.SelectedItem is ComboBoxItem selectedCourseItem && long.TryParse(selectedCourseItem.Tag.ToString(), out long courseId))
-               
-            var result = await _studentService.AddAsync(dto);
+            var studentResult = await _studentService.AddAndReturnIdAsync(dto);
+
+            if (studentResult == 0)
+            {
+                notifierThis.ShowWarning("O'quvchini saqlashda xatolik yuz berdi!");
+                SaveButtonEnable();
+                return;
+            }
+
+            StudentCourseForCreateDto studentCourseDto = new StudentCourseForCreateDto();
+
+            if (CourseComboBox.SelectedItem is ComboBoxItem selectedCourseItem && long.TryParse(selectedCourseItem.Tag.ToString(), out long courseId))
+                studentCourseDto.CourseId = courseId;
+            else
+            {
+                notifierThis.ShowWarning("Kurs topilmadi!");
+                CourseComboBox.Focus();
+                SaveButtonEnable();
+                return;
+            }
+
+            studentCourseDto.StudentId = studentResult;
+
+            var result = await _studentCourseService.AddAsync(studentCourseDto);
 
             if (result)
             {
@@ -154,7 +179,7 @@ public partial class StudentForCreateWindow : Window
                 SaveButtonEnable();
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             notifierThis.ShowError("Xatolik yuz berdi!");
         }
