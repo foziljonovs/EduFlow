@@ -32,7 +32,7 @@ public class StudentService(
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var existsUser = _unitOfWork.Student
+            var existsUser = await _unitOfWork.Student
                 .GetAllAsync()
                 .FirstOrDefaultAsync(x => x.PhoneNumber == dto.PhoneNumber);
             
