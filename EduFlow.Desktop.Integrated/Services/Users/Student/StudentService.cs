@@ -11,6 +11,20 @@ public class StudentService : IStudentService
     {
         this._server = new StudentServer();
     }
+
+    public async Task<long> AddAndReturnIdAsync(StudentForCreateDto dto)
+    {
+        try
+        {
+            var result = await _server.AddAndReturnIdAsync(dto);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+        }
+    }
+
     public async Task<bool> AddAsync(StudentForCreateDto dto)
     {
         try
