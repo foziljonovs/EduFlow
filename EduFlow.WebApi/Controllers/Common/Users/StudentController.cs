@@ -73,6 +73,28 @@ public class StudentController(
         }
     }
 
+    [HttpPost("with-id")]
+    public async Task<IActionResult> AddAndReturnIdAsync([FromBody] StudentForCreateDto dto, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.AddAndReturnIdAsync(dto, cancellation);
+            return Ok(response);
+        }
+        catch (ValidationException ex)
+        {
+            return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellation = default)
     {
