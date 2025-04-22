@@ -20,5 +20,5 @@ public class Course : BaseEntity
     public Category Category { get; set; }
     public List<Teacher> Teachers { get; set; } = new List<Teacher>();
     public List<Group> Groups { get; set; } = new List<Group>();
-    public List<StudentCourse> Students { get; set; }
+    public List<StudentCourse> Students { get; set; } = new List<StudentCourse>();
 }
