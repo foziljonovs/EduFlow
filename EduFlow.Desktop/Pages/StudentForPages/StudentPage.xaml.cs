@@ -122,7 +122,7 @@ public partial class StudentPage : Page
                     student.Age,
                     student.Address,
                     student.PhoneNumber,
-                    student.Groups.First().Name);
+                    student.Groups.Any() ? student.Groups.First().Name : "Yo'q");
 
                 stStudents.Children.Add(component);
                 count++;
