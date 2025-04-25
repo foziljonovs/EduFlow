@@ -173,7 +173,7 @@ public class StudentServer : IStudentServer
         }
     }
 
-    public async Task<List<StudentCourseForResultDto>> GetAllByCourseIdAsync(long courseId)
+    public async Task<List<StudentForResultDto>> GetAllByCourseIdAsync(long courseId)
     {
         try
         {
@@ -187,13 +187,13 @@ public class StudentServer : IStudentServer
 
             var result = await response.Content.ReadAsStringAsync();
 
-            List<StudentCourseForResultDto> students = JsonConvert.DeserializeObject<List<StudentCourseForResultDto>>(result)!;
+            List<StudentForResultDto> students = JsonConvert.DeserializeObject<List<StudentForResultDto>>(result)!;
 
             return students;
         }
         catch(Exception ex)
         {
-            return new List<StudentCourseForResultDto>();
+            return new List<StudentForResultDto>();
         }
     }
 
