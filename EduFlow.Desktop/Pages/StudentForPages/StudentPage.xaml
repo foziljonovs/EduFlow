@@ -58,7 +58,7 @@
                           FontSize="14"
                           FontFamily="Jetbrains Mono"
                           SelectionChanged="courseComboBox_SelectionChanged">
-                    <ComboBoxItem Content="Kurslar" IsSelected="True" IsEnabled="False"/>
+                    <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
                 </ComboBox>
             </StackPanel>
         </Grid>

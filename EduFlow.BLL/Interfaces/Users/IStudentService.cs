@@ -14,4 +14,5 @@ public interface IStudentService
     Task<IEnumerable<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellationToken = default);
     Task<IEnumerable<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId, CancellationToken cancellationToken = default); 
     Task<bool> AddStudentByGroupAsync(long studentId, long groupId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<StudentForResultDto>> GetAllByCourseIdAsync(long courseId, CancellationToken cancellationToken = default);
 }

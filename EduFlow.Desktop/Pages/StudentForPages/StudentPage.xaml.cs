@@ -3,6 +3,7 @@ using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.StudentForComponents;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
+using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Windows.StudentForWindows;
@@ -23,6 +24,7 @@ public partial class StudentPage : Page
 {
     private readonly IStudentService _service;
     private readonly ITeacherService _teacherService;
+    private readonly ICourseService _courseService;
     private readonly ICategoryService _categoryService;
     private TeacherForResultDto _teacher;
     public StudentPage()
@@ -30,6 +32,7 @@ public partial class StudentPage : Page
         InitializeComponent();
         this._service = new StudentService();
         this._teacherService = new TeacherService();
+        this._courseService = new CourseService();
         this._categoryService = new CategoryService();
     }
 
@@ -67,17 +70,17 @@ public partial class StudentPage : Page
         ShowStudents(students);
     }
 
-    private async Task GetAllCategory()
+    private async Task GetAllCourse()
     {
-        var categories = await Task.Run(async () => await _categoryService.GetAllAsync());
+        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
 
-        if (categories.Any())
+        if (courses.Any())
         {
-            foreach (var category in categories)
+            foreach (var course in courses)
             {
                 ComboBoxItem item = new ComboBoxItem();
-                item.Content = category.Name;
-                item.Tag = category.Id;
+                item.Content = course.Name;
+                item.Tag = course.Id;
                 courseComboBox.Items.Add(item);
             }
         }
@@ -87,16 +90,16 @@ public partial class StudentPage : Page
         }
     }
 
-    private async Task GetAllStudentByCategory()
+    private async Task GetAllStudentByCourse()
     {
-        long categoryId = 0;
+        long courseId = 0;
         studentLoader.Visibility = Visibility.Visible;
 
         if(courseComboBox.SelectedItem is ComboBoxItem selectedComboBoxItem
             && selectedComboBoxItem.Tag != null)
-            categoryId = (long)selectedComboBoxItem.Tag;
+            courseId = (long)selectedComboBoxItem.Tag;
 
-        var students = await Task.Run(async () => await _service.GetAllByCategoryIdAsync(categoryId));
+        var students = await Task.Run(async () => await _service.GetAllByCourseIdAsync(courseId));
         
         ShowStudents(students);
     }
@@ -122,7 +125,7 @@ public partial class StudentPage : Page
                     student.Age,
                     student.Address,
                     student.PhoneNumber,
-                    student.Groups.First().Name);
+                    student.Groups.Any() ? student.Groups.First().Name : "Yo'q");
 
                 stStudents.Children.Add(component);
                 count++;
@@ -171,7 +174,7 @@ public partial class StudentPage : Page
         else
         {
             await GetAllStudent();
-            await GetAllCategory();
+            await GetAllCourse();
         }
     }
 
@@ -188,7 +191,7 @@ public partial class StudentPage : Page
     private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if(isPageLoaded)
-            GetAllStudentByCategory();
+            GetAllStudentByCourse();
     }
 
     private async Task GetStudentByPhoneNumber(string phoneNumber)

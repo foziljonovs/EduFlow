@@ -14,4 +14,5 @@ public interface IStudentService
     Task<List<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId);
     Task<List<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId);
     Task<bool> AddStudentByCourseAsync(long studentId, long courseId);
+    Task<List<StudentForResultDto>> GetAllByCourseIdAsync(long courseId);
 }

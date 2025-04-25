@@ -162,6 +162,31 @@ public class StudentService(
         }
     }
 
+    public async Task<IEnumerable<StudentForResultDto>> GetAllByCourseIdAsync(long courseId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var existsCourse = await _unitOfWork.Course.GetAsync(courseId);
+            if (existsCourse is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+
+            var students = await _unitOfWork.Student
+                .GetAllFullInformation()
+                .Where(x => x.StudentCourses.Any(x => x.CourseId == courseId))
+                .ToListAsync(cancellationToken);
+
+            if (!students.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
+
+            return _mapper.Map<IEnumerable<StudentForResultDto>>(students);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while getting by course id: {courseId}. {ex}");
+            throw;
+        }
+    }
+
     public async Task<IEnumerable<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellationToken = default)
     {
         try

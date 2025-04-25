@@ -1,4 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Users.Student;
+﻿using EduFlow.BLL.DTOs.Courses.StudentCourse;
+using EduFlow.BLL.DTOs.Users.Student;
 
 namespace EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
 
@@ -14,4 +15,5 @@ public interface IStudentServer
     Task<List<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId);
     Task<List<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId);
     Task<bool> AddStudentByCourseAsync(long studentId, long courseId);
+    Task<List<StudentForResultDto>> GetAllByCourseIdAsync(long courseId);
 }
