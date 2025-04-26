@@ -1,4 +1,5 @@
-﻿using EduFlow.Domain.Enums;
+﻿using EduFlow.Desktop.Windows.GroupForWindows;
+using EduFlow.Domain.Enums;
 using System.Windows.Controls;
 
 namespace EduFlow.Desktop.Components.GroupForComponents;
@@ -31,5 +32,11 @@ public partial class GroupForComponent : UserControl
 
         tbStatus.Text = groupStatus;
         tbStartedDate.Text = startedDate.ToString("dd/MM/yyyy");
+    }
+
+    private void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        GroupForViewWindow window = new GroupForViewWindow();
+        window.ShowDialog();
     }
 }
