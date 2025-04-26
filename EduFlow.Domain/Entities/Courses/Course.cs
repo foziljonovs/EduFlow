@@ -1,4 +1,4 @@
-﻿    using EduFlow.Domain.Entities.Base;
+﻿using EduFlow.Domain.Entities.Base;
 using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
 using System.ComponentModel.DataAnnotations.Schema;

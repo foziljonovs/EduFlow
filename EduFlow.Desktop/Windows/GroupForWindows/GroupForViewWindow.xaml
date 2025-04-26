@@ -1,0 +1,52 @@
+﻿<Window x:Class="EduFlow.Desktop.Windows.GroupForWindows.GroupForViewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EduFlow.Desktop.Windows.GroupForWindows"
+        mc:Ignorable="d"
+        Title="GroupForViewWindow" 
+        Height="450"
+        Width="800"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Label Content="Guruh malumotlari"
+                   FontFamily="Jetbrains Mono"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   HorizontalAlignment="Left"/>
+
+            <StackPanel Orientation="Horizontal"
+                        Width="115"
+                        HorizontalAlignment="Right">
+                <RadioButton x:Name="MinButton"
+                             Style="{DynamicResource StateButton}"
+                             Tag="ChevronDown"
+                             ToolTip="Yashirish"/>
+
+                <RadioButton x:Name="NormalButton"
+                             Style="{DynamicResource StateButton}"
+                             Tag="ArrowCollapse"
+                             ToolTip="Oddiy holat"/>
+
+                <RadioButton x:Name="MaxButton"
+                             Style="{DynamicResource StateButton}"
+                             Tag="ArrowExpand"
+                             ToolTip="Kattalashtirish"/>
+
+                <RadioButton x:Name="CloseBtn"
+                             Style="{DynamicResource StateButton}"
+                             Tag="Close"
+                             ToolTip="Yopish"
+                             Click="CloseBtn_Click"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
