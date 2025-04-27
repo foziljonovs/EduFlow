@@ -3,6 +3,7 @@ using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.DTOs.Courses.Category;
 using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Courses.Lesson;
 using EduFlow.BLL.DTOs.Courses.StudentCourse;
 using EduFlow.BLL.DTOs.Messages.Message;
 using EduFlow.BLL.DTOs.Payments.Payment;
@@ -78,6 +79,12 @@ public class MappingProfile : Profile
         CreateMap<AttendanceForResultDto, Attendance>();
         CreateMap<AttendanceForCraeteDto, Attendance>();
         CreateMap<AttendanceForUpdateDto, Attendance>();
+
+        /*--------------------------------------Lesson------------------------------------------*/
+        CreateMap<Lesson, LessonForResultDto>();
+        CreateMap<LessonForResultDto, Lesson>();
+        CreateMap<LessonForCreateDto, Lesson>();
+        CreateMap<LessonForUpdateDto, Lesson>();
 
         /*--------------------------------------Message------------------------------------------*/
         CreateMap<Message, MessageForResultDto>();

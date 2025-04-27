@@ -30,9 +30,9 @@ public class AttendanceService(
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var existsCourse = await _unitOfWork.Course.GetAsync(dto.GroupId);
-            if(existsCourse is null)
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+            var existsLesson = await _unitOfWork.Lesson.GetAsync(dto.LessonId);
+            if(existsLesson is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Lesson not found.");
 
             var existsStudent = await _unitOfWork.Student.GetAsync(dto.StudentId);
             if (existsStudent is null)
@@ -108,13 +108,13 @@ public class AttendanceService(
         }
     }
 
-    public async Task<IEnumerable<AttendanceForResultDto>> GetAllByGroupIdAsync(long groupId, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<AttendanceForResultDto>> GetAllByLessonIdAsync(long lessonId, CancellationToken cancellationToken = default)
     {
         try
         {
             var attendances = await _unitOfWork.Attendance
                 .GetAllAsync()
-                //.Where(x => x.GroupId == groupId)
+                .Where(x => x.LessonId == lessonId)
                 .ToListAsync();
 
             if (!attendances.Any())
@@ -124,7 +124,7 @@ public class AttendanceService(
         }
         catch(Exception ex)
         {
-            _logger.LogError($"An error occured while get all attendance by course id: {groupId}. {ex}");
+            _logger.LogError($"An error occured while get all attendance by course id: {lessonId}. {ex}");
             throw;
         }
     }
@@ -161,9 +161,9 @@ public class AttendanceService(
             if (existsAttendance is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Attendance not found.");
 
-            var existsCourse = await _unitOfWork.Course.GetAsync(dto.GroupId);
-            if (existsCourse is null)
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+            var existsLesson = await _unitOfWork.Lesson.GetAsync(dto.LessonId);
+            if (existsLesson is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Lesson not found.");
 
             var existsStudent = await _unitOfWork.Student.GetAsync(dto.StudentId);
             if (existsStudent is null)
@@ -181,4 +181,49 @@ public class AttendanceService(
             throw;
         }
     }
+
+    //public async Task<bool> UpdateRangeAsync(List<AttendanceForUpdateDto> dtos, CancellationToken cancellationToken = default)
+    //{
+    //    try
+    //    {
+    //        if (!dtos.Any())
+    //            throw new StatusCodeException(HttpStatusCode.NotFound, "Attendance not found.");
+
+    //        var existsAttendances = await _unitOfWork.Attendance
+    //            .GetAllAsync()
+    //            .Where(x => dtos.Select(x => x.Id).Contains(x.Id))
+    //            .ToListAsync();
+
+    //        if (!existsAttendances.Any())
+    //            throw new StatusCodeException(HttpStatusCode.NotFound, "Attendance not found.");
+
+    //        var existsLessons = await _unitOfWork.Lesson
+    //            .GetAllAsync()
+    //            .Where(x => dtos.Select(x => x.LessonId).Contains(x.Id))
+    //            .ToListAsync();
+
+    //        if (!existsLessons.Any())
+    //            throw new StatusCodeException(HttpStatusCode.NotFound, "Lesson not found.");
+
+    //        var savedAttendances = _mapper.Map<List<Attendance>>(dtos);
+    //        foreach (var attendance in existsAttendances)
+    //        {
+    //            var updatedAttendance = savedAttendances.FirstOrDefault(x => x.Id == attendance.Id);
+    //            if (updatedAttendance != null)
+    //            {
+    //                attendance.IsActived = updatedAttendance.IsActived;
+    //                attendance.UpdatedAt = DateTime.UtcNow.AddHours(5);
+    //            }
+    //        }
+
+    //        var result = await _unitOfWork.Attendance.UpdateRangeAsync(existsAttendances);
+
+    //        return result;
+    //    }
+    //    catch(Exception ex)
+    //    {
+    //        _logger.LogError($"An error occured while update range attendance. {ex}");
+    //        throw;
+    //    }
+    //}
 }

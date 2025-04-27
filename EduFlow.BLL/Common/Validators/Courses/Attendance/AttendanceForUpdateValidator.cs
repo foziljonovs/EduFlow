@@ -10,8 +10,8 @@ public class AttendanceForUpdateValidator : AbstractValidator<AttendanceForUpdat
         RuleFor(x => x.StudentId)
             .GreaterThan(0).WithMessage("O'quvchi Id si 0 dan katta bo'lishi kerak");
 
-        RuleFor(x => x.GroupId)
-            .GreaterThan(0).WithMessage("Kurs Id si 0 dan katta bo'lishi kerak");
+        RuleFor(x => x.LessonId)
+            .GreaterThan(0).WithMessage("Dars Id si 0 dan katta bo'lishi kerak");
 
         RuleFor(x => x.Date)
             .NotNull().WithMessage("Sana bo'lishi shart");
