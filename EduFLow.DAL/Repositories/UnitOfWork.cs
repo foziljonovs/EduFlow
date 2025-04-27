@@ -19,6 +19,7 @@ public class UnitOfWork(AppDbContext context) : IUnitOfWork, IDisposable
     public ICourseRepository Course { get; set; } = new CourseRepository(context);
     public ICategoryRepository Category { get; set; } = new CategoryRepository(context);
     public IAttendanceRepository Attendance { get; set; } = new AttendanceRepository(context);
+    public ILessonRepository Lesson { get; set; } = new LessonRepository(context);
     public IRegistryRepository Registry { get; set; } = new RegistryRepository(context);
     public IPaymentRepository Payment { get; set; } = new PaymentRepository(context);
     public IMessageRepository Message { get; set; } = new MessageRepository(context);
