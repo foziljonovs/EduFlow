@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EduFlow.Desktop.Windows.GroupForWindows"
+        xmlns:local="clr-namespace:EduFlow.Desktop.Windows.GroupForWindows" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
         mc:Ignorable="d"
         Title="GroupForViewWindow" 
         Height="450"
@@ -29,17 +29,20 @@
                 <RadioButton x:Name="MinButton"
                              Style="{DynamicResource StateButton}"
                              Tag="ChevronDown"
-                             ToolTip="Yashirish"/>
+                             ToolTip="Yashirish"
+                             Click="MinButton_Click"/>
 
                 <RadioButton x:Name="NormalButton"
                              Style="{DynamicResource StateButton}"
                              Tag="ArrowCollapse"
-                             ToolTip="Oddiy holat"/>
+                             ToolTip="Oddiy holat"
+                             Click="NormalButton_Click"/>
 
                 <RadioButton x:Name="MaxButton"
                              Style="{DynamicResource StateButton}"
                              Tag="ArrowExpand"
-                             ToolTip="Kattalashtirish"/>
+                             ToolTip="Kattalashtirish"
+                             Click="MaxButton_Click"/>
 
                 <RadioButton x:Name="CloseBtn"
                              Style="{DynamicResource StateButton}"
@@ -120,6 +123,7 @@
                             Height="30"
                             CornerRadius="5"
                             Background="DeepSkyBlue"
+                            ToolTip="Guruh to'lovlarini ko'rish"
                             HorizontalAlignment="Right">
                         <Label Content="Ko'rish"
                                HorizontalAlignment="Center"
@@ -174,6 +178,7 @@
                     <Button x:Name="createLessonBtn"
                             Style="{DynamicResource CrudButton}"
                             Tag="add"
+                            ToolTip="Dars yaratish"
                             Background="MediumSeaGreen"/>
                 </StackPanel>
 
@@ -182,20 +187,93 @@
                         BorderBrush="Gray"
                         BorderThickness="1">
                     <Grid Margin="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                        <ScrollViewer>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Column="0"
-                                    x:Name="stStudents">
+                                <Grid Grid.Column="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
 
-                        </StackPanel>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Column="1"
-                                    x:Name="stLessons">
+                                        <TextBlock Grid.Column="0"
+                                                   Text="No"
+                                                   FontSize="18"
+                                                   FontFamily="Jetbrains Mono"
+                                                   FontWeight="SemiBold"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
 
-                        </StackPanel>
+                                        <TextBlock Grid.Column="1"
+                                                   Text="FISH"
+                                                   FontSize="18"
+                                                   FontFamily="Jetbrains Mono"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center"/>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <local1:Loader x:Name="studentLoader"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Visibility="Collapsed"/> 
+
+                                        <StackPanel x:Name="stStudents"/>
+
+                                        <TextBlock x:Name="emptyDataForStudent"
+                                                   Text="O'quvchilar topilmadi!"
+                                                   FontSize="14"
+                                                   FontFamily="Jetbrains Mono"
+                                                   FontWeight="SemiBold"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Visibility="Collapsed"/>
+                                    </Grid>
+                                </Grid>
+
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0"
+                                               Text="Darslar"
+                                               FontSize="18"
+                                               FontFamily="Jetbrains Mono"
+                                               FontWeight="SemiBold"
+                                               VerticalAlignment="Center"/>
+
+                                    <Grid Grid.Row="1">
+                                        <local1:Loader x:Name="lessonLoader"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Visibility="Collapsed"/>
+
+                                        <StackPanel x:Name="stLessons"/>
+
+                                        <TextBlock x:Name="emptyDataForLesson"
+                                                   Text="Darslar topilmadi!"
+                                                   FontSize="14"
+                                                   FontFamily="Jetbrains Mono"
+                                                   FontWeight="SemiBold"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Visibility="Collapsed"/>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </ScrollViewer>
                     </Grid>
                 </Border>
 
@@ -204,6 +282,7 @@
                             Style="{DynamicResource saveButton}"
                             Height="30"
                             Width="100"
+                            ToolTip="Ma'lumotlarni saqlash"
                             HorizontalAlignment="Right"/>
                 </Grid>
             </Grid>
