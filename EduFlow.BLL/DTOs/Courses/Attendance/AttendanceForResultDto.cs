@@ -10,8 +10,8 @@ public class AttendanceForResultDto
     public DateTime UpdatedAt { get; set; }
     public long StudentId { get; set; }
     public Student Student { get; set; }
-    public long GroupId { get; set; }
-    public Et.Group Group { get; set; }
+    public long LessonId { get; set; }
+    public Et.Lesson Lesson { get; set; }
     public DateTime Date { get; set; }
     public bool IsActived { get; set; }
 }
