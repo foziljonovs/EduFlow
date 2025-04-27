@@ -114,7 +114,7 @@ public class AttendanceService(
         {
             var attendances = await _unitOfWork.Attendance
                 .GetAllAsync()
-                .Where(x => x.GroupId == groupId)
+                //.Where(x => x.GroupId == groupId)
                 .ToListAsync();
 
             if (!attendances.Any())
