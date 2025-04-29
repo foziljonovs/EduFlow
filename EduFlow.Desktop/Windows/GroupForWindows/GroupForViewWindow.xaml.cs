@@ -1,4 +1,5 @@
-﻿using EduFlow.Desktop.Components.StudentForComponents;
+﻿using EduFlow.Desktop.Components.LessonForComponents;
+using EduFlow.Desktop.Components.StudentForComponents;
 using System.Windows;
 
 namespace EduFlow.Desktop.Windows.GroupForWindows;
@@ -22,6 +23,9 @@ public partial class GroupForViewWindow : Window
             StudentForAttendanceComponent component = new StudentForAttendanceComponent();
             component.setValues(i, i, "Shavkatjonov Muhammadaziz");
             stStudents.Children.Add(component);
+
+            LessonForAttendanceComponent lessonComponent = new LessonForAttendanceComponent();
+            stLessons.Children.Add(lessonComponent);
         }
     }
 

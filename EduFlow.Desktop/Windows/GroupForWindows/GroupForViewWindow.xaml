@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:EduFlow.Desktop.Windows.GroupForWindows" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
         mc:Ignorable="d"
         Title="GroupForViewWindow" 
-        Height="450"
-        Width="800"
+        Height="600"
+        Width="1024"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded">
@@ -238,7 +238,7 @@
                                 <ScrollViewer>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="250"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
@@ -248,9 +248,9 @@
                                                                VerticalAlignment="Center"
                                                                Visibility="Collapsed"/>
 
-                                            <StackPanel x:Name="stStudents"/>
+                                                <StackPanel x:Name="stStudents"/>
 
-                                            <TextBlock x:Name="emptyDataForStudent"
+                                                <TextBlock x:Name="emptyDataForStudent"
                                                            Text="O'quvchilar topilmadi!"
                                                            FontSize="14"
                                                            FontFamily="Jetbrains Mono"
@@ -266,7 +266,8 @@
                                                                VerticalAlignment="Center"
                                                                Visibility="Collapsed"/>
 
-                                            <StackPanel x:Name="stLessons"/>
+                                                <StackPanel x:Name="stLessons"
+                                                            Orientation="Horizontal"/>
 
                                             <TextBlock x:Name="emptyDataForLesson"
                                                            Text="Darslar topilmadi!"

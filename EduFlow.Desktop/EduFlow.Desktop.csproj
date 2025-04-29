@@ -32,8 +32,4 @@
     <Resource Include="Assets\logo.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Components\LessonForComponents\" />
-  </ItemGroup>
-
 </Project>
