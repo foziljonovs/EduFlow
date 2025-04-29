@@ -57,7 +57,8 @@
                 <Button x:Name="ViewButton"
                         Style="{DynamicResource CrudButton}"
                         Background="DeepSkyBlue"
-                        Tag="Eye"/>
+                        Tag="Eye"
+                        Click="ViewButton_Click"/>
 
                 <Button x:Name="EditButton"
                         Style="{DynamicResource CrudButton}"

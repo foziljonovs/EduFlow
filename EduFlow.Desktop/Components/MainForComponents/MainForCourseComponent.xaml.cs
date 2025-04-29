@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using EduFlow.Desktop.Windows.GroupForWindows;
+using System.Windows.Controls;
 
 namespace EduFlow.Desktop.Components.MainForComponents;
 
@@ -19,5 +20,11 @@ public partial class MainForCourseComponent : UserControl
         tbNumber.Text = number.ToString();
         tbName.Text = name;
         tbStudentCount.Text = studentCount.ToString();
+    }
+
+    private void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        GroupForViewWindow window = new GroupForViewWindow();
+        window.ShowDialog();
     }
 }

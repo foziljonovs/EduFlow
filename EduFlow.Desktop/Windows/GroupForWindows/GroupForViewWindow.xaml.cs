@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using EduFlow.Desktop.Components.LessonForComponents;
+using EduFlow.Desktop.Components.StudentForComponents;
+using System.Windows;
 
 namespace EduFlow.Desktop.Windows.GroupForWindows;
 
@@ -12,6 +14,21 @@ public partial class GroupForViewWindow : Window
         InitializeComponent();
     }
 
+    private void StaticDatas()
+    {
+        stStudents.Children.Clear();
+
+        for(int i = 1; i <= 10; i++)
+        {
+            StudentForAttendanceComponent component = new StudentForAttendanceComponent();
+            component.setValues(i, i, "Shavkatjonov Muhammadaziz");
+            stStudents.Children.Add(component);
+
+            LessonForAttendanceComponent lessonComponent = new LessonForAttendanceComponent();
+            stLessons.Children.Add(lessonComponent);
+        }
+    }
+
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
         => this.Close();
 
@@ -23,4 +40,9 @@ public partial class GroupForViewWindow : Window
 
     private void MaxButton_Click(object sender, RoutedEventArgs e)
         => this.WindowState = WindowState.Maximized;
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        StaticDatas();
+    }
 }

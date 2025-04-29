@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:EduFlow.Desktop.Windows.GroupForWindows" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
         mc:Ignorable="d"
         Title="GroupForViewWindow" 
-        Height="450"
-        Width="800"
+        Height="600"
+        Width="1024"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
     <Grid Margin="10 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -174,12 +175,6 @@
                                FontWeight="DemiBold"
                                VerticalAlignment="Center"
                                Margin="5 0 10 0"/>
-
-                    <Button x:Name="createLessonBtn"
-                            Style="{DynamicResource CrudButton}"
-                            Tag="add"
-                            ToolTip="Dars yaratish"
-                            Background="MediumSeaGreen"/>
                 </StackPanel>
 
                 <Border Grid.Row="1"
@@ -187,93 +182,106 @@
                         BorderBrush="Gray"
                         BorderThickness="1">
                     <Grid Margin="5">
-                        <ScrollViewer>
-                            <Grid>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Column="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="200"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Grid Grid.Column="0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                    <Grid Grid.Row="0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="50"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <TextBlock Grid.Column="0"
+                                    <TextBlock Grid.Column="0"
                                                    Text="No"
-                                                   FontSize="18"
-                                                   FontFamily="Jetbrains Mono"
-                                                   FontWeight="SemiBold"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
-
-                                        <TextBlock Grid.Column="1"
-                                                   Text="FISH"
-                                                   FontSize="18"
-                                                   FontFamily="Jetbrains Mono"
-                                                   FontWeight="SemiBold"
-                                                   VerticalAlignment="Center"/>
-                                    </Grid>
-
-                                    <Grid Grid.Row="1">
-                                        <local1:Loader x:Name="studentLoader"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       Visibility="Collapsed"/> 
-
-                                        <StackPanel x:Name="stStudents"/>
-
-                                        <TextBlock x:Name="emptyDataForStudent"
-                                                   Text="O'quvchilar topilmadi!"
                                                    FontSize="14"
                                                    FontFamily="Jetbrains Mono"
                                                    FontWeight="SemiBold"
                                                    HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Visibility="Collapsed"/>
-                                    </Grid>
+                                                   VerticalAlignment="Center"/>
+
+                                    <TextBlock Grid.Column="1"
+                                                   Text="FISH"
+                                                   FontSize="14"
+                                                   FontFamily="Jetbrains Mono"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center"/>
                                 </Grid>
 
                                 <Grid Grid.Column="1">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-
-                                    <TextBlock Grid.Row="0"
-                                               Text="Darslar"
-                                               FontSize="18"
-                                               FontFamily="Jetbrains Mono"
-                                               FontWeight="SemiBold"
-                                               VerticalAlignment="Center"/>
-
-                                    <Grid Grid.Row="1">
-                                        <local1:Loader x:Name="lessonLoader"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       Visibility="Collapsed"/>
-
-                                        <StackPanel x:Name="stLessons"/>
-
-                                        <TextBlock x:Name="emptyDataForLesson"
-                                                   Text="Darslar topilmadi!"
+                                    <TextBlock Text="Darslar"
                                                    FontSize="14"
                                                    FontFamily="Jetbrains Mono"
                                                    FontWeight="SemiBold"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Visibility="Collapsed"/>
-                                    </Grid>
+                                                   VerticalAlignment="Center"/>
+
+
+                                    <Button x:Name="createLessonBtn"
+                                            Style="{DynamicResource CrudButton}"
+                                            Tag="add"
+                                            ToolTip="Dars yaratish"
+                                            Background="MediumSeaGreen"
+                                            HorizontalAlignment="Right"/>
                                 </Grid>
                             </Grid>
-                        </ScrollViewer>
+
+                            <Grid Grid.Row="1"
+                                  Margin="0 5">
+                                <ScrollViewer>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="250"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0">
+                                            <local1:Loader x:Name="studentLoader"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Visibility="Collapsed"/>
+
+                                                <StackPanel x:Name="stStudents"/>
+
+                                                <TextBlock x:Name="emptyDataForStudent"
+                                                           Text="O'quvchilar topilmadi!"
+                                                           FontSize="14"
+                                                           FontFamily="Jetbrains Mono"
+                                                           FontWeight="SemiBold"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Visibility="Collapsed"/>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1">
+                                            <local1:Loader x:Name="lessonLoader"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Visibility="Collapsed"/>
+
+                                                <StackPanel x:Name="stLessons"
+                                                            Orientation="Horizontal"/>
+
+                                            <TextBlock x:Name="emptyDataForLesson"
+                                                           Text="Darslar topilmadi!"
+                                                           FontSize="14"
+                                                           FontFamily="Jetbrains Mono"
+                                                           FontWeight="SemiBold"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Visibility="Collapsed"/>
+                                        </Grid>
+                                    </Grid>
+                                </ScrollViewer>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Border>
 
