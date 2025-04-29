@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="EduFlow.Desktop.Components.StudentForComponents.StudentForAttendanceComponent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EduFlow.Desktop.Components.StudentForComponents"
+             mc:Ignorable="d"
+             Height="30">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0"
+                   x:Name="tbNumber"
+                   Text="1"
+                   FontSize="14"
+                   FontFamily="Jetbrains Mono"
+                   FontWeight="SemiBold"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+        <TextBlock Grid.Column="1"
+                     x:Name="tbFullname"
+                     Text="Abdulaziz Hikmatov"
+                     FontSize="14"
+                     FontFamily="Jetbrains Mono"
+                     FontWeight="SemiBold"
+                     VerticalAlignment="Center"/>
+    </Grid>
+</UserControl>
