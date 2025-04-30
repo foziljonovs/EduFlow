@@ -1,28 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using EduFlow.BLL.DTOs.Courses.Lesson;
+using EduFlow.Domain.Entities.Courses;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace EduFlow.Desktop.Components.LessonForComponents
+namespace EduFlow.Desktop.Components.LessonForComponents;
+
+/// <summary>
+/// Interaction logic for LessonForAttendanceComponent.xaml
+/// </summary>
+public partial class LessonForAttendanceComponent : UserControl
 {
-    /// <summary>
-    /// Interaction logic for LessonForAttendanceComponent.xaml
-    /// </summary>
-    public partial class LessonForAttendanceComponent : UserControl
+    private Dictionary<int, long> keys = new Dictionary<int, long>();
+    private LessonForResultDto lesson = new LessonForResultDto();
+    public LessonForAttendanceComponent()
     {
-        public LessonForAttendanceComponent()
+        InitializeComponent();
+    }
+
+    public void SetValues(int number, Dictionary<int, long> keys, LessonForResultDto dto)
+    {
+        this.keys = keys;
+        this.lesson = dto;
+        tbNumber.Text = number.ToString();
+        tbDate.Text = dto.Date.ToString("dd/MM/yyyy");
+    }
+
+    private void PrintValues(Dictionary<int, long> keys, LessonForResultDto dto)
+    {
+        var attendances = new List<Attendance>();
+
+        foreach(var tableNumber in keys.Keys.OrderBy(k => k))
         {
-            InitializeComponent();
+            long studentId = keys[tableNumber];
+
+            var attendance = dto.Attendances.FirstOrDefault(a => a.StudentId == studentId);
+
+            if(attendance is not null)
+                attendances.Add(attendance);
         }
+
+        foreach(var attendance in attendances)
+        {
+            if (attendance.IsActived)
+            {
+                var checkBox = new CheckBox
+                {
+                    Content = "Keldi",
+                    IsChecked = true,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center
+                };
+
+                stAttendances.Children.Add(checkBox);
+            }
+            else
+            {
+                var checkBox = new CheckBox
+                {
+                    Content = "Kelmadi",
+                    IsChecked = false,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center
+                };
+                stAttendances.Children.Add(checkBox);
+            }
+        }
+    }
+
+    private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+    {
+        PrintValues(keys, lesson);
     }
 }
