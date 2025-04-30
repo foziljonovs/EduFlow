@@ -18,10 +18,10 @@ public partial class GroupForViewWindow : Window
     {
         stStudents.Children.Clear();
 
-        for(int i = 1; i <= 10; i++)
+        for(int i = 1; i <= 20; i++)
         {
             StudentForAttendanceComponent component = new StudentForAttendanceComponent();
-            component.setValues(i, i, "Shavkatjonov Muhammadaziz");
+            component.setValues(i, i, "Shavkatjonov Muhammadaziz Ibrohimovich");
             stStudents.Children.Add(component);
 
             LessonForAttendanceComponent lessonComponent = new LessonForAttendanceComponent();
