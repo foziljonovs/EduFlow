@@ -64,7 +64,7 @@ public partial class GroupForViewWindow : Window
 
     private async Task<GroupForResultDto> GetGroup()
     {
-        var group = await Task.Run(async () => await _groupService.GetByIdAsync(Id));
+        var group = await _groupService.GetByIdAsync(Id);
 
         if (group is not null)
             return group;
@@ -74,7 +74,7 @@ public partial class GroupForViewWindow : Window
 
     private async Task<TeacherForResultDto> GetTeacher(long teacherId)
     {
-        var teacher = await Task.Run(async () => await _teacherService.GetByIdAsync(teacherId));
+        var teacher = await _teacherService.GetByIdAsync(teacherId);
 
         if (teacher is not null)
             return teacher;
@@ -92,8 +92,10 @@ public partial class GroupForViewWindow : Window
             return new Stack<LessonForResultDto>();
     }
 
-    private void ShowLessons(Stack<LessonForResultDto> lessons)
+    private async void ShowLessons()
     {
+        var lessons = await GetLessons();
+
         int count = 1;
 
         stLessons.Children.Clear();
@@ -194,14 +196,9 @@ public partial class GroupForViewWindow : Window
     private void MaxButton_Click(object sender, RoutedEventArgs e)
         => this.WindowState = WindowState.Maximized;
 
-    private async void Loaded()
-    {
-        ShowValues();
-        await GetLessons();
-    }
-
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        Loaded();
+        ShowValues();
+        ShowLessons();
     }
 }

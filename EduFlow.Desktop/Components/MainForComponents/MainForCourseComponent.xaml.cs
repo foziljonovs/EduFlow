@@ -25,6 +25,7 @@ public partial class MainForCourseComponent : UserControl
     private void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         GroupForViewWindow window = new GroupForViewWindow();
+        window.SetId(Id);
         window.ShowDialog();
     }
 }
