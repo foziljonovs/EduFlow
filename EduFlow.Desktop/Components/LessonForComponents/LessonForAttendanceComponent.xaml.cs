@@ -26,20 +26,15 @@ public partial class LessonForAttendanceComponent : UserControl
 
     private void PrintValues(Dictionary<int, long> keys, LessonForResultDto dto)
     {
-        var attendances = new List<Attendance>();
-
-        foreach(var tableNumber in keys.Keys.OrderBy(k => k))
+        foreach(var tableNumber in keys.Keys)
         {
             long studentId = keys[tableNumber];
 
             var attendance = dto.Attendances.FirstOrDefault(a => a.StudentId == studentId);
 
-            if(attendance is not null)
-                attendances.Add(attendance);
-        }
+            if (attendance is null)
+                return;
 
-        foreach(var attendance in attendances)
-        {
             if (attendance.IsActived)
             {
                 var checkBox = new CheckBox

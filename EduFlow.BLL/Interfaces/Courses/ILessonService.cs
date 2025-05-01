@@ -9,4 +9,5 @@ public interface ILessonService
     Task<bool> AddAsync(LessonForCreateDto lesson, CancellationToken cancellation = default);
     Task<bool> UpdateAsync(long id, LessonForUpdateDto lesson, CancellationToken cancellation = default);
     Task<bool> DeleteAsync(long id, CancellationToken cancellation = default);
+    Task<IEnumerable<LessonForResultDto>> GetAllByGroupIdAsync(long groupId, CancellationToken cancellation = default);
 }

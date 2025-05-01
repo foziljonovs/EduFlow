@@ -22,11 +22,11 @@ public class LessonController(
             var response = await _service.GetAllAsync(cancellation);
             return Ok(response);
         }
-        catch(StatusCodeException ex)
+        catch (StatusCodeException ex)
         {
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
@@ -58,7 +58,7 @@ public class LessonController(
             var response = await _service.AddAsync(dto, cancellation);
             return Ok(response);
         }
-        catch(ValidationException ex)
+        catch (ValidationException ex)
         {
             return BadRequest(ex.Message);
         }
@@ -100,6 +100,24 @@ public class LessonController(
         try
         {
             var response = await _service.DeleteAsync(id, cancellation);
+            return Ok(response);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("group/{groupId:long}")]
+    public async Task<IActionResult> GetAllByGroupIdAsync([FromRoute] long groupId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.GetAllByGroupIdAsync(groupId, cancellation);
             return Ok(response);
         }
         catch (StatusCodeException ex)
