@@ -85,13 +85,34 @@ public class LessonService(
         }
     }
 
+    public async Task<IEnumerable<LessonForResultDto>> GetAllByGroupIdAsync(long groupId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var lessons = await _unitOfWork.Lesson
+                .GetAllFullInformation()
+                .Where(x => x.GroupId == groupId)
+                .ToListAsync(cancellation);
+
+            if (!lessons.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Lessons not found.");
+
+            return _mapper.Map<IEnumerable<LessonForResultDto>>(lessons);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all by lesson. {ex}");
+            throw;
+        }
+    }
+
     public async Task<LessonForResultDto> GetByIdAsync(long id, CancellationToken cancellation = default)
     {
         try
         {
             var lesson = await _unitOfWork.Lesson
-                .GetAllAsync()
-                .Where(x => x.Id == id && !x.IsDeleted)
+                .GetAllFullInformation()
+                .Where(x => x.Id == id)
                 .FirstOrDefaultAsync(cancellation);
 
             if (lesson is null)
