@@ -1,14 +1,15 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Courses.Lesson;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.LessonForComponents;
 using EduFlow.Desktop.Components.StudentForComponents;
 using EduFlow.Desktop.Integrated.Services.Courses.Attendance;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
+using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Domain.Entities.Users;
-using System.Threading.Tasks;
 using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -26,7 +27,9 @@ public partial class GroupForViewWindow : Window
     private readonly IStudentService _studentService;
     private readonly IAttendanceService _attendanceService;
     private readonly ITeacherService _teacherService;
+    private readonly ILessonService _lessonService;
     private long Id { get; set; }
+    private Dictionary<int, long> _students = new Dictionary<int, long>();
     public GroupForViewWindow()
     {
         InitializeComponent();
@@ -34,6 +37,7 @@ public partial class GroupForViewWindow : Window
         this._studentService = new StudentService();
         this._attendanceService = new AttendanceService();
         this._teacherService = new TeacherService();
+        this._lessonService = new LessonService();
     }
 
 
@@ -78,10 +82,46 @@ public partial class GroupForViewWindow : Window
             return new TeacherForResultDto();
     }
 
-    //private async Task<LessonForResultDto> GetLessons()
-    //{
+    private async Task<Stack<LessonForResultDto>> GetLessons()
+    {
+        var lessons = await Task.Run(async () => await _lessonService.GetByGroupIdAsync(Id));
 
-    //}
+        if (lessons.Any())
+            return new Stack<LessonForResultDto>(lessons);
+        else
+            return new Stack<LessonForResultDto>();
+    }
+
+    private void ShowLessons(Stack<LessonForResultDto> lessons)
+    {
+        int count = 1;
+
+        stLessons.Children.Clear();
+        lessonLoader.Visibility = Visibility.Visible;
+
+        if (lessons.Any())
+        {
+            lessonLoader.Visibility = Visibility.Collapsed;
+            emptyDataForLesson.Visibility = Visibility.Collapsed;
+
+            foreach(var lesson in lessons)
+            {
+                LessonForAttendanceComponent component = new LessonForAttendanceComponent();
+                component.SetValues(
+                    count,
+                    _students,
+                    lesson);
+
+                stLessons.Children.Add(component);
+                count++;
+            }
+        }
+        else
+        {
+            lessonLoader.Visibility = Visibility.Collapsed;
+            emptyDataForLesson.Visibility = Visibility.Visible;
+        }
+    }
 
     private async void ShowValues()
     {
@@ -128,6 +168,7 @@ public partial class GroupForViewWindow : Window
                     student.Fullname);
 
                 stStudents.Children.Add(component);
+                _students.Add(count, student.Id);
                 count++;
             }
 
@@ -153,8 +194,14 @@ public partial class GroupForViewWindow : Window
     private void MaxButton_Click(object sender, RoutedEventArgs e)
         => this.WindowState = WindowState.Maximized;
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private async void Loaded()
     {
         ShowValues();
+        await GetLessons();
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        Loaded();
     }
 }
