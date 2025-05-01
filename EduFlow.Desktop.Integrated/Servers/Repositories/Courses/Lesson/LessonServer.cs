@@ -88,6 +88,30 @@ public class LessonServer : ILessonServer
         }
     }
 
+    public async Task<List<LessonForResultDto>> GetByGroupIdAsync(long groupId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/lessons/group/{groupId}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<LessonForResultDto> lessons = JsonConvert.DeserializeObject<List<LessonForResultDto>>(result)!;
+
+            return lessons;
+        }
+        catch(Exception ex)
+        {
+            return new List<LessonForResultDto>();
+        }
+    }
+
     public async Task<LessonForResultDto> GetByIdAsync(long id)
     {
         try

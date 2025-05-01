@@ -50,6 +50,19 @@ public class LessonService : ILessonService
         }
     }
 
+    public async Task<List<LessonForResultDto>> GetByGroupIdAsync(long groupId)
+    {
+        try
+        {
+            var result = await _server.GetByGroupIdAsync(groupId);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new List<LessonForResultDto>();
+        }
+    }
+
     public async Task<LessonForResultDto> GetByIdAsync(long id)
     {
         try

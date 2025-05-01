@@ -9,4 +9,5 @@ public interface ILessonService
     Task<bool> AddAsync(LessonForCreateDto lesson);
     Task<bool> UpdateAsync(long id, LessonForUpdateDto lesson);
     Task<bool> DeleteAsync(long id);
+    Task<List<LessonForResultDto>> GetByGroupIdAsync(long groupId);
 }
