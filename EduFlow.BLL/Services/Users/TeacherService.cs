@@ -94,7 +94,11 @@ public class TeacherService(
     {
         try
         {
-            var teacher = await _unitOfWork.Teacher.GetAsync(id);
+            var teacher = await _unitOfWork.Teacher
+                .GetAllFullInformation()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync(cancellationToken);
+
             if (teacher is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
 
@@ -116,7 +120,8 @@ public class TeacherService(
         {
             var teacher = await _unitOfWork.Teacher
                 .GetAllFullInformation()
-                .FirstOrDefaultAsync(x => x.UserId == userId);
+                .Where(x => x.UserId == userId)
+                .FirstOrDefaultAsync(cancellationToken);
 
             if(teacher is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");

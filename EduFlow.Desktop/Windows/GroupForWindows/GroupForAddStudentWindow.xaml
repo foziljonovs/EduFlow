@@ -1,0 +1,81 @@
+﻿<Window x:Class="EduFlow.Desktop.Windows.GroupForWindows.GroupForAddStudentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EduFlow.Desktop.Windows.GroupForWindows" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
+        mc:Ignorable="d"
+        Title="GroupForAddStudentWindow" 
+        Height="450" 
+        Width="600"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <TextBlock Text="Guruhga o'quvchi qo'shish"
+                       FontSize="22"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Margin="10 0 0 0"/>
+
+            <RadioButton x:Name="closeBtn"
+                         Style="{DynamicResource StateButton}"
+                         Tag="close"
+                         ToolTip="Oynani yopish"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Center"/>
+        </Grid>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <DatePicker x:Name="dtStartDate"
+                        Width="110"
+                        VerticalAlignment="Center"
+                        ToolTip="Sanadan"
+                        Margin="10 0 5 0"/>
+
+            <DatePicker x:Name="dtEndDate"
+                        Width="110"
+                        VerticalAlignment="Center"
+                        ToolTip="Sanagacha"
+                        Margin="10 0 5 0"/>
+
+
+            <ComboBox x:Name="courseComboBox"
+                      Width="110"
+                      VerticalAlignment="Center"
+                      Margin="10 0 5 0"
+                      ToolTip="Kurs tanlash"/>
+        </StackPanel>
+
+        <Grid Grid.Row="2"
+              Margin="5">
+            <local1:Loader x:Name="studentLoader"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Visibility="Collapsed"/>
+
+            <ScrollViewer>
+                <StackPanel x:Name="stStudents"/>
+            </ScrollViewer>
+
+            <Label x:Name="studentforEmptyData"
+                   Content="O'quvchilar topilmadi"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontFamily="Jetbrains Mono"
+                   FontWeight="SemiBold"
+                   FontSize="14"
+                   Visibility="Collapsed"/>
+        </Grid>
+    </Grid>
+</Window>

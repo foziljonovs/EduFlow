@@ -4,7 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EduFlow.Desktop.Pages.MainForPage" 
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
       mc:Ignorable="d"
       Title="MainPage"
       Loaded="Page_Loaded">
@@ -28,6 +29,7 @@
                                 materialDesign:HintAssist.Hint="Boshlanish sanasi"
                                 Width="110"
                                 VerticalAlignment="Center"
+                                ToolTip="Sanadan"
                                 Margin="10 0 10 0"/>
 
                     <DatePicker x:Name="dtEndDate"
@@ -35,6 +37,7 @@
                                 Width="110"
                                 VerticalAlignment="Center"
                                 Margin="10 0 10 0"
+                                ToolTip="Sanagacha"
                                 SelectedDateChanged="dtEndDate_SelectedDateChanged"/>
 
                     <StackPanel Orientation="Horizontal">

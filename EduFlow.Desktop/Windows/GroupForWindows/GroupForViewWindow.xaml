@@ -21,8 +21,7 @@
             <Label Content="Guruh malumotlari"
                    FontFamily="Jetbrains Mono"
                    FontSize="22"
-                   FontWeight="Bold"
-                   HorizontalAlignment="Left"/>
+                   FontWeight="Bold"/>
 
             <StackPanel Orientation="Horizontal"
                         Width="115"
@@ -128,6 +127,7 @@
                             HorizontalAlignment="Right">
                         <Label Content="Ko'rish"
                                HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
                                Foreground="White"
                                FontSize="14"
                                FontFamily="Jetbrains Mono"
@@ -175,6 +175,21 @@
                                FontWeight="DemiBold"
                                VerticalAlignment="Center"
                                Margin="5 0 10 0"/>
+
+                    <Border x:Name="addStudents"
+                            Height="30"
+                            Width="120"
+                            CornerRadius="8"
+                            Background="MediumSeaGreen"
+                            ToolTip="Guruhga o'quvchi qo'shish">
+                        <Label Content="O'quvchi qo'shish"
+                               Foreground="White"
+                               FontSize="14"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
+                    </Border>
                 </StackPanel>
 
                 <Border Grid.Row="1"
