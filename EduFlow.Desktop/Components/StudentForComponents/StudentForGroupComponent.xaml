@@ -9,7 +9,8 @@
     <Border CornerRadius="5"
             BorderThickness="1"
             BorderBrush="Gray"
-            Margin="3 5 3 0">
+            Margin="3 5 3 0"
+            MouseDown="Border_MouseDown">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
@@ -88,7 +89,9 @@
                       VerticalAlignment="Center"
                       BorderThickness="0"
                       Background="Transparent"
-                      IsChecked="False"/>
+                      IsChecked="False"
+                      Checked="ChooseStudent_Checked"
+                      Unchecked="ChooseStudent_Unchecked"/>
         </Grid>
     </Border>
 </UserControl>

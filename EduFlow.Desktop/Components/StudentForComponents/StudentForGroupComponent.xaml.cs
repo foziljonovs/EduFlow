@@ -1,6 +1,4 @@
-﻿using EduFlow.BLL.DTOs.Users.Student;
-using EduFlow.Domain.Enums;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace EduFlow.Desktop.Components.StudentForComponents;
 
@@ -10,19 +8,43 @@ namespace EduFlow.Desktop.Components.StudentForComponents;
 public partial class StudentForGroupComponent : UserControl
 {
     private long Id { get; set; }
+    private bool IsChosen { get; set; } = false;
     public StudentForGroupComponent()
     {
         InitializeComponent();
     }
 
-    public void SetValues(int number, StudentForResultDto dto)
+    public void SetValues(int number, long id, string fullName, string courseName, int age, string address, string phoneNumber)
     {
-        Id = dto.Id;
+        Id = id;
         tbNumber.Text = number.ToString();
-        tbFullname.Text = dto.Fullname;
-        tbCourse.Text = dto.StudentCourses.Where(x => x.Status == EnrollmentStatus.Pending).FirstOrDefault().Course.Name ?? "Nomalum";
-        tbAge.Text = dto.Age.ToString();
-        tbAddress.Text = dto.Address;
-        tbPhoneNumber.Text = dto.PhoneNumber;
+        tbFullname.Text = fullName;
+        tbCourse.Text = courseName;
+        tbAge.Text = age.ToString();
+        tbAddress.Text = address;
+        tbPhoneNumber.Text = phoneNumber;
     }
+
+    public bool GetIsChosen()
+        => this.IsChosen;
+
+    private void Border_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (IsChosen)
+        {
+            ChooseStudent.IsChecked = false;
+            IsChosen = false;
+        }
+        else
+        {
+            ChooseStudent.IsChecked = true;
+            IsChosen = true;
+        }
+    }
+
+    private void ChooseStudent_Checked(object sender, System.Windows.RoutedEventArgs e)
+        => IsChosen = true;
+
+    private void ChooseStudent_Unchecked(object sender, System.Windows.RoutedEventArgs e)
+        => IsChosen = false;
 }
