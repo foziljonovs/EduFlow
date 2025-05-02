@@ -117,6 +117,44 @@ public class StudentService(
         }
     }
 
+    public async Task<IEnumerable<StudentForResultDto>> FilterAsync(StudentForFilterDto dto, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var studentsQuery = _unitOfWork.Student
+                .GetAllFullInformation();
+
+            if(!studentsQuery.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
+
+            if(dto.StartedDate.HasValue && dto.FinishedDate.HasValue)
+            {
+                var startedDateUtc = DateTime.SpecifyKind(dto.StartedDate.Value, DateTimeKind.Utc);
+                var finishedDateUtc = DateTime.SpecifyKind(dto.FinishedDate.Value, DateTimeKind.Utc);
+
+                studentsQuery = studentsQuery.Where(x =>
+                    x.CreatedAt.Date >= startedDateUtc &&
+                    x.CreatedAt.Date <= finishedDateUtc);
+            }
+
+            if (dto.CourseId > 0)
+                studentsQuery = studentsQuery
+                    .Where(x => x.StudentCourses.Any(x => x.CourseId == dto.CourseId));
+
+            var students = await studentsQuery.ToListAsync(cancellation);
+
+            if (!students.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
+
+            return _mapper.Map<IEnumerable<StudentForResultDto>>(studentsQuery);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while filtering the students. {ex}");
+            throw;
+        }
+    }
+
     public async Task<IEnumerable<StudentForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         try

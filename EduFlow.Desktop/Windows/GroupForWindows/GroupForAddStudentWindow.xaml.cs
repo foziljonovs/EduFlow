@@ -80,8 +80,13 @@ public partial class GroupForAddStudentWindow : Window
     {
         var students = await Task.Run(async () => await _studentService.GetAllAsync());
         
-        ShowStudents(students);
+        var result = students.Where(x => x.StudentCourses
+            .Any(y => y.Status == Domain.Enums.EnrollmentStatus.Pending)).ToList();
+
+        ShowStudents(result);
     }
+
+
 
     private void ShowStudents(List<StudentForResultDto> students)
     {
@@ -135,4 +140,14 @@ public partial class GroupForAddStudentWindow : Window
 
     private void closeBtn_Click(object sender, RoutedEventArgs e)
         => this.Close();
+
+    private void dtEndDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+    {
+
+    }
+
+    private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+
+    }
 }

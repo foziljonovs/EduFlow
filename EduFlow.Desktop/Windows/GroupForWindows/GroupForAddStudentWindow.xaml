@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EduFlow.Desktop.Windows.GroupForWindows" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
         mc:Ignorable="d"
         Title="GroupForAddStudentWindow" 
-        Height="500" 
+        Height="600" 
         Width="800"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
@@ -16,6 +16,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -49,35 +50,119 @@
                         Width="110"
                         VerticalAlignment="Center"
                         ToolTip="Sanagacha"
-                        Margin="10 0 5 0"/>
+                        Margin="10 0 5 0"
+                        SelectedDateChanged="dtEndDate_SelectedDateChanged"/>
 
 
             <ComboBox x:Name="courseComboBox"
                       Width="110"
                       VerticalAlignment="Center"
                       Margin="10 0 5 0"
-                      ToolTip="Kurs tanlash"/>
+                      ToolTip="Kurs tanlash"
+                      SelectionChanged="courseComboBox_SelectionChanged"/>
         </StackPanel>
 
         <Grid Grid.Row="2"
               Margin="5">
-            <local1:Loader x:Name="studentLoader"
-                           HorizontalAlignment="Center"
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Margin="3 0 18 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           Text="No"
+                           FontSize="14"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
                            VerticalAlignment="Center"
-                           Visibility="Collapsed"/>
+                           HorizontalAlignment="Center"/>
 
-            <ScrollViewer>
-                <StackPanel x:Name="stStudents"/>
-            </ScrollViewer>
+                <TextBlock Grid.Column="1"
+                           Text="Ism"
+                           FontSize="14"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
 
-            <Label x:Name="studentforEmptyData"
-                   Content="O'quvchilar topilmadi"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontFamily="Jetbrains Mono"
-                   FontWeight="SemiBold"
-                   FontSize="14"
-                   Visibility="Collapsed"/>
+                <TextBlock Grid.Column="2"
+                           Text="Yoshi"
+                           FontSize="14"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+
+                <TextBlock Grid.Column="3"
+                           Text="Manzili"
+                           FontFamily="Jetbrains Mono"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Column="4"
+                           Text="Telefon raqam"
+                           FontFamily="Jetbrains Mono"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+
+                <TextBlock Grid.Column="5"
+                           Text="Kurs"
+                           FontFamily="Jetbrains Mono"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+
+                <TextBlock Grid.Column="6"
+                           Text="Holat"
+                           FontFamily="Jetbrains Mono"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+            </Grid>
+            
+            <Grid Grid.Row="1">
+                <local1:Loader x:Name="studentLoader"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="Collapsed"/>
+
+                <ScrollViewer>
+                    <StackPanel x:Name="stStudents"/>
+                </ScrollViewer>
+
+                <Label x:Name="studentforEmptyData"
+                       Content="O'quvchilar topilmadi"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       FontSize="14"
+                       Visibility="Collapsed"/>
+            </Grid>
         </Grid>
+
+        <Button Grid.Row="3"
+                x:Name="saveBtn"
+                Style="{DynamicResource saveButton}"
+                Width="100"
+                Height="30"
+                HorizontalAlignment="Right"
+                Margin="0 0 10 0"/>
     </Grid>
 </Window>
