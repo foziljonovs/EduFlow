@@ -201,4 +201,10 @@ public partial class GroupForViewWindow : Window
         ShowValues();
         ShowLessons();
     }
+
+    private void addStudents_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        GroupForAddStudentWindow window = new GroupForAddStudentWindow();
+        window.ShowDialog();
+    }
 }

@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:EduFlow.Desktop.Windows.GroupForWindows" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
         mc:Ignorable="d"
         Title="GroupForAddStudentWindow" 
-        Height="450" 
-        Width="600"
+        Height="500" 
+        Width="800"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -31,7 +32,8 @@
                          Tag="close"
                          ToolTip="Oynani yopish"
                          HorizontalAlignment="Right"
-                         VerticalAlignment="Center"/>
+                         VerticalAlignment="Center"
+                         Click="closeBtn_Click"/>
         </Grid>
 
         <StackPanel Grid.Row="1"

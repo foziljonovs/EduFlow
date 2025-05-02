@@ -181,7 +181,8 @@
                             Width="120"
                             CornerRadius="8"
                             Background="MediumSeaGreen"
-                            ToolTip="Guruhga o'quvchi qo'shish">
+                            ToolTip="Guruhga o'quvchi qo'shish"
+                            MouseDown="addStudents_MouseDown">
                         <Label Content="O'quvchi qo'shish"
                                Foreground="White"
                                FontSize="14"
