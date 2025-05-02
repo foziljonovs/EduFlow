@@ -1,5 +1,4 @@
-﻿using EduFlow.BLL.DTOs.Courses.StudentCourse;
-using EduFlow.BLL.DTOs.Users.Student;
+﻿using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
@@ -122,6 +121,38 @@ public class StudentServer : IStudentServer
         catch (Exception ex)
         {
             return false;
+        }
+    }
+
+    public async Task<List<StudentForResultDto>> FilterAsync(StudentForFilterDto dto)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/filter");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress)
+            {
+                Content = new StringContent(
+                    JsonConvert.SerializeObject(dto),
+                    Encoding.UTF8,
+                    "application/json")
+            };
+
+            var response = await client.SendAsync(request);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<StudentForResultDto> students = JsonConvert.DeserializeObject<List<StudentForResultDto>>(result)!;
+
+            return students;
+        }
+        catch(Exception ex)
+        {
+            return new List<StudentForResultDto>();
         }
     }
 

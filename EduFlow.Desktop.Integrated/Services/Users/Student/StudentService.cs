@@ -64,6 +64,19 @@ public class StudentService : IStudentService
         }
     }
 
+    public async Task<List<StudentForResultDto>> FilterAsync(StudentForFilterDto dto)
+    {
+        try
+        {
+            var result = await _server.FilterAsync(dto);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new List<StudentForResultDto>(); 
+        }
+    }
+
     public async Task<List<StudentForResultDto>> GetAllAsync()
     {
         try

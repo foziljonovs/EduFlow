@@ -224,4 +224,22 @@ public class StudentController(
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpPost("filter")]
+    public async Task<IActionResult> FilterAsync([FromBody] StudentForFilterDto dto, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.FilterAsync(dto, cancellation);
+            return Ok(response);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }
