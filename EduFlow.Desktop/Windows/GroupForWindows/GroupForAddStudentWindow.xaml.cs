@@ -86,7 +86,33 @@ public partial class GroupForAddStudentWindow : Window
         ShowStudents(result);
     }
 
+    private async Task FilterAsync()
+    {
+        stStudents.Children.Clear();
+        studentLoader.Visibility = Visibility.Visible;
 
+        StudentForFilterDto dto = new StudentForFilterDto();
+
+        if (dtStartDate.SelectedDate != null)
+            dto.StartedDate = dtStartDate.SelectedDate.Value;
+
+        if (dtEndDate.SelectedDate != null)
+            dto.FinishedDate = dtEndDate.SelectedDate.Value;
+
+        if (courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem
+                && selectedCourseItem.Tag != null)
+            dto.CourseId = (long)selectedCourseItem.Tag;
+
+        var students = await Task.Run(async () => await _studentService.FilterAsync(dto));
+
+        if (students.Any())
+            ShowStudents(students);
+        else
+        {
+            studentLoader.Visibility = Visibility.Collapsed;
+            studentforEmptyData.Visibility = Visibility.Visible;
+        }
+    }
 
     private void ShowStudents(List<StudentForResultDto> students)
     {
@@ -133,9 +159,14 @@ public partial class GroupForAddStudentWindow : Window
         await GetStudents();
     }
 
+    private bool IsWindowLoaded = false;
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        LoadWindow();
+        if(!IsWindowLoaded)
+        {
+            IsWindowLoaded = true;
+            LoadWindow();
+        }
     }
 
     private void closeBtn_Click(object sender, RoutedEventArgs e)
@@ -143,11 +174,13 @@ public partial class GroupForAddStudentWindow : Window
 
     private void dtEndDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
     {
-
+        if(IsWindowLoaded)
+            FilterAsync();
     }
 
     private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-
+        if(IsWindowLoaded)
+            FilterAsync();
     }
 }
