@@ -163,6 +163,7 @@
                 Width="100"
                 Height="30"
                 HorizontalAlignment="Right"
-                Margin="0 0 10 0"/>
+                Margin="0 0 10 0"
+                Click="saveBtn_Click"/>
     </Grid>
 </Window>

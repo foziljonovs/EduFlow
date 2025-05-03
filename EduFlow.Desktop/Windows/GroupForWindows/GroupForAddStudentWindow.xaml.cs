@@ -17,7 +17,7 @@ namespace EduFlow.Desktop.Windows.GroupForWindows;
 /// </summary>
 public partial class GroupForAddStudentWindow : Window
 {
-    private List<StudentForResultDto> ChooseStudents = new List<StudentForResultDto>();
+    private List<long> ChooseStudents = new List<long>();
 
     private readonly IStudentService _studentService;
     private readonly IGroupService _groupService;
@@ -74,6 +74,23 @@ public partial class GroupForAddStudentWindow : Window
         }
         else
             notifier.ShowWarning("kurslar topilmadi!");
+    }
+
+    private void OnStudentComponentSelectionChanged(StudentForGroupComponent component, bool isSelected)
+    {
+        if (isSelected)
+        {
+            var studentId = component.GetId();
+
+            if (!ChooseStudents.Contains(studentId))
+                ChooseStudents.Add(studentId);
+        }
+        else
+        {
+            var studentId = component.GetId();
+            if (ChooseStudents.Contains(studentId))
+                ChooseStudents.Remove(studentId);
+        }
     }
 
     private async Task GetStudents()
@@ -142,6 +159,7 @@ public partial class GroupForAddStudentWindow : Window
                     item.Address,
                     item.PhoneNumber);
 
+                component.SelectionChanged += OnStudentComponentSelectionChanged;
                 stStudents.Children.Add(component);
                 count++;
             }
@@ -182,5 +200,10 @@ public partial class GroupForAddStudentWindow : Window
     {
         if(IsWindowLoaded)
             FilterAsync();
+    }
+
+    private void saveBtn_Click(object sender, RoutedEventArgs e)
+    {
+
     }
 }

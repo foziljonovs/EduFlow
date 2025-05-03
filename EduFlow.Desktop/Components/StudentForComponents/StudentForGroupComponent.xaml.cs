@@ -9,6 +9,7 @@ public partial class StudentForGroupComponent : UserControl
 {
     private long Id { get; set; }
     private bool IsChosen { get; set; } = false;
+    public event Action<StudentForGroupComponent, bool> SelectionChanged;
     public StudentForGroupComponent()
     {
         InitializeComponent();
@@ -28,6 +29,9 @@ public partial class StudentForGroupComponent : UserControl
     public bool GetIsChosen()
         => this.IsChosen;
 
+    public long GetId()
+        => this.Id;
+
     private void Border_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         if (IsChosen)
@@ -43,8 +47,14 @@ public partial class StudentForGroupComponent : UserControl
     }
 
     private void ChooseStudent_Checked(object sender, System.Windows.RoutedEventArgs e)
-        => IsChosen = true;
+    {
+        IsChosen = true;
+        SelectionChanged?.Invoke(this, IsChosen);
+    }
 
     private void ChooseStudent_Unchecked(object sender, System.Windows.RoutedEventArgs e)
-        => IsChosen = false;
+    {
+        IsChosen = false;
+        SelectionChanged?.Invoke(this, IsChosen);
+    }
 }

@@ -4,6 +4,7 @@ using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.LessonForComponents;
 using EduFlow.Desktop.Components.StudentForComponents;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Attendance;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
@@ -198,6 +199,9 @@ public partial class GroupForViewWindow : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
+        if(IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
+            addStudents.Visibility = Visibility.Collapsed;
+
         ShowValues();
         ShowLessons();
     }
