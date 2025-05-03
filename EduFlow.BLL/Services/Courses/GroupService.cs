@@ -70,10 +70,21 @@ public class GroupService(
                 var student = await _unitOfWork.Student.GetAsync(item);
 
                 if (student is not null && !group.Students.Any(x => x.Id == student.Id))
+                {
+                    var studentCourse = await _unitOfWork.StudentCourse.GetAllAsync()
+                        .Where(x => x.StudentId == student.Id && x.CourseId == group.CourseId)
+                        .FirstOrDefaultAsync(cancellationToken);
+
+                    if (studentCourse is null)
+                        throw new StatusCodeException(HttpStatusCode.NotFound, "Student course not found.");
+
+                    studentCourse.Status = Domain.Enums.EnrollmentStatus.Active;
+
                     group.Students.Add(student);
+                }
             }
 
-            return await _unitOfWork.Group.UpdateAsync(group);
+            return await _unitOfWork.SaveAsync(cancellationToken) > 0;
         }
         catch(Exception ex)
         {
@@ -213,7 +224,7 @@ public class GroupService(
         try
         {
             var group = await _unitOfWork.Group
-                .GetAllAsync()
+                .GetAllFullInformation()
                 .Where(x => x.IsDeleted == false && x.Id == id)
                 .FirstOrDefaultAsync(cancellationToken);
 

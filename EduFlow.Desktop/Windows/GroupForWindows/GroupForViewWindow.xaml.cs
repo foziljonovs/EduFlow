@@ -11,6 +11,7 @@ using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Domain.Entities.Users;
+using System.Threading.Tasks;
 using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -206,9 +207,11 @@ public partial class GroupForViewWindow : Window
         ShowLessons();
     }
 
-    private void addStudents_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private async void addStudents_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         GroupForAddStudentWindow window = new GroupForAddStudentWindow();
+        window.SetId(Id);
         window.ShowDialog();
+        await GetGroup();
     }
 }

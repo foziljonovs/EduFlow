@@ -1,4 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Users.Student;
+﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Desktop.Components.StudentForComponents;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
@@ -17,6 +18,8 @@ namespace EduFlow.Desktop.Windows.GroupForWindows;
 /// </summary>
 public partial class GroupForAddStudentWindow : Window
 {
+    private long Id { get; set; }
+    private GroupForResultDto _group = new GroupForResultDto();
     private List<long> ChooseStudents = new List<long>();
 
     private readonly IStudentService _studentService;
@@ -48,33 +51,23 @@ public partial class GroupForAddStudentWindow : Window
         cfg.DisplayOptions.TopMost = true;
     });
 
-    private async Task GetCourses()
+    Notifier notifierThis = new Notifier(cfg =>
     {
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+        cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
+            corner: Corner.TopRight,
+            offsetX: 20,
+            offsetY: 20);
 
-        if (courses.Any())
-        {
-            courseComboBox.Items.Clear();
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
 
-            courseComboBox.Items.Add(new ComboBoxItem
-            {
-                Content = "Kurs tanlang",
-                IsSelected = true,
-                IsEnabled = false
-            });
+        cfg.Dispatcher = Application.Current.Dispatcher;
 
-            foreach (var item in courses)
-            {
-                courseComboBox.Items.Add(new ComboBoxItem
-                {
-                    Content = item.Name,
-                    Tag = item.Id
-                });
-            }
-        }
-        else
-            notifier.ShowWarning("kurslar topilmadi!");
-    }
+        cfg.DisplayOptions.Width = 200;
+        cfg.DisplayOptions.TopMost = true;
+    });
 
     private void OnStudentComponentSelectionChanged(StudentForGroupComponent component, bool isSelected)
     {
@@ -93,12 +86,23 @@ public partial class GroupForAddStudentWindow : Window
         }
     }
 
+    private async Task GetGroup()
+    {
+        var group = await _groupService.GetByIdAsync(Id);
+
+        if (group is not null)
+            _group = group;
+        else
+            notifierThis.ShowError("Guruh topilmadi! Iltimos oynani qaytadan oching.");
+    }
+
     private async Task GetStudents()
     {
         var students = await Task.Run(async () => await _studentService.GetAllAsync());
         
         var result = students.Where(x => x.StudentCourses
-            .Any(y => y.Status == Domain.Enums.EnrollmentStatus.Pending)).ToList();
+            .Any(y => y.Status == Domain.Enums.EnrollmentStatus.Pending &&
+                y.CourseId == _group.CourseId)).ToList();
 
         ShowStudents(result);
     }
@@ -116,14 +120,15 @@ public partial class GroupForAddStudentWindow : Window
         if (dtEndDate.SelectedDate != null)
             dto.FinishedDate = dtEndDate.SelectedDate.Value;
 
-        if (courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem
-                && selectedCourseItem.Tag != null)
-            dto.CourseId = (long)selectedCourseItem.Tag;
+        dto.CourseId = _group.CourseId;
 
         var students = await Task.Run(async () => await _studentService.FilterAsync(dto));
 
+        var result = students.Where(x => x.StudentCourses
+            .Any(y => y.Status == Domain.Enums.EnrollmentStatus.Pending)).ToList();
+
         if (students.Any())
-            ShowStudents(students);
+            ShowStudents(result);
         else
         {
             studentLoader.Visibility = Visibility.Collapsed;
@@ -146,8 +151,7 @@ public partial class GroupForAddStudentWindow : Window
             foreach(var item in students)
             {
                 var courseName = item.StudentCourses
-                    .FirstOrDefault(x => x.Status == Domain.Enums.EnrollmentStatus.Pending)
-                    .Course.Name ?? "Nomalum";
+                    .FirstOrDefault(x => x.Course is not null).Course.Name ?? "Nomalum";
 
                 StudentForGroupComponent component = new StudentForGroupComponent();
                 component.SetValues(
@@ -171,9 +175,12 @@ public partial class GroupForAddStudentWindow : Window
         }
     }
 
+    public void SetId(long id)
+        => this.Id = id;
+
     private async void LoadWindow()
     {
-        await GetCourses();
+        await GetGroup();
         await GetStudents();
     }
 
@@ -196,14 +203,24 @@ public partial class GroupForAddStudentWindow : Window
             FilterAsync();
     }
 
-    private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void saveBtn_Click(object sender, RoutedEventArgs e)
     {
-        if(IsWindowLoaded)
-            FilterAsync();
-    }
+        if (ChooseStudents.Any())
+        {
+            if(Id > 0)
+            {
+                var result = await _groupService.AddStudentsToGroupAsync(Id, ChooseStudents);
 
-    private void saveBtn_Click(object sender, RoutedEventArgs e)
-    {
-
+                if (result)
+                {
+                    this.Close();
+                    notifier.ShowSuccess("Talabalar muvaffaqiyatli qo'shildi!");
+                }
+                else
+                    notifierThis.ShowError("Talabalar qo'shilmadi! Qayta urinib ko'ring.");
+            }
+        }
+        else
+            notifierThis.ShowWarning("Yangi talabalar tanlanmadi!");
     }
 }
