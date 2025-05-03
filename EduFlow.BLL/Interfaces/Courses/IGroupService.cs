@@ -12,4 +12,5 @@ public interface IGroupService
     Task<IEnumerable<GroupForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellationToken = default);
     Task<IEnumerable<GroupForResultDto>> GetAllByCourseIdAsync(long courseId, CancellationToken cancellationToken = default);
     Task<IEnumerable<GroupForResultDto>> FilterAsync(GroupForFilterDto dto, CancellationToken cancellationToken = default);
+    Task<bool> AddStudentsToGroupAsync(long id, List<long> students, CancellationToken cancellationToken = default);
 }
