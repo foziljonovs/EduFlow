@@ -53,13 +53,6 @@
                         Margin="10 0 5 0"
                         SelectedDateChanged="dtEndDate_SelectedDateChanged"/>
 
-
-            <ComboBox x:Name="courseComboBox"
-                      Width="110"
-                      VerticalAlignment="Center"
-                      Margin="10 0 5 0"
-                      ToolTip="Kurs tanlash"
-                      SelectionChanged="courseComboBox_SelectionChanged"/>
         </StackPanel>
 
         <Grid Grid.Row="2"
@@ -163,6 +156,7 @@
                 Width="100"
                 Height="30"
                 HorizontalAlignment="Right"
-                Margin="0 0 10 0"/>
+                Margin="0 0 10 0"
+                Click="saveBtn_Click"/>
     </Grid>
 </Window>

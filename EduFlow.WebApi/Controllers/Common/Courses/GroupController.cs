@@ -165,4 +165,22 @@ public class GroupController(
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpPut("{id:long}/students")]
+    public async Task<IActionResult> AddStudentsToGroupAsync([FromRoute] long id, [FromBody] List<long> students, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.AddStudentsToGroupAsync(id, students, cancellation);
+            return Ok(response);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }

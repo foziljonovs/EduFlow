@@ -42,6 +42,37 @@ public class GroupServer : IGroupServer
         }
     }
 
+    public async Task<bool> AddStudentsToGroupAsync(long groupId, List<long> students)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/groups/{groupId}/students");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var request = new HttpRequestMessage(HttpMethod.Put, client.BaseAddress)
+            {
+                Content = new StringContent(
+                    JsonConvert.SerializeObject(students),
+                    Encoding.UTF8,
+                    "application/json")
+            };
+
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return false;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+    }
+
     public async Task<bool> DeleteAsync(long id)
     {
         try

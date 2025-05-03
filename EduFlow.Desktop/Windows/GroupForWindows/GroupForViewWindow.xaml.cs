@@ -4,12 +4,14 @@ using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.LessonForComponents;
 using EduFlow.Desktop.Components.StudentForComponents;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Attendance;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Domain.Entities.Users;
+using System.Threading.Tasks;
 using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -198,13 +200,18 @@ public partial class GroupForViewWindow : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
+        if(IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
+            addStudents.Visibility = Visibility.Collapsed;
+
         ShowValues();
         ShowLessons();
     }
 
-    private void addStudents_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private async void addStudents_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         GroupForAddStudentWindow window = new GroupForAddStudentWindow();
+        window.SetId(Id);
         window.ShowDialog();
+        await GetGroup();
     }
 }

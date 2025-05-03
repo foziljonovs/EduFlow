@@ -54,6 +54,45 @@ public class GroupService(
         }
     }
 
+    public async Task<bool> AddStudentsToGroupAsync(long id, List<long> students, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var group = await _unitOfWork.Group.GetAllFullInformation()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (group is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
+
+            foreach (var item in students)
+            {
+                var student = await _unitOfWork.Student.GetAsync(item);
+
+                if (student is not null && !group.Students.Any(x => x.Id == student.Id))
+                {
+                    var studentCourse = await _unitOfWork.StudentCourse.GetAllAsync()
+                        .Where(x => x.StudentId == student.Id && x.CourseId == group.CourseId)
+                        .FirstOrDefaultAsync(cancellationToken);
+
+                    if (studentCourse is null)
+                        throw new StatusCodeException(HttpStatusCode.NotFound, "Student course not found.");
+
+                    studentCourse.Status = Domain.Enums.EnrollmentStatus.Active;
+
+                    group.Students.Add(student);
+                }
+            }
+
+            return await _unitOfWork.SaveAsync(cancellationToken) > 0;
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while adding students to the group: {ex}");
+            throw;
+        }
+    }
+
     public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
     {
         try
@@ -185,7 +224,7 @@ public class GroupService(
         try
         {
             var group = await _unitOfWork.Group
-                .GetAllAsync()
+                .GetAllFullInformation()
                 .Where(x => x.IsDeleted == false && x.Id == id)
                 .FirstOrDefaultAsync(cancellationToken);
 

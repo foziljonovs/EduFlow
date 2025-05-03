@@ -24,6 +24,19 @@ public class GroupService : IGroupService
         }
     }
 
+    public async Task<bool> AddStudentsToGroupAsync(long groupId, List<long> studentIds)
+    {
+        try
+        {
+            var res = await _server.AddStudentsToGroupAsync(groupId, studentIds);
+            return res;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
     public async Task<bool> DeleteAsync(long id)
     {
         try
