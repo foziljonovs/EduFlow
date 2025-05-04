@@ -330,7 +330,8 @@
                             Height="30"
                             Width="100"
                             ToolTip="Ma'lumotlarni saqlash"
-                            HorizontalAlignment="Right"/>
+                            HorizontalAlignment="Right"
+                            Click="saveButton_Click"/>
                 </Grid>
             </Grid>
         </Grid>

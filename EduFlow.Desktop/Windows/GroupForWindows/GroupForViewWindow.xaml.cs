@@ -242,4 +242,9 @@ public partial class GroupForViewWindow : Window
             notifierThis.ShowError("Dars qo'shishda xatolik yuz berdi!");
         }
     }
+
+    private void saveButton_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }
