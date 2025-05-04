@@ -1,4 +1,5 @@
 ﻿using EduFlow.Desktop.Windows.GroupForWindows;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace EduFlow.Desktop.Components.MainForComponents;
@@ -9,6 +10,7 @@ namespace EduFlow.Desktop.Components.MainForComponents;
 public partial class MainForCourseComponent : UserControl
 {
     public long Id { get; set; }
+    public event Func<Task> OnGroupView;
     public MainForCourseComponent()
     {
         InitializeComponent();
@@ -22,10 +24,11 @@ public partial class MainForCourseComponent : UserControl
         tbStudentCount.Text = studentCount.ToString();
     }
 
-    private void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    private async void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         GroupForViewWindow window = new GroupForViewWindow();
         window.SetId(Id);
         window.ShowDialog();
+        await OnGroupView?.Invoke();
     }
 }

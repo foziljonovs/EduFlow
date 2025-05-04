@@ -13,12 +13,17 @@
             Margin="4 0">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0"
+            <StackPanel Grid.Row="0"
+                        x:Name="stAttendances"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"/>
+
+            <TextBlock Grid.Row="1"
                        x:Name="tbNumber"
                        Text="1"
                        FontSize="18"
@@ -26,9 +31,6 @@
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
-
-            <StackPanel x:Name="stAttendances"
-                        Orientation="Horizontal"/>
 
             <TextBlock Grid.Row="2"
                        x:Name="tbDate"

@@ -28,5 +28,11 @@
                      FontFamily="Jetbrains Mono"
                      FontWeight="SemiBold"
                      VerticalAlignment="Center"/>
+
+        <Border Grid.ColumnSpan="2"
+                Height="1"
+                Background="Black"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Stretch"/>
     </Grid>
 </UserControl>

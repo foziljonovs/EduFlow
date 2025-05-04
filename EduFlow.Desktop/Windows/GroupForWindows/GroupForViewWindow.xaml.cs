@@ -1,6 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Courses.Lesson;
-using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.LessonForComponents;
 using EduFlow.Desktop.Components.StudentForComponents;
@@ -46,7 +45,7 @@ public partial class GroupForViewWindow : Window
     Notifier notifierThis = new Notifier(cfg =>
     {
         cfg.PositionProvider = new WindowPositionProvider(
-            parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
+            parentWindow: Application.Current.MainWindow,
             corner: Corner.TopRight,
             offsetX: 20,
             offsetY: 20);
@@ -84,21 +83,21 @@ public partial class GroupForViewWindow : Window
             return new TeacherForResultDto();
     }
 
-    private async Task<Stack<LessonForResultDto>> GetLessons()
+    private async Task<Queue<LessonForResultDto>> GetLessons()
     {
         var lessons = await Task.Run(async () => await _lessonService.GetByGroupIdAsync(Id));
 
         if (lessons.Any())
-            return new Stack<LessonForResultDto>(lessons);
+            return new Queue<LessonForResultDto>(lessons);
         else
-            return new Stack<LessonForResultDto>();
+            return new Queue<LessonForResultDto>();
     }
 
     private async void ShowLessons()
     {
         var lessons = await GetLessons();
 
-        int count = 1;
+        int count = lessons.Count;
 
         stLessons.Children.Clear();
         lessonLoader.Visibility = Visibility.Visible;
@@ -117,17 +116,20 @@ public partial class GroupForViewWindow : Window
                     lesson);
 
                 stLessons.Children.Add(component);
-                count++;
+                count--;
             }
+
+            lessonCountTbc.Text = lessons.Count.ToString();
         }
         else
         {
             lessonLoader.Visibility = Visibility.Collapsed;
             emptyDataForLesson.Visibility = Visibility.Visible;
+            lessonCountTbc.Text = "0";
         }
     }
 
-    private async void ShowValues()
+    private async Task ShowValues()
     {
         var group = await GetGroup();
         if(group is null)
@@ -153,6 +155,7 @@ public partial class GroupForViewWindow : Window
 
     private void ShowStudents(List<Student> students)
     {
+        _students.Clear();
         int count = 1;
 
         stStudents.Children.Clear();
@@ -176,7 +179,7 @@ public partial class GroupForViewWindow : Window
                 count++;
             }
 
-            studentCountTbc.Text = count.ToString();
+            studentCountTbc.Text = students.Count.ToString();
         }
         else
         {
@@ -198,12 +201,12 @@ public partial class GroupForViewWindow : Window
     private void MaxButton_Click(object sender, RoutedEventArgs e)
         => this.WindowState = WindowState.Maximized;
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
         if(IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
             addStudents.Visibility = Visibility.Collapsed;
 
-        ShowValues();
+        await ShowValues();
         ShowLessons();
     }
 
@@ -212,6 +215,36 @@ public partial class GroupForViewWindow : Window
         GroupForAddStudentWindow window = new GroupForAddStudentWindow();
         window.SetId(Id);
         window.ShowDialog();
-        await GetGroup();
+        await ShowValues();
+    }
+
+    private async void createLessonBtn_Click(object sender, RoutedEventArgs e)
+    {
+        stLessons.Children.Clear();
+        lessonLoader.Visibility = Visibility.Visible;
+
+        var lesson = new LessonForCreateDto();
+
+        lesson.GroupId = Id;
+        lesson.Date = DateTime.UtcNow.AddHours(5);
+        lesson.LessonNumber = Convert.ToInt32(lessonCountTbc.Text) + 1;
+        lesson.Name = lesson.LessonNumber + " - dars";
+
+        var result = await _lessonService.AddAsync(lesson);
+
+        if (result)
+        {
+            notifierThis.ShowSuccess("Dars muvaffaqiyatli qo'shildi!");
+            ShowLessons();
+        }
+        else
+        {
+            notifierThis.ShowError("Dars qo'shishda xatolik yuz berdi!");
+        }
+    }
+
+    private void saveButton_Click(object sender, RoutedEventArgs e)
+    {
+
     }
 }
