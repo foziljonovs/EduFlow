@@ -174,7 +174,21 @@
                                FontFamily="Jetbrains Mono"
                                FontWeight="DemiBold"
                                VerticalAlignment="Center"
-                               Margin="5 0 10 0"/>
+                               Margin="5 0 20 0"/>
+
+                    <TextBlock Text="Darslar soni: "
+                                FontSize="14"
+                                FontFamily="Jetbrains Mono"
+                                FontWeight="SemiBold"
+                                VerticalAlignment="Center"/>
+
+                    <TextBlock x:Name="lessonCountTbc"
+                                Text="12"
+                                FontSize="14"
+                                FontFamily="Jetbrains Mono"
+                                FontWeight="DemiBold"
+                                VerticalAlignment="Center"
+                                Margin="5 0 20 0"/>
 
                     <Border x:Name="addStudents"
                             Height="30"
@@ -245,7 +259,8 @@
                                             Tag="add"
                                             ToolTip="Dars yaratish"
                                             Background="MediumSeaGreen"
-                                            HorizontalAlignment="Right"/>
+                                            HorizontalAlignment="Right"
+                                            Click="createLessonBtn_Click"/>
                                 </Grid>
                             </Grid>
 

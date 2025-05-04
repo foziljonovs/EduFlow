@@ -1,6 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Courses.Lesson;
-using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.LessonForComponents;
 using EduFlow.Desktop.Components.StudentForComponents;
@@ -46,7 +45,7 @@ public partial class GroupForViewWindow : Window
     Notifier notifierThis = new Notifier(cfg =>
     {
         cfg.PositionProvider = new WindowPositionProvider(
-            parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
+            parentWindow: Application.Current.MainWindow,
             corner: Corner.TopRight,
             offsetX: 20,
             offsetY: 20);
@@ -119,11 +118,14 @@ public partial class GroupForViewWindow : Window
                 stLessons.Children.Add(component);
                 count++;
             }
+
+            lessonCountTbc.Text = count.ToString();
         }
         else
         {
             lessonLoader.Visibility = Visibility.Collapsed;
             emptyDataForLesson.Visibility = Visibility.Visible;
+            lessonCountTbc.Text = "0";
         }
     }
 
@@ -213,5 +215,30 @@ public partial class GroupForViewWindow : Window
         window.SetId(Id);
         window.ShowDialog();
         await GetGroup();
+    }
+
+    private async void createLessonBtn_Click(object sender, RoutedEventArgs e)
+    {
+        stLessons.Children.Clear();
+        lessonLoader.Visibility = Visibility.Visible;
+
+        var lesson = new LessonForCreateDto();
+
+        lesson.GroupId = Id;
+        lesson.Date = DateTime.UtcNow.AddHours(5);
+        lesson.LessonNumber = Convert.ToInt32(lessonCountTbc.Text) + 1;
+        lesson.Name = lesson.LessonNumber + " - dars";
+
+        var result = await _lessonService.AddAsync(lesson);
+
+        if (result)
+        {
+            notifierThis.ShowSuccess("Dars muvaffaqiyatli qo'shildi!");
+            ShowLessons();
+        }
+        else
+        {
+            notifierThis.ShowError("Dars qo'shishda xatolik yuz berdi!");
+        }
     }
 }

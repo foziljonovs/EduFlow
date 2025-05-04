@@ -24,6 +24,14 @@ public partial class LessonForAttendanceComponent : UserControl
         tbDate.Text = dto.Date.ToString("dd/MM/yyyy");
     }
 
+    public void NewValues(int number, Dictionary<int, long> keys)
+    {
+        this.keys = keys;
+        this.lesson = new LessonForResultDto();
+        tbNumber.Text = number.ToString();
+        tbDate.Text = DateTime.UtcNow.AddHours(5).Date.ToString("dd/MM/yyyy");
+    }
+
     private void PrintValues(Dictionary<int, long> keys, LessonForResultDto dto)
     {
         foreach(var tableNumber in keys.Keys)
@@ -33,12 +41,33 @@ public partial class LessonForAttendanceComponent : UserControl
             var attendance = dto.Attendances.FirstOrDefault(a => a.StudentId == studentId);
 
             if (attendance is null)
-                return;
+            {
+                var newAttendance = new Attendance
+                {
+                    Id = 0,
+                    StudentId = studentId,
+                    LessonId = lesson.Id,
+                    Date = DateTime.UtcNow.AddHours(5),
+                    IsActived = false
+                };
 
-            if (attendance.IsActived)
+                lesson.Attendances.Add(newAttendance);
+
+                var checkBox = new CheckBox
+                {
+                    Tag = studentId,
+                    Content = "Belgilanmagan",
+                    IsChecked = false,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center
+                };
+
+                stAttendances.Children.Add(checkBox);
+            }
+            else if (attendance.IsActived)
             {
                 var checkBox = new CheckBox
                 {
+                    Tag = studentId,
                     Content = "Keldi",
                     IsChecked = true,
                     VerticalAlignment = System.Windows.VerticalAlignment.Center
@@ -50,6 +79,7 @@ public partial class LessonForAttendanceComponent : UserControl
             {
                 var checkBox = new CheckBox
                 {
+                    Tag = studentId,
                     Content = "Kelmadi",
                     IsChecked = false,
                     VerticalAlignment = System.Windows.VerticalAlignment.Center

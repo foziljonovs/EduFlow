@@ -27,7 +27,7 @@ public class LessonService(
         try
         {
             var validationResult = await _validator.ValidateCraete(lesson);
-            if (validationResult.IsValid)
+            if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
             var existsGroup = await _unitOfWork.Course.GetAsync(lesson.GroupId);
