@@ -55,10 +55,13 @@ public partial class LessonForAttendanceComponent : UserControl
 
                 var checkBox = new CheckBox
                 {
+                    Width = 20,
+                    Height = 20,
+                    Margin = new System.Windows.Thickness(0, 5, 0, 5),
                     Tag = studentId,
-                    Content = "Belgilanmagan",
                     IsChecked = false,
-                    VerticalAlignment = System.Windows.VerticalAlignment.Center
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                    HorizontalAlignment = System.Windows.HorizontalAlignment.Center
                 };
 
                 stAttendances.Children.Add(checkBox);
@@ -67,10 +70,13 @@ public partial class LessonForAttendanceComponent : UserControl
             {
                 var checkBox = new CheckBox
                 {
+                    Width = 20,
+                    Height = 20,
+                    Margin = new System.Windows.Thickness(0, 5, 0, 5),
                     Tag = studentId,
-                    Content = "Keldi",
                     IsChecked = true,
-                    VerticalAlignment = System.Windows.VerticalAlignment.Center
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                    HorizontalAlignment = System.Windows.HorizontalAlignment.Center
                 };
 
                 stAttendances.Children.Add(checkBox);
@@ -79,10 +85,13 @@ public partial class LessonForAttendanceComponent : UserControl
             {
                 var checkBox = new CheckBox
                 {
+                    Width = 20,
+                    Height = 20,
+                    Margin = new System.Windows.Thickness(0, 5, 0, 5),
                     Tag = studentId,
-                    Content = "Kelmadi",
                     IsChecked = false,
-                    VerticalAlignment = System.Windows.VerticalAlignment.Center
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                    HorizontalAlignment = System.Windows.HorizontalAlignment.Center
                 };
                 stAttendances.Children.Add(checkBox);
             }

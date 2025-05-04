@@ -174,10 +174,10 @@ public partial class MainPage : Page
         ShowGroup(groups);
     }
 
-    private async Task GetAllGroupByTeacherId(long teacherId)
+    private async Task GetAllGroupByTeacherId()
     {
         courseForLoader.Visibility = Visibility.Visible;
-        var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(teacherId));
+        var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(_teacher.Id));
         ShowGroup(groups);
     }
 
@@ -202,6 +202,10 @@ public partial class MainPage : Page
                     group.Name,
                     group.Students?.Count ?? 0);
 
+                if (_teacher is not null)
+                    component.OnGroupView += GetAllGroupByTeacherId;
+                else
+                    component.OnGroupView += GetAllGroup;
                 stCourses.Children.Add(component);
                 count++;
             }
@@ -314,7 +318,7 @@ public partial class MainPage : Page
                 return;
             }
 
-            await GetAllGroupByTeacherId(teacherId);
+            await GetAllGroupByTeacherId();
             await GetAllTeacherCourses(teacherId);
         }
         else

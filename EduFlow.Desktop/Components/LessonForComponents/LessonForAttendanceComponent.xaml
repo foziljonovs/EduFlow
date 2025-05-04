@@ -20,7 +20,8 @@
 
             <StackPanel Grid.Row="0"
                         x:Name="stAttendances"
-                        Orientation="Horizontal"/>
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"/>
 
             <TextBlock Grid.Row="1"
                        x:Name="tbNumber"

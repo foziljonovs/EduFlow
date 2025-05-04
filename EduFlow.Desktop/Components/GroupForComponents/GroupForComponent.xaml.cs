@@ -1,5 +1,6 @@
 ﻿using EduFlow.Desktop.Windows.GroupForWindows;
 using EduFlow.Domain.Enums;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace EduFlow.Desktop.Components.GroupForComponents;
@@ -9,6 +10,7 @@ namespace EduFlow.Desktop.Components.GroupForComponents;
 /// </summary>
 public partial class GroupForComponent : UserControl
 {
+    public event Func<Task> OnGroupView;
     private long Id { get; set; }
     public GroupForComponent()
     {
@@ -34,10 +36,11 @@ public partial class GroupForComponent : UserControl
         tbStartedDate.Text = startedDate.ToString("dd/MM/yyyy");
     }
 
-    private void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    private async void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         GroupForViewWindow window = new GroupForViewWindow();
         window.SetId(Id);
         window.ShowDialog();
+        await OnGroupView?.Invoke();
     }
 }

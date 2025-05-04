@@ -97,11 +97,11 @@ public partial class GroupPage : Page
         ShowGroups(groups);
     }
 
-    private async Task GetAllGroupByTeacherId(long id)
+    private async Task GetAllGroupByTeacherId()
     {
         stGroups.Children.Clear();
         groupLoader.Visibility = Visibility.Visible;
-        var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(id));
+        var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(_teacher.Id));
 
         ShowGroups(groups);
     }
@@ -129,6 +129,11 @@ public partial class GroupPage : Page
                     item.Students.Count,
                     item.IsStatus,
                     item.CreatedAt);
+
+                if (_teacher is not null)
+                    component.OnGroupView += GetAllGroupByTeacherId;
+                else
+                    component.OnGroupView += GetAllGroup;
 
                 stGroups.Children.Add(component);
                 count++;
@@ -228,7 +233,7 @@ public partial class GroupPage : Page
                 return;
             }
 
-            await GetAllGroupByTeacherId(teacherId);
+            await GetAllGroupByTeacherId();
         }
         else
         {

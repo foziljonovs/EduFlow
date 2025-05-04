@@ -97,7 +97,7 @@ public partial class GroupForViewWindow : Window
     {
         var lessons = await GetLessons();
 
-        int count = 1;
+        int count = lessons.Count;
 
         stLessons.Children.Clear();
         lessonLoader.Visibility = Visibility.Visible;
@@ -116,10 +116,10 @@ public partial class GroupForViewWindow : Window
                     lesson);
 
                 stLessons.Children.Add(component);
-                count++;
+                count--;
             }
 
-            lessonCountTbc.Text = count--.ToString();
+            lessonCountTbc.Text = lessons.Count.ToString();
         }
         else
         {
@@ -155,6 +155,7 @@ public partial class GroupForViewWindow : Window
 
     private void ShowStudents(List<Student> students)
     {
+        _students.Clear();
         int count = 1;
 
         stStudents.Children.Clear();
@@ -178,7 +179,7 @@ public partial class GroupForViewWindow : Window
                 count++;
             }
 
-            studentCountTbc.Text = count--.ToString();
+            studentCountTbc.Text = students.Count.ToString();
         }
         else
         {
@@ -214,7 +215,7 @@ public partial class GroupForViewWindow : Window
         GroupForAddStudentWindow window = new GroupForAddStudentWindow();
         window.SetId(Id);
         window.ShowDialog();
-        await GetGroup();
+        await ShowValues();
     }
 
     private async void createLessonBtn_Click(object sender, RoutedEventArgs e)
