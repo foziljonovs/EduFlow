@@ -83,14 +83,14 @@ public partial class GroupForViewWindow : Window
             return new TeacherForResultDto();
     }
 
-    private async Task<Stack<LessonForResultDto>> GetLessons()
+    private async Task<Queue<LessonForResultDto>> GetLessons()
     {
         var lessons = await Task.Run(async () => await _lessonService.GetByGroupIdAsync(Id));
 
         if (lessons.Any())
-            return new Stack<LessonForResultDto>(lessons);
+            return new Queue<LessonForResultDto>(lessons);
         else
-            return new Stack<LessonForResultDto>();
+            return new Queue<LessonForResultDto>();
     }
 
     private async void ShowLessons()
@@ -119,7 +119,7 @@ public partial class GroupForViewWindow : Window
                 count++;
             }
 
-            lessonCountTbc.Text = count.ToString();
+            lessonCountTbc.Text = count--.ToString();
         }
         else
         {
@@ -129,7 +129,7 @@ public partial class GroupForViewWindow : Window
         }
     }
 
-    private async void ShowValues()
+    private async Task ShowValues()
     {
         var group = await GetGroup();
         if(group is null)
@@ -178,7 +178,7 @@ public partial class GroupForViewWindow : Window
                 count++;
             }
 
-            studentCountTbc.Text = count.ToString();
+            studentCountTbc.Text = count--.ToString();
         }
         else
         {
@@ -200,12 +200,12 @@ public partial class GroupForViewWindow : Window
     private void MaxButton_Click(object sender, RoutedEventArgs e)
         => this.WindowState = WindowState.Maximized;
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
         if(IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
             addStudents.Visibility = Visibility.Collapsed;
 
-        ShowValues();
+        await ShowValues();
         ShowLessons();
     }
 
