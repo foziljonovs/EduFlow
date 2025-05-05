@@ -1,4 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Courses.Group;
+﻿using EduFlow.BLL.DTOs.Courses.Attendance;
+using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Courses.Lesson;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.LessonForComponents;
@@ -34,6 +35,7 @@ public partial class GroupForViewWindow : Window
     private readonly ILessonService _lessonService;
     private long Id { get; set; }
     private Dictionary<int, long> _students = new Dictionary<int, long>();
+    private List<AttendanceForUpdateRangeDto> allUpdateAttendances = new List<AttendanceForUpdateRangeDto>();
     public GroupForViewWindow()
     {
         InitializeComponent();
@@ -192,8 +194,28 @@ public partial class GroupForViewWindow : Window
         }
     }
 
-    private void CloseBtn_Click(object sender, RoutedEventArgs e)
-        => this.Close();
+    private async void CloseBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if(!allUpdateAttendances.Any())
+            this.Close();
+        else
+        {
+            var messageResult = MessageBox.Show("O'zgarishlar saqlansinmi?", "EduFlow", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if(messageResult is MessageBoxResult.Yes)
+            {
+                await SaveAsync();
+                notifierThis.ShowInformation("O'zgarishlar saqlandi.");
+                this.Close();
+            }
+            else
+            {
+                notifierThis.ShowWarning("O'zgarishlar saqlanmadi!");
+                this.Close();
+            }
+        }
+
+    }
 
     private void MinButton_Click(object sender, RoutedEventArgs e)
         => this.WindowState = WindowState.Minimized;
@@ -246,10 +268,8 @@ public partial class GroupForViewWindow : Window
         }
     }
 
-    private async Task<bool> SaveAsync()
+    private void GetAllUpdateAttendance()
     {
-        List<Attendance> allChangeAttendances = new List<Attendance>();
-
         foreach (var child in stLessons.Children)
         {
             if (child is LessonForAttendanceComponent component &&
@@ -258,23 +278,40 @@ public partial class GroupForViewWindow : Window
                 var updates = component.GetAttandanceStatus();
 
                 if (updates is not null && updates.Any())
-                    allChangeAttendances.AddRange(updates);
+                    allUpdateAttendances.AddRange(updates);
 
                 component.MarkAsSaved();
             }
         }
+    }
 
-        if (!allChangeAttendances.Any())
-            return false;
+    private async Task<char> SaveAsync()
+    {
+        if (!allUpdateAttendances.Any())
+            return '0';
 
-        //var result = await _attendanceService.UpdateRangeAsync(allChangeAttendances);
+        var result = await _attendanceService.UpdateRangeAsync(allUpdateAttendances);
 
-        //tekshirish
-        return true;
+        if (result)
+            return '1';
+        else
+            return '2';
     }
 
     private async void saveButton_Click(object sender, RoutedEventArgs e)
     {
-        await SaveAsync();
+        GetAllUpdateAttendance();
+        char res = await SaveAsync();
+
+        if(res is '1')
+        {
+            notifierThis.ShowSuccess("O'zgarishlar saqlandi!");
+            allUpdateAttendances.Clear();
+            ShowLessons();
+        }
+        else if (res is '2')
+            notifierThis.ShowError("O'zgarishlarni saqlashda xatolik yuz berdi!");
+        else
+            notifierThis.ShowWarning("O'zgarishlar mavjud emas!");
     }
 }

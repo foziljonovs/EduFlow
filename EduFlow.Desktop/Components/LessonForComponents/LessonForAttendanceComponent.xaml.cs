@@ -105,20 +105,19 @@ public partial class LessonForAttendanceComponent : UserControl
     public void MarkAsSaved()
         => this.isChanged = false;
 
-    public List<Attendance> GetAttandanceStatus()
+    public List<AttendanceForUpdateRangeDto> GetAttandanceStatus()
     {
-        var result = new List<Attendance>();
+        var result = new List<AttendanceForUpdateRangeDto>();
 
         foreach (var child in stAttendances.Children)
             if(child is CheckBox checkBox && checkBox.Tag is long studentId)
-                result.Add(new Attendance
+                result.Add(new AttendanceForUpdateRangeDto
                 {
                     Id = long.Parse(checkBox.Tag.ToString()), 
                     StudentId = studentId,
                     LessonId = lesson.Id,
                     Date = DateTime.Parse(tbDate.Text),
-                    IsActived = checkBox.IsChecked ?? false,
-                    CreatedAt = DateTime.Parse(tbDate.Text)
+                    IsActived = checkBox.IsChecked ?? false
                 });
 
         return result;
