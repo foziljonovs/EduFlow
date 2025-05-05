@@ -147,4 +147,22 @@ public class AttendanceController(
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpPut("update-range")]
+    public async Task<IActionResult> UpdateRangeAsync([FromBody] List<AttendanceForUpdateRangeDto> dtos, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.UpdateRangeAsync(dtos, cancellation);
+            return Ok(response);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }
