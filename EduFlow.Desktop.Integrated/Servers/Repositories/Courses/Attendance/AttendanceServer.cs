@@ -200,4 +200,35 @@ public class AttendanceServer : IAttendanceServer
             return false;
         }
     }
+
+    public async Task<bool> UpdateRangeAsync(List<AttendanceForUpdateRangeDto> dtos)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/attendances/update-range");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var request = new HttpRequestMessage(HttpMethod.Put, client.BaseAddress)
+            {
+                Content = new StringContent(
+                    JsonSerializer.Serialize(dtos),
+                    Encoding.UTF8,
+                    "application/json")
+            };
+
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return false;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
 }
