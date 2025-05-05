@@ -1,4 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Courses.Lesson;
+﻿using EduFlow.BLL.DTOs.Courses.Attendance;
+using EduFlow.BLL.DTOs.Courses.Lesson;
 using EduFlow.Domain.Entities.Courses;
 using System.Windows;
 using System.Windows.Controls;
@@ -101,16 +102,26 @@ public partial class LessonForAttendanceComponent : UserControl
         }
     }
 
-    public List<(long studentId, bool isActived)> GetAttandanceStatus()
-    {
-        var result = new List<(long studentId, bool isActived)>();
+    public void MarkAsSaved()
+        => this.isChanged = false;
 
-        foreach(var child in stAttendances.Children)
+    public List<AttendanceForUpdateRangeDto> GetAttandanceStatus()
+    {
+        var result = new List<AttendanceForUpdateRangeDto>();
+
+        foreach (var child in stAttendances.Children)
             if(child is CheckBox checkBox && checkBox.Tag is long studentId)
-                result.Add((studentId, checkBox.IsChecked ?? false));
+                result.Add(new AttendanceForUpdateRangeDto
+                {
+                    Id = long.Parse(checkBox.Tag.ToString()), 
+                    StudentId = studentId,
+                    LessonId = lesson.Id,
+                    Date = DateTime.Parse(tbDate.Text),
+                    IsActived = checkBox.IsChecked ?? false
+                });
 
         return result;
-    }      
+    }
 
     private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
     {

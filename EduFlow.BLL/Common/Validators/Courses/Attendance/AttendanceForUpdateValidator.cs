@@ -15,8 +15,5 @@ public class AttendanceForUpdateValidator : AbstractValidator<AttendanceForUpdat
 
         RuleFor(x => x.Date)
             .NotNull().WithMessage("Sana bo'lishi shart");
-
-        RuleFor(x => x.IsActived)
-            .NotEmpty().WithMessage("Aktivlik tanlanishi kerak");
     }
 }

@@ -11,4 +11,5 @@ public interface IAttendanceServer
     Task<bool> DeleteAsync(long id);
     Task<List<AttendanceForResultDto>> GetAllByStudentIdAsync(long studentId);
     Task<List<AttendanceForResultDto>> GetAllByCourseIdAsync(long courseId);
+    Task<bool> UpdateRangeAsync(List<AttendanceForUpdateRangeDto> dtos);
 }

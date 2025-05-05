@@ -101,4 +101,17 @@ public class AttendanceService : IAttendanceService
             return false;
         }
     }
+
+    public async Task<bool> UpdateRangeAsync(List<AttendanceForUpdateRangeDto> dtos)
+    {
+        try
+        {
+            var result = await _server.UpdateRangeAsync(dtos);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
 }
