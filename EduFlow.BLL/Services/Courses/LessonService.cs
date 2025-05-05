@@ -33,20 +33,23 @@ public class LessonService(
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var existsGroup = await _unitOfWork.Group.GetAsync(lesson.GroupId);
+            var existsGroup = await _unitOfWork.Group.GetAllFullInformation()
+                .Where(x => x.Id == lesson.GroupId)
+                .FirstOrDefaultAsync();
+
             if (existsGroup is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
 
             var mappedLesson = _mapper.Map<Lesson>(lesson);
 
-            var savedLesson = await _unitOfWork.Lesson.AddAsync(mappedLesson);
+            var savedLessonId = await _unitOfWork.Lesson.AddAsync(mappedLesson);
 
             foreach(var groupStudent in existsGroup.Students)
             {
                 var attendance = new AttendanceForCraeteDto
                 {
                     StudentId = groupStudent.Id,
-                    LessonId = savedLesson,
+                    LessonId = savedLessonId,
                     Date = DateTime.UtcNow.AddHours(5),
                     IsActived = false
                 };
@@ -54,7 +57,7 @@ public class LessonService(
                 var attendanceRes = await _attendanceService.AddAsync(attendance, cancellation);
             }
 
-            return savedLesson > 0;
+            return savedLessonId > 0;
         }
         catch(Exception ex)
         {
