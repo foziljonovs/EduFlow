@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EduFlow.BLL.Common.Exceptions;
 using EduFlow.BLL.Common.Validators.Courses.Interfaces;
+using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.DTOs.Courses.Lesson;
 using EduFlow.BLL.Interfaces.Courses;
 using EduFlow.DAL.Interfaces;
@@ -16,12 +17,14 @@ public class LessonService(
     IUnitOfWork unitOfWork,
     IMapper mapper,
     ILogger<LessonService> logger,
-    ILessonValidator validator) : ILessonService
+    ILessonValidator validator,
+    IAttendanceService attendanceService) : ILessonService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly ILogger<LessonService> _logger = logger;
     private readonly ILessonValidator _validator = validator;
+    private readonly IAttendanceService _attendanceService = attendanceService;
     public async Task<bool> AddAsync(LessonForCreateDto lesson, CancellationToken cancellation = default)
     {
         try
@@ -30,13 +33,28 @@ public class LessonService(
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var existsGroup = await _unitOfWork.Course.GetAsync(lesson.GroupId);
+            var existsGroup = await _unitOfWork.Group.GetAsync(lesson.GroupId);
             if (existsGroup is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
 
-            var savedLesson = _mapper.Map<Lesson>(lesson);
+            var mappedLesson = _mapper.Map<Lesson>(lesson);
 
-            return await _unitOfWork.Lesson.AddConfirmAsync(savedLesson);
+            var savedLesson = await _unitOfWork.Lesson.AddAsync(mappedLesson);
+
+            foreach(var groupStudent in existsGroup.Students)
+            {
+                var attendance = new AttendanceForCraeteDto
+                {
+                    StudentId = groupStudent.Id,
+                    LessonId = savedLesson,
+                    Date = DateTime.UtcNow.AddHours(5),
+                    IsActived = false
+                };
+
+                var attendanceRes = await _attendanceService.AddAsync(attendance, cancellation);
+            }
+
+            return savedLesson > 0;
         }
         catch(Exception ex)
         {

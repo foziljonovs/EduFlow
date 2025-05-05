@@ -191,7 +191,7 @@ public class AttendanceService(
 
             var existsAttendances = await _unitOfWork.Attendance
                 .GetAllAsync()
-                .Where(x => dtos.Select(x => x.Id).Contains(x.Id))
+                .Where(x => dtos.Select(dto => dto.Id).Contains(x.Id))
                 .ToListAsync();
 
             if (!existsAttendances.Any())
@@ -199,7 +199,7 @@ public class AttendanceService(
 
             var existsLessons = await _unitOfWork.Lesson
                 .GetAllAsync()
-                .Where(x => dtos.Select(x => x.LessonId).Contains(x.Id))
+                .Where(x => dtos.Select(dto => dto.LessonId).Contains(x.Id))
                 .ToListAsync();
 
             if (!existsLessons.Any())

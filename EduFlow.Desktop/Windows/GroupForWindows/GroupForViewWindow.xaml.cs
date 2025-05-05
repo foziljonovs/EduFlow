@@ -46,11 +46,28 @@ public partial class GroupForViewWindow : Window
         this._lessonService = new LessonService();
     }
 
+    Notifier notifier = new Notifier(cfg =>
+    {
+        cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.MainWindow,
+            corner: Corner.TopRight,
+            offsetX: 20,
+            offsetY: 20);
+
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+
+        cfg.Dispatcher = Application.Current.Dispatcher;
+
+        cfg.DisplayOptions.Width = 200;
+        cfg.DisplayOptions.TopMost = true;
+    });
 
     Notifier notifierThis = new Notifier(cfg =>
     {
         cfg.PositionProvider = new WindowPositionProvider(
-            parentWindow: Application.Current.MainWindow,
+            parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
             offsetX: 20,
             offsetY: 20);
@@ -205,13 +222,13 @@ public partial class GroupForViewWindow : Window
             if(messageResult is MessageBoxResult.Yes)
             {
                 await SaveAsync();
-                notifierThis.ShowInformation("O'zgarishlar saqlandi.");
                 this.Close();
+                notifier.ShowInformation("O'zgarishlar saqlandi.");
             }
             else
             {
-                notifierThis.ShowWarning("O'zgarishlar saqlanmadi!");
                 this.Close();
+                notifier.ShowWarning("O'zgarishlar saqlanmadi!");
             }
         }
 
