@@ -9,9 +9,12 @@ using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Users;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Animation;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
@@ -243,8 +246,35 @@ public partial class GroupForViewWindow : Window
         }
     }
 
-    private void saveButton_Click(object sender, RoutedEventArgs e)
+    private async Task<bool> SaveAsync()
     {
+        List<Attendance> allChangeAttendances = new List<Attendance>();
 
+        foreach (var child in stLessons.Children)
+        {
+            if (child is LessonForAttendanceComponent component &&
+                component.isChanged)
+            {
+                var updates = component.GetAttandanceStatus();
+
+                if (updates is not null && updates.Any())
+                    allChangeAttendances.AddRange(updates);
+
+                component.MarkAsSaved();
+            }
+        }
+
+        if (!allChangeAttendances.Any())
+            return false;
+
+        //var result = await _attendanceService.UpdateRangeAsync(allChangeAttendances);
+
+        //tekshirish
+        return true;
+    }
+
+    private async void saveButton_Click(object sender, RoutedEventArgs e)
+    {
+        await SaveAsync();
     }
 }
