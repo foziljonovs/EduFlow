@@ -79,6 +79,7 @@ public class MappingProfile : Profile
         CreateMap<AttendanceForResultDto, Attendance>();
         CreateMap<AttendanceForCraeteDto, Attendance>();
         CreateMap<AttendanceForUpdateDto, Attendance>();
+        CreateMap<AttendanceForUpdateRangeDto, Attendance>();
 
         /*--------------------------------------Lesson------------------------------------------*/
         CreateMap<Lesson, LessonForResultDto>();

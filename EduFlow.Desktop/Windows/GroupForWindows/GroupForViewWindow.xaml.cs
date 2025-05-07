@@ -10,12 +10,8 @@ using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
-using EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Users;
-using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media.Animation;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
@@ -105,14 +101,14 @@ public partial class GroupForViewWindow : Window
             return new TeacherForResultDto();
     }
 
-    private async Task<Queue<LessonForResultDto>> GetLessons()
+    private async Task<Stack<LessonForResultDto>> GetLessons()
     {
         var lessons = await Task.Run(async () => await _lessonService.GetByGroupIdAsync(Id));
 
         if (lessons.Any())
-            return new Queue<LessonForResultDto>(lessons);
+            return new Stack<LessonForResultDto>(lessons);
         else
-            return new Queue<LessonForResultDto>();
+            return new Stack<LessonForResultDto>();
     }
 
     private async void ShowLessons()

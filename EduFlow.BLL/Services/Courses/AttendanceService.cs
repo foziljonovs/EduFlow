@@ -189,9 +189,11 @@ public class AttendanceService(
             if (!dtos.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Attendance not found.");
 
+            var attendanceIds = dtos.Select(x => x.Id).ToList();
+
             var existsAttendances = await _unitOfWork.Attendance
                 .GetAllAsync()
-                .Where(x => dtos.Select(dto => dto.Id).Contains(x.Id))
+                .Where(x => attendanceIds.Contains(x.Id))
                 .ToListAsync();
 
             if (!existsAttendances.Any())
