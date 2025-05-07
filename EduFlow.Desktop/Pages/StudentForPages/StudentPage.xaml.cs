@@ -160,6 +160,7 @@ public partial class StudentPage : Page
         if(role is UserRole.Teacher)
         {
             courseComboBox.Visibility = Visibility.Collapsed;
+            createStudent.Visibility = Visibility.Collapsed;
 
             var teacherId = await GetTeacher(id);
             if(teacherId == 0)

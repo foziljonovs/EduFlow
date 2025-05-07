@@ -308,6 +308,7 @@ public partial class MainPage : Page
             teacherComboBox.Visibility = Visibility.Collapsed;
             createTeacherBtn.Visibility = Visibility.Collapsed;
             createCourseBtn.Visibility = Visibility.Collapsed;
+            createGroupBtn.Visibility = Visibility.Collapsed;
 
             var teacherId = await GetTeacher(id);
 

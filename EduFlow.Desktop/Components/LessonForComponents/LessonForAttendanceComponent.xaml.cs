@@ -117,7 +117,7 @@ public partial class LessonForAttendanceComponent : UserControl
                     StudentId = studentId,
                     LessonId = lesson.Id,
                     Date = DateTime.Parse(tbDate.Text),
-                    IsActived = checkBox.IsChecked ?? false
+                    IsActived = lesson.Attendances.FirstOrDefault(x => x.StudentId == studentId).IsActived
                 });
 
         return result;
