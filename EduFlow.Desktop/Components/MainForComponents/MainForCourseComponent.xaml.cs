@@ -1,5 +1,4 @@
 ﻿using EduFlow.Desktop.Windows.GroupForWindows;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace EduFlow.Desktop.Components.MainForComponents;
@@ -29,6 +28,8 @@ public partial class MainForCourseComponent : UserControl
         GroupForViewWindow window = new GroupForViewWindow();
         window.SetId(Id);
         window.ShowDialog();
-        await OnGroupView?.Invoke();
+
+        if(OnGroupView is not null)
+            await OnGroupView.Invoke();
     }
 }

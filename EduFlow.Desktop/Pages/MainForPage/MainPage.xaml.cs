@@ -12,7 +12,6 @@ using EduFlow.Desktop.Windows.CategoryForWindows;
 using EduFlow.Desktop.Windows.CourseForWindows;
 using EduFlow.Desktop.Windows.GroupForWindows;
 using EduFlow.Desktop.Windows.TeacherForWindows;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
