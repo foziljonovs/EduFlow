@@ -209,6 +209,8 @@ public partial class GroupForViewWindow : Window
 
     private async void CloseBtn_Click(object sender, RoutedEventArgs e)
     {
+        GetAllUpdateAttendance();
+
         if(!allUpdateAttendances.Any())
             this.Close();
         else
@@ -283,6 +285,8 @@ public partial class GroupForViewWindow : Window
 
     private void GetAllUpdateAttendance()
     {
+        allUpdateAttendances.Clear();
+
         foreach (var child in stLessons.Children)
         {
             if (child is LessonForAttendanceComponent component &&
