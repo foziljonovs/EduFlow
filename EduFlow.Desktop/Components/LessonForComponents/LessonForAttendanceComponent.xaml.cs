@@ -60,7 +60,7 @@ public partial class LessonForAttendanceComponent : UserControl
                 Width = 20,
                 Height = 20,    
                 Margin = new System.Windows.Thickness(0, 5, 0, 5),
-                Tag = studentId,
+                Tag = attendance.Id,
                 IsChecked = attendance.IsActived,
                 VerticalAlignment = System.Windows.VerticalAlignment.Center,
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Center
@@ -76,11 +76,11 @@ public partial class LessonForAttendanceComponent : UserControl
 
     private void CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
     {
-        if (sender is CheckBox checkBox && checkBox.Tag is long studentId)
+        if (sender is CheckBox checkBox && checkBox.Tag is long attendanceId)
         {
             isChanged = true;
 
-            var attendance = lesson.Attendances.FirstOrDefault(a => a.StudentId == studentId);
+            var attendance = lesson.Attendances.FirstOrDefault(a => a.Id == attendanceId);
             if (attendance is not null)
             {
                 attendance.IsActived = true;
@@ -91,9 +91,9 @@ public partial class LessonForAttendanceComponent : UserControl
 
     private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
     {
-        if (sender is CheckBox checkBox && checkBox.Tag is long studentId)
+        if (sender is CheckBox checkBox && checkBox.Tag is long attendanceId)
         {
-            var attendance = lesson.Attendances.FirstOrDefault(a => a.StudentId == studentId);
+            var attendance = lesson.Attendances.FirstOrDefault(a => a.Id == attendanceId);
             if (attendance is not null)
             {
                 attendance.IsActived = false;
@@ -110,15 +110,19 @@ public partial class LessonForAttendanceComponent : UserControl
         var result = new List<AttendanceForUpdateRangeDto>();
 
         foreach (var child in stAttendances.Children)
-            if(child is CheckBox checkBox && checkBox.Tag is long studentId)
+            if(child is CheckBox checkBox && checkBox.Tag is long attendanceId)
+            {
+                var attendance = lesson.Attendances.FirstOrDefault(a => a.Id == attendanceId);
+
                 result.Add(new AttendanceForUpdateRangeDto
                 {
                     Id = long.Parse(checkBox.Tag.ToString()), 
-                    StudentId = studentId,
+                    StudentId = attendance.StudentId,
                     LessonId = lesson.Id,
                     Date = DateTime.Parse(tbDate.Text),
-                    IsActived = lesson.Attendances.FirstOrDefault(x => x.StudentId == studentId).IsActived
+                    IsActived = attendance.IsActived
                 });
+            }
 
         return result;
     }

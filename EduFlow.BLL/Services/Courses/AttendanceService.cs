@@ -213,7 +213,7 @@ public class AttendanceService(
                 var updatedAttendance = savedAttendances.FirstOrDefault(x => x.Id == attendance.Id);
                 if (updatedAttendance != null)
                 {
-                    attendance.IsActived = attendance.IsActived;
+                    attendance.IsActived = updatedAttendance.IsActived;
                     attendance.UpdatedAt = DateTime.UtcNow.AddHours(5);
                 }
             }
