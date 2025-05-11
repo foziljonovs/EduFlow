@@ -214,7 +214,7 @@ public partial class GroupForAddStudentWindow : Window
                 if (result)
                 {
                     this.Close();
-                    notifier.ShowSuccess("Talabalar muvaffaqiyatli qo'shildi!");
+                    notifierThis.ShowSuccess("Talabalar muvaffaqiyatli qo'shildi!");
                 }
                 else
                     notifierThis.ShowError("Talabalar qo'shilmadi! Qayta urinib ko'ring.");
