@@ -229,7 +229,6 @@ public partial class GroupForViewWindow : Window
                 notifier.ShowWarning("O'zgarishlar saqlanmadi!");
             }
         }
-
     }
 
     private void MinButton_Click(object sender, RoutedEventArgs e)
