@@ -97,7 +97,7 @@ public partial class CourseForViewWindow : Window
             tbPrice.Content = course.Price.ToString();
             tbTerm.Content = course.Term.ToString();
             tbStatus.Content = course.Archived.ToString();
-            tbCategory.Content = course.Category.Name;
+            tbCategory.Content = course.Category?.Name ?? "Nomalum";
 
             ShowTeachers(course.Teachers);
             ShowGroups(course.Groups);
@@ -177,5 +177,10 @@ public partial class CourseForViewWindow : Window
 
         stTeachers.Visibility = Visibility.Collapsed;
         emptyDataForTeacher.Visibility = Visibility.Visible;
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        ShowCourse();
     }
 }

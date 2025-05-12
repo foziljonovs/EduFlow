@@ -9,7 +9,8 @@
         Height="600"
         Width="1024"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
     <Grid Margin="10 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -153,23 +154,38 @@
                 </Grid>
 
                 <Grid Grid.Row="5">
-                    <local1:Loader x:Name="loaderForTeacher"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Visibility="Collapsed"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Text="O'qituvchilar"
+                               FontSize="18"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
 
-                    <ScrollViewer Margin="5 5 5 10">
-                        <StackPanel x:Name="stTeachers"/>
-                    </ScrollViewer>
+                    <Grid Grid.Row="1">
+                        <local1:Loader x:Name="loaderForTeacher"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Visibility="Collapsed"/>
 
-                    <TextBlock x:Name="emptyDataForTeacher"
-                               Text="O'qituvchilar topilmadi!"
-                                FontSize="14"
-                                FontFamily="Jetbrains Mono"
-                                FontWeight="SemiBold"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Visibility="Collapsed"/>
+                        <ScrollViewer Margin="5 5 5 10">
+                            <StackPanel x:Name="stTeachers"
+                                        ToolTip="O'qituvchilar"/>
+                        </ScrollViewer>
+
+                        <TextBlock x:Name="emptyDataForTeacher"
+                                   Text="O'qituvchilar topilmadi!"
+                                    FontSize="14"
+                                    FontFamily="Jetbrains Mono"
+                                    FontWeight="SemiBold"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Visibility="Collapsed"/>
+                    </Grid>
                 </Grid>
             </Grid>
 
@@ -240,7 +256,8 @@
                                            Visibility="Collapsed"/>
 
                             <ScrollViewer>
-                                <StackPanel x:Name="stGroups"/>
+                                <StackPanel x:Name="stGroups"
+                                            ToolTip="Guruhlar"/>
                             </ScrollViewer>
 
 
