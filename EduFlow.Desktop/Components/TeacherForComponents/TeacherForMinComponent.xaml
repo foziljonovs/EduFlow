@@ -11,7 +11,8 @@
             Margin="3 5 3 0"
             BorderThickness="1"
             BorderBrush="Gray"
-            MouseDown="Border_MouseDown">
+            MouseDown="Border_MouseDown"
+            ToolTip="O'qituvchi">
         <TextBlock x:Name="tbName"
                    Text="Abdulvosid Foziljonov"
                    FontSize="14"
