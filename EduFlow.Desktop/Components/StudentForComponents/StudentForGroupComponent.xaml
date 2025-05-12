@@ -10,7 +10,8 @@
             BorderThickness="1"
             BorderBrush="Gray"
             Margin="3 5 3 0"
-            MouseDown="Border_MouseDown">
+            MouseDown="Border_MouseDown"
+            ToolTip="O'quvchi malumotlari">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>

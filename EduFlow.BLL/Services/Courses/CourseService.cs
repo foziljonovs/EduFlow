@@ -178,7 +178,10 @@ public class CourseService(
     {
         try
         {
-            var course = await _unitOfWork.Course.GetAsync(id);
+            var course = await _unitOfWork.Course.GetAllFullInformation()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync(cancellationToken);
+
             if (course is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 

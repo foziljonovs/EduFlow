@@ -10,4 +10,5 @@ public interface ITeacherService
     Task<bool> UpdateAsync(long id, TeacherForUpdateDto dto, CancellationToken cancellationToken = default);
     Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default);
     Task<TeacherForResultDto> GetByUserIdAsync(long userId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<TeacherForResultDto>> GetByCourseIdAsync(long courseId, CancellationToken cancellationToken = default);
 }

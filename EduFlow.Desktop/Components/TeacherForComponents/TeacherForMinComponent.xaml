@@ -6,10 +6,13 @@
              xmlns:local="clr-namespace:EduFlow.Desktop.Components.TeacherForComponents"
              mc:Ignorable="d" 
              Height="45">
-    <Border CornerRadius="5"
+    <Border x:Name="spBorder"
+            CornerRadius="5"
             Margin="3 5 3 0"
             BorderThickness="1"
-            BorderBrush="Gray">
+            BorderBrush="Gray"
+            MouseDown="Border_MouseDown"
+            ToolTip="O'qituvchi">
         <TextBlock x:Name="tbName"
                    Text="Abdulvosid Foziljonov"
                    FontSize="14"

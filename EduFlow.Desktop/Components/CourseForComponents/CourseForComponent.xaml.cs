@@ -26,6 +26,7 @@ public partial class CourseForComponent : UserControl
     private void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         CourseForViewWindow window = new CourseForViewWindow();
+        window.SetCourseId(this.Id);
         window.ShowDialog();
     }
 }

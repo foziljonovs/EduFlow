@@ -9,7 +9,8 @@
     <Border Margin="3 5 3 0"    
             CornerRadius="5"
             BorderThickness="1"
-            BorderBrush="Gray">
+            BorderBrush="Gray"
+            ToolTip="Guruh malumotlari">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>

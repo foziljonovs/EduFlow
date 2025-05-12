@@ -10,7 +10,8 @@
         CornerRadius="5"
         BorderThickness="1"
         Margin="3 5 3 0"
-        BorderBrush="Gray">
+        BorderBrush="Gray"
+        ToolTip="O'qituvchi malumotlari">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>

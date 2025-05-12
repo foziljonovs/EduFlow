@@ -90,6 +90,26 @@ public class TeacherService(
         }
     }
 
+    public async Task<IEnumerable<TeacherForResultDto>> GetByCourseIdAsync(long courseId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var courses = await _unitOfWork.Teacher.GetAllFullInformation()
+                .Where(x => x.CourseId == courseId)
+                .ToListAsync(cancellationToken);
+
+            if(!courses.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Teachers not found.");
+
+            return _mapper.Map<IEnumerable<TeacherForResultDto>>(courses);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get by course id the teacher. {ex}");
+            throw;
+        }
+    }
+
     public async Task<TeacherForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
         try
