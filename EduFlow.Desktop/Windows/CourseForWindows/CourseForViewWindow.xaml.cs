@@ -1,4 +1,6 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Course;
+using EduFlow.Desktop.Components.GroupForComponents;
+using EduFlow.Desktop.Components.TeacherForComponents;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Users;
@@ -111,7 +113,18 @@ public partial class CourseForViewWindow : Window
     {
         if (teachers.Any())
         {
+            loaderForTeacher.Visibility = Visibility.Collapsed;
+            emptyDataForTeacher.Visibility = Visibility.Collapsed;
 
+            foreach(var item in teachers)
+            {
+                TeacherForMinComponent component = new TeacherForMinComponent();
+                component.SetValues(
+                    item.Id,
+                    $"{item.User.Firstname} {item.User.Lastname}");
+
+                stTeachers.Children.Add(component);
+            }
         }
         else
         {
@@ -122,9 +135,27 @@ public partial class CourseForViewWindow : Window
 
     private void ShowGroups(List<Group> groups)
     {
+        int count = 1;
+
         if (groups.Any())
         {
+            groupForLoader.Visibility = Visibility.Collapsed;
+            emptyDataForGroup.Visibility = Visibility.Collapsed;
 
+            foreach(var item in groups)
+            {
+                GroupForMinComponent component = new GroupForMinComponent();
+                component.SetValues(
+                    count,
+                    item.Id,
+                    item.Name,
+                    item.Students.Count,
+                    $"{item.Teacher.User.Firstname} {item.Teacher.User.Lastname}",
+                    item.IsStatus);
+
+                stGroups.Children.Add(component);
+                count++;
+            }
         }
         else
         {
