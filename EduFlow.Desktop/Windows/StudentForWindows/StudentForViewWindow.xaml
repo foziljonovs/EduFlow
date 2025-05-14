@@ -1,0 +1,121 @@
+﻿<Window x:Class="EduFlow.Desktop.Windows.StudentForWindows.StudentForViewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EduFlow.Desktop.Windows.StudentForWindows"
+        mc:Ignorable="d"
+        Title="StudentForViewWindow" 
+        Height="600"
+        Width="550"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Label Content="O'quvchi malumotlari"
+                   FontFamily="Jetbrains Mono"
+                   FontWeight="Bold"
+                   FontSize="20"/>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Width="60">
+
+                <RadioButton x:Name="MinButton"
+                             Style="{DynamicResource StateButton}"
+                             Tag="ChevronDown"
+                             ToolTip="Yashirish"
+                             Click="MinButton_Click"/>
+
+                <RadioButton x:Name="CloseBtn"
+                             Style="{DynamicResource StateButton}"
+                             Tag="Close"
+                             ToolTip="Yopish"
+                             Click="CloseBtn_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Text="To'liq ism :"
+                           FontSize="18"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="1"
+                           Text="Telefon raqam :"
+                           FontSize="18"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="2"
+                           Text="Manzili :"
+                           FontSize="18"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="3"
+                           Text="Yoshi :"
+                           FontSize="18"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="4"
+                            Text="O'qigan guruhlar :"
+                            FontSize="18"
+                            FontFamily="Jetbrains Mono"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Top"/>
+
+                <TextBlock Grid.Row="5"
+                           Text="To'lovlar tarixi :"
+                           FontSize="18"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Top"/>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="tbFullName"
+                           Text="Palonchi Pistonchiyev"
+                           FontSize="18"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

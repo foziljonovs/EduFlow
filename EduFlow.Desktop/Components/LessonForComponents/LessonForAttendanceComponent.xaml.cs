@@ -1,6 +1,7 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.DTOs.Courses.Lesson;
 using EduFlow.Domain.Entities.Courses;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -119,7 +120,7 @@ public partial class LessonForAttendanceComponent : UserControl
                     Id = long.Parse(checkBox.Tag.ToString()), 
                     StudentId = attendance.StudentId,
                     LessonId = lesson.Id,
-                    Date = DateTime.Parse(tbDate.Text),
+                    Date = DateTime.ParseExact(tbDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture),
                     IsActived = attendance.IsActived
                 });
             }
