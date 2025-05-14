@@ -254,7 +254,10 @@ public class StudentService(
     {
         try
         {
-            var student = await _unitOfWork.Student.GetAsync(id);
+            var student = await _unitOfWork.Student.GetAllFullInformation()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync(cancellationToken);
+
             if (student is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
 

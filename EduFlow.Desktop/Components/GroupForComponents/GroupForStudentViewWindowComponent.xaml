@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:EduFlow.Desktop.Components.GroupForComponents"
              mc:Ignorable="d" 
              Height="45">
-    <Border Margin="3 5 3 0"
+    <Border Margin="0 5 5 0"
             CornerRadius="5"
             BorderThickness="1"
             BorderBrush="Gray">

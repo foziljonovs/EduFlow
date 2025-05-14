@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Users.Student;
+using EduFlow.Desktop.Components.GroupForComponents;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using System.Windows;
 
@@ -38,6 +39,8 @@ public partial class StudentForViewWindow : Window
 
     private async void ShowValues()
     {
+        groupForLoader.Visibility = Visibility.Visible;
+
         var student = await GetStudent();
         if (student is not null)
         {
@@ -45,16 +48,39 @@ public partial class StudentForViewWindow : Window
             tbAge.Text = student.Age.ToString();
             tbAddress.Text = student.Address;
             tbPhoneNumber.Text = student.PhoneNumber;
-            //guruhlarni component orqali chiqaramiz
+
+            if (student.Groups.Any())
+            {
+                groupForLoader.Visibility = Visibility.Collapsed;
+                groupForEmptyDate.Visibility = Visibility.Collapsed;
+
+                foreach(var item in student.Groups)
+                {
+                    GroupForStudentViewWindowComponent component = new GroupForStudentViewWindowComponent();
+                    component.SetValues(
+                        item.Id,
+                        item.Name,
+                        item.IsStatus);
+
+                    stGroups.Children.Add(component);
+                }
+            }
+            else
+            {
+                groupForLoader.Visibility = Visibility.Collapsed;
+                groupForEmptyDate.Visibility = Visibility.Visible;
+            }
         }
         else
         {
+            groupForLoader.Visibility = Visibility.Collapsed;
+            groupForEmptyDate.Visibility = Visibility.Visible;
+            paymentForEmptyDate.Visibility = Visibility.Visible;
+
             tbFullName.Text = "...";
             tbAge.Text = "0";
             tbAddress.Text = "N/A";
             tbPhoneNumber.Text = "N/A";
-            groupForEmptyDate.Visibility = Visibility.Visible;
-            paymentForEmptyDate.Visibility = Visibility.Visible;
         }
     }
     private void Window_Loaded(object sender, RoutedEventArgs e)
