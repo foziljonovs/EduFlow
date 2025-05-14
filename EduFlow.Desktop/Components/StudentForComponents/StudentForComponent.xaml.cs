@@ -1,4 +1,5 @@
-﻿using EduFlow.Domain.Enums;
+﻿using EduFlow.Desktop.Windows.StudentForWindows;
+using EduFlow.Domain.Enums;
 using System.Windows.Controls;
 
 namespace EduFlow.Desktop.Components.StudentForComponents;
@@ -23,5 +24,12 @@ public partial class StudentForComponent : UserControl
         tbAddress.Text = address;
         tbPhoneNumber.Text = phoneNumber;
         tbCourse.Text = group;
+    }
+
+    private void ViewBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        StudentForViewWindow window = new StudentForViewWindow();
+        window.SetId(Id);
+        window.ShowDialog();
     }
 }
