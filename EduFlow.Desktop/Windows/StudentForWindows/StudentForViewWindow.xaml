@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EduFlow.Desktop.Windows.StudentForWindows"
+        xmlns:local="clr-namespace:EduFlow.Desktop.Windows.StudentForWindows" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
         mc:Ignorable="d"
         Title="StudentForViewWindow" 
         Height="600"
@@ -109,12 +109,79 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock x:Name="tbFullName"
+                <TextBlock Grid.Row="0"
+                           x:Name="tbFullName"
                            Text="Palonchi Pistonchiyev"
                            FontSize="18"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="1"
+                           x:Name="tbPhoneNumber"
+                           Text="+998945666964"
+                           FontSize="18"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+
+                <TextBlock Grid.Row="2"
+                           x:Name="tbAddress"
+                           Text="Margilon shahar"
+                           FontSize="18"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+
+                <TextBlock Grid.Row="3"
+                           x:Name="tbAge"
+                           Text="18"
+                           FontSize="18"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+                <Grid Grid.Row="4">
+                    <local1:Loader x:Name="groupForLoader"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="Collapsed"/>
+
+                    <ScrollViewer>
+                        <StackPanel x:Name="stGroups"/>
+                    </ScrollViewer>
+
+                    <TextBlock x:Name="groupForEmptyDate"
+                               Text="Guruhlar topilmadi!"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               FontFamily="Jetbrains Mono"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="Collapsed"/>
+                </Grid>
+
+                <Grid Grid.Row="5">
+                    <local1:Loader x:Name="paymentForLoader"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="Collapsed"/>
+
+                    <ScrollViewer>
+                        <StackPanel x:Name="stPayments"/>
+                    </ScrollViewer>
+
+                    <TextBlock x:Name="paymentForEmptyDate"
+                               Text="To'lovlar topilmadi!"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               FontFamily="Jetbrains Mono"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="Collapsed"/>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>
