@@ -120,7 +120,8 @@ public partial class LessonForAttendanceComponent : UserControl
                     Id = long.Parse(checkBox.Tag.ToString()), 
                     StudentId = attendance.StudentId,
                     LessonId = lesson.Id,
-                    Date = DateTime.ParseExact(tbDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    //Date = DateTime.ParseExact(tbDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                    Date = DateTime.Parse(tbDate.Text, new CultureInfo("en-GB")),
                     IsActived = attendance.IsActived
                 });
             }
