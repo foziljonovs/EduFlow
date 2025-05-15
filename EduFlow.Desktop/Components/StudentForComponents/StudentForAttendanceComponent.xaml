@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EduFlow.Desktop.Components.StudentForComponents"
+             xmlns:local="clr-namespace:EduFlow.Desktop.Components.StudentForComponents" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              Height="30">
     <Grid>
@@ -11,6 +11,41 @@
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem x:Name="mnDelete"
+                          Header="O'chirish"
+                          Click="mnDelete_Click">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Delete"
+                                                 Width="16"
+                                                 Height="16"
+                                                 Foreground="Tomato"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <!--<MenuItem x:Name="mnActive"
+                          Header="Faollashtirish">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="ToggleSwitch"
+                                                 Width="16"
+                                                 Height="16"
+                                                 Foreground="DodgerBlue"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+
+                <MenuItem x:Name="mnSaved"
+                          Header="Faolsizlashtirish">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="ToggleSwitchOff"
+                                                 Width="16"
+                                                 Height="16"
+                                                 Foreground="Gold"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+        </Grid.ContextMenu>
 
         <TextBlock Grid.Column="0"
                    x:Name="tbNumber"
