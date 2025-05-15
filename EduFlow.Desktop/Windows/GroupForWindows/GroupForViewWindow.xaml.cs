@@ -11,6 +11,7 @@ using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Domain.Entities.Users;
+using EduFlow.Domain.Enums;
 using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -190,7 +191,8 @@ public partial class GroupForViewWindow : Window
                 component.setValues(
                     student.Id,
                     count,
-                    student.Fullname);
+                    student.Fullname,
+                    EnrollmentStatus.Active); //keyinroq static emas apidan olamiz
 
                 stStudents.Children.Add(component);
                 _students.Add(count, student.Id);
