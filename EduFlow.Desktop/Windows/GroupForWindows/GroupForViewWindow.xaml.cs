@@ -193,7 +193,12 @@ public partial class GroupForViewWindow : Window
                     count,
                     student.Fullname,
                     EnrollmentStatus.Active, //keyinroq static emas apidan olamiz
-                    this.Id); 
+                    this.Id);
+
+                component.OnDelete = async () =>
+                {
+                    Window_Loaded(this, new RoutedEventArgs());
+                };
 
                 stStudents.Children.Add(component);
                 _students.Add(count, student.Id);

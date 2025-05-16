@@ -13,4 +13,5 @@ public interface IGroupServer
     Task<List<GroupForResultDto>> GetAllByCourseIdAsync(long courseId);
     Task<List<GroupForResultDto>> FilterAsync(GroupForFilterDto dto);
     Task<bool> AddStudentsToGroupAsync(long groupId, List<long> students);
+    Task<bool> DeleteForStudentAsync(long id, long studentId);
 }
