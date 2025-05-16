@@ -192,7 +192,8 @@ public partial class GroupForViewWindow : Window
                     student.Id,
                     count,
                     student.Fullname,
-                    EnrollmentStatus.Active); //keyinroq static emas apidan olamiz
+                    EnrollmentStatus.Active, //keyinroq static emas apidan olamiz
+                    this.Id); 
 
                 stStudents.Children.Add(component);
                 _students.Add(count, student.Id);
