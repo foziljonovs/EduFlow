@@ -111,6 +111,32 @@ public class GroupService(
         }
     }
 
+    public async Task<bool> DeleteForStudentAsync(long id, long studentId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var group = await _unitOfWork.Group.GetAllFullInformation()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if(group is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
+
+            var student = await _unitOfWork.Student.GetAsync(studentId);
+            if(student is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
+
+            group.Students.Remove(student);
+
+            return await _unitOfWork.SaveAsync(cancellationToken) > 0;
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while deleting the group for student: {ex}");
+            throw;
+        }
+    }
+
     public async Task<IEnumerable<GroupForResultDto>> FilterAsync(GroupForFilterDto dto, CancellationToken cancellationToken = default)
     {
         try

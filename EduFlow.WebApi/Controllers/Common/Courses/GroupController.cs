@@ -183,4 +183,22 @@ public class GroupController(
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpDelete("{id:long}/student/{studentId:long}")]
+    public async Task<IActionResult> DeleteForStudentAsync([FromRoute] long id, [FromRoute] long studentId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.DeleteForStudentAsync(id, studentId, cancellation);
+            return Ok(response);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }

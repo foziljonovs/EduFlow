@@ -50,6 +50,19 @@ public class GroupService : IGroupService
         }
     }
 
+    public async Task<bool> DeleteForStudentAsync(long id, long studentId)
+    {
+        try
+        {
+            var res = await _server.DeleteForStudentAsync(id, studentId);
+            return res;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
     public async Task<List<GroupForResultDto>> FilterAsync(GroupForFilterDto dto)
     {
         try

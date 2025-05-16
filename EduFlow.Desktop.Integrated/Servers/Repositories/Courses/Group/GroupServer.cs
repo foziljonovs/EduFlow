@@ -96,6 +96,29 @@ public class GroupServer : IGroupServer
         }
     }
 
+    public async Task<bool> DeleteForStudentAsync(long id, long studentId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/groups/{id}/student/{studentId}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.DeleteAsync(client.BaseAddress);
+
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return false;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
     public async Task<List<GroupForResultDto>> FilterAsync(GroupForFilterDto dto)
     {
         try
