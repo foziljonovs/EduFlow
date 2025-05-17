@@ -192,7 +192,7 @@ public partial class GroupForViewWindow : Window
                     student.Id,
                     count,
                     student.Fullname,
-                    EnrollmentStatus.Active, //keyinroq static emas apidan olamiz
+                    EnrollmentStatus.Active,
                     this.Id);
 
                 component.OnDelete = async () =>

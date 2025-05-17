@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Users.Student;
+using EduFlow.Domain.Enums;
 
 namespace EduFlow.BLL.Interfaces.Users;
 
@@ -14,6 +15,7 @@ public interface IStudentService
     Task<IEnumerable<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellationToken = default);
     Task<IEnumerable<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId, CancellationToken cancellationToken = default); 
     Task<bool> AddStudentByGroupAsync(long studentId, long groupId, CancellationToken cancellationToken = default);
+    Task<bool> UpdateStudentByGroupAsync(long id, long groupId, Status status, CancellationToken cancellationToken = default);
     Task<IEnumerable<StudentForResultDto>> GetAllByCourseIdAsync(long courseId, CancellationToken cancellationToken = default);
     Task<IEnumerable<StudentForResultDto>> FilterAsync(StudentForFilterDto dto, CancellationToken cancellation = default);
 }

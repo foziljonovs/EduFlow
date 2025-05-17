@@ -1,6 +1,7 @@
 ﻿using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
 using EduFlow.Desktop.Integrated.Servers.Repositories.Users.Student;
+using EduFlow.Domain.Enums;
 
 namespace EduFlow.Desktop.Integrated.Services.Users.Student;
 
@@ -160,6 +161,19 @@ public class StudentService : IStudentService
         try
         {
             var result = await _server.UpdateAsync(id, dto);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> UpdateStudentByGroupAsync(long studentId, long groupId, Status status)
+    {
+        try
+        {
+            var result = await _server.UpdateStudentByGroupAsync(studentId, groupId, status);
             return result;
         }
         catch(Exception ex)

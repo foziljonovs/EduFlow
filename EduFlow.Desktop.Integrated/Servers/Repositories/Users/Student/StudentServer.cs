@@ -2,6 +2,7 @@
 using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
+using EduFlow.Domain.Enums;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
@@ -321,6 +322,37 @@ public class StudentServer : IStudentServer
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return false;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> UpdateStudentByGroupAsync(long id, long groupId, Status status)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/{id}/group/{groupId}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var request = new HttpRequestMessage(HttpMethod.Put, client.BaseAddress)
+            {
+                Content = new StringContent(
+                    JsonConvert.SerializeObject(status),
+                    Encoding.UTF8,
+                    "application/json")
+            };
+
+            var response = await client.SendAsync(request);
+
+            if(response.IsSuccessStatusCode)
                 return true;
             else
                 return false;
