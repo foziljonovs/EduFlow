@@ -5,6 +5,7 @@ using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.Interfaces.Users;
 using EduFlow.DAL.Interfaces;
 using EduFlow.Domain.Entities.Users;
+using EduFlow.Domain.Enums;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -320,6 +321,33 @@ public class StudentService(
         catch(Exception ex)
         {
             _logger.LogError($"An error occured while update the student id: {id}. {ex}");
+            throw;
+        }
+    }
+
+    public async Task<bool> UpdateStudentByGroupAsync(long id, long groupId, Status status, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var existsStudent = await _unitOfWork.Student.GetAllFullInformation()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existsStudent is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
+
+            var existsGroup = await _unitOfWork.Group.GetAsync(groupId);
+
+            if (existsGroup is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
+
+            existsStudent.Groups.Where(x => x.Id == groupId).FirstOrDefault().IsStatus = status;
+            existsStudent.UpdatedAt = DateTime.UtcNow.AddHours(5);
+
+            return await _unitOfWork.Student.UpdateAsync(existsStudent);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while update student by group id: {id}. {ex}");
             throw;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using EduFlow.BLL.Common.Exceptions;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.Interfaces.Users;
+using EduFlow.Domain.Enums;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -231,6 +232,24 @@ public class StudentController(
         try
         {
             var response = await _service.FilterAsync(dto, cancellation);
+            return Ok(response);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpPut("{id:long}/group/{groupId:long}")]
+    public async Task<IActionResult> UpdateStudentByGroupAsync([FromRoute] long id, [FromRoute] long groupId, [FromBody] Status status, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.UpdateStudentByGroupAsync(id, groupId, status, cancellation);
             return Ok(response);
         }
         catch (StatusCodeException ex)
