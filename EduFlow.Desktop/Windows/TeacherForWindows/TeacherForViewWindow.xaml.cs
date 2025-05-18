@@ -22,6 +22,8 @@ public partial class TeacherForViewWindow : Window
     public TeacherForViewWindow()
     {
         InitializeComponent();
+        this._teacherService = new TeacherService();
+        this._groupService = new GroupService();
     }
 
     Notifier notifierThis = new Notifier(cfg =>
@@ -88,8 +90,8 @@ public partial class TeacherForViewWindow : Window
             tbCourseName.Text = teacher.Course.Name;
             tbPhoneNumber.Text = teacher.User.PhoneNumber;
             tbSalary.Text = "0";
-            tbSkills.Text = teacher.Skills.ToString();
-            tbStudentsCount.Text = "0";
+            tbSkills.Text = string.Join(", ", teacher.Skills);
+            tbStudentsCount.Text = teacher.Groups.Sum(x => x.Students.Count()).ToString() ?? "0";
         }
         else
         {

@@ -106,6 +106,7 @@
                                FontSize="14"
                                Width="120"
                                TextWrapping="Wrap"
+                               TextAlignment="Right"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -212,7 +213,8 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0">
+                        <Grid Grid.Row="0"
+                              Margin="8 0 23 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="*"/>
