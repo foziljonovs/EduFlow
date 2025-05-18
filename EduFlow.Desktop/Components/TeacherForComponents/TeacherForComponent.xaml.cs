@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using EduFlow.Desktop.Windows.TeacherForWindows;
+using System.Windows.Controls;
 
 namespace EduFlow.Desktop.Components.TeacherForComponents;
 
@@ -22,5 +23,12 @@ public partial class TeacherForComponent : UserControl
         tbPhoneNumber.Text = phoneNumber;
         tbGroupCount.Text = groupCount.ToString();
         tbSkills.Text = skills[0];
+    }
+
+    private void ViewBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        TeacherForViewWindow window = new TeacherForViewWindow();
+        window.SetId(Id);
+        window.ShowDialog();
     }
 }

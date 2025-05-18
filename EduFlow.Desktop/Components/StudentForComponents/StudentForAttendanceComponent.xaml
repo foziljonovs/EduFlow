@@ -35,7 +35,7 @@
                     </MenuItem.Icon>
                 </MenuItem>-->
 
-                <MenuItem x:Name="mnSaved"
+                <!--<MenuItem x:Name="mnSaved"
                           Header="Faolsizlashtirish">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="ToggleSwitchOff"
@@ -43,7 +43,7 @@
                                                  Height="16"
                                                  Foreground="Gold"/>
                     </MenuItem.Icon>
-                </MenuItem>
+                </MenuItem>-->
             </ContextMenu>
         </Grid.ContextMenu>
 
