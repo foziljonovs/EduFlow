@@ -198,7 +198,8 @@
                                     Width="110"
                                     VerticalAlignment="Center"
                                     Margin="10 0 0 0"
-                                    ToolTip="Tugash sanasi"/>
+                                    ToolTip="Tugash sanasi"
+                                    SelectedDateChanged="endDate_SelectedDateChanged"/>
                     </StackPanel>
                 </Grid>
 

@@ -59,6 +59,46 @@
         </Setter>
     </Style>
 
+    <Style x:Key="MainButtonThree" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border 
+                        x:Name="B"
+                        CornerRadius="5"
+                        Background="#1710ED">
+
+                        <Label
+                        FontFamily="Jetbrains Mono"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        FontSize="{TemplateBinding FontSize}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Content="{TemplateBinding Content}"/>
+
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="#3D40DF"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter TargetName="B" Property="Background" Value="#1710ED"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="#140ECE"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
     <Style x:Key="MainButtonTwo" TargetType="{x:Type Button}">
         <Setter Property="Height" Value="40"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -423,4 +463,46 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="ClosedButton" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border 
+                        x:Name="button"
+                        Background="#DA0F00"
+                        BorderThickness="0.2"
+                        BorderBrush="{DynamicResource BorderColor}"
+                        CornerRadius="25">
+                        
+                        <materialDesign:PackIcon x:Name="Icon"
+                                         Kind="Close"
+                                         Foreground="White"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center"
+                                         Width="15"
+                                         Height="15"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="button" Property="Background" Value="#C70001"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter TargetName="button" Property="Background" Value="#DA0F00"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="button" Property="Background" Value="#7E0000"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
