@@ -19,6 +19,7 @@ public partial class TeacherForViewWindow : Window
     private readonly ITeacherService _teacherService;
     private readonly IGroupService _groupService;
     private long Id { get; set; }
+    private TeacherForResultDto _teacher { get; set; } = new TeacherForResultDto();
     public TeacherForViewWindow()
     {
         InitializeComponent();
@@ -71,7 +72,7 @@ public partial class TeacherForViewWindow : Window
 
     private async Task<List<GroupForResultDto>> GetGroups()
     {
-        var groups = await _groupService.GetAllByTeacherIdAsync(Id);
+        var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(Id));
 
         if (groups is not null)
             return groups;
@@ -79,19 +80,39 @@ public partial class TeacherForViewWindow : Window
             return new List<GroupForResultDto>();
     }
 
+    private async Task FilterAsync()
+    {
+        stGroups.Children.Clear();
+        groupsForLoader.Visibility = Visibility.Visible;
+
+        GroupForFilterDto dto = new GroupForFilterDto();
+
+        if(startedDate.SelectedDate is not null)
+            dto.StartedDate = startedDate.SelectedDate.Value;
+
+        if (endDate.SelectedDate is not null)
+            dto.FinishedDate = endDate.SelectedDate.Value;
+
+        dto.TeacherId = Id;
+
+        var groups = await Task.Run(async () => await _groupService.FilterAsync(dto));
+
+        ShowGroups(groups);
+    }
+
     private async void ShowValues()
     {
         groupsForLoader.Visibility = Visibility.Visible;
-        var teacher = await GetTeacher();
+        this._teacher = await GetTeacher();
 
-        if(teacher is not null)
+        if(_teacher is not null)
         {
-            tbName.Text = teacher.User.Firstname + " " + teacher.User.Lastname;
-            tbCourseName.Text = teacher.Course.Name;
-            tbPhoneNumber.Text = teacher.User.PhoneNumber;
+            tbName.Text = _teacher.User.Firstname + " " + _teacher.User.Lastname;
+            tbCourseName.Text = _teacher.Course.Name;
+            tbPhoneNumber.Text = _teacher.User.PhoneNumber;
             tbSalary.Text = "0";
-            tbSkills.Text = string.Join(", ", teacher.Skills);
-            tbStudentsCount.Text = teacher.Groups.Sum(x => x.Students.Count()).ToString() ?? "0";
+            tbSkills.Text = string.Join(", ", _teacher.Skills);
+            tbStudentsCount.Text = _teacher.Groups.Sum(x => x.Students.Count()).ToString() ?? "0";
         }
         else
         {
@@ -101,7 +122,11 @@ public partial class TeacherForViewWindow : Window
         }
 
         var groups = await GetGroups();
+        ShowGroups(groups);
+    }
 
+    private void ShowGroups(List<GroupForResultDto> groups)
+    {
         int count = 1;
         if (groups.Any())
         {
@@ -116,7 +141,7 @@ public partial class TeacherForViewWindow : Window
                     group.Id,
                     group.Name,
                     group.Students.Count(),
-                    teacher.User.Firstname,
+                    _teacher.User.Firstname,
                     group.IsStatus);
 
                 stGroups.Children.Add(component);
@@ -143,8 +168,19 @@ public partial class TeacherForViewWindow : Window
         groupForEmptyData.Text = string.Empty;
     }
 
+    private bool isLoaded = false;
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        ShowValues();
+        if(!isLoaded)
+        {
+            ShowValues();
+            isLoaded = true;
+        }
+    }
+
+    private void endDate_SelectedDateChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (IsLoaded)
+            FilterAsync();
     }
 }
