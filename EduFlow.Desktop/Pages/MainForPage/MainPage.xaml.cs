@@ -6,6 +6,7 @@ using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
+using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Windows;
 using EduFlow.Desktop.Windows.CategoryForWindows;
@@ -30,6 +31,7 @@ public partial class MainPage : Page
     private readonly ITeacherService _teacherService;
     private readonly ICategoryService _categoryService;
     private readonly IGroupService _groupService;
+    private readonly IStudentService _studentService;
     private TeacherForResultDto _teacher;
 
     public MainPage()
@@ -39,6 +41,7 @@ public partial class MainPage : Page
         this._teacherService = new TeacherService();
         this._categoryService = new CategoryService();
         this._groupService = new GroupService();
+        this._studentService = new StudentService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -293,6 +296,22 @@ public partial class MainPage : Page
         return teacher.Id;
     }
 
+    private async Task GetAllStudent()
+    {
+        var students = await _studentService.GetAllAsync();
+
+        if (!students.Any())
+        {
+            notifier.ShowInformation("Talabalar topilmadi!");
+            return;
+        }
+        else
+        {
+            var studentsCount = students.Count(x => x.Groups.Count == 0);
+            WaitingStudentsCount.Text = studentsCount.ToString();
+        }
+    }
+
     private async Task LoadPage()
     { 
         var id = IdentitySingelton.GetInstance().Id;
@@ -308,6 +327,7 @@ public partial class MainPage : Page
             createTeacherBtn.Visibility = Visibility.Collapsed;
             createCourseBtn.Visibility = Visibility.Collapsed;
             createGroupBtn.Visibility = Visibility.Collapsed;
+            WaitingBox.Visibility = Visibility.Collapsed;
 
             var teacherId = await GetTeacher(id);
 
@@ -327,6 +347,7 @@ public partial class MainPage : Page
             await GetAllCourse();
             await GetAllTeachers();
             await GetAllGroup();
+            await GetAllStudent();
         }
     }
     private bool isPageLoaded = false;
