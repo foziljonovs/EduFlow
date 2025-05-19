@@ -80,11 +80,11 @@ public partial class CoursePage : Page
         ShowCourses(courses);
     }
 
-    private async Task GetAllByTeacherId(long id)
+    private async Task GetAllByTeacherId()
     {
         stCategories.Children.Clear();
         courseLoader.Visibility = Visibility.Visible;
-        var courses = await Task.Run(async () => await _courseService.GetAllByTeacherIdAsync(id));
+        var courses = await Task.Run(async () => await _courseService.GetAllByTeacherIdAsync(this._teacher.Id));
         ShowCourses(courses);
     }
 
@@ -108,6 +108,12 @@ public partial class CoursePage : Page
             {
                 CourseForComponent component = new CourseForComponent();
                 component.Tag = course;
+
+                if(_teacher is not null)
+                    component.GetCourses += GetAllByTeacherId;
+                else
+                    component.GetCourses += GetAllCourse;
+
                 component.SetValues(count, course.Id, course.Name, course.Groups.Count, course.Groups.Sum(x => x.Students.Count));
                 stCategories.Children.Add(component);
                 count++;
@@ -130,7 +136,7 @@ public partial class CoursePage : Page
             return 0;
         }
 
-        _teacher = teacher;
+        this._teacher = teacher;
         return teacher.Id;
     }
 
@@ -151,7 +157,7 @@ public partial class CoursePage : Page
                 return;
             }
 
-            await GetAllByTeacherId(id);
+            await GetAllByTeacherId();
         }
         else
         {
