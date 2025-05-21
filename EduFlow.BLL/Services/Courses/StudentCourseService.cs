@@ -58,6 +58,7 @@ public class StudentCourseService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, $"Student course not found with id: {id}");
 
             existsStudentCourse.IsDeleted = true;
+            existsStudentCourse.Status = Domain.Enums.EnrollmentStatus.Dropped;
             return await _unitOfWork.SaveAsync(cancellation) > 0;
         }
         catch (Exception ex)

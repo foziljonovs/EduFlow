@@ -48,6 +48,7 @@ public class CategoryService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found.");
 
             existsCategory.IsDeleted = true;
+            existsCategory.Status = Domain.Enums.Status.Deleted;
             return await _unitOfWork.SaveAsync(cancellationToken) > 0;
         }
         catch(Exception ex)

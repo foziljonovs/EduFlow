@@ -4,5 +4,6 @@ public enum Status
 {
     Active = 0,
     Archived,
-    Graduated
+    Graduated,
+    Deleted
 }

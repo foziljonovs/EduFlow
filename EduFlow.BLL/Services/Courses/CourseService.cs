@@ -54,6 +54,7 @@ public class CourseService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 
             course.IsDeleted = true;
+            course.Archived = Domain.Enums.Status.Deleted;
             return await _unitOfWork.SaveAsync(cancellationToken) > 0;
         }
         catch(Exception ex)
