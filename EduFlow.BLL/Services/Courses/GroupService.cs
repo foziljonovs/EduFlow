@@ -102,6 +102,7 @@ public class GroupService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
 
             group.IsDeleted = true;
+            group.IsStatus = Domain.Enums.Status.Deleted;
             return await _unitOfWork.SaveAsync(cancellationToken) > 0;
         }
         catch(Exception ex)
