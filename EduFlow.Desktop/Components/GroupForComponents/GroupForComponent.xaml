@@ -103,7 +103,8 @@
                         Style="{DynamicResource CrudButton}"
                         Tag="Delete"
                         Background="Tomato"
-                        ToolTip="Guruhni o'chirish"/>
+                        ToolTip="Guruhni o'chirish"
+                        Click="DeleteButton_Click"/>
             </StackPanel>
         </Grid>
     </Border>
