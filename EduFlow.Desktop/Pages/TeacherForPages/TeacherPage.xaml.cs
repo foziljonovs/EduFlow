@@ -76,8 +76,8 @@ public partial class TeacherPage : Page
         teacherLoader.Visibility = Visibility.Visible;
         var courseId = (long)((ComboBoxItem)courseComboBox.SelectedItem).Tag;
 
-        //var teachers = await Task.Run(async () => await _teacherService.get(courseId));
-        //ShowTeachers(teachers);
+        var teachers = await Task.Run(async () => await _teacherService.GetAllByCourseIdAsync(courseId));
+        ShowTeachers(teachers);
     }
 
     private void ShowTeachers(List<TeacherForResultDto> teachers)
@@ -117,7 +117,8 @@ public partial class TeacherPage : Page
 
     private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-
+        if(isPageLoaded)
+            GetAllByCourseId();
     }
 
     private async Task PageLoaded()
@@ -126,9 +127,14 @@ public partial class TeacherPage : Page
         await GetAllCourse();
     }
 
+    private bool isPageLoaded = false;
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        PageLoaded();
+        if (!isPageLoaded)
+        {
+            PageLoaded();
+            isPageLoaded = true;
+        }
     }
 
     private async void craeteTeacherBtn_Click(object sender, RoutedEventArgs e)
