@@ -1,5 +1,12 @@
-﻿using EduFlow.Desktop.Windows.GroupForWindows;
+﻿using EduFlow.Desktop.Integrated.Services.Courses.Course;
+using EduFlow.Desktop.Windows;
+using EduFlow.Desktop.Windows.GroupForWindows;
+using System.Windows;
 using System.Windows.Controls;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace EduFlow.Desktop.Components.MainForComponents;
 
@@ -10,10 +17,27 @@ public partial class MainForCourseComponent : UserControl
 {
     public long Id { get; set; }
     public event Func<Task> OnGroupView;
+    private readonly ICourseService _service;
     public MainForCourseComponent()
     {
         InitializeComponent();
+        this._service = new CourseService();
     }
+
+    Notifier notifier = new Notifier(cfg =>
+    {
+        cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive),
+            corner: Corner.TopRight,
+            offsetX: 50,
+            offsetY: 20);
+
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+
+        cfg.Dispatcher = Application.Current.Dispatcher;
+    });
 
     public void SetValues(int number, long id, string name, int studentCount)
     {
@@ -31,5 +55,27 @@ public partial class MainForCourseComponent : UserControl
 
         if(OnGroupView is not null)
             await OnGroupView.Invoke();
+    }
+
+    private async void DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if(this.Id > 0)
+        {
+            var messageBox = new MessageBoxWindow($"{tbName.Text} o'chirilsinmi?", MessageBoxWindow.MessageType.Confirmation, MessageBoxWindow.MessageButtons.OkCancel);
+            var res = messageBox.ShowDialog();
+
+            if (res is true)
+            {
+                var result = await _service.DeleteAsync(this.Id);
+
+                if(result)
+                {
+                    notifier.ShowSuccess($"{tbName.Text} o'chirildi");
+                    await OnGroupView.Invoke();
+                }
+                else
+                    notifier.ShowError("Xatolik yuz berdi");
+            }
+        }
     }
 }

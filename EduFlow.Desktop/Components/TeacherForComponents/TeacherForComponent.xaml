@@ -93,7 +93,8 @@
                 <Button x:Name="DeleteBtn"
                         Style="{DynamicResource CrudButton}"
                         Tag="trash"
-                        Background="Tomato"/>
+                        Background="Tomato"
+                        Click="DeleteBtn_Click"/>
             </StackPanel>
         </Grid>
     </Border>

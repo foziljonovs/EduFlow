@@ -25,7 +25,6 @@ public partial class CourseForComponent : UserControl
         this._service = new CourseService();
     }
 
-
     Notifier notifier = new Notifier(cfg =>
     {
         cfg.PositionProvider = new WindowPositionProvider(

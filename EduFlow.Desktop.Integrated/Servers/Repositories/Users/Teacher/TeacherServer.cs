@@ -86,6 +86,29 @@ public class TeacherServer : ITeacherServer
         }
     }
 
+    public async Task<List<TeacherForResultDto>> GetAllByCourseIdAsync(long courseId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/teachers/{courseId}/course");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage message = await client.GetAsync(client.BaseAddress);
+            var response = await message.Content.ReadAsStringAsync();
+
+            List<TeacherForResultDto> result = JsonConvert.DeserializeObject<List<TeacherForResultDto>>(response)!;
+
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new List<TeacherForResultDto>();
+        }
+    }
+
     public async Task<TeacherForResultDto> GetByIdAsync(long id)
     {
         try

@@ -9,7 +9,6 @@ using ToastNotifications.Position;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
 using EduFlow.Desktop.Windows.TeacherForWindows;
-using System.Threading.Tasks;
 
 namespace EduFlow.Desktop.Pages.TeacherForPages;
 
@@ -72,6 +71,15 @@ public partial class TeacherPage : Page
         ShowTeachers(teachers);
     }
 
+    private async Task GetAllByCourseId()
+    {
+        teacherLoader.Visibility = Visibility.Visible;
+        var courseId = (long)((ComboBoxItem)courseComboBox.SelectedItem).Tag;
+
+        var teachers = await Task.Run(async () => await _teacherService.GetAllByCourseIdAsync(courseId));
+        ShowTeachers(teachers);
+    }
+
     private void ShowTeachers(List<TeacherForResultDto> teachers)
     {
         int count = 1;
@@ -95,6 +103,7 @@ public partial class TeacherPage : Page
                     item.Groups.Count,
                     item.Skills);
 
+                component.OnDeleteTeacher += GetAllTeacher;
                 stTeachers.Children.Add(component);
                 count++;
             }
@@ -108,7 +117,8 @@ public partial class TeacherPage : Page
 
     private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-
+        if(isPageLoaded)
+            GetAllByCourseId();
     }
 
     private async Task PageLoaded()
@@ -117,9 +127,14 @@ public partial class TeacherPage : Page
         await GetAllCourse();
     }
 
+    private bool isPageLoaded = false;
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        PageLoaded();
+        if (!isPageLoaded)
+        {
+            PageLoaded();
+            isPageLoaded = true;
+        }
     }
 
     private async void craeteTeacherBtn_Click(object sender, RoutedEventArgs e)

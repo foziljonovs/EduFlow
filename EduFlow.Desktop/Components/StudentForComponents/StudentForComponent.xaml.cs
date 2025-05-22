@@ -1,6 +1,15 @@
-﻿using EduFlow.Desktop.Windows.StudentForWindows;
+﻿using EduFlow.Desktop.Integrated.Services.Users.Student;
+using EduFlow.Desktop.Windows;
+using EduFlow.Desktop.Windows.StudentForWindows;
 using EduFlow.Domain.Enums;
+using MaterialDesignThemes.Wpf;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace EduFlow.Desktop.Components.StudentForComponents;
 
@@ -10,10 +19,28 @@ namespace EduFlow.Desktop.Components.StudentForComponents;
 public partial class StudentForComponent : UserControl
 {
     private long Id { get; set; }
+    private readonly IStudentService _service;
+    public event Func<Task> OnStudentDelete;
     public StudentForComponent()
     {
         InitializeComponent();
+        this._service = new StudentService();
     }
+
+    Notifier notifier = new Notifier(cfg =>
+    {
+        cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive),
+            corner: Corner.TopRight,
+            offsetX: 50,
+            offsetY: 20);
+
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+
+        cfg.Dispatcher = Application.Current.Dispatcher;
+    });
 
     public void SetValues(int number, long id, string fullName, int age, string address, string phoneNumber, string group)
     {
@@ -31,5 +58,27 @@ public partial class StudentForComponent : UserControl
         StudentForViewWindow window = new StudentForViewWindow();
         window.SetId(Id);
         window.ShowDialog();
+    }
+
+    private async void DeleteBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if(this.Id > 0)
+        {
+            var messageBox = new MessageBoxWindow($"{tbFullname.Text} o'chirilsinmi?", MessageBoxWindow.MessageType.Confirmation, MessageBoxWindow.MessageButtons.OkCancel);
+            var res = messageBox.ShowDialog();
+
+            if(res is true)
+            {
+                var result = await _service.DeleteAsync(this.Id);
+
+                if (result)
+                {
+                    notifier.ShowSuccess($"{tbFullname.Text} o'chirildi");
+                    await OnStudentDelete?.Invoke();
+                }
+                else
+                    notifier.ShowError("Xatolik yuz berdi");
+            }
+        }
     }
 }

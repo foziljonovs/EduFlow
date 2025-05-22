@@ -127,6 +127,7 @@ public partial class StudentPage : Page
                     student.PhoneNumber,
                     student.Groups.Any() ? student.Groups.First().Name : "Yo'q");
 
+                component.OnStudentDelete += GetAllStudent;
                 stStudents.Children.Add(component);
                 count++;
             }
