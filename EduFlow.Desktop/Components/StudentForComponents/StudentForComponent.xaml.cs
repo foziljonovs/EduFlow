@@ -60,7 +60,7 @@ public partial class StudentForComponent : UserControl
         window.ShowDialog();
     }
 
-    private async Task DeleteBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    private async void DeleteBtn_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         if(this.Id > 0)
         {

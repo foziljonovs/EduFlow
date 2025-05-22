@@ -57,7 +57,7 @@ public partial class MainForCourseComponent : UserControl
             await OnGroupView.Invoke();
     }
 
-    private async Task DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    private async void DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         if(this.Id > 0)
         {

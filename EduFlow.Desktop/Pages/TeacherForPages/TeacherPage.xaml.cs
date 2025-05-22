@@ -9,7 +9,6 @@ using ToastNotifications.Position;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
 using EduFlow.Desktop.Windows.TeacherForWindows;
-using System.Threading.Tasks;
 
 namespace EduFlow.Desktop.Pages.TeacherForPages;
 
@@ -95,6 +94,7 @@ public partial class TeacherPage : Page
                     item.Groups.Count,
                     item.Skills);
 
+                component.OnDeleteTeacher += GetAllTeacher;
                 stTeachers.Children.Add(component);
                 count++;
             }
