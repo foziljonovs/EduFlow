@@ -22,11 +22,11 @@ public class TeacherController(
             var response = await _service.GetAllAsync(cancellationToken);
             return Ok(response);
         }
-        catch(StatusCodeException ex)
+        catch (StatusCodeException ex)
         {
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
@@ -44,7 +44,7 @@ public class TeacherController(
         {
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
@@ -58,15 +58,15 @@ public class TeacherController(
             var response = await _service.AddAsync(dto, cancellation);
             return Ok(response);
         }
-        catch(ValidationException ex)
+        catch (ValidationException ex)
         {
             return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
         }
-        catch(StatusCodeException ex)
+        catch (StatusCodeException ex)
         {
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
@@ -80,15 +80,15 @@ public class TeacherController(
             var response = await _service.UpdateAsync(id, dto, cancellation);
             return Ok(response);
         }
-        catch(ValidationException ex)
+        catch (ValidationException ex)
         {
             return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
         }
-        catch(StatusCodeException ex)
+        catch (StatusCodeException ex)
         {
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
@@ -102,11 +102,11 @@ public class TeacherController(
             var response = await _service.DeleteAsync(id, cancellation);
             return Ok(response);
         }
-        catch(StatusCodeException ex)
+        catch (StatusCodeException ex)
         {
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
@@ -118,6 +118,24 @@ public class TeacherController(
         try
         {
             var response = await _service.GetByUserIdAsync(userId, cancellation);
+            return Ok(response);
+        }
+        catch (StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("{courseId:long}/course")]
+    public async Task<IActionResult> GetByCourseIdAsync([FromRoute] long courseId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.GetByCourseIdAsync(courseId, cancellation);
             return Ok(response);
         }
         catch (StatusCodeException ex)

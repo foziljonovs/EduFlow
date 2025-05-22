@@ -71,6 +71,15 @@ public partial class TeacherPage : Page
         ShowTeachers(teachers);
     }
 
+    private async Task GetAllByCourseId()
+    {
+        teacherLoader.Visibility = Visibility.Visible;
+        var courseId = (long)((ComboBoxItem)courseComboBox.SelectedItem).Tag;
+
+        //var teachers = await Task.Run(async () => await _teacherService.get(courseId));
+        //ShowTeachers(teachers);
+    }
+
     private void ShowTeachers(List<TeacherForResultDto> teachers)
     {
         int count = 1;
