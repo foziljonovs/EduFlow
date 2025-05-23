@@ -1,6 +1,7 @@
 ﻿using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Windows;
 using EduFlow.Desktop.Windows.CourseForWindows;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -80,10 +81,11 @@ public partial class CourseForComponent : UserControl
         }
     }
 
-    private void EditButton_Click(object sender, RoutedEventArgs e)
+    private async void EditButton_Click(object sender, RoutedEventArgs e)
     {
         CourseForUpdateWindow window = new CourseForUpdateWindow();
         window.setId(this.Id);
         window.ShowDialog();
+        await GetCourses?.Invoke();
     }
 }

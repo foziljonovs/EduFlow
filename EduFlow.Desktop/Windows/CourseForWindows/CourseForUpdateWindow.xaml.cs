@@ -41,6 +41,21 @@ public partial class CourseForUpdateWindow : Window
         cfg.Dispatcher = Application.Current.Dispatcher;
     });
 
+    Notifier notifierThis = new Notifier(cfg =>
+    {
+        cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive),
+            corner: Corner.TopRight,
+            offsetX: 50,
+            offsetY: 20);
+
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+
+        cfg.Dispatcher = Application.Current.Dispatcher;
+    });
+
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
         => this.Close();
 
@@ -65,7 +80,7 @@ public partial class CourseForUpdateWindow : Window
             }
         }
         else
-            notifier.ShowWarning("Kategoriyalar topilmadi, iltimos qayta yuklang!");
+            notifierThis.ShowWarning("Kategoriyalar topilmadi, iltimos qayta yuklang!");
     }
 
     private async Task GetCourse()
@@ -110,15 +125,125 @@ public partial class CourseForUpdateWindow : Window
                 }
             }
             else
-                notifier.ShowWarning("Malumotlarni topilmadi, iltimos qayta yuklang!");
+                notifierThis.ShowWarning("Malumotlarni topilmadi, iltimos qayta yuklang!");
         }
         else
-            notifier.ShowError("Xatolik yuz berdi!");
+            notifierThis.ShowError("Xatolik yuz berdi!");
+    }
+
+    private async void LoadedWindow()
+    {
+        await GetAllCategory();
+        await GetCourse();
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        GetAllCategory();
-        GetCourse();
+        LoadedWindow();
+    }
+
+    private async Task SavedAsync()
+    {
+        try
+        {
+            var dto = new CourseForUpdateDto();
+
+            if(!string.IsNullOrEmpty(nameTxt.Text))
+                dto.Name = nameTxt.Text;
+            else
+            {
+                notifierThis.ShowWarning("Iltimos kurs nomini kiriting!");
+                nameTxt.Focus();
+                SaveButonIsEnable();
+                return;
+            }
+
+            if(!string.IsNullOrEmpty(priceTxt.Text) && double.TryParse(priceTxt.Text, out double price))
+            {
+                if(price <= 0)
+                {
+                    notifierThis.ShowWarning("Kurs narxi 0 dan baland bo'lishi kerak!");
+                    priceTxt.Focus();
+                    SaveButonIsEnable();
+                    return;
+                }
+
+                dto.Price = price;
+            }
+            else
+            {
+                notifierThis.ShowWarning("Iltimos kurs narxini kiriting!");
+                priceTxt.Focus();
+                SaveButonIsEnable();
+                return;
+            }
+
+            if (termComboBox.SelectedItem is ComboBoxItem termItem)
+                dto.Term = byte.Parse(termItem.Content.ToString());
+            else
+            {
+                notifierThis.ShowWarning("Iltimos kurs muddatini tanlang!");
+                termComboBox.Focus();
+                SaveButonIsEnable();
+                return;
+            }
+
+            if (categoryComboBox.SelectedItem is ComboBoxItem selectedItem && selectedItem.Tag is long categoryId)
+                dto.CategoryId = categoryId;
+            else
+            {
+                notifierThis.ShowWarning("Iltimos kurs kategoriyasini tanlang!");
+                categoryComboBox.Focus();
+                SaveButonIsEnable();
+                return;
+            }
+
+            if(statusComboBox.SelectedItem is ComboBoxItem statusItem)
+            {
+                dto.Archived = statusItem.Content.ToString() switch
+                {
+                    "Faol" => Domain.Enums.Status.Active,
+                    "Arxivlangan" => Domain.Enums.Status.Archived,
+                    _ => Domain.Enums.Status.Active
+                };
+            }
+            else
+            {
+                notifierThis.ShowWarning("Iltimos kurs statusini tanlang!");
+                statusComboBox.Focus();
+                SaveButonIsEnable();
+                return;
+            }
+
+            var result = await _service.UpdateAsync(this.Id, dto);
+
+            if (result)
+            {
+                this.Close();
+                notifier.ShowInformation("Kurs malumotlari saqlandi!");
+            }
+            else
+            {
+                notifierThis.ShowWarning("Kurs malumotlari saqlanmadi!");
+                SaveButonIsEnable();
+            }
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowError("Xatolik yuz berdi!");
+            SaveButonIsEnable();
+        }
+    }
+
+    private bool SaveButonIsEnable()
+        => this.SaveBtn.IsEnabled = true;
+    private async void SaveBtn_Click(object sender, RoutedEventArgs e)
+    {
+         SaveBtn.IsEnabled = false;
+
+        if (!SaveBtn.IsEnabled)
+            await SavedAsync();
+        else
+            notifierThis.ShowWarning("Iltimos, kuting!");
     }
 }
