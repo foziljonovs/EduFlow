@@ -1,4 +1,4 @@
-﻿using EduFlow.Desktop.Integrated.Services.Courses.Course;
+﻿using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Windows;
 using EduFlow.Desktop.Windows.GroupForWindows;
 using System.Windows;
@@ -17,11 +17,11 @@ public partial class MainForCourseComponent : UserControl
 {
     public long Id { get; set; }
     public event Func<Task> OnGroupView;
-    private readonly ICourseService _service;
+    private readonly IGroupService _service;
     public MainForCourseComponent()
     {
         InitializeComponent();
-        this._service = new CourseService();
+        this._service = new GroupService();
     }
 
     Notifier notifier = new Notifier(cfg =>
