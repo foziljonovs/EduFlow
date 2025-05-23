@@ -79,4 +79,11 @@ public partial class CourseForComponent : UserControl
             }
         }
     }
+
+    private void EditButton_Click(object sender, RoutedEventArgs e)
+    {
+        CourseForUpdateWindow window = new CourseForUpdateWindow();
+        window.setId(this.Id);
+        window.ShowDialog();
+    }
 }

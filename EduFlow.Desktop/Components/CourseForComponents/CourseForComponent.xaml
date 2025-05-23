@@ -67,7 +67,8 @@
                     <Button x:Name="EditButton"
                             Style="{DynamicResource CrudButton}"
                             Background="Gold"
-                            Tag="Pencil"/>
+                            Tag="Pencil"
+                            Click="EditButton_Click"/>
 
                     <Button x:Name="DeleteButton"
                             Style="{DynamicResource CrudButton}"
