@@ -91,4 +91,11 @@ public partial class GroupForComponent : UserControl
             }
         }
     }
+
+    private void EditButton_Click(object sender, RoutedEventArgs e)
+    {
+        GroupForUpdateWindow window = new GroupForUpdateWindow();
+        window.setId(Id);
+        window.ShowDialog();
+    }
 }

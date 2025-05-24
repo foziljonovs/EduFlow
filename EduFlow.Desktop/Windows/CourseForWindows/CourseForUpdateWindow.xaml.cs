@@ -1,6 +1,7 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
+using EduFlow.Domain.Entities.Courses;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -94,41 +95,45 @@ public partial class CourseForUpdateWindow : Window
                 this.Course = course;
                 nameTxt.Text = course.Name;
                 priceTxt.Text = course.Price.ToString();
-
-                foreach(ComboBoxItem item in termComboBox.Items)
-                {
-                    if (item.Content.ToString() == course.Term.ToString())
-                    {
-                        termComboBox.SelectedItem = item;
-                        break;
-                    }
-                }
-
-                switch (course.Archived)
-                {
-                    case Domain.Enums.Status.Active:
-                        statusComboBox.SelectedItem = statusComboBox.Items[0];
-                        break;
-
-                    case Domain.Enums.Status.Archived:
-                        statusComboBox.SelectedItem = statusComboBox.Items[1];
-                        break;
-                }
-
-                foreach(ComboBoxItem item in categoryComboBox.Items)
-                {
-                    if(item.Tag is long categoryId && categoryId == course.CategoryId)
-                    {
-                        categoryComboBox.SelectedItem = item;
-                        break;
-                    }
-                }
             }
             else
                 notifierThis.ShowWarning("Malumotlarni topilmadi, iltimos qayta yuklang!");
         }
         else
             notifierThis.ShowError("Xatolik yuz berdi!");
+    }
+
+    private void Favourites()
+    {
+        if(this.Course is not null)
+        {
+            foreach (ComboBoxItem item in termComboBox.Items)
+                if (item.Content.ToString() == this.Course.Term.ToString())
+                {
+                    termComboBox.SelectedItem = item;
+                    break;
+                }
+
+            foreach (ComboBoxItem item in categoryComboBox.Items)
+                if (item.Tag is long categoryId && categoryId == this.Course.CategoryId)
+                {
+                    categoryComboBox.SelectedItem = item;
+                    break;
+                }
+
+            switch (this.Course.Archived)
+            {
+                case Domain.Enums.Status.Active:
+                    statusComboBox.SelectedItem = statusComboBox.Items[0];
+                    break;
+
+                case Domain.Enums.Status.Archived:
+                    statusComboBox.SelectedItem = statusComboBox.Items[1];
+                    break;
+            }
+        }
+        else
+            notifierThis.ShowWarning("Kurs malumotlari noto'g'ri, iltimos qayta yuklang!");
     }
 
     private async void LoadedWindow()
