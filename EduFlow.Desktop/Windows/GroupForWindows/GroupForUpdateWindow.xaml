@@ -1,0 +1,73 @@
+﻿<Window x:Class="EduFlow.Desktop.Windows.GroupForWindows.GroupForUpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EduFlow.Desktop.Windows.GroupForWindows"
+        mc:Ignorable="d"
+        Title="GroupForUpdateWindow"
+        Height="300"
+        Width="400"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <TextBlock Text="Guruh yaratish"
+                       FontSize="20"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"
+                       Margin="10 0 0 0"/>
+
+            <RadioButton x:Name="closeBtn"
+                         Style="{DynamicResource StateButton}"
+                         Tag="close"
+                         HorizontalAlignment="Right"
+                         Click="closeBtn_Click"/>
+        </Grid>
+
+        <StackPanel Grid.Row="1"
+                    Margin="10 0"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Nomi"
+                       FontSize="13"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="Medium"
+                       Foreground="Gray"
+                       Margin="10 0"/>
+
+            <TextBox x:Name="nameTxt"
+                     Style="{DynamicResource CustomTextBoxStyle}"
+                     FontWeight="SemiBold"/>
+
+            <ComboBox x:Name="courseComboBox"
+                      Style="{DynamicResource CustomComboBoxStyle}"
+                      FontWeight="SemiBold"
+                      FontSize="18"
+                      Margin="0 10"
+                      FontFamily="Jetbrains Mono"
+                      VerticalContentAlignment="Center">
+                <ComboBoxItem Content="Kurs tanlang" IsSelected="True" IsEnabled="False"/>
+            </ComboBox>
+
+            <ComboBox x:Name="teacherComboBox"
+                      Style="{DynamicResource CustomComboBoxStyle}"
+                      FontWeight="SemiBold"
+                      FontSize="18"
+                      Margin="0 10"
+                      FontFamily="Jetbrains Mono"
+                      VerticalContentAlignment="Center">
+            </ComboBox>
+
+            <Button x:Name="saveBtn"
+                    Style="{DynamicResource saveButton}"
+                    Click="saveBtn_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

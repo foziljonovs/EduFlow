@@ -97,7 +97,8 @@
                         Style="{DynamicResource CrudButton}"
                         Tag="Edit"
                         Background="Gold"
-                        ToolTip="Guruhni tahrirlash"/>
+                        ToolTip="Guruhni tahrirlash"
+                        Click="EditButton_Click"/>
 
                 <Button x:Name="DeleteButton"
                         Style="{DynamicResource CrudButton}"
