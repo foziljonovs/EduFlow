@@ -2,6 +2,7 @@
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -98,6 +99,36 @@ public partial class GroupForCreateWindow : Window
         }
     }
 
+    private async Task GetAllTeacherByCourseId(long courseId)
+    {
+        var teachers = await Task.Run(async () => await _teacherService.GetAllByCourseIdAsync(courseId));
+
+        if (teachers.Any())
+        {
+            teacherComboBox.Items.Clear();
+
+            ComboBoxItem defaultItem = new ComboBoxItem
+            {
+                Content = "O'qituvchi tanlang",
+                IsEnabled = false,
+                IsSelected = true
+            };
+
+            teacherComboBox.Items.Add(defaultItem);
+
+            foreach (var teacher in teachers)
+            {
+                ComboBoxItem item = new ComboBoxItem
+                {
+                    Tag = teacher.Id,
+                    Content = teacher.User.Firstname + " " + teacher.User.Lastname
+                };
+
+                teacherComboBox.Items.Add(item);
+            }
+        }
+    }
+
     private async Task SavedAsync()
     {
         try
@@ -157,10 +188,20 @@ public partial class GroupForCreateWindow : Window
     private bool SaveButtonEnable()
         => saveBtn.IsEnabled = true;
 
+    private async void LoadedWindow()
+    {
+        await GetAllCourse();
+        await GetAllTeacher();   
+    }
+
+    private bool IsLoaded = false;
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        GetAllCourse();
-        GetAllTeacher();
+        if (!IsLoaded)
+        {
+            this.IsLoaded = true;
+            LoadedWindow();
+        }
     }
 
     private async void saveBtn_Click(object sender, RoutedEventArgs e)
@@ -171,5 +212,13 @@ public partial class GroupForCreateWindow : Window
             await SavedAsync();
         else
             notifierThis.ShowWarning("Iltimos, kuting!");
+    }
+
+    private async void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if(IsLoaded)
+            if(courseComboBox.SelectedItem is ComboBoxItem selectedItem &&
+                selectedItem.Tag is long courseId)
+                await GetAllTeacherByCourseId(courseId);
     }
 }
