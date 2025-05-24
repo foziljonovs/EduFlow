@@ -3,6 +3,7 @@ using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -159,8 +160,87 @@ public partial class GroupForUpdateWindow : Window
         Favourites();
     }
 
+    private bool SaveBtnIsEnable()
+        => this.saveBtn.IsEnabled = true;
+
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         LoadedWindow();
+    }
+
+    private async Task SavedAsync()
+    {
+        try
+        {
+            GroupForUpdateDto dto = new GroupForUpdateDto();
+
+            if(!string.IsNullOrWhiteSpace(nameTxt.Text))
+                dto.Name = nameTxt.Text;
+            else
+            {
+                notifierThis.ShowWarning("Iltimos, guruh nomini kiriting!");
+                nameTxt.Focus();
+                SaveBtnIsEnable();
+                return;
+            }
+
+            if(teacherComboBox.SelectedItem is ComboBoxItem teacherComboBoxItem && teacherComboBoxItem.Tag is long teacherId)
+                dto.TeacherId = teacherId;
+            else
+            {
+                notifierThis.ShowWarning("Iltimos, o'qituvchini tanlang!");
+                teacherComboBox.Focus();
+                SaveBtnIsEnable();
+                return;
+            }
+
+            if (courseComboBox.SelectedItem is ComboBoxItem courseComboBoxItem && courseComboBoxItem.Tag is long courseId)
+                dto.CourseId = courseId;
+            else
+            {
+                notifierThis.ShowWarning("Iltimos, kursni tanlang!");
+                courseComboBox.Focus();
+                SaveBtnIsEnable();
+                return;
+            }
+
+            if(this.Id > 0)
+            {
+                var result = await _service.UpdateAsync(this.Id, dto);
+
+                if(result)
+                {
+                    this.Close();
+                    notifier.ShowSuccess("Guruh malumotlari saqlandi!");
+                }
+                else
+                {
+                    notifierThis.ShowWarning("Guruhni malumotlari saqlanmadi!");
+                    SaveBtnIsEnable();
+                    return;
+                }
+            }
+            else
+            {
+                notifierThis.ShowWarning("Guruh malumotlari noto'g'ri, iltimos qayta yuklang!");
+                SaveBtnIsEnable();
+                return;
+            }
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("Xatolik yuz berdi! Iltimos qayta urinib ko'ring.");
+            SaveBtnIsEnable();
+        }
+    }
+
+    private async Task saveBtn_Click(object sender, RoutedEventArgs e)
+    {
+        saveBtn.IsEnabled = false;
+
+        if (!saveBtn.IsEnabled)
+            await SavedAsync();
+        else
+            notifier.ShowWarning("Iltimos, kuting!");
     }
 }

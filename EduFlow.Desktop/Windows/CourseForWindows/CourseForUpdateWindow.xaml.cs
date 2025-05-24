@@ -140,6 +140,8 @@ public partial class CourseForUpdateWindow : Window
     {
         await GetAllCategory();
         await GetCourse();
+
+        Favourites();
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -220,17 +222,27 @@ public partial class CourseForUpdateWindow : Window
                 return;
             }
 
-            var result = await _service.UpdateAsync(this.Id, dto);
-
-            if (result)
+            if(this.Id > 0)
             {
-                this.Close();
-                notifier.ShowInformation("Kurs malumotlari saqlandi!");
+                var result = await _service.UpdateAsync(this.Id, dto);
+
+                if (result)
+                {
+                    this.Close();
+                    notifier.ShowInformation("Kurs malumotlari saqlandi!");
+                }
+                else
+                {
+                    notifierThis.ShowWarning("Kurs malumotlari saqlanmadi!");
+                    SaveButonIsEnable();
+                    return;
+                }
             }
             else
             {
-                notifierThis.ShowWarning("Kurs malumotlari saqlanmadi!");
+                notifierThis.ShowWarning("Kurs malumotlari noto'g'ri, iltimos qayta yuklang!");
                 SaveButonIsEnable();
+                return;
             }
         }
         catch(Exception ex)
