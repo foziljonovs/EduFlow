@@ -234,7 +234,7 @@ public partial class GroupForUpdateWindow : Window
         }
     }
 
-    private async Task saveBtn_Click(object sender, RoutedEventArgs e)
+    private async void saveBtn_Click(object sender, RoutedEventArgs e)
     {
         saveBtn.IsEnabled = false;
 

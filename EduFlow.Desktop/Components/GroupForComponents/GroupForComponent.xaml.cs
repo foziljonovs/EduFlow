@@ -92,10 +92,11 @@ public partial class GroupForComponent : UserControl
         }
     }
 
-    private void EditButton_Click(object sender, RoutedEventArgs e)
+    private async void EditButton_Click(object sender, RoutedEventArgs e)
     {
         GroupForUpdateWindow window = new GroupForUpdateWindow();
         window.setId(Id);
         window.ShowDialog();
+        await OnGroupView?.Invoke();
     }
 }
