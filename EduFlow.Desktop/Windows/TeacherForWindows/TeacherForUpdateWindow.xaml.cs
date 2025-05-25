@@ -70,7 +70,6 @@ public partial class TeacherForUpdateWindow : Window
                 this.Teacher = teacher;
                 fullNameTxt.Text = teacher.User.Firstname + " " + teacher.User.Lastname;
                 phoneNumberTxt.Text = teacher.User.PhoneNumber;
-                passwordTxt.Text = teacher.User.Password;
                 skillTxt.Text = string.Join(", ", teacher.Skills);
             }
         }
@@ -96,5 +95,51 @@ public partial class TeacherForUpdateWindow : Window
         }
         else
             notifierThis.ShowWarning("Kurslar topilmadi, iltimos qayta yuklang!");
+    }
+
+    private void Favourites()
+    {
+        if(this.Teacher is not null)
+        {
+            foreach(ComboBoxItem item in courseComboBox.Items)
+                if(item.Tag is long courseId && courseId == this.Teacher.CourseId)
+                {
+                    courseComboBox.SelectedItem = item;
+                    break;
+                }
+
+            foreach (ComboBoxItem item in ageComboBox.Items)
+                if (item.Content == this.Teacher.User.Age.ToString())
+                {
+                    ageComboBox.SelectedItem = item;
+                    break;
+                }
+        }
+        else
+            notifierThis.ShowWarning("O'qituvchi malumotlari noto'g'ri, iltimos qayta yuklang!");
+    }
+
+    private async Task LoadedWindow()
+    {
+        await GetTeacher();
+        await GetAllCourse();
+
+        Favourites();
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        LoadedWindow();
+    }
+
+    private void closeBtn_Click(object sender, RoutedEventArgs e)
+        => this.Close();
+
+    private void phoneNumberTxt_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+        var textBox = sender as TextBox;
+        string futureText = textBox.Text.Insert(textBox.SelectionStart, e.Text);
+        var regex = new System.Text.RegularExpressions.Regex(@"^\+998\d{0,9}$");
+        e.Handled = !regex.IsMatch(futureText);
     }
 }

@@ -175,9 +175,7 @@ public partial class GroupForUpdateWindow : Window
                 }
         }
         else
-        {
             notifierThis.ShowWarning("Guruh ma'lumotlari noto'g'ri, iltimos qayta yuklang!");
-        }
     }
 
     private async void LoadedWindow()

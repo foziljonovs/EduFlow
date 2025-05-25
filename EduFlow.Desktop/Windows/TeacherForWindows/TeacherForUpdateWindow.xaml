@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:EduFlow.Desktop.Windows.TeacherForWindows"
         mc:Ignorable="d"
         Title="TeacherForUpdateWindow"
-        Height="520"
+        Height="450"
         Width="400"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -25,10 +26,10 @@
                 Margin="10 0 0 0"/>
 
             <RadioButton x:Name="closeBtn"
-                  Style="{DynamicResource StateButton}"
-                  Tag="close"
-                  HorizontalAlignment="Right"
-                  Click="closeBtn_Click"/>
+                         Style="{DynamicResource StateButton}"
+                         Tag="close"
+                         HorizontalAlignment="Right"
+                         Click="closeBtn_Click"/>
         </Grid>
 
         <StackPanel Grid.Row="1"
@@ -55,16 +56,6 @@
                      FontWeight="SemiBold"
                      Text="+998"
                      PreviewTextInput="phoneNumberTxt_PreviewTextInput"/>
-
-            <TextBlock Text="Parol"
-                       FontSize="13"
-                       FontFamily="Jetbrains Mono"
-                       FontWeight="Medium"
-                       Foreground="Gray"
-                       Margin="10 0"/>
-            <TextBox x:Name="passwordTxt"
-                     Style="{DynamicResource CustomTextBoxStyle}"
-                     FontWeight="SemiBold"/>
 
             <ComboBox x:Name="ageComboBox"
                       FontSize="18"
