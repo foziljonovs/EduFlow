@@ -218,12 +218,16 @@ public class UserService(
                 throw new StatusCodeException(HttpStatusCode.Gone, "This user has been deleted.");
 
             _mapper.Map(dto, userExists);
-            var hasher = PasswordHelper.Hash(dto.Password);
+            
+            if(!string.IsNullOrEmpty(dto.Password))
+            {
+                var hasher = PasswordHelper.Hash(dto.Password);
+                userExists.Password = hasher.Hash;
+                userExists.Salt = hasher.Salt;
+            }
 
             userExists.Id = id;
             userExists.UpdatedAt = DateTime.UtcNow.AddHours(5);
-            userExists.Password = hasher.Hash;
-            userExists.Salt = hasher.Salt;
 
             return await _unitOfWork.User.UpdateAsync(userExists);
         }

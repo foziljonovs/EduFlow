@@ -168,9 +168,7 @@ public partial class TeacherForCreateWindow : Window
             }
 
             if (!string.IsNullOrEmpty(skillTxt.Text))
-            {
                 teacherDto.Skills = skillTxt.Text.Split(',').Select(skill => skill.Trim()).ToArray();
-            }
             else
             {
                 notifierThis.ShowWarning("O'qituvchi ko'nikmalari kiriting! har bir ko'nikmani vergul bilan ajrating.");

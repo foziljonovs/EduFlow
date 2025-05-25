@@ -99,7 +99,8 @@
             </ComboBox>
 
             <Button x:Name="saveBtn"
-                    Style="{DynamicResource saveButton}"/>
+                    Style="{DynamicResource saveButton}"
+                    Click="saveBtn_Click"/>
         </StackPanel>
     </Grid>
 </Window>
