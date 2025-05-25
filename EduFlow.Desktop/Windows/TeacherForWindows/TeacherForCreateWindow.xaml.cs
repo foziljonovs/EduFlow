@@ -115,7 +115,7 @@ public partial class TeacherForCreateWindow : Window
                 {
                     notifierThis.ShowWarning("Ism va familiya to'g'ri kiritilmagan!");
                     fullNameTxt.Focus();
-                    SaveButtonEnable();
+                    saveBtn.IsEnabled = true;
                     return;
                 }
             }
@@ -123,7 +123,7 @@ public partial class TeacherForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Ism va familyani kiriting!");
                 fullNameTxt.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -133,7 +133,7 @@ public partial class TeacherForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Telefon raqamini kiriting!");
                 phoneNumberTxt.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -143,7 +143,7 @@ public partial class TeacherForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Parolni kiriting!");
                 passwordTxt.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -153,7 +153,7 @@ public partial class TeacherForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Yoshni tanlang!");
                 ageComboBox.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -163,7 +163,7 @@ public partial class TeacherForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Kursni tanlang!");
                 courseComboBox.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -173,7 +173,7 @@ public partial class TeacherForCreateWindow : Window
             {
                 notifierThis.ShowWarning("O'qituvchi ko'nikmalari kiriting! har bir ko'nikmani vergul bilan ajrating.");
                 skillTxt.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -195,21 +195,21 @@ public partial class TeacherForCreateWindow : Window
                 else
                 {
                     notifierThis.ShowError("O'qituvchi qo'shishda xatolik yuz berdi!");
-                    SaveButtonEnable();
+                    saveBtn.IsEnabled = true;
                     return;
                 }
             }
             else
             {
                 notifierThis.ShowError("O'qituvchi qo'shishda xatolik yuz berdi!");
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
         }
         catch(Exception ex)
         {
             notifierThis.ShowError("Xatolik yuz berdi!");
-            SaveButtonEnable();
+            saveBtn.IsEnabled = true;
         }
     }
 
@@ -221,17 +221,24 @@ public partial class TeacherForCreateWindow : Window
         GetAllCourse();
     }
 
-    private bool SaveButtonEnable() 
-        => saveBtn.IsEnabled = true;
-
     private async void saveBtn_Click(object sender, RoutedEventArgs e)
     {
+        if (!saveBtn.IsEnabled)
+        {
+            notifierThis.ShowWarning("Iltimos, kuting!");
+            return;
+        }
+
         saveBtn.IsEnabled = false;
 
-        if(!saveBtn.IsEnabled)
+        try
+        {
             await SavedAsync();
-        else
-            notifierThis.ShowWarning("Iltimos, kuting!");
+        }
+        finally
+        {
+            saveBtn.IsEnabled = true;
+        }
     }
 
     private void phoneNumberTxt_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)

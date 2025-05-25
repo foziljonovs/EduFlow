@@ -107,7 +107,7 @@ public partial class CourseForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Kurs nomini kiriting!");
                 nameTxt.Focus();
-                SaveButtonEnable();
+                SaveBtn.IsEnabled = true;
                 return;
             }
 
@@ -117,7 +117,7 @@ public partial class CourseForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Kurs narxini kiriting!");
                 priceTxt.Focus();
-                SaveButtonEnable();
+                SaveBtn.IsEnabled = true;
                 return;
             }
 
@@ -127,7 +127,7 @@ public partial class CourseForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Kurs kategoriyasini tanlang!");
                 categoryComboBox.Focus();
-                SaveButtonEnable();
+                SaveBtn.IsEnabled = true;
                 return;
             }
 
@@ -137,7 +137,7 @@ public partial class CourseForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Kurs muddatini tanlang!");
                 termComboBox.Focus();
-                SaveButtonEnable();
+                SaveBtn.IsEnabled = true;
                 return;
             }
 
@@ -152,7 +152,7 @@ public partial class CourseForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Kurs holatini tanlang!");
                 statusComboBox.Focus();
-                SaveButtonEnable();
+                SaveBtn.IsEnabled = true;
                 return;
             }
 
@@ -166,13 +166,13 @@ public partial class CourseForCreateWindow : Window
             else
             {
                 notifierThis.ShowError("Kurs saqlashda xatolik yuz berdi!");
-                SaveButtonEnable();
+                SaveBtn.IsEnabled = true;
             }
         }
         catch (Exception ex)
         {
             notifierThis.ShowError("Xatolik yuz berdi!");
-            SaveButtonEnable();
+            SaveBtn.IsEnabled = true;
         }
     }
 
@@ -181,16 +181,23 @@ public partial class CourseForCreateWindow : Window
         GetAllCategory();
     }
 
-    private bool SaveButtonEnable()
-        => SaveBtn.IsEnabled = true;
-
     private async void SaveBtn_Click(object sender, RoutedEventArgs e)
     {
+        if (!SaveBtn.IsEnabled)
+        {
+            notifierThis.ShowWarning("Iltimos, kuting!");
+            return;
+        }
+
         SaveBtn.IsEnabled = false;
 
-        if (!SaveBtn.IsEnabled)
+        try
+        {
             await SavedAsync();
-        else 
-            notifierThis.ShowWarning("Iltimos, kuting!");
+        }
+        finally
+        {
+            SaveBtn.IsEnabled = true;
+        }
     }
 }

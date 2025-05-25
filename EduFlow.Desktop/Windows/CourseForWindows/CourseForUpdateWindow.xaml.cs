@@ -161,7 +161,7 @@ public partial class CourseForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("Iltimos kurs nomini kiriting!");
                 nameTxt.Focus();
-                SaveButonIsEnable();
+                SaveBtn.IsEnabled = true;
                 return;
             }
 
@@ -171,7 +171,7 @@ public partial class CourseForUpdateWindow : Window
                 {
                     notifierThis.ShowWarning("Kurs narxi 0 dan baland bo'lishi kerak!");
                     priceTxt.Focus();
-                    SaveButonIsEnable();
+                    SaveBtn.IsEnabled = true;
                     return;
                 }
 
@@ -181,7 +181,7 @@ public partial class CourseForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("Iltimos kurs narxini kiriting!");
                 priceTxt.Focus();
-                SaveButonIsEnable();
+                SaveBtn.IsEnabled = true;
                 return;
             }
 
@@ -191,7 +191,7 @@ public partial class CourseForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("Iltimos kurs muddatini tanlang!");
                 termComboBox.Focus();
-                SaveButonIsEnable();
+                SaveBtn.IsEnabled = true;
                 return;
             }
 
@@ -201,7 +201,7 @@ public partial class CourseForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("Iltimos kurs kategoriyasini tanlang!");
                 categoryComboBox.Focus();
-                SaveButonIsEnable();
+                SaveBtn.IsEnabled = true;
                 return;
             }
 
@@ -218,7 +218,7 @@ public partial class CourseForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("Iltimos kurs statusini tanlang!");
                 statusComboBox.Focus();
-                SaveButonIsEnable();
+                SaveBtn.IsEnabled = true;
                 return;
             }
 
@@ -234,33 +234,40 @@ public partial class CourseForUpdateWindow : Window
                 else
                 {
                     notifierThis.ShowWarning("Kurs malumotlari saqlanmadi!");
-                    SaveButonIsEnable();
+                    SaveBtn.IsEnabled = true;
                     return;
                 }
             }
             else
             {
                 notifierThis.ShowWarning("Kurs malumotlari noto'g'ri, iltimos qayta yuklang!");
-                SaveButonIsEnable();
+                SaveBtn.IsEnabled = true;
                 return;
             }
         }
         catch(Exception ex)
         {
             notifier.ShowError("Xatolik yuz berdi!");
-            SaveButonIsEnable();
+            SaveBtn.IsEnabled = true;
         }
     }
-
-    private bool SaveButonIsEnable()
-        => this.SaveBtn.IsEnabled = true;
     private async void SaveBtn_Click(object sender, RoutedEventArgs e)
     {
-         SaveBtn.IsEnabled = false;
-
         if (!SaveBtn.IsEnabled)
-            await SavedAsync();
-        else
+        {
             notifierThis.ShowWarning("Iltimos, kuting!");
+            return;
+        }
+
+        SaveBtn.IsEnabled = false;
+
+        try
+        {
+            await SavedAsync();
+        }
+        finally
+        {
+            SaveBtn.IsEnabled = true;
+        }
     }
 }

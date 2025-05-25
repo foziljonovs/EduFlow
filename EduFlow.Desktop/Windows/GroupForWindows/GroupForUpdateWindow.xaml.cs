@@ -187,9 +187,6 @@ public partial class GroupForUpdateWindow : Window
         Favourites();
     }
 
-    private bool SaveBtnIsEnable()
-        => this.saveBtn.IsEnabled = true;
-
     private bool IsLoaded = false;
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
@@ -212,7 +209,7 @@ public partial class GroupForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("Iltimos, guruh nomini kiriting!");
                 nameTxt.Focus();
-                SaveBtnIsEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -222,7 +219,7 @@ public partial class GroupForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("Iltimos, o'qituvchini tanlang!");
                 teacherComboBox.Focus();
-                SaveBtnIsEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -232,7 +229,7 @@ public partial class GroupForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("Iltimos, kursni tanlang!");
                 courseComboBox.Focus();
-                SaveBtnIsEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -248,32 +245,42 @@ public partial class GroupForUpdateWindow : Window
                 else
                 {
                     notifierThis.ShowWarning("Guruhni malumotlari saqlanmadi!");
-                    SaveBtnIsEnable();
+                    saveBtn.IsEnabled = true;
                     return;
                 }
             }
             else
             {
                 notifierThis.ShowWarning("Guruh malumotlari noto'g'ri, iltimos qayta yuklang!");
-                SaveBtnIsEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
         }
         catch(Exception ex)
         {
             notifierThis.ShowError("Xatolik yuz berdi! Iltimos qayta urinib ko'ring.");
-            SaveBtnIsEnable();
+            saveBtn.IsEnabled = true;
         }
     }
 
     private async void saveBtn_Click(object sender, RoutedEventArgs e)
     {
+        if (!saveBtn.IsEnabled)
+        {
+            notifierThis.ShowWarning("Iltimos, kuting!");
+            return;
+        }
+
         saveBtn.IsEnabled = false;
 
-        if (!saveBtn.IsEnabled)
+        try
+        {
             await SavedAsync();
-        else
-            notifier.ShowWarning("Iltimos, kuting!");
+        }
+        finally
+        {
+            saveBtn.IsEnabled = true;
+        }
     }
 
     private async void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

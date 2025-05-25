@@ -153,9 +153,6 @@ public partial class TeacherForUpdateWindow : Window
         e.Handled = !regex.IsMatch(futureText);
     }
 
-    private bool SaveBtnIsEnable()
-        => this.saveBtn.IsEnabled = true;
-
     private async Task SavedAsync()
     {
         try
@@ -184,7 +181,7 @@ public partial class TeacherForUpdateWindow : Window
                 {
                     notifierThis.ShowWarning("Ism va familya to'g'ri kiritilmagan!");
                     fullNameTxt.Focus();
-                    SaveBtnIsEnable();
+                    saveBtn.IsEnabled = true;
                     return;
                 }
             }
@@ -192,7 +189,7 @@ public partial class TeacherForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("Iltimos, ism va familyangizni kiriting!");
                 fullNameTxt.Focus();
-                SaveBtnIsEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -202,7 +199,7 @@ public partial class TeacherForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("Iltimos, telefon raqamingizni kiriting!");
                 phoneNumberTxt.Focus();
-                SaveBtnIsEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -212,7 +209,7 @@ public partial class TeacherForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("Iltimos, yoshingizni tanlang!");
                 ageComboBox.Focus();
-                SaveBtnIsEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -222,7 +219,7 @@ public partial class TeacherForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("O'qituvchi ko'nikmalari kiriting! har bir ko'nikmani vergul bilan ajrating.");
                 skillTxt.Focus();
-                SaveBtnIsEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -232,7 +229,7 @@ public partial class TeacherForUpdateWindow : Window
             {
                 notifierThis.ShowWarning("Iltimos, kursni tanlang!");
                 courseComboBox.Focus();
-                SaveBtnIsEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -250,31 +247,41 @@ public partial class TeacherForUpdateWindow : Window
                 else
                 {
                     notifierThis.ShowWarning("O'qituvchi malumotlari saqlanmadi!");
-                    SaveBtnIsEnable();
+                    saveBtn.IsEnabled = true;
                     return;
                 }
             }
             else
             {
                 notifierThis.ShowWarning("O'qituvchi malumotlari saqlanmadi, iltimos qayta yuklang!");
-                SaveBtnIsEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
         }
         catch(Exception ex)
         {
             notifierThis.ShowError("Xatolik yuz berdi! Iltimos qayta urinib ko'ring.");
-            SaveBtnIsEnable();
+            saveBtn.IsEnabled = true;
         }
     }
 
     private async void saveBtn_Click(object sender, RoutedEventArgs e)
     {
+        if (!saveBtn.IsEnabled)
+        {
+            notifierThis.ShowWarning("Iltimos, kuting!");
+            return;
+        }
+
         saveBtn.IsEnabled = false;
 
-        if (!saveBtn.IsEnabled)
+        try
+        {
             await SavedAsync();
-        else
-            notifierThis.ShowWarning("Iltimos, kuting!");
+        }
+        finally
+        {
+            saveBtn.IsEnabled = true;
+        }
     }
 }

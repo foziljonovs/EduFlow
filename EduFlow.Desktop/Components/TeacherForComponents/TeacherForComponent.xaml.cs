@@ -80,10 +80,11 @@ public partial class TeacherForComponent : UserControl
         }
     }
 
-    private void EditBtn_Click(object sender, RoutedEventArgs e)
+    private async void EditBtn_Click(object sender, RoutedEventArgs e)
     {
         TeacherForUpdateWindow window = new TeacherForUpdateWindow();
         window.setId(Id);
         window.ShowDialog();
+        await OnDeleteTeacher?.Invoke();
     }
 }

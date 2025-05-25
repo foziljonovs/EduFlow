@@ -68,7 +68,7 @@ public partial class CategoryForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Kategoriya nomi kiriting!");
                 nameTxt.Focus();
-                SaveButtonEnable();
+                SaveBtn.IsEnabled = true;
                 return;
             }
 
@@ -87,28 +87,33 @@ public partial class CategoryForCreateWindow : Window
             else
             {
                 notifierThis.ShowError("Saqlashda xatolik yuz berdi!");
-                SaveButtonEnable();
+                SaveBtn.IsEnabled = true;
             }
         }
         catch (Exception ex)
         {
             notifierThis.ShowError("Xatolik yuz berdi!");
-            SaveButtonEnable();
+            SaveBtn.IsEnabled = true;
         }
-    }
-
-    private bool SaveButtonEnable()
-    {
-        return SaveBtn.IsEnabled = true;
     }
 
     private async void SaveBtn_Click(object sender, RoutedEventArgs e)
     {
+        if (!SaveBtn.IsEnabled)
+        {
+            notifierThis.ShowWarning("Iltimos, kuting!");
+            return;
+        }
+
         SaveBtn.IsEnabled = false;
 
-        if (!SaveBtn.IsEnabled)
+        try
+        {
             await SavedAsync();
-        else
-            notifierThis.ShowWarning("Iltimos, kuting!");
+        }
+        finally
+        {
+            SaveBtn.IsEnabled = true;
+        }
     }
 }
