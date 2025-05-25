@@ -81,4 +81,12 @@ public partial class StudentForComponent : UserControl
             }
         }
     }
+
+    private async void EditBtn_Click(object sender, RoutedEventArgs e)
+    {
+        StudentForUpdateWindow window = new StudentForUpdateWindow();
+        window.setId(Id);
+        window.ShowDialog();
+        await OnStudentDelete?.Invoke();
+    }
 }
