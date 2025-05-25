@@ -109,7 +109,7 @@ public partial class StudentForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Ism va familiya kiritilmadi!");
                 fullNameTxt.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -119,7 +119,7 @@ public partial class StudentForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Manzil kiritilmadi!");
                 addressTxt.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -129,7 +129,7 @@ public partial class StudentForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Telefon raqami kiritilmadi yoki no'to'gri formatda!");
                 phoneNumberTxt.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -139,7 +139,7 @@ public partial class StudentForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Yosh kiritilmadi!");
                 AgeComboBox.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -148,7 +148,7 @@ public partial class StudentForCreateWindow : Window
             if (studentResult == 0)
             {
                 notifierThis.ShowWarning("O'quvchini saqlashda xatolik yuz berdi!");
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -160,7 +160,7 @@ public partial class StudentForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Kurs topilmadi!");
                 CourseComboBox.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -176,7 +176,7 @@ public partial class StudentForCreateWindow : Window
             else
             {
                 notifierThis.ShowError("O'quvchini saqlashda xatolik yuz berdi!");
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
             }
         }
         catch (Exception ex)
@@ -185,17 +185,24 @@ public partial class StudentForCreateWindow : Window
         }
     }
 
-    private void SaveButtonEnable()
-        => saveBtn.IsEnabled = true;
-
     private async void saveBtn_Click(object sender, RoutedEventArgs e)
     {
+        if (!saveBtn.IsEnabled)
+        {
+            notifierThis.ShowWarning("Iltimos, kuting!");
+            return;
+        }
+
         saveBtn.IsEnabled = false;
 
-        if(!saveBtn.IsEnabled)
+        try
+        {
             await SavedAsync();
-        else
-            notifierThis.ShowWarning("Iltimos, kuting!");
+        }
+        finally
+        {
+            saveBtn.IsEnabled = true;
+        }
     }
 
     private void phoneNumberTxt_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)

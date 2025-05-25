@@ -141,7 +141,7 @@ public partial class GroupForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Guruh nomi kiritilmadi!");
                 nameTxt.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -151,7 +151,7 @@ public partial class GroupForCreateWindow : Window
             {
                 notifierThis.ShowWarning("Kurs tanlanmadi!");
                 courseComboBox.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -161,7 +161,7 @@ public partial class GroupForCreateWindow : Window
             {
                 notifierThis.ShowWarning("O'qituvchi tanlanmadi!");
                 teacherComboBox.Focus();
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
                 return;
             }
 
@@ -175,18 +175,15 @@ public partial class GroupForCreateWindow : Window
             else
             {
                 notifierThis.ShowError("Guruhni saqlashda xatolik yuz berdi!");
-                SaveButtonEnable();
+                saveBtn.IsEnabled = true;
             }
         }
         catch(Exception ex)
         {
             notifierThis.ShowError("Xatolik yuz berdi!");
-            SaveButtonEnable();
+            saveBtn.IsEnabled = true;
         }
     }
-
-    private bool SaveButtonEnable()
-        => saveBtn.IsEnabled = true;
 
     private async void LoadedWindow()
     {
@@ -206,12 +203,22 @@ public partial class GroupForCreateWindow : Window
 
     private async void saveBtn_Click(object sender, RoutedEventArgs e)
     {
+        if (!saveBtn.IsEnabled)
+        {
+            notifierThis.ShowWarning("Iltimos, kuting!");
+            return;
+        }
+
         saveBtn.IsEnabled = false;
 
-        if (!saveBtn.IsEnabled)
+        try
+        {
             await SavedAsync();
-        else
-            notifierThis.ShowWarning("Iltimos, kuting!");
+        }
+        finally
+        {
+            saveBtn.IsEnabled = true;
+        }
     }
 
     private async void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
