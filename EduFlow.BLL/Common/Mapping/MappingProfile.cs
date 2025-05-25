@@ -26,7 +26,10 @@ public class MappingProfile : Profile
         CreateMap<User, UserForResultDto>();
         CreateMap<UserForResultDto, User>();
         CreateMap<UserForCreateDto, User>();
-        CreateMap<UserForUpdateDto, User>();
+        CreateMap<UserForUpdateDto, User>()
+            .ForMember(dest => dest.Password, opt => opt.Ignore())
+            .ForMember(dest => dest.Salt, opt => opt.Ignore());
+
         CreateMap<UserForLoginDto, User>();
         CreateMap<UserForChangePasswordDto, User>();
 
