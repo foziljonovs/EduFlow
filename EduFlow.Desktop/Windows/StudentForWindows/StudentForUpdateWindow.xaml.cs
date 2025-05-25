@@ -231,6 +231,13 @@ public partial class StudentForUpdateWindow : Window
                                         && x.Status == Domain.Enums.EnrollmentStatus.Active
                                         || x.Status == Domain.Enums.EnrollmentStatus.Pending);
 
+                    if(updateStudentCourse is null)
+                    {
+                        notifierThis.ShowWarning("Talaba guruhda o'qimoqda, iltimos qayta tekshiring!");
+                        saveBtn.IsEnabled = true;
+                        return;
+                    }
+
                     var studentCourseResult = await _studentCourseService.UpdateAsync(updateStudentCourse.Id, studentCourseDto);
 
                     if(studentCourseResult)
