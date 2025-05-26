@@ -1,5 +1,4 @@
 ﻿using EduFlow.Desktop.Integrated.Services.Courses.Group;
-using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
 using System.Windows;

@@ -39,12 +39,13 @@ public partial class MainForCourseComponent : UserControl
         cfg.Dispatcher = Application.Current.Dispatcher;
     });
 
-    public void SetValues(int number, long id, string name, int studentCount)
+    public void SetValues(int number, long id, string name, int studentCount, DateTime startedDate)
     {
         this.Id = id;
         tbNumber.Text = number.ToString();
         tbName.Text = name;
         tbStudentCount.Text = studentCount.ToString();
+        tbStartedDate.Text = startedDate.ToString("dd/MM/yyyy");
     }
 
     private async void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
