@@ -1,5 +1,4 @@
-﻿using EduFlow.BLL.DTOs.Courses.Course;
-using EduFlow.BLL.DTOs.Courses.Group;
+﻿using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.MainForComponents;
 using EduFlow.Desktop.Integrated.Security;
@@ -134,7 +133,7 @@ public partial class MainPage : Page
         courseForLoader.Visibility = Visibility.Visible;
 
         var courses = await Task.Run(async () => await _courseService.GetAllByTeacherIdAsync(teacherId));
-        ShowCourse(courses);
+        //ShowCourse(courses);
     }
 
     private async Task GetAllTeachers()
@@ -202,7 +201,8 @@ public partial class MainPage : Page
                     count,
                     group.Id,
                     group.Name,
-                    group.Students?.Count ?? 0);
+                    group.Students?.Count ?? 0,
+                    group.CreatedAt);
 
                 if (_teacher is not null)
                     component.OnGroupView += GetAllGroupByTeacherId;
@@ -248,39 +248,39 @@ public partial class MainPage : Page
         }
     }
 
-    private void ShowCourse(List<CourseForResultDto> courses)
-    {
-        int count = 1;
+    //private void ShowCourse(List<CourseForResultDto> courses)
+    //{
+    //    int count = 1;
 
-        if (courses.Any())
-        {
-            courseForLoader.Visibility = Visibility.Collapsed;
-            emptyDataForCourse.Visibility = Visibility.Collapsed;
+    //    if (courses.Any())
+    //    {
+    //        courseForLoader.Visibility = Visibility.Collapsed;
+    //        emptyDataForCourse.Visibility = Visibility.Collapsed;
 
-            foreach (var course in courses)
-            {
-                MainForCourseComponent component = new MainForCourseComponent();
-                component.Tag = course;
+    //        foreach (var course in courses)
+    //        {
+    //            MainForCourseComponent component = new MainForCourseComponent();
+    //            component.Tag = course;
 
-                component.SetValues(
-                    count,
-                    course.Id,
-                    course.Name,
-                    course.Groups?.Sum(x => x.Students.Count) ?? 0);
+    //            component.SetValues(
+    //                count,
+    //                course.Id,
+    //                course.Name,
+    //                course.Groups?.Sum(x => x.Students.Count) ?? 0);
 
-                stCourses.Children.Add(component);
-                count++;
-            }
+    //            stCourses.Children.Add(component);
+    //            count++;
+    //        }
 
-            YourCoursesCount.Text = courses.Count.ToString();
-            YourStudentsCount.Text = courses.Sum(x => x.Groups.Sum(x => x.Students.Count)).ToString();
-        }
-        else
-        {
-            courseForLoader.Visibility = Visibility.Collapsed;
-            emptyDataForCourse.Visibility = Visibility.Visible;
-        }
-    }
+    //        YourCoursesCount.Text = courses.Count.ToString();
+    //        YourStudentsCount.Text = courses.Sum(x => x.Groups.Sum(x => x.Students.Count)).ToString();
+    //    }
+    //    else
+    //    {
+    //        courseForLoader.Visibility = Visibility.Collapsed;
+    //        emptyDataForCourse.Visibility = Visibility.Visible;
+    //    }
+    //}
 
     private async Task<long> GetTeacher(long userId)
     {

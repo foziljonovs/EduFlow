@@ -1,9 +1,15 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.DTOs.Courses.Lesson;
+using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
+using EduFlow.Desktop.Windows;
 using EduFlow.Domain.Entities.Courses;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace EduFlow.Desktop.Components.LessonForComponents;
 
@@ -12,13 +18,34 @@ namespace EduFlow.Desktop.Components.LessonForComponents;
 /// </summary>
 public partial class LessonForAttendanceComponent : UserControl
 {
+    private readonly ILessonService _service;
     private Dictionary<int, long> keys = new Dictionary<int, long>();
     private LessonForResultDto lesson = new LessonForResultDto();
     public bool isChanged { get; private set; } = false;
+    public event Func<Task> OnGetValues = null!;
     public LessonForAttendanceComponent()
     {
         InitializeComponent();
+        this._service = new LessonService();
     }
+
+    Notifier notifierThis = new Notifier(cfg =>
+    {
+        cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
+            corner: Corner.TopRight,
+            offsetX: 20,
+            offsetY: 20);
+
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+
+        cfg.Dispatcher = Application.Current.Dispatcher;
+
+        cfg.DisplayOptions.Width = 200;
+        cfg.DisplayOptions.TopMost = true;
+    });
 
     public void SetValues(int number, Dictionary<int, long> keys, LessonForResultDto dto)
     {
@@ -132,5 +159,31 @@ public partial class LessonForAttendanceComponent : UserControl
     private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
     {
         PrintValues(keys, lesson);
+    }
+
+    private async void mnDelete_Click(object sender, RoutedEventArgs e)
+    {
+        if(this.lesson is not null)
+        {
+            var messageBox = new MessageBoxWindow($"Darsni o'chirmoqchimisiz", MessageBoxWindow.MessageType.Confirmation, MessageBoxWindow.MessageButtons.OkCancel);
+            var messageResult = messageBox.ShowDialog();
+
+            if(messageResult is true)
+            {
+                var result = await _service.DeleteAsync(lesson.Id);
+
+                if (result)
+                {
+                    await OnGetValues.Invoke();
+                    notifierThis.ShowSuccess("Dars o'chirildi!");
+                }
+                else
+                    notifierThis.ShowWarning("Darsni o'chirib bo'lmadi, iltimos qayta urining!");
+            }
+        }
+        else
+        {
+            notifierThis.ShowError("Xatolik yuz berdi, qayta urining!");
+        }
     }
 }

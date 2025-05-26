@@ -1,5 +1,5 @@
 ﻿using EduFlow.Desktop.Integrated.Services.Courses.Group;
-using EduFlow.Desktop.Integrated.Services.Users.Student;
+using EduFlow.Desktop.Windows;
 using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
 using System.Windows;
@@ -84,9 +84,10 @@ public partial class StudentForAttendanceComponent : UserControl
 
     private async void mnDelete_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        var message = MessageBox.Show("O'quvchini guruhdan o'chirishni tasdiqlang", "Tasdiqlash", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        var messageBox = new MessageBoxWindow("O'quvchini guruhdan o'chirishni tasdiqlang", MessageBoxWindow.MessageType.Confirmation, MessageBoxWindow.MessageButtons.OkCancel);
+        var messageResult = messageBox.ShowDialog();
 
-        if (message is MessageBoxResult.Yes)
+        if (messageResult is true)
         {
             var res = await _groupService.DeleteForStudentAsync(this.GroupId, this.Id);
 

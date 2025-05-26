@@ -128,13 +128,16 @@ public class GroupService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
 
             var studentCourse = await _unitOfWork.StudentCourse.GetAllAsync()
-                .Where(x => x.StudentId == student.Id && x.CourseId == group.CourseId)
+                .Where(x => x.StudentId == student.Id 
+                    && x.CourseId == group.CourseId
+                    && x.IsDeleted == false)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (studentCourse is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student course not found.");
 
             studentCourse.Status = Domain.Enums.EnrollmentStatus.Dropped;
+            studentCourse.IsDeleted = true;
 
             group.Students.Remove(student);
 

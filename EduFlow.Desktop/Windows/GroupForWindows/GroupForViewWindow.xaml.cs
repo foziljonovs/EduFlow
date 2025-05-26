@@ -134,6 +134,7 @@ public partial class GroupForViewWindow : Window
                     _students,
                     lesson);
 
+                component.OnGetValues += GetLessons;
                 stLessons.Children.Add(component);
                 count--;
             }
