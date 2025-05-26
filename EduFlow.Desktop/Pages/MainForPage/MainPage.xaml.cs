@@ -1,5 +1,4 @@
-﻿using EduFlow.BLL.DTOs.Courses.Course;
-using EduFlow.BLL.DTOs.Courses.Group;
+﻿using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.MainForComponents;
 using EduFlow.Desktop.Integrated.Security;
