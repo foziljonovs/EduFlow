@@ -242,17 +242,23 @@ public partial class StudentForUpdateWindow : Window
                     studentCourseDto.CourseId = courseId;
 
                     var updateStudentCourse = this.Student.StudentCourses.FirstOrDefault(x => x.CourseId == courseId
-                                        && x.Status == Domain.Enums.EnrollmentStatus.Active
-                                        || x.Status == Domain.Enums.EnrollmentStatus.Pending);
+                                                                                      && x.Status == Domain.Enums.EnrollmentStatus.Active
+                                                                                      || x.Status == Domain.Enums.EnrollmentStatus.Pending);
 
-                    if(updateStudentCourse is null)
+                    if(updateStudentCourse is not null)
                     {
                         notifierThis.ShowWarning("Talaba guruhda o'qimoqda, iltimos qayta tekshiring!");
                         saveBtn.IsEnabled = true;
                         return;
                     }
 
-                    var studentCourseResult = await _studentCourseService.UpdateAsync(updateStudentCourse.Id, studentCourseDto);
+                    StudentCourseForCreateDto studentCourseForCreateDto = new StudentCourseForCreateDto
+                    {
+                        StudentId = this.Id,
+                        CourseId = courseId
+                    };
+
+                    var studentCourseResult = await _studentCourseService.AddAsync(studentCourseForCreateDto);
 
                     if(studentCourseResult)
                     {
