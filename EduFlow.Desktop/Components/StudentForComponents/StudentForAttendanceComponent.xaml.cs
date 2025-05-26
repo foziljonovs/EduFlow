@@ -92,7 +92,7 @@ public partial class StudentForAttendanceComponent : UserControl
 
             if (res)
             {
-                notifierThis.ShowSuccess($"{student.Fullname} guruhdan o'chirildi");
+                notifierThis.ShowSuccess($"O'quvchi guruhdan o'chirildi");
                 await OnDelete?.Invoke();
             }
             else
