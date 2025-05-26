@@ -115,27 +115,41 @@ public partial class StudentForUpdateWindow : Window
     {
         if(this.Student is not null)
         {
-            foreach(ComboBoxItem item in CourseComboBox.Items)
+            foreach (ComboBoxItem item in AgeComboBox.Items)
             {
-                var studentActiveCourse = this.Student.StudentCourses
-                    .FirstOrDefault(x => x.Status == Domain.Enums.EnrollmentStatus.Active 
-                                    || x.Status == Domain.Enums.EnrollmentStatus.Pending);
+                var studentAge = this.Student.Age.ToString();
 
-                if(item.Tag is long courseId && studentActiveCourse.CourseId == courseId)
+                if (item.Content?.ToString() == studentAge)
                 {
-                    CourseComboBox.SelectedItem = item;
+                    AgeComboBox.SelectedItem = item;
                     break;
                 }
             }
 
-            foreach(ComboBoxItem item in AgeComboBox.Items)
+            foreach (ComboBoxItem item in CourseComboBox.Items)
             {
-                var studentAge = this.Student.Age.ToString();
+                var studentActiveCourse = this.Student.StudentCourses?
+                    .FirstOrDefault(x => x.Status == Domain.Enums.EnrollmentStatus.Active
+                                    || x.Status == Domain.Enums.EnrollmentStatus.Pending);
 
-                if(item.Content?.ToString() == studentAge)
+                if (studentActiveCourse is not null)
                 {
-                    AgeComboBox.SelectedItem = item;
-                    break;
+                    if (item.Tag is long courseId && studentActiveCourse.CourseId == courseId)
+                    {
+                        CourseComboBox.SelectedItem = item;
+                        break;
+                    }
+                }
+                else
+                {
+                    ComboBoxItem defaultItem = new ComboBoxItem
+                    {
+                        Content = "Kursni tanlang",
+                        IsEnabled = false,
+                        IsSelected = true
+                    };
+
+                    CourseComboBox.Items.Add(defaultItem);
                 }
             }
         }
