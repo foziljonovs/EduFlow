@@ -106,15 +106,19 @@ public partial class StudentPage : Page
 
     private void ShowStudents(List<StudentForResultDto> students)
     {
+        var yourActiveStudents = students
+            .Where(x => x.StudentCourses.Any(y => y.CourseId == _teacher.CourseId && y.Status == EnrollmentStatus.Active))
+            .ToList();
+
         int count = 1;
         stStudents.Children.Clear();
 
-        if (students.Any())
+        if (yourActiveStudents.Any())
         {
             studentLoader.Visibility = Visibility.Collapsed;
             emptyDataForStudent.Visibility = Visibility.Collapsed;
 
-            foreach(var student in students)
+            foreach(var student in yourActiveStudents)
             {
                 StudentForComponent component = new StudentForComponent();
                 component.Tag = student;
