@@ -339,7 +339,7 @@ public partial class MainPage : Page
             }
 
             await GetAllGroupByTeacherId();
-            await GetAllTeacherCourses(teacherId);
+            //await GetAllTeacherCourses(teacherId);
         }
         else
         {
