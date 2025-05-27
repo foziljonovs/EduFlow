@@ -1,9 +1,7 @@
-﻿using EduFlow.Desktop.Integrated.Services.Users.Student;
+﻿using EduFlow.Desktop.Integrated.Security;
+using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Windows;
 using EduFlow.Desktop.Windows.StudentForWindows;
-using EduFlow.Domain.Enums;
-using MaterialDesignThemes.Wpf;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -51,6 +49,21 @@ public partial class StudentForComponent : UserControl
         tbAddress.Text = address;
         tbPhoneNumber.Text = phoneNumber;
         tbCourse.Text = group;
+        PrimaryView();
+    }
+
+    private void PrimaryView()
+    {
+        var role = IdentitySingelton.GetInstance().Role;
+
+        if(role is Domain.Enums.UserRole.Teacher)
+        {
+            EditBtn.IsEnabled = false;
+            EditBtn.ToolTip = "O'quvchi ma'lumotlarini o'zgartira olmaysiz!";
+
+            DeleteBtn.IsEnabled = false;
+            DeleteBtn.ToolTip = "O'quvchini o'chirib yubora olmaysiz!";
+        }
     }
 
     private void ViewBtn_Click(object sender, System.Windows.RoutedEventArgs e)
