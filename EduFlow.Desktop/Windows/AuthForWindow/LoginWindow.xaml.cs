@@ -63,10 +63,18 @@ public partial class LoginWindow : Window
     private bool VerifyForPhoneNumber(string phoneNumber)
     {
         if (phoneNumber is null)
+        {
+            notifierThis.ShowWarning("Iltimos, telefon raqamingizni kiriting!");
+            PhoneNumberTxt.Focus();
             return false;
+        }
 
-        if (!phoneNumber.StartsWith("+998") && phoneNumber.Length != 13)
+        if (!phoneNumber.StartsWith("+998") || phoneNumber.Length != 13)
+        {
+            notifierThis.ShowWarning("Telefon raqam +998XX XXX XX XX formatida bo'lishi kerak!");
+            PhoneNumberTxt.Focus();
             return false;
+        }
 
         return true;
     }
@@ -110,7 +118,6 @@ public partial class LoginWindow : Window
                     dto.PhoneNumber = PhoneNumberTxt.Text;
                 else
                 {
-                    notifierThis.ShowWarning("Telefon raqam noto'g'ri formatda!");
                     LoginLoader.Visibility = Visibility.Collapsed;
                     LoginBtn.Visibility = Visibility.Visible;
                     return;

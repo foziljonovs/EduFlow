@@ -106,8 +106,8 @@ public partial class StudentPage : Page
 
     private void ShowStudents(List<StudentForResultDto> students)
     {
-        var yourActiveStudents = students
-            .Where(x => x.StudentCourses.Any(y => y.CourseId == _teacher.CourseId && y.Status == EnrollmentStatus.Active))
+        var yourActiveStudents = students.Where(x => 
+            x.StudentCourses.Any(y => y.CourseId == _teacher.CourseId && y.Status == EnrollmentStatus.Active))
             .ToList();
 
         int count = 1;
