@@ -1,5 +1,6 @@
 ﻿using EduFlow.BLL.DTOs.Courses.StudentCourse;
 using EduFlow.BLL.DTOs.Users.Student;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.StudentCourse;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
@@ -106,6 +107,9 @@ public partial class StudentForUpdateWindow : Window
 
                 CourseComboBox.Items.Add(comboBoxItem);
             }
+
+            if(IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
+                CourseComboBox.IsEnabled = false;
         }
         else
             notifierThis.ShowWarning("Kurs malumotlari topilmadi, iltimos qayta yuklang!");

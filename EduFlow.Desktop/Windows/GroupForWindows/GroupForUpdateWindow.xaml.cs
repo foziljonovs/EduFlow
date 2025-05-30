@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
@@ -173,6 +174,9 @@ public partial class GroupForUpdateWindow : Window
                     courseComboBox.SelectedItem = courseComboBoxItem;
                     break;
                 }
+
+            if(IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
+                courseComboBox.IsEnabled = false;
         }
         else
             notifierThis.ShowWarning("Guruh ma'lumotlari noto'g'ri, iltimos qayta yuklang!");
