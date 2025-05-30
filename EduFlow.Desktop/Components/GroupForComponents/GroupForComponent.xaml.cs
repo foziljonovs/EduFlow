@@ -2,8 +2,6 @@
 using EduFlow.Desktop.Windows;
 using EduFlow.Desktop.Windows.GroupForWindows;
 using EduFlow.Domain.Enums;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;

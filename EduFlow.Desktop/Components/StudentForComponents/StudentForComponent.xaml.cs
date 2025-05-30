@@ -49,21 +49,6 @@ public partial class StudentForComponent : UserControl
         tbAddress.Text = address;
         tbPhoneNumber.Text = phoneNumber;
         tbCourse.Text = group;
-        PrimaryView();
-    }
-
-    private void PrimaryView()
-    {
-        var role = IdentitySingelton.GetInstance().Role;
-
-        if(role is Domain.Enums.UserRole.Teacher)
-        {
-            EditBtn.IsEnabled = false;
-            EditBtn.ToolTip = "O'quvchi ma'lumotlarini o'zgartira olmaysiz!";
-
-            DeleteBtn.IsEnabled = false;
-            DeleteBtn.ToolTip = "O'quvchini o'chirib yubora olmaysiz!";
-        }
     }
 
     private void ViewBtn_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -77,21 +62,28 @@ public partial class StudentForComponent : UserControl
     {
         if(this.Id > 0)
         {
-            var messageBox = new MessageBoxWindow($"{tbFullname.Text} o'chirilsinmi?", MessageBoxWindow.MessageType.Confirmation, MessageBoxWindow.MessageButtons.OkCancel);
-            var res = messageBox.ShowDialog();
+            var role = IdentitySingelton.GetInstance().Role;
 
-            if(res is true)
+            if (role is Domain.Enums.UserRole.Administrator || role is Domain.Enums.UserRole.Manager)
             {
-                var result = await _service.DeleteAsync(this.Id);
+                var messageBox = new MessageBoxWindow($"{tbFullname.Text} o'chirilsinmi?", MessageBoxWindow.MessageType.Confirmation, MessageBoxWindow.MessageButtons.OkCancel);
+                var res = messageBox.ShowDialog();
 
-                if (result)
+                if (res is true)
                 {
-                    notifier.ShowSuccess($"{tbFullname.Text} o'chirildi");
-                    await OnStudentDelete?.Invoke();
+                    var result = await _service.DeleteAsync(this.Id);
+
+                    if (result)
+                    {
+                        notifier.ShowSuccess($"{tbFullname.Text} o'chirildi");
+                        await OnStudentDelete?.Invoke();
+                    }
+                    else
+                        notifier.ShowError("Xatolik yuz berdi");
                 }
-                else
-                    notifier.ShowError("Xatolik yuz berdi");
             }
+            else
+                notifier.ShowInformation("Sizda bu funksiyani ishlatish huquqi yo'q!");
         }
     }
 
