@@ -1,4 +1,5 @@
-﻿using EduFlow.Desktop.Integrated.Services.Courses.Group;
+﻿using EduFlow.Desktop.Integrated.Security;
+using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Windows;
 using EduFlow.Desktop.Windows.GroupForWindows;
 using EduFlow.Domain.Enums;
@@ -71,22 +72,29 @@ public partial class GroupForComponent : UserControl
     {
         if(Id > 0)
         {
-            var messageBox = new MessageBoxWindow($"{tbName.Text} o'chirilsinmi?", MessageBoxWindow.MessageType.Confirmation, MessageBoxWindow.MessageButtons.OkCancel);
+            var role = IdentitySingelton.GetInstance().Role;
 
-            var res = messageBox.ShowDialog();
-
-            if (res is true)
+            if(role is UserRole.Administrator || role is UserRole.Manager)
             {
-                var result = await _groupService.DeleteAsync(this.Id);
+                var messageBox = new MessageBoxWindow($"{tbName.Text} o'chirilsinmi?", MessageBoxWindow.MessageType.Confirmation, MessageBoxWindow.MessageButtons.OkCancel);
 
-                if(result)
+                var res = messageBox.ShowDialog();
+
+                if (res is true)
                 {
-                    notifier.ShowInformation($"{tbName.Text} o'chirildi!");
-                    await OnGroupView?.Invoke();
+                    var result = await _groupService.DeleteAsync(this.Id);
+
+                    if(result)
+                    {
+                        notifier.ShowInformation($"{tbName.Text} o'chirildi!");
+                        await OnGroupView?.Invoke();
+                    }
+                    else
+                        notifier.ShowError("Xatolik yuz berdi!");
                 }
-                else
-                    notifier.ShowError("Xatolik yuz berdi!");
             }
+            else
+                notifier.ShowInformation("Sizda bu funksiyani bajarish huquqi yo'q!");
         }
     }
 
