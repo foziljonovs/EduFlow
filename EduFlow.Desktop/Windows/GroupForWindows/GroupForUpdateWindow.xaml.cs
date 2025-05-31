@@ -77,6 +77,12 @@ public partial class GroupForUpdateWindow : Window
             {
                 this.Group = group;
                 nameTxt.Text = group.Name;
+                statusComboBox.SelectedIndex = group.IsStatus switch 
+                {
+                    Domain.Enums.Status.Active => 0,
+                    Domain.Enums.Status.Archived => 1,
+                    Domain.Enums.Status.Graduated => 2
+                };
             }
             else
                 notifierThis.ShowWarning("Malumotlar topilmadi, iltimos qayta yuklang!");
@@ -237,11 +243,29 @@ public partial class GroupForUpdateWindow : Window
                 return;
             }
 
-            if(this.Id > 0)
+            if(statusComboBox.SelectedItem is ComboBoxItem statusComboBoxItem)
+            {
+                dto.IsStatus = statusComboBoxItem.Content.ToString() switch
+                {
+                    "Faol" => Domain.Enums.Status.Active,
+                    "Saqlangan" => Domain.Enums.Status.Archived,
+                    "Yakunlangan" => Domain.Enums.Status.Graduated,
+                    _ => Domain.Enums.Status.Active
+                };
+            }
+            else
+            {
+                notifierThis.ShowWarning("Iltimos, holatni tanlang!");
+                statusComboBox.Focus();
+                saveBtn.IsEnabled = true;
+                return;
+            }
+
+            if (this.Id > 0)
             {
                 var result = await _service.UpdateAsync(this.Id, dto);
 
-                if(result)
+                if (result)
                 {
                     this.Close();
                     notifier.ShowSuccess("Guruh malumotlari saqlandi!");
