@@ -25,7 +25,7 @@
 
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
-                        Width="115">
+                        Width="90">
 
                 <RadioButton x:Name="MinButton"
                              Style="{DynamicResource StateButton}"
@@ -33,17 +33,20 @@
                              ToolTip="Yashirish"
                              Click="MinButton_Click"/>
 
-                <RadioButton x:Name="NormalButton"
-                             Style="{DynamicResource StateButton}"
-                             Tag="ArrowCollapse"
-                             ToolTip="Oddiy holat"
-                             Click="NormalButton_Click"/>
+                <StackPanel VerticalAlignment="Center">
+                    <RadioButton x:Name="NormalButton"
+                                 Style="{DynamicResource StateButton}"
+                                 Tag="ArrowCollapse"
+                                 ToolTip="Oddiy holat"
+                                 Visibility="Collapsed"
+                                 Click="NormalButton_Click"/>
 
-                <RadioButton x:Name="MaxButton"
-                             Style="{DynamicResource StateButton}"
-                             Tag="ArrowExpand"
-                             ToolTip="Kattalashtirish"
-                             Click="MaxButton_Click"/>
+                    <RadioButton x:Name="MaxButton"
+                                 Style="{DynamicResource StateButton}"
+                                 Tag="ArrowExpand"
+                                 ToolTip="Kattalashtirish"
+                                 Click="MaxButton_Click"/>
+                </StackPanel>
 
                 <RadioButton x:Name="CloseBtn"
                              Style="{DynamicResource StateButton}"

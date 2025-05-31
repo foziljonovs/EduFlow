@@ -134,7 +134,7 @@ public partial class GroupForViewWindow : Window
                     _students,
                     lesson);
 
-                component.OnGetValues += GetLessons;
+                component.OnGetValues += LoadedWindow;
                 stLessons.Children.Add(component);
                 count--;
             }
@@ -244,18 +244,49 @@ public partial class GroupForViewWindow : Window
         => this.WindowState = WindowState.Minimized;
 
     private void NormalButton_Click(object sender, RoutedEventArgs e)
-        => this.WindowState = WindowState.Normal;
+    {
+        this.WindowState = WindowState.Normal;
+
+        if (NormalButton.Visibility == Visibility.Visible)
+        {
+            this.NormalButton.Visibility = Visibility.Collapsed;
+            this.MaxButton.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            this.MaxButton.Visibility = Visibility.Collapsed;
+            this.NormalButton.Visibility = Visibility.Visible;
+        }
+    }
 
     private void MaxButton_Click(object sender, RoutedEventArgs e)
-        => this.WindowState = WindowState.Maximized;
-
-    private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        if(IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
+        this.WindowState = WindowState.Maximized;
+
+        if (MaxButton.Visibility == Visibility.Visible)
+        {
+            this.MaxButton.Visibility = Visibility.Collapsed;
+            this.NormalButton.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            this.NormalButton.Visibility = Visibility.Collapsed;
+            this.MaxButton.Visibility = Visibility.Visible;
+        }
+    }
+
+    private async Task LoadedWindow()
+    {
+        if (IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
             addStudents.Visibility = Visibility.Collapsed;
 
         await ShowValues();
         ShowLessons();
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        LoadedWindow();
     }
 
     private async void addStudents_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -263,7 +294,7 @@ public partial class GroupForViewWindow : Window
         GroupForAddStudentWindow window = new GroupForAddStudentWindow();
         window.SetId(Id);
         window.ShowDialog();
-        await ShowValues();
+        await LoadedWindow();
     }
 
     private async void createLessonBtn_Click(object sender, RoutedEventArgs e)
