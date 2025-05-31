@@ -263,7 +263,7 @@ public partial class GroupForViewWindow : Window
         GroupForAddStudentWindow window = new GroupForAddStudentWindow();
         window.SetId(Id);
         window.ShowDialog();
-        await ShowValues();
+        Window_Loaded(this, new RoutedEventArgs());
     }
 
     private async void createLessonBtn_Click(object sender, RoutedEventArgs e)
