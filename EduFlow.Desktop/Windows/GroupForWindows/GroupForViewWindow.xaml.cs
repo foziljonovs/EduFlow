@@ -134,7 +134,7 @@ public partial class GroupForViewWindow : Window
                     _students,
                     lesson);
 
-                component.OnGetValues += GetLessons;
+                component.OnGetValues += LoadedWindow;
                 stLessons.Children.Add(component);
                 count--;
             }
@@ -249,13 +249,18 @@ public partial class GroupForViewWindow : Window
     private void MaxButton_Click(object sender, RoutedEventArgs e)
         => this.WindowState = WindowState.Maximized;
 
-    private async void Window_Loaded(object sender, RoutedEventArgs e)
+    private async Task LoadedWindow()
     {
-        if(IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
+        if (IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
             addStudents.Visibility = Visibility.Collapsed;
 
         await ShowValues();
         ShowLessons();
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        LoadedWindow();
     }
 
     private async void addStudents_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -263,7 +268,7 @@ public partial class GroupForViewWindow : Window
         GroupForAddStudentWindow window = new GroupForAddStudentWindow();
         window.SetId(Id);
         window.ShowDialog();
-        Window_Loaded(this, new RoutedEventArgs());
+        await LoadedWindow();
     }
 
     private async void createLessonBtn_Click(object sender, RoutedEventArgs e)
