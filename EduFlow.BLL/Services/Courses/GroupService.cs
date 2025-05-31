@@ -203,7 +203,9 @@ public class GroupService(
     {
         try
         {
-            var groups = await _unitOfWork.Group.GetAllFullInformation()
+            var groups = await _unitOfWork.Group
+                .GetAllFullInformation()
+                .Where(x => x.IsStatus == Domain.Enums.Status.Active)
                 .ToListAsync(cancellationToken);
 
             if (!groups.Any())
