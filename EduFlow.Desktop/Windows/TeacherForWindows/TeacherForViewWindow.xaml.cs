@@ -51,11 +51,37 @@ public partial class TeacherForViewWindow : Window
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
         => this.Close();
 
-    private void MaxButton_Click(object sender, RoutedEventArgs e)
-        => this.WindowState = WindowState.Maximized;
-
     private void NormalButton_Click(object sender, RoutedEventArgs e)
-        => this.WindowState = WindowState.Normal;
+    {
+        this.WindowState = WindowState.Normal;
+
+        if (NormalButton.Visibility == Visibility.Visible)
+        {
+            this.NormalButton.Visibility = Visibility.Collapsed;
+            this.MaxButton.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            this.MaxButton.Visibility = Visibility.Collapsed;
+            this.NormalButton.Visibility = Visibility.Visible;
+        }
+    }
+
+    private void MaxButton_Click(object sender, RoutedEventArgs e)
+    {
+        this.WindowState = WindowState.Maximized;
+
+        if (MaxButton.Visibility == Visibility.Visible)
+        {
+            this.MaxButton.Visibility = Visibility.Collapsed;
+            this.NormalButton.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            this.NormalButton.Visibility = Visibility.Collapsed;
+            this.MaxButton.Visibility = Visibility.Visible;
+        }
+    }
 
     private void MinButton_Click(object sender, RoutedEventArgs e)
         => this.WindowState = WindowState.Minimized;
