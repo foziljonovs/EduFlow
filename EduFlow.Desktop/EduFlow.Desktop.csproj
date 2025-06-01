@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="Assets\animat.gif" />
     <None Remove="Assets\logo.png" />
+    <None Remove="Assets\teacher.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +31,10 @@
   <ItemGroup>
     <Resource Include="Assets\animat.gif" />
     <Resource Include="Assets\logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\teacher.jpg" />
   </ItemGroup>
 
 </Project>
