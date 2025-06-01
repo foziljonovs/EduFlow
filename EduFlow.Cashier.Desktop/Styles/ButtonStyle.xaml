@@ -1,0 +1,508 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Style x:Key="MainButton" TargetType="{x:Type RadioButton}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="5 0 5 5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border x:Name="B"
+                        CornerRadius="5"
+                        BorderThickness="0"
+                        Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon
+                                Grid.Column="0"
+                                x:Name="Icon"
+                                Kind="HomeVariant"
+                                Foreground="Black"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Width="25"
+                                Height="25"/>
+
+                            <Label
+                                x:Name="Lbl"
+                                Grid.Column="1"
+                                FontFamily="Jetbrains Mono"
+                                Content="Asosiy"
+                                FontWeight="SemiBold"
+                                Foreground="Black"
+                                FontSize="16"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="Silver"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+                            
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MainButtonThree" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border 
+                        x:Name="B"
+                        CornerRadius="5"
+                        Background="#1710ED">
+
+                        <Label
+                        FontFamily="Jetbrains Mono"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        FontSize="{TemplateBinding FontSize}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Content="{TemplateBinding Content}"/>
+
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="#3D40DF"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter TargetName="B" Property="Background" Value="#1710ED"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="#140ECE"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="MainButtonTwo" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="B"
+                            CornerRadius="10"
+                            BorderThickness="1"
+                            BorderBrush="#FFCCCCCC">
+                        <Grid>
+                            <Label
+                                    x:Name="Lbl"
+                                    Grid.Column="1"
+                                    FontFamily="Jetbrains Mono"
+                                    Content="Kirish"
+                                    FontWeight="SemiBold"
+                                    Foreground="Black"
+                                    FontSize="18"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="#FFCCCCCC"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CourseButton" TargetType="{x:Type RadioButton}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="5 0 5 5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border x:Name="B"
+                        CornerRadius="5"
+                        BorderThickness="0"
+                        Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon
+                                Grid.Column="0"
+                                x:Name="Icon"
+                                Kind="BookVariant"
+                                Foreground="Black"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Width="25"
+                                Height="25"/>
+
+                            <Label
+                                x:Name="Lbl"
+                                Grid.Column="1"
+                                FontFamily="Jetbrains Mono"
+                                Content="Kurslar"
+                                FontWeight="SemiBold"
+                                Foreground="Black"
+                                FontSize="16"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="Silver"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StudentsButton" TargetType="{x:Type RadioButton}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="5 0 5 5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border x:Name="B"
+                            CornerRadius="5"
+                            BorderThickness="0"
+                            Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon
+                                    Grid.Column="0"
+                                    x:Name="Icon"
+                                    Kind="AccountStudent"
+                                    Foreground="Black"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Width="25"
+                                    Height="25"/>
+
+                            <Label
+                                    x:Name="Lbl"
+                                    Grid.Column="1"
+                                    FontFamily="Jetbrains Mono"
+                                    Content="O'quvchilar"
+                                    FontWeight="SemiBold"
+                                    Foreground="Black"
+                                    FontSize="16"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="Silver"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GroupsButton" TargetType="{x:Type RadioButton}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="5 0 5 5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border x:Name="B"
+                            CornerRadius="5"
+                            BorderThickness="0"
+                            Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon
+                                Grid.Column="0"
+                                x:Name="Icon"
+                                Kind="Group"
+                                Foreground="Black"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Width="25"
+                                Height="25"/>
+
+                            <Label
+                                x:Name="Lbl"
+                                Grid.Column="1"
+                                FontFamily="Jetbrains Mono"
+                                Content="Guruhlar"
+                                FontWeight="SemiBold"
+                                Foreground="Black"
+                                FontSize="16"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="Silver"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="TeachersButton" TargetType="{x:Type RadioButton}">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="5 0 5 5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border x:Name="B"
+                            CornerRadius="5"
+                            BorderThickness="0"
+                            Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon
+                                    Grid.Column="0"
+                                    x:Name="Icon"
+                                    Kind="Teacher"
+                                    Foreground="Black"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Width="25"
+                                    Height="25"/>   
+
+                            <Label
+                                    x:Name="Lbl"
+                                    Grid.Column="1"
+                                    FontFamily="Jetbrains Mono"
+                                    Content="O'qituvchilar"
+                                    FontWeight="SemiBold"
+                                    Foreground="Black"
+                                    FontSize="16"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="Silver"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StateButton" TargetType="{x:Type RadioButton}">
+        <Setter Property="Height" Value="25"/>
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="5 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border x:Name="B"
+                        CornerRadius="2"
+                        BorderThickness="0"
+                        Background="Transparent">
+                        <Grid>
+                            <materialDesign:PackIcon
+                                Grid.Column="0"
+                                x:Name="Icon"
+                                Kind="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                Foreground="Black"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Width="20"
+                                Height="20"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="Silver"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CrudButton" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="5 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="B"
+                            CornerRadius="5"
+                            BorderThickness="0"
+                            Background="{TemplateBinding Background}">
+                        <materialDesign:PackIcon x:Name="Icon"
+                                                 Kind="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 Foreground="White"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 Width="25"
+                                                 Height="25"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="saveButton" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="45"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="0 5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="B"
+                            CornerRadius="10"
+                            Background="MediumSeaGreen">
+                        <Label
+                            x:Name="Lbl"
+                            Grid.Column="1"
+                            FontFamily="Jetbrains Mono"
+                            Content="Saqlash"
+                            FontWeight="SemiBold"
+                            Foreground="White"
+                            FontSize="16"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+                            <Setter TargetName="B" Property="Background" Value="MediumSpringGreen"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ClosedButton" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border 
+                        x:Name="button"
+                        Background="#DA0F00"
+                        BorderThickness="0.2"
+                        BorderBrush="{DynamicResource BorderColor}"
+                        CornerRadius="25">
+                        
+                        <materialDesign:PackIcon x:Name="Icon"
+                                         Kind="Close"
+                                         Foreground="White"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center"
+                                         Width="15"
+                                         Height="15"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="button" Property="Background" Value="#C70001"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter TargetName="button" Property="Background" Value="#DA0F00"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="button" Property="Background" Value="#7E0000"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
