@@ -119,7 +119,7 @@ public partial class LoginWindow : Window
                 else
                 {
                     LoginLoader.Visibility = Visibility.Collapsed;
-                    LoginBtn.Visibility = Visibility.Visible;
+                    LoginBtn.Visibility = Visibility.Visible;   
                     return;
                 }
 

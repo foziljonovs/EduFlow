@@ -4,5 +4,6 @@ public enum UserRole
 {
     Teacher = 0,
     Administrator,
-    Manager
+    Manager,
+    Cashier
 }

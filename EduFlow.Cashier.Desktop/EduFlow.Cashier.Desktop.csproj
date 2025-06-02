@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EduFlow.Desktop.Integrated\EduFlow.Desktop.Integrated.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\animat.gif" />
     <Resource Include="Assets\cash_desk_07.jpg" />
   </ItemGroup>
