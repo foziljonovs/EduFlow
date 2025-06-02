@@ -1,7 +1,6 @@
 ﻿using EduFlow.BLL.DTOs.Users.User;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Auth;
-using System.Threading.Tasks;
 using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -91,9 +90,10 @@ public partial class LoginWindow : Window
     {
         try
         {
-            LoginBtn.IsEnabled = false;
+            LoginBtn.Visibility = Visibility.Collapsed;
+            LoginLoader.Visibility = Visibility.Visible;
 
-            if(!string.IsNullOrEmpty(PhoneNumberTxt.Text) &&
+            if (!string.IsNullOrEmpty(PhoneNumberTxt.Text) &&
                 !string.IsNullOrEmpty(PasswordPwd.Password))
             {
                 UserForLoginDto dto = new UserForLoginDto();
@@ -103,7 +103,8 @@ public partial class LoginWindow : Window
                 else
                 {
                     notifier.ShowWarning("Telefon raqam noto'g'ri formatda!");
-                    LoginBtn.IsEnabled = true;
+                    LoginLoader.Visibility = Visibility.Collapsed;
+                    LoginBtn.Visibility = Visibility.Visible;
                     return;
                 }
 
@@ -112,7 +113,8 @@ public partial class LoginWindow : Window
                 else
                 {
                     notifier.ShowWarning("Parol noto'g'ri formatda, harf va raqamlardan iborat bo'lishi kerak!");
-                    LoginBtn.IsEnabled = true;
+                    LoginLoader.Visibility = Visibility.Collapsed;
+                    LoginBtn.Visibility = Visibility.Visible;
                     return;
                 }
 
@@ -127,7 +129,8 @@ public partial class LoginWindow : Window
                     if(role != Domain.Enums.UserRole.Cashier)
                     {
                         notifier.ShowWarning("Siz ushbu tizimga kirish huquqiga ega emassiz!");
-                        LoginBtn.IsEnabled = true;
+                        LoginLoader.Visibility = Visibility.Collapsed;
+                        LoginBtn.Visibility = Visibility.Visible;
                         return;
                     }
 
@@ -141,14 +144,16 @@ public partial class LoginWindow : Window
                 else
                 {
                     notifier.ShowError("Telefon raqam yoki parol noto'g'ri!");
-                    LoginBtn.IsEnabled = true;
+                    LoginLoader.Visibility = Visibility.Collapsed;
+                    LoginBtn.Visibility = Visibility.Visible;
                 }
             }
         }
         catch(Exception ex)
         {
             notifier.ShowError("Kirishda xatolik yuz berdi!");
-            LoginBtn.IsEnabled = true;
+            LoginLoader.Visibility = Visibility.Collapsed;
+            LoginBtn.Visibility = Visibility.Visible;
         }
     }
 }

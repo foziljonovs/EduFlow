@@ -85,10 +85,10 @@
                                         Style="{DynamicResource MainButtonTwo}"
                                         Click="LoginBtn_Click"/>
 
-                                <!--<local1:Loader x:Name="LoginLoader"
+                                <local1:Loader x:Name="LoginLoader"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               Visibility="Collapsed"/>-->
+                                               Visibility="Collapsed"/>
                             </StackPanel>
                         </Grid>
                     </StackPanel>
