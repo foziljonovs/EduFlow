@@ -5,8 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EduFlow.Cashier.Desktop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow"
+        Height="600"
+        Width="1024"
+        WindowState="Normal"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="10 0"
+                    Width="90"
+                    HorizontalAlignment="Right">
+            <RadioButton x:Name="MinButton"
+                         Style="{DynamicResource StateButton}"
+                         Tag="ChevronDown"
+                         ToolTip="Yashirish"
+                         Click="MinButton_Click"/>
+
+            <StackPanel VerticalAlignment="Center">
+                <RadioButton x:Name="NormalButton"
+                             Style="{DynamicResource StateButton}"
+                             Tag="ArrowCollapse"
+                             ToolTip="Oddiy holat"
+                             Visibility="Collapsed"
+                             Click="NormalButton_Click"/>
+
+                <RadioButton x:Name="MaxButton"
+                             Style="{DynamicResource StateButton}"
+                             Tag="ArrowExpand"
+                             ToolTip="Kattalashtirish"
+                             Click="MaxButton_Click"/>  
+            </StackPanel>
+
+            <RadioButton x:Name="CloseBtn"
+                         Style="{DynamicResource StateButton}"
+                         Tag="Close"
+                         ToolTip="Yopish"
+                         Click="CloseBtn_Click"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    Margin="10 5">
+            <!--Buttons-->
+        </StackPanel>
+
+        <Grid Grid.Row="2"
+              Margin="10 0 10 5">
+            <Frame x:Name="Navigate"
+                   NavigationUIVisibility="Hidden"/>
+        </Grid>
     </Grid>
 </Window>
