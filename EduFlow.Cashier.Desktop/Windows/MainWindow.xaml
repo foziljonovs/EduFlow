@@ -50,5 +50,17 @@
                          ToolTip="Yopish"
                          Click="CloseBtn_Click"/>
         </StackPanel>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    Margin="10 5">
+            <!--Buttons-->
+        </StackPanel>
+
+        <Grid Grid.Row="2"
+              Margin="10 0 10 5">
+            <Frame x:Name="Navigate"
+                   NavigationUIVisibility="Hidden"/>
+        </Grid>
     </Grid>
 </Window>
