@@ -14,4 +14,12 @@ public partial class LoginWindow : Window
 
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
         => this.Close();
+
+    private void LoginBtn_Click(object sender, RoutedEventArgs e)
+    {
+        MainWindow window = new MainWindow();
+        window.Show();
+
+        this.Close();
+    }
 }
