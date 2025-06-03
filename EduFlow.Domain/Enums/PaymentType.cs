@@ -2,6 +2,9 @@
 
 public enum PaymentType
 {
-    Debit = 0,
-    Credit
+    Cash = 0,   //Naqt
+    Card,       //Karta
+    Transfer,   //O'tqazma
+    Credit,     //Nasiya
+    Other       //Boshqa
 }
