@@ -12,4 +12,7 @@ public class Registry : BaseEntity
     public double Credit { get; set; }
     [Column("type")]
     public PaymentType Type { get; set; }
+    [Column("description")]
+    public string? Description { get; set; }
+    public bool IsConfirmed { get; set; } = false;
 }
