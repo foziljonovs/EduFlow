@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EduFlow.BLL\EduFlow.BLL.csproj" />
     <ProjectReference Include="..\EduFlow.Desktop.Integrated\EduFlow.Desktop.Integrated.csproj" />
   </ItemGroup>
 
