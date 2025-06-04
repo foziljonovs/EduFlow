@@ -72,7 +72,7 @@ public class RegistryService(
                 throw new ValidationException(validationResult.Errors);
 
             var registry = _mapper.Map<Registry>(dto);
-            registry.Type = Domain.Enums.PaymentType.Debit;
+            //registry.Type = Domain.Enums.PaymentType.Debit;
 
             return await _unitOfWork.Registry.AddConfirmAsync(registry);
         }

@@ -17,7 +17,7 @@ namespace EduFlow.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.2")
+                .HasAnnotation("ProductVersion", "9.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -339,13 +339,13 @@ namespace EduFlow.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("double precision")
-                        .HasColumnName("amount");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<double>("Discount")
+                        .HasColumnType("double precision")
+                        .HasColumnName("discount");
 
                     b.Property<long>("GroupId")
                         .HasColumnType("bigint")
@@ -355,17 +355,33 @@ namespace EduFlow.DAL.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_deleted");
 
+                    b.Property<string>("Notes")
+                        .HasColumnType("text")
+                        .HasColumnName("notes");
+
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("payment_date");
+
+                    b.Property<string>("ReceiptNumber")
+                        .HasColumnType("text")
+                        .HasColumnName("receipt_number");
 
                     b.Property<long>("RegistryId")
                         .HasColumnType("bigint")
                         .HasColumnName("registry_id");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
                     b.Property<long>("StudentId")
                         .HasColumnType("bigint")
                         .HasColumnName("student_id");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -402,6 +418,13 @@ namespace EduFlow.DAL.Migrations
                     b.Property<double>("Debit")
                         .HasColumnType("double precision")
                         .HasColumnName("debit");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
