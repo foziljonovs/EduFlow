@@ -2,9 +2,11 @@
 using EduFlow.BLL.Common.Exceptions;
 using EduFlow.BLL.Common.Validators.Payments.Interfaces;
 using EduFlow.BLL.DTOs.Payments.Payment;
+using EduFlow.BLL.DTOs.Payments.Registry;
 using EduFlow.BLL.Interfaces.Payments;
 using EduFlow.DAL.Interfaces;
 using EduFlow.Domain.Entities.Payments;
+using EduFlow.Domain.Enums;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -16,12 +18,14 @@ public class PaymentService(
     IUnitOfWork unitOfWork,
     IMapper mapper,
     ILogger<PaymentService> logger,
-    IPaymentValidator validator) : IPaymentService
+    IPaymentValidator validator,
+    IRegistryService registryService) : IPaymentService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly ILogger<PaymentService> _logger = logger;
     private readonly IPaymentValidator _validator = validator;
+    private readonly IRegistryService _registryService = registryService;
     public async Task<bool> AddToPayAsync(PaymentForCreateDto dto, CancellationToken cancellationToken = default)
     {
         try
@@ -39,16 +43,41 @@ public class PaymentService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
 
             var existsRegistry = await _unitOfWork.Registry.GetAsync(dto.RegistryId);
-            if (existsGroup is null)
+            if (existsRegistry is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Registry not found.");
+
+            if (string.IsNullOrEmpty(dto.ReceiptNumber))
+                dto.ReceiptNumber = Guid.NewGuid().ToString();
 
             var savedPayment = _mapper.Map<Payment>(dto);
 
+            double paymentAmount = dto.Amount;
+            if (dto.Discount > 0)
+                paymentAmount = dto.Amount - ((dto.Amount / 100) * dto.Discount);
+
+            var registry = new RegistryForCreateDto
+            {
+                Debit = paymentAmount,
+                Credit = 0,
+                Description = dto.Discount > 0
+                    ? $"Discounted payment ({dto.Discount}%) for {existsStudent.Fullname} in {existsGroup.Name} group."
+                    : $"Payment for {existsStudent.Fullname} in {existsGroup.Name} group.",
+                Type = dto.Type,
+                IsConfirmed = true
+            };
+
+            var savedRegistry = await _registryService.IncomeAsync(registry, cancellationToken);
+
+            if (!savedRegistry)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "An error occurred while adding the registry for payment.");
+
+            savedPayment.Status = PaymentStatus.Pending;
+
             return await _unitOfWork.Payment.AddConfirmAsync(savedPayment);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            _logger.LogError($"An error occured while added the payment. {ex}");
+            _logger.LogError($"An error occurred while adding the payment. {ex}");
             throw;
         }
     }
@@ -60,6 +89,32 @@ public class PaymentService(
             var payment = await _unitOfWork.Payment.GetAsync(id);
             if (payment is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payment not found.");
+
+            var registry = await _unitOfWork.Registry.GetAsync(payment.RegistryId);
+
+            if (registry is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Registry not found.");
+
+            if (registry.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This registry has been deleted.");
+
+            var paymentAmount = payment.Amount;
+            if (payment.Discount > 0)
+                paymentAmount = payment.Amount - ((payment.Amount / 100) * payment.Discount);
+
+            var deletedRegistry = new RegistryForCreateDto
+            {
+                Debit = 0,
+                Credit = paymentAmount,
+                Description = $"Payment deleted for {payment.Student.Fullname} in {payment.Group.Name} group.",
+                Type = payment.Type,
+                IsConfirmed = true
+            };
+
+            var savedRegistry = await _registryService.OutlayAsync(deletedRegistry, cancellationToken);
+
+            if (!savedRegistry)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "An error occurred while adding the registry for payment deletion.");
 
             payment.IsDeleted = true;
             return await _unitOfWork.SaveAsync(cancellationToken) > 0;
@@ -162,7 +217,10 @@ public class PaymentService(
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var existsPayment = await _unitOfWork.Payment.GetAsync(id);
+            var existsPayment = await _unitOfWork.Payment.GetAllAsync()
+                .Where(x => x.Id == id && x.ReceiptNumber == dto.ReceiptNumber)
+                .FirstOrDefaultAsync(cancellationToken);
+
             if (existsPayment is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payment not found.");
 
@@ -181,9 +239,27 @@ public class PaymentService(
             if (existsRegistry is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Registry not found.");
 
-            _mapper.Map(dto, existsPayment);
-            existsPayment.Id = id;
-            existsPayment.UpdatedAt = DateTime.UtcNow.AddHours(5);
+            double paymentAmount = dto.Amount;
+            if(dto.Discount > 0)
+                paymentAmount = dto.Amount - ((dto.Amount / 100) * dto.Discount);
+
+            var registry = new RegistryForUpdateDto
+            {
+                Debit = paymentAmount,
+                Credit = 0,
+                Type = dto.Type,
+                Description = $"Payment for {existsStudent.Fullname} in {existsGroup.Name}",
+                IsConfirmed = true
+            };
+
+            //var savedRegistry = await _registryService.UpdateAsync(registry, cancellationToken);
+            //if (!savedRegistry)
+            //    throw new StatusCodeException(HttpStatusCode.BadRequest, "Failed to create registry entry");
+
+            var payment = _mapper.Map<Payment>(dto);
+            payment.RegistryId = dto.RegistryId;
+            payment.Status = PaymentStatus.Completed;
+            payment.PaymentDate = DateTime.UtcNow.AddHours(5);
 
             return await _unitOfWork.Payment.UpdateAsync(existsPayment);
         }

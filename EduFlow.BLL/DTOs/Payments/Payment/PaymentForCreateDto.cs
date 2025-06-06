@@ -7,6 +7,7 @@ public class PaymentForCreateDto
     public long StudentId { get; set; }
     public long GroupId { get; set; }
     public long RegistryId { get; set; }
+    public double Amount { get; set; }
     public double Discount { get; set; }
     public DateTime PaymentDate { get; set; }
     public PaymentStatus Status { get; set; }
