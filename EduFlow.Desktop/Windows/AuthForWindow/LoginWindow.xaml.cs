@@ -138,6 +138,16 @@ public partial class LoginWindow : Window
                 {
                     TokenHandler.ParseToken(res.token);
                     SetIdentity(res.token);
+                    var role = IdentitySingelton.GetInstance().Role;
+
+                    if (role == Domain.Enums.UserRole.Cashier)
+                    {
+                        notifierThis.ShowWarning("Siz ushbu tizimga kirish huquqiga ega emassiz!");
+                        LoginLoader.Visibility = Visibility.Collapsed;
+                        LoginBtn.Visibility = Visibility.Visible;
+                        return;
+                    }
+
                     var fullName = IdentitySingelton.GetInstance().Name;
 
                     MainWindow window = new MainWindow();
