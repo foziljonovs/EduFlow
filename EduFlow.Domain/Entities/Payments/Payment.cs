@@ -17,6 +17,8 @@ public class Payment : BaseEntity
     [Column("registry_id")]
     public required long RegistryId { get; set; }
     public Registry Registry { get; set; }
+    [Column("debit")]
+    public double Amount { get; set; }
     [Column("discount")]
     public double Discount { get; set; } = 0;
     [Column("payment_date")]
