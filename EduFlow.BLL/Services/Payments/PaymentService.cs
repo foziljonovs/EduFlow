@@ -69,27 +69,16 @@ public class PaymentService(
             if (payment is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payment not found.");
 
-            var registry = await _unitOfWork.Registry.GetAsync(payment.RegistryId);
+            var group = await _unitOfWork.Group.GetAsync(payment.GroupId);
+            if (group is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
 
+            var registry = await _unitOfWork.Registry.GetAsync(payment.RegistryId);
             if (registry is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Registry not found.");
 
             if (registry.IsDeleted)
                 throw new StatusCodeException(HttpStatusCode.Gone, "This registry has been deleted.");
-
-            var deletedRegistry = new RegistryForCreateDto
-            {
-                Debit = 0,
-                Credit = payment.Amount,
-                Description = $"Payment deleted for {payment.Student.Fullname} in {payment.Group.Name} group.",
-                Type = payment.Type,
-                IsConfirmed = true
-            };
-
-            var savedRegistry = await _registryService.OutlayAsync(deletedRegistry, cancellationToken);
-
-            if (savedRegistry <= 0)
-                throw new StatusCodeException(HttpStatusCode.BadRequest, "An error occurred while adding the registry for payment deletion.");
 
             payment.IsDeleted = true;
             return await _unitOfWork.SaveAsync(cancellationToken) > 0;
@@ -106,8 +95,7 @@ public class PaymentService(
         try
         {
             var payments = await _unitOfWork.Payment
-                .GetAllAsync()
-                .Where(x => x.IsDeleted == false)
+                .GetAllFullInformation()
                 .ToListAsync(cancellation);
 
             if (!payments.Any())
@@ -127,8 +115,8 @@ public class PaymentService(
         try
         {
             var payments = await _unitOfWork.Payment
-                .GetAllAsync()
-                .Where(x => x.GroupId == groupId && x.IsDeleted == false)
+                .GetAllFullInformation()
+                .Where(x => x.GroupId == groupId)
                 .ToListAsync(cancellationToken);
 
             if (!payments.Any())
@@ -148,8 +136,8 @@ public class PaymentService(
         try
         {
             var payments = await _unitOfWork.Payment
-                .GetAllAsync()
-                .Where(x => x.StudentId == studentId && x.IsDeleted == false)
+                .GetAllFullInformation()
+                .Where(x => x.StudentId == studentId)
                 .ToListAsync(cancellationToken);
 
             if (!payments.Any())
@@ -168,12 +156,12 @@ public class PaymentService(
     {
         try
         {
-            var payment = await _unitOfWork.Payment.GetAsync(id);
+            var payment = await _unitOfWork.Payment.GetAllFullInformation()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync(cancellationToken);
+
             if (payment is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payment not found.");
-
-            if (payment.IsDeleted)
-                throw new StatusCodeException(HttpStatusCode.Gone, "This payment has been deleted.");
 
             return _mapper.Map<PaymentForResultDto>(payment);
         }
