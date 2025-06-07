@@ -15,9 +15,5 @@ public class RegistryForUpdateValidator : AbstractValidator<RegistryForUpdateDto
 
         RuleFor(x => x.Type)
             .IsInEnum().WithMessage("Kirim yoki chiqimdan biri tanlanishi shart");
-
-        RuleFor(x => x)
-            .Must(x => x.Debit != 0 || x.Credit != 0).WithMessage("Debit yoki Credit 2 lasidan bittasi 0 dan farqli bo'lishi kerak")
-            .Must(x => x.Debit != 0 && x.Credit != 0).WithMessage("Debit va Credit bir vaqtda 0 dan farqli bo'lishi mumkun emas");
     }
 }

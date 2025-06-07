@@ -63,7 +63,7 @@ public class RegistryService(
         }
     }
 
-    public async Task<bool> IncomeAsync(RegistryForCreateDto dto, CancellationToken cancellationToken = default)
+    public async Task<long> IncomeAsync(RegistryForCreateDto dto, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -74,7 +74,8 @@ public class RegistryService(
             var registry = _mapper.Map<Registry>(dto);
             registry.Type = dto.Type;
 
-            return await _unitOfWork.Registry.AddConfirmAsync(registry);
+            var res = await _unitOfWork.Registry.AddAsync(registry);
+            return res;
         }
         catch(Exception ex)
         {
@@ -83,7 +84,7 @@ public class RegistryService(
         }
     }
 
-    public async Task<bool> OutlayAsync(RegistryForCreateDto dto, CancellationToken cancellationToken = default)
+    public async Task<long> OutlayAsync(RegistryForCreateDto dto, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -94,7 +95,8 @@ public class RegistryService(
             var registry = _mapper.Map<Registry>(dto);
             registry.Type = dto.Type;
 
-            return await _unitOfWork.Registry.AddConfirmAsync(registry);
+            var res = await _unitOfWork.Registry.AddAsync(registry);
+            return res;
         }
         catch(Exception ex)
         {
