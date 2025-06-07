@@ -204,7 +204,6 @@ public class PaymentService(
 
             var payment = _mapper.Map<Payment>(dto);
             payment.RegistryId = dto.RegistryId;
-            payment.Status = PaymentStatus.Completed;
             payment.PaymentDate = DateTime.UtcNow.AddHours(5);
 
             return await _unitOfWork.Payment.UpdateAsync(existsPayment);
