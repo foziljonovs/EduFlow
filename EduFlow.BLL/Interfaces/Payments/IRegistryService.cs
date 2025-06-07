@@ -6,6 +6,6 @@ public interface IRegistryService
 {
     Task<IEnumerable<RegistryForResultDto>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<RegistryForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default);
-    Task<bool> IncomeAsync(RegistryForCreateDto dto, CancellationToken cancellationToken = default);
-    Task<bool> OutlayAsync(RegistryForCreateDto dto, CancellationToken cancellationToken = default);
+    Task<long> IncomeAsync(RegistryForCreateDto dto, CancellationToken cancellationToken = default);
+    Task<long> OutlayAsync(RegistryForCreateDto dto, CancellationToken cancellationToken = default);
 }
