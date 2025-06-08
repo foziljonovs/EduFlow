@@ -3,7 +3,6 @@ using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.Interfaces.Payments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace EduFlow.WebApi.Controllers.Common.Payments;
@@ -131,7 +130,7 @@ public class PaymentController(
         }
     }
 
-    [HttpGet("{groupId:long}/course")]
+    [HttpGet("{groupId:long}/group")]
     public async Task<IActionResult> GetAllByGroupIdAsync([FromRoute] long groupId, CancellationToken cancellation = default)
     {
         try
