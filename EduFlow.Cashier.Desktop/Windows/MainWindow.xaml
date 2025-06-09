@@ -53,8 +53,28 @@
 
         <StackPanel Grid.Row="1"
                     Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     Margin="10 5">
-            <!--Buttons-->
+            <RadioButton x:Name="homeBtn"
+                         Style="{DynamicResource MainButton}"
+                         Tag="Home"
+                         ToolTip="Asosiy sahifa"/>
+
+            <RadioButton x:Name="paymentBtn"
+                         Style="{DynamicResource PaymentsButton}"
+                         Tag="Payment"
+                         ToolTip="To'lovlar sahifasi"/>
+
+            <RadioButton x:Name="studentBtn"
+                         Style="{DynamicResource StudentsButton}"
+                         Tag="Student"
+                         ToolTip="O'quvchilar sahifasi"/>
+
+            <RadioButton x:Name="statisticBtn"
+                         Style="{DynamicResource StatisticsButton}"
+                         Tag="Statistics"
+                         ToolTip="Statistika sahifasi"/>
         </StackPanel>
 
         <Grid Grid.Row="2"
