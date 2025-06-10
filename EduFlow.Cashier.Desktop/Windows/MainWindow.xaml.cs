@@ -1,4 +1,7 @@
 ﻿using EduFlow.Cashier.Desktop.Pages.MainForPages;
+using EduFlow.Cashier.Desktop.Pages.PaymentForPages;
+using EduFlow.Cashier.Desktop.Pages.StatsForPages;
+using EduFlow.Cashier.Desktop.Pages.StudentForPages;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -57,9 +60,41 @@ public partial class MainWindow : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        NormalButton.IsChecked = true;
+        homeBtn.IsChecked = true;
 
         MainPage page = new MainPage();
+        NavigatePage(page);
+    }
+
+    private void homeBtn_Click(object sender, RoutedEventArgs e)
+    {
+        homeBtn.IsChecked = true;
+
+        MainPage page = new MainPage();
+        NavigatePage(page);
+    }
+
+    private void paymentBtn_Click(object sender, RoutedEventArgs e)
+    {
+        paymentBtn.IsChecked = true;
+
+        PaymentPage page = new PaymentPage();
+        NavigatePage(page);
+    }
+
+    private void studentBtn_Click(object sender, RoutedEventArgs e)
+    {
+        studentBtn.IsChecked = true;
+
+        StudentPage page = new StudentPage();
+        NavigatePage(page);
+    }
+
+    private void statisticBtn_Click(object sender, RoutedEventArgs e)
+    {
+        statisticBtn.IsChecked = true;
+
+        StatsPage page = new StatsPage();
         NavigatePage(page);
     }
 }

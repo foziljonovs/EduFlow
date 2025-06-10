@@ -60,22 +60,26 @@
             <RadioButton x:Name="homeBtn"
                          Style="{DynamicResource MainButton}"
                          Tag="Home"
-                         ToolTip="Asosiy sahifa"/>
+                         ToolTip="Asosiy sahifa"
+                         Click="homeBtn_Click"/>
 
             <RadioButton x:Name="paymentBtn"
                          Style="{DynamicResource PaymentsButton}"
                          Tag="Payment"
-                         ToolTip="To'lovlar sahifasi"/>
+                         ToolTip="To'lovlar sahifasi"
+                         Click="paymentBtn_Click"/>
 
             <RadioButton x:Name="studentBtn"
                          Style="{DynamicResource StudentsButton}"
                          Tag="Student"
-                         ToolTip="O'quvchilar sahifasi"/>
+                         ToolTip="O'quvchilar sahifasi"
+                         Click="studentBtn_Click"/>
 
             <RadioButton x:Name="statisticBtn"
                          Style="{DynamicResource StatisticsButton}"
                          Tag="Statistics"
-                         ToolTip="Statistika sahifasi"/>
+                         ToolTip="Statistika sahifasi"
+                         Click="statisticBtn_Click"/>
         </StackPanel>
 
         <Grid Grid.Row="2"
