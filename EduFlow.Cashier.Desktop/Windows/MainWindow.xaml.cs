@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using EduFlow.Cashier.Desktop.Pages.MainForPages;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace EduFlow.Cashier.Desktop;
 
@@ -49,4 +51,15 @@ public partial class MainWindow : Window
 
     private void MinButton_Click(object sender, RoutedEventArgs e)
         => this.WindowState = WindowState.Minimized;
+
+    public void NavigatePage(Page page)
+        => Navigate.Content = page;
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        NormalButton.IsChecked = true;
+
+        MainPage page = new MainPage();
+        NavigatePage(page);
+    }
 }
