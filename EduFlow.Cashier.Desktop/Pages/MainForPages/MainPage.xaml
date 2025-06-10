@@ -3,11 +3,160 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Pages.MainForPages"
+      xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Pages.MainForPages" xmlns:local1="clr-namespace:EduFlow.Cashier.Desktop.Components.Loader"
       mc:Ignorable="d"
       Title="MainPage">
 
-    <Grid Margin="10 0">
-        
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <ComboBox x:Name="categoryComboBox"
+                      ToolTip="Kategoriya tanlash"
+                      Width="110"
+                      VerticalAlignment="Center"
+                      Margin="10 0"/>
+
+            <ComboBox x:Name="courseComboBox"
+                      ToolTip="Kurs tanlash"
+                      Width="110"
+                      VerticalAlignment="Center"
+                      Margin="10 0"/>
+
+            <ComboBox x:Name="teacherComboBox"
+                      ToolTip="O'qituvchi tanlash"
+                      Width="110"
+                      VerticalAlignment="Center"
+                      Margin="10 0"/>
+
+            <ComboBox x:Name="groupStatusComboBox"
+                      ToolTip="Guruh holatini tanlash"
+                      Width="110"
+                      VerticalAlignment="Center"
+                      Margin="10 0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1"
+              HorizontalAlignment="Center"
+              Width="700">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    CornerRadius="5"
+                    Width="160"
+                    Background="Tomato">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock x:Name="YourCoursesCount"
+                               Text="0"
+                               Foreground="White"
+                               FontSize="22"
+                               HorizontalAlignment="Center"
+                               FontWeight="Heavy"/>
+
+                    <TextBlock Text="Faol guruhlar soni"
+                               Foreground="White"
+                               FontSize="14"
+                               HorizontalAlignment="Center"
+                               FontWeight="SemiBold"
+                               FontFamily="Jetbrains Mono"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1"
+                    CornerRadius="5"
+                    Width="160"
+                    Background="DeepSkyBlue">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock x:Name="YourStudentsCount"
+                               Text="0"
+                               Foreground="White"
+                               FontSize="22"
+                               HorizontalAlignment="Center"
+                               FontWeight="Heavy"/>
+
+                    <TextBlock Text="Faol o'quvchilar soni"
+                               Foreground="White"
+                               FontSize="14"
+                               HorizontalAlignment="Center"
+                               FontWeight="SemiBold"
+                               FontFamily="Jetbrains Mono"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2"
+                    x:Name="MonthlyIncomeBox"
+                    CornerRadius="5"
+                    Width="160"
+                    Background="SandyBrown">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock x:Name="MonthlyIncome"
+                               Text="0"
+                               Foreground="White"
+                               FontSize="22"
+                               HorizontalAlignment="Center"
+                               FontWeight="Heavy"/>
+
+                    <TextBlock Text="Shu oylik tushum"
+                               Foreground="White"
+                               FontSize="14"
+                               HorizontalAlignment="Center"
+                               FontWeight="SemiBold"
+                               FontFamily="Jetbrains Mono"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="3"
+                        x:Name="NumberOfStudentsPaidBox"
+                        CornerRadius="5"
+                        Width="160"
+                        Background="MediumSeaGreen">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock x:Name="NumberOfStudentsPaid"
+                               Text="0"
+                               Foreground="White"
+                               FontSize="22"
+                               HorizontalAlignment="Center"
+                               FontWeight="Heavy"/>
+
+                    <TextBlock Text="To'lov qilganlar soni"
+                               Foreground="White"
+                               FontSize="14"
+                               HorizontalAlignment="Center"
+                               FontWeight="SemiBold"
+                               FontFamily="Jetbrains Mono"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <local1:Loader x:Name="groupLoader"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Visibility="Collapsed"/>
+
+            <ScrollViewer>
+                <StackPanel x:Name="stGroups"/>
+            </ScrollViewer>
+
+            <TextBlock x:Name="emptyDataForGroup"
+                       Text="Guruhlar topilmadi!"
+                       FontSize="14"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       Visibility="Collapsed"/>
+        </Grid>
     </Grid>
 </Page>
