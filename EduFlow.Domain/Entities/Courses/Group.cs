@@ -19,6 +19,7 @@ public class Group : BaseEntity
     public Teacher Teacher { get; set; }
     public List<Student> Students { get; set; } = new List<Student>();
     public List<Payment> Payments { get; set; } = new List<Payment>();
+    public List<Lesson> Lessons { get; set; } = new List<Lesson>();
     [Column("status")]
     public Status IsStatus { get; set; }
 }
