@@ -40,7 +40,13 @@
                       ToolTip="Guruh holatini tanlash"
                       Width="110"
                       VerticalAlignment="Center"
-                      Margin="10 0"/>
+                      Margin="10 0">
+                <ComboBoxItem Content="Tanlang" IsSelected="True" IsEnabled="False"/>
+                <ComboBoxItem Content="Faol" Tag="0"/>
+                <ComboBoxItem Content="Saqlangan" Tag="1"/>
+                <ComboBoxItem Content="Bitirilgan" Tag="2"/>
+                <ComboBoxItem Content="O'chirilgan" Tag="3"/>
+            </ComboBox>
         </StackPanel>
 
         <Grid Grid.Row="1"
@@ -58,7 +64,7 @@
                     Width="160"
                     Background="Tomato">
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock x:Name="YourCoursesCount"
+                    <TextBlock x:Name="tbActiveGroupCount"
                                Text="0"
                                Foreground="White"
                                FontSize="22"
