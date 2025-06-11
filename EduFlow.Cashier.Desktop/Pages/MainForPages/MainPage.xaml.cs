@@ -66,8 +66,8 @@ public partial class MainPage : Page
                     count,
                     item.Id,
                     item.Name,
-                    item.Students.Count,
-                    //item.Lessons.Count,
+                    item.Students?.Count ?? 0,
+                    item.Lessons?.Count ?? 0,
                     item.CreatedAt);
 
                 stGroups.Children.Add(component);
