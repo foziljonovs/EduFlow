@@ -13,6 +13,7 @@
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded">
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="50"/>
