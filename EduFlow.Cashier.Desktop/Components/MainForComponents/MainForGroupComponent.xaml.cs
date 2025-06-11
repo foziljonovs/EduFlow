@@ -13,13 +13,13 @@ public partial class MainForGroupComponent : UserControl
         InitializeComponent();
     }
 
-    public void SetValues(int number, long id, string name, int studentsCount, int lessonsCount, DateTime startedDate)
+    public void SetValues(int number, long id, string name, int studentsCount, /*int lessonsCount,*/ DateTime startedDate)
     {
         this.Id = id;
         tbNumber.Text = number.ToString();
         tbName.Text = name;
         tbStudentCount.Text = studentsCount.ToString();
-        tbLessonCount.Text = lessonsCount.ToString();
+        //tbLessonCount.Text = lessonsCount.ToString();
         tbStartedDate.Text = startedDate.ToString("dd/MM/yyyy");
     }
 
