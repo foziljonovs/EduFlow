@@ -46,8 +46,19 @@ public partial class MainPage : Page
         var groups = await Task.Run(async () => await _groupService.GetAllAsync());
 
         ShowGroup(groups);
+        ActiveGroupCount(groups);
     }
 
+    private void ActiveGroupCount(List<GroupForResultDto> groups)
+    {
+        if (groups.Any())
+        {
+            var activeGroupCount = groups.Count(x => x.IsStatus == Domain.Enums.Status.Active);
+            tbActiveGroupCount.Text = activeGroupCount.ToString();
+        }
+        else
+            tbActiveGroupCount.Text = "0";
+    }
 
     private void ShowGroup(List<GroupForResultDto> groups)
     {
@@ -66,8 +77,8 @@ public partial class MainPage : Page
                     count,
                     item.Id,
                     item.Name,
-                    item.Students.Count,
-                    //item.Lessons.Count,
+                    item.Students?.Count ?? 0,
+                    item.Lessons?.Count ?? 0,
                     item.CreatedAt);
 
                 stGroups.Children.Add(component);

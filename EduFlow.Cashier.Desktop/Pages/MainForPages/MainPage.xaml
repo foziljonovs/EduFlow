@@ -40,7 +40,13 @@
                       ToolTip="Guruh holatini tanlash"
                       Width="110"
                       VerticalAlignment="Center"
-                      Margin="10 0"/>
+                      Margin="10 0">
+                <ComboBoxItem Content="Tanlang" IsSelected="True" IsEnabled="False"/>
+                <ComboBoxItem Content="Faol" Tag="0"/>
+                <ComboBoxItem Content="Saqlangan" Tag="1"/>
+                <ComboBoxItem Content="Bitirilgan" Tag="2"/>
+                <ComboBoxItem Content="O'chirilgan" Tag="3"/>
+            </ComboBox>
         </StackPanel>
 
         <Grid Grid.Row="1"
@@ -58,7 +64,7 @@
                     Width="160"
                     Background="Tomato">
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock x:Name="YourCoursesCount"
+                    <TextBlock x:Name="tbActiveGroupCount"
                                Text="0"
                                Foreground="White"
                                FontSize="22"
@@ -140,24 +146,81 @@
             </Border>
         </Grid>
 
-        <Grid Grid.Row="2">
-            <local1:Loader x:Name="groupLoader"
+        <Grid Grid.Row="2"
+              Margin="0 10 0 5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"
+                  Margin="3 0 18 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           Text="No"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Column="1"
+                           Text="Nomi"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Column="2"
+                           Text="O'quvchi soni"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+
+                <TextBlock Grid.Column="3"
+                           Text="Dars soni"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+
+                <TextBlock Grid.Column="4"
+                           Text="Boshlanish sanasi"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           VerticalAlignment="Center"/>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <local1:Loader x:Name="groupLoader"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="Collapsed"/>
+
+                <ScrollViewer>
+                    <StackPanel x:Name="stGroups"/>
+                </ScrollViewer>
+
+                <TextBlock x:Name="emptyDataForGroup"
+                           Text="Guruhlar topilmadi!"
+                           FontSize="14"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
                            Visibility="Collapsed"/>
-
-            <ScrollViewer>
-                <StackPanel x:Name="stGroups"/>
-            </ScrollViewer>
-
-            <TextBlock x:Name="emptyDataForGroup"
-                       Text="Guruhlar topilmadi!"
-                       FontSize="14"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontFamily="Jetbrains Mono"
-                       FontWeight="SemiBold"
-                       Visibility="Collapsed"/>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

@@ -17,5 +17,6 @@ public class GroupForResultDto
     public Teacher Teacher { get; set; }
     public List<Student> Students { get; set; }
     public List<Payment> Payments { get; set; }
+    public List<Et.Lesson> Lessons { get; set; }
     public Status IsStatus { get; set; }
 }
