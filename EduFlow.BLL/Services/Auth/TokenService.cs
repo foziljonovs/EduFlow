@@ -28,7 +28,7 @@ public class TokenService(IConfiguration configuration) : ITokenService
             issuer: _configuration["Issuer"],
             audience: _configuration["Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(double.Parse(_configuration["Lifetime"])),
+            expires: DateTime.UtcNow.AddDays(double.Parse(_configuration["Lifetime"])),
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(tokenDestrictor);

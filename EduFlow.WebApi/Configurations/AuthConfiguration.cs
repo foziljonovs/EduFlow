@@ -71,6 +71,7 @@ public static class AuthConfiguration
         {
             var key = Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]);
             o.SaveToken = true;
+            o.RequireHttpsMetadata = false;
             o.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
             {
                 ValidateIssuer = true,
@@ -80,7 +81,7 @@ public static class AuthConfiguration
                 ValidIssuer = configuration["Jwt:Issuer"],
                 ValidAudience = configuration["Jwt:Audience"],
                 IssuerSigningKey = new SymmetricSecurityKey(key),
-                ClockSkew = TimeSpan.FromSeconds(1)
+                ClockSkew = TimeSpan.FromMinutes(5)
             };
         });
 

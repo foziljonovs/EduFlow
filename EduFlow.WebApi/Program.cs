@@ -28,6 +28,11 @@ builder.Services
     .AddAutoMapper(typeof(MappingProfile))
     .AddSignalR();
 
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.Secure = CookieSecurePolicy.None;
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
@@ -39,12 +44,16 @@ app.UseSerilogRequestLogging();
 
 app.UseRouting();
 
-app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 
+//app.UseHttpsRedirection();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapHub<NotificationHub>("/notification-hub");
+app.MapHub<NotificationHub>("/notification-hub")
+    .RequireCors("AllowAll");
 
 app.Run();
