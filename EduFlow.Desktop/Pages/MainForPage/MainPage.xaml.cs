@@ -82,7 +82,7 @@ public partial class MainPage : Page
                 item.Tag = category.Id;
                 categoryComboBox.Items.Add(item);
             }
-        }
+        }   
     }
 
     private async Task FilterCourses()
