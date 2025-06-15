@@ -1,17 +1,23 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Category;
 using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Payments.Payment;
+using EduFlow.BLL.DTOs.Payments.Registry;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.MainForComponents;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
+using EduFlow.Desktop.Integrated.Services.Payments.Payment;
+using EduFlow.Desktop.Integrated.Services.Payments.Registry;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
 using ToastNotifications.Position;
 
 namespace EduFlow.Cashier.Desktop.Pages.MainForPages;
@@ -26,6 +32,8 @@ public partial class MainPage : Page
     private readonly ICourseService _courseService;
     private readonly ITeacherService _teacherService;
     private readonly IStudentService _studentService;
+    private readonly IRegistryService _registryService;
+    private readonly IPaymentService _paymentService;
     public MainPage()
     {
         InitializeComponent();
@@ -34,6 +42,8 @@ public partial class MainPage : Page
         this._courseService = new CourseService();
         this._teacherService = new TeacherService();
         this._studentService = new StudentService();
+        this._registryService = new RegistryService();
+        this._paymentService = new PaymentService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -56,33 +66,115 @@ public partial class MainPage : Page
 
     private async Task GetAllCategory()
     {
-        var categories = await Task.Run(async () => await _categoryService.GetAllAsync());
+        try
+        {
+            var categories = await Task.Run(async () => await _categoryService.GetAllAsync());
         
-        ShowCategories(categories);
+            ShowCategories(categories);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Kategoriyalarni yuklashda xatolik yuz berdi!");
+        }
     }
 
     private async Task GetAllCourse()
     {
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+        try
+        {
+            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
 
-        ShowCourses(courses);
+            ShowCourses(courses);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Kurslarni yuklashda xatolik yuz berdi!");
+        }
     }
 
     private async Task GetAllTeacher()
     {
-        var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+        try
+        {
+            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
 
-        ShowTeachers(teachers);
+            ShowTeachers(teachers);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("O'qituvchilarni yuklashda xatolik yuz berdi!");
+        }
     }
 
     private async Task GetAllGroup()
     {
-        groupLoader.Visibility = Visibility.Visible;
+        try
+        {
+            groupLoader.Visibility = Visibility.Visible;
 
-        var groups = await Task.Run(async () => await _groupService.GetAllAsync());
+            var groups = await Task.Run(async () => await _groupService.GetAllAsync());
 
-        ShowGroup(groups);
-        ActiveGroupCount(groups);
+            ShowGroup(groups);
+            ActiveGroupCount(groups);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Guruhlarni yuklashda xatolik yuz berdi!");
+        }
+    }
+
+    private async Task GetAllRegistry()
+    {
+        try
+        {
+            var registries = await Task.Run(async () => await _registryService.GetAllAsync());
+
+            if (registries.Any())
+                ShowMonthlyDebit(registries);
+            else
+                MonthlyIncome.Text = "0";
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Oylik tushumlarni olishda xatolik yuz berdi!");
+        }
+    }
+
+    private async Task GetAllPayment()
+    {
+        try
+        {
+            var payments = await Task.Run(async () => await _paymentService.GetAllAsync());
+
+            if (payments.Any())
+                ShowStudentsOfPaid(payments);
+            else
+                NumberOfStudentsPaid.Text = "0";
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("To'lovlarni yuklashda xatolik yuz berdi!");
+        }
+    }
+
+    private void ShowStudentsOfPaid(List<PaymentForResultDto> payments)
+    {
+        var allCountOfPaid = payments.Count(x => x.CreatedAt.Month == DateTime.UtcNow.Month);
+
+        if (allCountOfPaid > 0)
+            NumberOfStudentsPaid.Text = allCountOfPaid.ToString();
+        else
+            NumberOfStudentsPaid.Text = "0";
+    }
+
+    private void ShowMonthlyDebit(List<RegistryForResultDto> registries)
+    {
+        var allDebit = registries.Sum(x => x.Debit);
+
+        if (allDebit > 0)
+            MonthlyIncome.Text = allDebit.ToString("N2");
+        else
+            MonthlyIncome.Text = "0";
     }
 
     private async Task GetAllActiveStudent()
@@ -229,6 +321,8 @@ public partial class MainPage : Page
         await GetAllCourse();
         await GetAllTeacher();
         await GetAllActiveStudent();
+        await GetAllRegistry();
+        await GetAllPayment();
     }
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
