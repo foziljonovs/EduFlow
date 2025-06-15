@@ -6,6 +6,7 @@ using EduFlow.Cashier.Desktop.Components.MainForComponents;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
+using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,6 +25,7 @@ public partial class MainPage : Page
     private readonly ICategoryService _categoryService;
     private readonly ICourseService _courseService;
     private readonly ITeacherService _teacherService;
+    private readonly IStudentService _studentService;
     public MainPage()
     {
         InitializeComponent();
@@ -31,6 +33,7 @@ public partial class MainPage : Page
         this._categoryService = new CategoryService();
         this._courseService = new CourseService();
         this._teacherService = new TeacherService();
+        this._studentService = new StudentService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -80,6 +83,22 @@ public partial class MainPage : Page
 
         ShowGroup(groups);
         ActiveGroupCount(groups);
+    }
+
+    private async Task GetAllActiveStudent()
+    {
+        var students = await Task.Run(async () => await _studentService.GetAllAsync());
+
+        if (students.Any())
+        {
+            var activeStudents = students
+                .Count(x => x.StudentCourses
+                    .Any(s => s.Status == Domain.Enums.EnrollmentStatus.Active));
+
+            ActiveStudentsCount.Text = activeStudents.ToString();
+        }
+        else
+            ActiveStudentsCount.Text = "0";
     }
 
     private void ShowTeachers(List<TeacherForResultDto> teachers)
@@ -209,6 +228,7 @@ public partial class MainPage : Page
         await GetAllCategory();
         await GetAllCourse();
         await GetAllTeacher();
+        await GetAllActiveStudent();
     }
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
