@@ -1,6 +1,13 @@
-﻿using EduFlow.BLL.DTOs.Courses.Group;
+﻿using EduFlow.BLL.DTOs.Courses.Category;
+using EduFlow.BLL.DTOs.Courses.Course;
+using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.MainForComponents;
+using EduFlow.Desktop.Integrated.Services.Courses.Category;
+using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
+using EduFlow.Desktop.Integrated.Services.Users.Student;
+using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -15,10 +22,18 @@ namespace EduFlow.Cashier.Desktop.Pages.MainForPages;
 public partial class MainPage : Page
 {
     private readonly IGroupService _groupService;
+    private readonly ICategoryService _categoryService;
+    private readonly ICourseService _courseService;
+    private readonly ITeacherService _teacherService;
+    private readonly IStudentService _studentService;
     public MainPage()
     {
         InitializeComponent();
         this._groupService = new GroupService();
+        this._categoryService = new CategoryService();
+        this._courseService = new CourseService();
+        this._teacherService = new TeacherService();
+        this._studentService = new StudentService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -39,6 +54,27 @@ public partial class MainPage : Page
         cfg.DisplayOptions.TopMost = true;
     });
 
+    private async Task GetAllCategory()
+    {
+        var categories = await Task.Run(async () => await _categoryService.GetAllAsync());
+        
+        ShowCategories(categories);
+    }
+
+    private async Task GetAllCourse()
+    {
+        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+
+        ShowCourses(courses);
+    }
+
+    private async Task GetAllTeacher()
+    {
+        var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+
+        ShowTeachers(teachers);
+    }
+
     private async Task GetAllGroup()
     {
         groupLoader.Visibility = Visibility.Visible;
@@ -47,6 +83,100 @@ public partial class MainPage : Page
 
         ShowGroup(groups);
         ActiveGroupCount(groups);
+    }
+
+    private async Task GetAllActiveStudent()
+    {
+        var students = await Task.Run(async () => await _studentService.GetAllAsync());
+
+        if (students.Any())
+        {
+            var activeStudents = students
+                .Count(x => x.StudentCourses
+                    .Any(s => s.Status == Domain.Enums.EnrollmentStatus.Active));
+
+            ActiveStudentsCount.Text = activeStudents.ToString();
+        }
+        else
+            ActiveStudentsCount.Text = "0";
+    }
+
+    private void ShowTeachers(List<TeacherForResultDto> teachers)
+    {
+        if (teachers.Any())
+        {
+            teacherComboBox.Items.Clear();
+
+            teacherComboBox.Items.Add(new ComboBoxItem
+            {
+                Content = "Barcha",
+                IsSelected = true,
+                IsEnabled = false
+            });
+
+            foreach(var teacher in teachers)
+            {
+                ComboBoxItem item = new ComboBoxItem
+                {
+                    Tag = teacher.Id,
+                    Content = $"{teacher.User?.Firstname} {teacher.User?.Lastname}" 
+                };
+
+                teacherComboBox.Items.Add(item);
+            }
+        }
+    }
+
+    private void ShowCourses(List<CourseForResultDto> courses)
+    {
+        if (courses.Any())
+        {
+            courseComboBox.Items.Clear();
+
+            courseComboBox.Items.Add(new ComboBoxItem
+            {
+                Content = "Barcha",
+                IsSelected = true,
+                IsEnabled = false
+            });
+
+            foreach(var course in courses)
+            {
+                ComboBoxItem item = new ComboBoxItem
+                {
+                    Tag = course.Id,
+                    Content = course.Name
+                };
+
+                courseComboBox.Items.Add(item);
+            }
+        }
+    }
+
+    private void ShowCategories(List<CategoryForResultDto> categories)
+    {
+        if (categories.Any())
+        {
+            categoryComboBox.Items.Clear();
+
+            categoryComboBox.Items.Add(new ComboBoxItem
+            {
+                Content = "Barcha",
+                IsSelected = true,
+                IsEnabled = false
+            });
+
+            foreach(var category in categories)
+            {
+                ComboBoxItem item = new ComboBoxItem
+                {
+                    Tag = category.Id,
+                    Content = category.Name
+                };
+
+                categoryComboBox.Items.Add(item);
+            }
+        }
     }
 
     private void ActiveGroupCount(List<GroupForResultDto> groups)
@@ -95,6 +225,10 @@ public partial class MainPage : Page
     private async Task LoadPage()
     {
         await GetAllGroup();
+        await GetAllCategory();
+        await GetAllCourse();
+        await GetAllTeacher();
+        await GetAllActiveStudent();
     }
 
     private void Page_Loaded(object sender, RoutedEventArgs e)

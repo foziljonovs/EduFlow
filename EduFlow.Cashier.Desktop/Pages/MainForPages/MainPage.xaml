@@ -85,7 +85,7 @@
                     Width="160"
                     Background="DeepSkyBlue">
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock x:Name="YourStudentsCount"
+                    <TextBlock x:Name="ActiveStudentsCount"
                                Text="0"
                                Foreground="White"
                                FontSize="22"
