@@ -3,11 +3,71 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Pages.PaymentForPages"
+      xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Pages.PaymentForPages" xmlns:local1="clr-namespace:EduFlow.Cashier.Desktop.Components.Loader"
       mc:Ignorable="d"
       Title="PaymentPage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <StackPanel Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <ComboBox x:Name="statusComboBox"
+                          Width="110"
+                          VerticalAlignment="Center"
+                          ToolTip="To'lov holati"
+                          Margin="10 0"/>
+
+                <ComboBox x:Name="typeComboBox"
+                          Width="110"
+                          VerticalAlignment="Center"
+                          ToolTip="To'lov turi"
+                          Margin="10 0"/>
+
+            </StackPanel>
+
+            <Button x:Name="paymentBtn"
+                    HorizontalAlignment="Right"
+                    Style="{DynamicResource PaymentButton}"
+                    Margin="10 0"
+                    ToolTip="To'lov amalga oshirish"/>
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Margin="0 10 0 5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <local1:Loader x:Name="paymentLoader"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="Collapsed"/>
+
+                <ScrollViewer>
+                    <StackPanel x:Name="stPayments"/>
+                </ScrollViewer>
+
+                <TextBlock x:Name="emptyDataForPayment"
+                           Text="To'lovlar topilmadi!"
+                           FontSize="14"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Visibility="Collapsed"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>
