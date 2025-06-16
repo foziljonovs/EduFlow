@@ -282,6 +282,57 @@ public partial class MainPage : Page
             tbActiveGroupCount.Text = "0";
     }
 
+    private async Task FilterAsync()
+    {
+        try
+        {
+            stGroups.Children.Clear();
+            groupLoader.Visibility = Visibility.Visible;
+
+            GroupForFilterDto dto = new GroupForFilterDto();
+            dto.IsStatus = Domain.Enums.Status.Active;
+
+            if (categoryComboBox.SelectedItem is ComboBoxItem selectedCategoryItem &&
+                selectedCategoryItem.Tag != null)
+                dto.CategoryId = (long)selectedCategoryItem.Tag;
+
+            if(courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem &&
+                selectedCourseItem.Tag != null)
+                dto.CourseId = (long)selectedCourseItem.Tag;
+
+            if(teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem &&
+                selectedTeacherItem.Tag != null)
+                dto.TeacherId = (long)selectedTeacherItem.Tag;
+
+            if (groupStatusComboBox.SelectedItem is ComboBoxItem selectedGroupStatusItem &&
+                selectedGroupStatusItem.Tag != null)
+            {
+                dto.IsStatus = selectedGroupStatusItem.Tag.ToString() switch
+                {
+                    "1" => Domain.Enums.Status.Archived,
+                    "2" => Domain.Enums.Status.Graduated,
+                    "3" => Domain.Enums.Status.Deleted,
+                    _ => Domain.Enums.Status.Active
+                };
+            }
+
+            var groups = await Task.Run(async () => await _groupService.FilterAsync(dto));
+
+            if (groups.Any())
+                ShowGroup(groups);
+            else
+            {
+                groupLoader.Visibility = Visibility.Collapsed;
+                emptyDataForGroup.Visibility = Visibility.Visible;
+            }
+        }
+        catch(Exception ex)
+        {
+            groupLoader.Visibility = Visibility.Collapsed;
+            emptyDataForGroup.Visibility = Visibility.Visible;
+        }
+    }
+
     private void ShowGroup(List<GroupForResultDto> groups)
     {
         stGroups.Children.Clear();
@@ -325,8 +376,37 @@ public partial class MainPage : Page
         await GetAllPayment();
     }
 
+    private bool isPageLoaded = false;
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        LoadPage();
+        if(!isPageLoaded)
+        {
+            isPageLoaded = true;
+            LoadPage();
+        }
+    }
+
+    private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (isPageLoaded)
+            FilterAsync();
+    }
+
+    private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (isPageLoaded)
+            FilterAsync();
+    }
+
+    private void teacherComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (isPageLoaded)
+            FilterAsync();
+    }
+
+    private void groupStatusComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (isPageLoaded)
+            FilterAsync();
     }
 }
