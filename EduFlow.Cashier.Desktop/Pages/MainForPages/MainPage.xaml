@@ -22,25 +22,29 @@
                       ToolTip="Kategoriya tanlash"
                       Width="110"
                       VerticalAlignment="Center"
-                      Margin="10 0"/>
+                      Margin="10 0"
+                      SelectionChanged="categoryComboBox_SelectionChanged"/>
 
             <ComboBox x:Name="courseComboBox"
                       ToolTip="Kurs tanlash"
                       Width="110"
                       VerticalAlignment="Center"
-                      Margin="10 0"/>
+                      Margin="10 0"
+                      SelectionChanged="courseComboBox_SelectionChanged"/>
 
             <ComboBox x:Name="teacherComboBox"
                       ToolTip="O'qituvchi tanlash"
                       Width="110"
                       VerticalAlignment="Center"
-                      Margin="10 0"/>
+                      Margin="10 0"
+                      SelectionChanged="teacherComboBox_SelectionChanged"/>
 
             <ComboBox x:Name="groupStatusComboBox"
                       ToolTip="Guruh holatini tanlash"
                       Width="110"
                       VerticalAlignment="Center"
-                      Margin="10 0">
+                      Margin="10 0"
+                      SelectionChanged="groupStatusComboBox_SelectionChanged">
                 <ComboBoxItem Content="Tanlang" IsSelected="True" IsEnabled="False"/>
                 <ComboBoxItem Content="Faol" Tag="0"/>
                 <ComboBoxItem Content="Saqlangan" Tag="1"/>
