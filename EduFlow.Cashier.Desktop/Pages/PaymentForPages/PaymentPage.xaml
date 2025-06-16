@@ -45,8 +45,82 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="0"
+                  Margin="3 0 18 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+
+
+                <TextBlock Grid.Column="0"
+                           Text="No"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Column="1"
+                           Text="Chek raqam"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           VerticalAlignment="Center"/>
                 
+                <TextBlock Grid.Column="2"
+                           Text="Summa"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Column="3"
+                           Text="O'qituvchi"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Column="4"
+                           Text="Chegirma"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Column="5"
+                           Text="Holati"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Column="6"
+                           Text="Turi"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Column="7"
+                           Text="Sana"
+                           FontSize="12"
+                           FontWeight="ExtraBold"
+                           FontFamily="Jetbrains Mono"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
             </Grid>
 
             <Grid Grid.Row="1">
