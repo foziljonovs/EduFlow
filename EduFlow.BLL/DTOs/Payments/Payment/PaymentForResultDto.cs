@@ -1,6 +1,7 @@
 ﻿using EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
+using System.Text.Json.Serialization;
 using Et = EduFlow.Domain.Entities.Payments;
 
 namespace EduFlow.BLL.DTOs.Payments.Payment;
@@ -16,6 +17,8 @@ public class PaymentForResultDto
     public Group Group { get; set; }
     public long RegistryId { get; set; }
     public Et.Registry Registry { get; set; }
+    [JsonPropertyName("debit")]
+    public double Amount { get; set; }
     public double Discount { get; set; }
     public DateTime PaymentDate { get; set; }
     public PaymentStatus Status { get; set; }

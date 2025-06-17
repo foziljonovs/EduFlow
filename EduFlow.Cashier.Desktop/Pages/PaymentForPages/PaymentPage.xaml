@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Pages.PaymentForPages" xmlns:local1="clr-namespace:EduFlow.Cashier.Desktop.Components.Loader"
       mc:Ignorable="d"
-      Title="PaymentPage">
+      Title="PaymentPage"
+      Loaded="Page_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
