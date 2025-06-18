@@ -172,7 +172,7 @@ public partial class MainPage : Page
         var allDebit = registries.Sum(x => x.Debit);
 
         if (allDebit > 0)
-            MonthlyIncome.Text = allDebit.ToString("N2");
+            MonthlyIncome.Text = allDebit.ToString("0");
         else
             MonthlyIncome.Text = "0";
     }
