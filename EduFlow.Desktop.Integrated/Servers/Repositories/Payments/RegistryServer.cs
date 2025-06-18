@@ -2,6 +2,7 @@
 using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Payments;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -23,7 +24,7 @@ public class RegistryServer : IRegistryServer
 
             var result = await response.Content.ReadAsStringAsync();
 
-            List<RegistryForResultDto> registries = JsonSerializer.Deserialize<List<RegistryForResultDto>>(result)!;
+            List<RegistryForResultDto> registries = JsonConvert.DeserializeObject<List<RegistryForResultDto>>(result)!;
 
             return registries;
         }
@@ -47,7 +48,7 @@ public class RegistryServer : IRegistryServer
 
             var result = await response.Content.ReadAsStringAsync();
 
-            RegistryForResultDto registry = JsonSerializer.Deserialize<RegistryForResultDto>(result)!;
+            RegistryForResultDto registry = JsonConvert.DeserializeObject<RegistryForResultDto>(result)!;
 
             return registry;
         }
@@ -70,7 +71,7 @@ public class RegistryServer : IRegistryServer
             var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress)
             {
                 Content = new StringContent(
-                    JsonSerializer.Serialize(dto),
+                    JsonConvert.SerializeObject(dto),
                     System.Text.Encoding.UTF8,
                     "application/json")
             };
@@ -104,7 +105,7 @@ public class RegistryServer : IRegistryServer
             var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress)
             {
                 Content = new StringContent(
-                    JsonSerializer.Serialize(dto),
+                    JsonConvert.SerializeObject(dto),
                     System.Text.Encoding.UTF8,
                     "application/json")
             };

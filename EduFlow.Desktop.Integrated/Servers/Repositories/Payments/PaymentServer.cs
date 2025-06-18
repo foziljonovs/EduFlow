@@ -22,7 +22,7 @@ public class PaymentServer : IPaymentServer
             var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress)
             {
                 Content = new StringContent(
-                    System.Text.Json.JsonSerializer.Serialize(dto),
+                    JsonConvert.SerializeObject(dto),
                     System.Text.Encoding.UTF8,
                     "application/json")
             };
@@ -151,7 +151,7 @@ public class PaymentServer : IPaymentServer
             
             var result = await response.Content.ReadAsStringAsync();
             
-            PaymentForResultDto payment = System.Text.Json.JsonSerializer.Deserialize<PaymentForResultDto>(result)!;
+            PaymentForResultDto payment = JsonConvert.DeserializeObject<PaymentForResultDto>(result)!;
             
             return payment;
         }
@@ -174,7 +174,7 @@ public class PaymentServer : IPaymentServer
             var request = new HttpRequestMessage(HttpMethod.Put, client.BaseAddress)
             {
                 Content = new StringContent(
-                    System.Text.Json.JsonSerializer.Serialize(dto),
+                    JsonConvert.SerializeObject(dto),
                     System.Text.Encoding.UTF8,
                     "application/json")
             };
