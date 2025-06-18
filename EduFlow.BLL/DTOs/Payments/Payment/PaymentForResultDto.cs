@@ -17,7 +17,6 @@ public class PaymentForResultDto
     public Group Group { get; set; }
     public long RegistryId { get; set; }
     public Et.Registry Registry { get; set; }
-    [JsonPropertyName("debit")]
     public double Amount { get; set; }
     public double Discount { get; set; }
     public DateTime PaymentDate { get; set; }
