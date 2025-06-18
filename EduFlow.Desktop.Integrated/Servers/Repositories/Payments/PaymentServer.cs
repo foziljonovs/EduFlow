@@ -2,6 +2,7 @@
 using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Payments;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
 namespace EduFlow.Desktop.Integrated.Servers.Repositories.Payments;
@@ -78,7 +79,7 @@ public class PaymentServer : IPaymentServer
 
             var result = await response.Content.ReadAsStringAsync();
 
-            List<PaymentForResultDto> payments = System.Text.Json.JsonSerializer.Deserialize<List<PaymentForResultDto>>(result)!;
+            List<PaymentForResultDto> payments = JsonConvert.DeserializeObject<List<PaymentForResultDto>>(result)!;
 
             return payments;
         }
@@ -102,7 +103,7 @@ public class PaymentServer : IPaymentServer
 
             var result = await response.Content.ReadAsStringAsync();
 
-            List<PaymentForResultDto> payments = System.Text.Json.JsonSerializer.Deserialize<List<PaymentForResultDto>>(result)!;
+            List<PaymentForResultDto> payments = JsonConvert.DeserializeObject<List<PaymentForResultDto>>(result)!;
 
             return payments;
         }
@@ -126,7 +127,7 @@ public class PaymentServer : IPaymentServer
             
             var result = await response.Content.ReadAsStringAsync();
             
-            List<PaymentForResultDto> payments = System.Text.Json.JsonSerializer.Deserialize<List<PaymentForResultDto>>(result)!;
+            List<PaymentForResultDto> payments = JsonConvert.DeserializeObject<List<PaymentForResultDto>>(result)!;
             
             return payments;
         }
