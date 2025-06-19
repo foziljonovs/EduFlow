@@ -18,17 +18,54 @@
             <StackPanel Grid.Row="0"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
+                <DatePicker x:Name="StartedDate"
+                            Width="110"
+                            VerticalAlignment="Center"
+                            Margin="10 0"
+                            ToolTip="Sanadan"/>
+
+                <DatePicker x:Name="FinishedDate"
+                            Width="110"
+                            VerticalAlignment="Center"
+                            Margin="10 0"
+                            ToolTip="Sanagacha"/>
+
+                <ComboBox x:Name="courseComboBox"
+                          Width="110"
+                          VerticalAlignment="Center"
+                          ToolTip="Kursni tanlash"
+                          Margin="10 0"/>
+
+                <ComboBox x:Name="teacherComboBox"
+                          Width="110"
+                          VerticalAlignment="Center"
+                          ToolTip="O'qituvchi tanlang"
+                          Margin="10 0"/>
+
                 <ComboBox x:Name="statusComboBox"
                           Width="110"
                           VerticalAlignment="Center"
                           ToolTip="To'lov holati"
-                          Margin="10 0"/>
+                          Margin="10 0">
+                    <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
+                    <ComboBoxItem Tag="0" Content="Kutilmoqda"/>
+                    <ComboBoxItem Tag="1" Content="Tugallangan"/>
+                    <ComboBoxItem Tag="2" Content="Muvaffaqiyatsiz"/>
+                    <ComboBoxItem Tag="3" Content="Qaytarilgan"/>
+                </ComboBox>
 
                 <ComboBox x:Name="typeComboBox"
                           Width="110"
                           VerticalAlignment="Center"
                           ToolTip="To'lov turi"
-                          Margin="10 0"/>
+                          Margin="10 0">
+                    <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
+                    <ComboBoxItem Tag="0" Content="Naqd"/>
+                    <ComboBoxItem Tag="1" Content="Karta"/>
+                    <ComboBoxItem Tag="2" Content="O'tqazma"/>
+                    <ComboBoxItem Tag="3" Content="Nasiya"/>
+                    <ComboBoxItem Tag="4" Content="Belgilanmagan"/>
+                </ComboBox>
 
             </StackPanel>
 
@@ -47,7 +84,7 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0"
-                  Margin="3 0 18 0">
+                  Margin="0 0 18 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
@@ -56,7 +93,7 @@
                     <ColumnDefinition Width="80"/>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="130"/>
                     <ColumnDefinition Width="120"/>
                 </Grid.ColumnDefinitions>
 
