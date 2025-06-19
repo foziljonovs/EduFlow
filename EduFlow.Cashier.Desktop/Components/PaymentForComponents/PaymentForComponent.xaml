@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="130"/>
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
@@ -85,7 +85,7 @@
 
             <TextBlock x:Name="tbPaymentDate"
                        Grid.Column="7"
-                       Text="16.06.2025"
+                       Text="16.06.2025 14:00"
                        FontSize="14"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
