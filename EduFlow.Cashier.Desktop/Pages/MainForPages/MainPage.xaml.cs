@@ -119,6 +119,7 @@ public partial class MainPage : Page
         }
         catch(Exception ex)
         {
+            groupLoader.Visibility = Visibility.Collapsed;
             notifier.ShowWarning("Guruhlarni yuklashda xatolik yuz berdi!");
         }
     }
