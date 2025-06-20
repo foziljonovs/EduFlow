@@ -1,10 +1,15 @@
-﻿using EduFlow.BLL.DTOs.Payments.Payment;
+﻿using EduFlow.BLL.DTOs.Courses.Course;
+using EduFlow.BLL.DTOs.Payments.Payment;
+using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.PaymentForComponents;
+using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
+using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
 using ToastNotifications.Position;
 
 namespace EduFlow.Cashier.Desktop.Pages.PaymentForPages;
@@ -15,10 +20,14 @@ namespace EduFlow.Cashier.Desktop.Pages.PaymentForPages;
 public partial class PaymentPage : Page
 {
     private readonly IPaymentService _paymentService;
+    private readonly ICourseService _courseService;
+    private readonly ITeacherService _teacherService;
     public PaymentPage()
     {
         InitializeComponent();
         this._paymentService = new PaymentService();
+        this._courseService = new CourseService();
+        this._teacherService = new TeacherService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -41,11 +50,99 @@ public partial class PaymentPage : Page
 
     private async Task GetAllPayment()
     {
-        paymentLoader.Visibility = Visibility.Visible;
+        try
+        {
+            paymentLoader.Visibility = Visibility.Visible;
 
-        var payments = await Task.Run(async () => await _paymentService.GetAllAsync());
+            var payments = await Task.Run(async () => await _paymentService.GetAllAsync());
 
-        ShowPayments(payments);
+            ShowPayments(payments);
+        }
+        catch(Exception ex)
+        {
+            paymentLoader.Visibility = Visibility.Collapsed;
+            notifier.ShowWarning("Kurslarni yuklashda xatolik yuz berdi!");
+        }
+    }
+
+    private async Task GetAllTeacher()
+    {
+        try
+        {
+            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+
+            ShowTeachers(teachers);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("O'qituvchilarni yuklashda xatolik yuz berdi!");
+        }
+    }
+
+    private async Task GetAllCourse()
+    {
+        try
+        {
+            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+
+            ShowCourses(courses);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Kurslarni yuklashda xatolik yuz berdi!");
+        }
+    }
+
+    private void ShowTeachers(List<TeacherForResultDto> teachers)
+    {
+        if(teachers.Any())
+        {
+            teacherComboBox.Items.Clear();
+
+            teacherComboBox.Items.Add(new ComboBoxItem
+            {
+                Content = "Barcha",
+                IsSelected = true,
+                IsEnabled = false
+            });
+
+            foreach(var teacher in teachers)
+            {
+                ComboBoxItem item = new ComboBoxItem
+                {
+                    Tag = teacher.Id,
+                    Content = $"{teacher.User?.Firstname} {teacher.User?.Lastname}"
+                };
+
+                teacherComboBox.Items.Add(item);
+            }
+        }
+    }
+
+    private void ShowCourses(List<CourseForResultDto> courses)
+    {
+        if (courses.Any())
+        {
+            courseComboBox.Items.Clear();
+
+            courseComboBox.Items.Add(new ComboBoxItem
+            {
+                Content = "Barcha",
+                IsSelected = true,
+                IsEnabled = false
+            });
+
+            foreach(var course in courses)
+            {
+                ComboBoxItem item = new ComboBoxItem
+                {
+                    Tag = course.Id,
+                    Content = course.Name
+                };
+
+                courseComboBox.Items.Add(item);
+            }
+        }
     }
 
     private void ShowPayments(List<PaymentForResultDto> payments)
@@ -86,6 +183,8 @@ public partial class PaymentPage : Page
     private async Task LoadPage()
     {
         await GetAllPayment();
+        await GetAllCourse();
+        await GetAllTeacher();
     }
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
