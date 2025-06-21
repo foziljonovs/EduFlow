@@ -24,5 +24,6 @@ public class TeacherRepository : Repository<Teacher>, ITeacherRepository
                 .ThenInclude(g => g.Students)
             .Include(x => x.Course)
             .Include(x => x.Course)
-                .ThenInclude(c => c.Students);
+                .ThenInclude(c => c.Students)
+            .Include(x => x.Payments);
 }

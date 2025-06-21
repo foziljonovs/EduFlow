@@ -1,0 +1,38 @@
+﻿<Window x:Class="EduFlow.Cashier.Desktop.Windows.PaymentForWindows.IncomeForPaymentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Windows.PaymentForWindows"
+        mc:Ignorable="d"
+        Title="IncomeForPaymentWindow" 
+        Height="500"
+        Width="400"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <TextBlock Text="To'lov qilish"
+                       FontSize="18"
+                       FontWeight="SemiBold"
+                       FontFamily="Jetbrains Mono"
+                       VerticalAlignment="Center"
+                       Margin="10 0"/>
+
+            <RadioButton x:Name="CloseBtn"
+                         Style="{DynamicResource StateButton}"
+                         Tag="Close"
+                         HorizontalAlignment="Right"
+                         Click="CloseBtn_Click"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            
+        </Grid>
+    </Grid>
+</Window>
