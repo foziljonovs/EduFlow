@@ -42,6 +42,10 @@ public class PaymentService(
             if (existsGroup is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
 
+            var existsTeacher = await _unitOfWork.Teacher.GetAsync(dto.TeacherId);
+            if (existsTeacher is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
+
             var existsRegistry = await _unitOfWork.Registry.GetAsync(dto.RegistryId);
             if (existsRegistry is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Registry not found.");
@@ -72,6 +76,10 @@ public class PaymentService(
             var group = await _unitOfWork.Group.GetAsync(payment.GroupId);
             if (group is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
+
+            var teacher = await _unitOfWork.Teacher.GetAsync(payment.TeacherId);
+            if (teacher is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
 
             var registry = await _unitOfWork.Registry.GetAsync(payment.RegistryId);
             if (registry is null)
@@ -193,6 +201,10 @@ public class PaymentService(
             var existsStudent = await _unitOfWork.Student.GetAsync(dto.StudentId);
             if (existsStudent is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
+
+            var existsTeacher = await _unitOfWork.Teacher.GetAsync(dto.TeacherId);
+            if (existsTeacher is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
 
             var existsGroup = await _unitOfWork.Group.GetAsync(dto.GroupId);
             if (existsGroup is null)
