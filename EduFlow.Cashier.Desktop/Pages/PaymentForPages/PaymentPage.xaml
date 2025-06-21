@@ -73,7 +73,8 @@
                     HorizontalAlignment="Right"
                     Style="{DynamicResource PaymentButton}"
                     Margin="10 0"
-                    ToolTip="To'lov amalga oshirish"/>
+                    ToolTip="To'lov amalga oshirish"
+                    Click="paymentBtn_Click"/>
         </Grid>
 
         <Grid Grid.Row="1"

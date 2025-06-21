@@ -2,6 +2,7 @@
 using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.PaymentForComponents;
+using EduFlow.Cashier.Desktop.Windows.PaymentForWindows;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
@@ -189,5 +190,11 @@ public partial class PaymentPage : Page
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
         LoadPage();
+    }
+
+    private void paymentBtn_Click(object sender, RoutedEventArgs e)
+    {
+        IncomeForPaymentWindow window = new IncomeForPaymentWindow();
+        window.ShowDialog();
     }
 }
