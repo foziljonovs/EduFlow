@@ -31,8 +31,4 @@
     <Resource Include="Assets\cash_desk_07.jpg" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Windows\PaymentForWindows\" />
-  </ItemGroup>
-
 </Project>

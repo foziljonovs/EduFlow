@@ -14,6 +14,9 @@ public class Payment : BaseEntity
     [Column("group_id")]
     public required long GroupId { get; set; }
     public Group Group { get; set; }
+    [Column("teacher_id")]
+    public required long TeacherId { get; set; }
+    public Teacher Teacher { get; set; }
     [Column("registry_id")]
     public required long RegistryId { get; set; }
     public Registry Registry { get; set; }

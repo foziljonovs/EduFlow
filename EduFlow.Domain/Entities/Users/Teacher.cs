@@ -1,5 +1,6 @@
 ﻿using EduFlow.Domain.Entities.Base;
 using EduFlow.Domain.Entities.Courses;
+using EduFlow.Domain.Entities.Payments;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduFlow.Domain.Entities.Users;
@@ -15,4 +16,5 @@ public class Teacher : BaseEntity
     public required long CourseId { get; set; }
     public Course Course { get; set; }
     public List<Group> Groups { get; set; } = new List<Group>();
+    public List<Payment> Payments { get; set; } = new List<Payment>();
 }

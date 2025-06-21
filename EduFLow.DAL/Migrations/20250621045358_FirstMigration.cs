@@ -295,7 +295,9 @@ namespace EduFlow.DAL.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     student_id = table.Column<long>(type: "bigint", nullable: false),
                     group_id = table.Column<long>(type: "bigint", nullable: false),
+                    teacher_id = table.Column<long>(type: "bigint", nullable: false),
                     registry_id = table.Column<long>(type: "bigint", nullable: false),
+                    amount = table.Column<double>(type: "double precision", nullable: false),
                     discount = table.Column<double>(type: "double precision", nullable: false),
                     payment_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false),
@@ -325,6 +327,12 @@ namespace EduFlow.DAL.Migrations
                         name: "FK_Payments_Students_student_id",
                         column: x => x.student_id,
                         principalTable: "Students",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Payments_Teachers_teacher_id",
+                        column: x => x.teacher_id,
+                        principalTable: "Teachers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -419,6 +427,11 @@ namespace EduFlow.DAL.Migrations
                 name: "IX_Payments_student_id",
                 table: "Payments",
                 column: "student_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_teacher_id",
+                table: "Payments",
+                column: "teacher_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudentCourses_course_id",

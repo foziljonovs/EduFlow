@@ -1,4 +1,5 @@
 ﻿using EduFlow.Domain.Entities.Courses;
+using EduFlow.Domain.Entities.Payments;
 using Et = EduFlow.Domain.Entities.Users;
 
 namespace EduFlow.BLL.DTOs.Users.Teacher;
@@ -14,4 +15,5 @@ public class TeacherForResultDto
     public long CourseId { get; set; }
     public Course Course { get; set; }
     public List<Group> Groups { get; set; }
+    public List<Payment> Payments { get; set; }
 }

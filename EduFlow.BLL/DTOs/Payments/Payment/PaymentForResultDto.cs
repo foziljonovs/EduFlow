@@ -15,6 +15,8 @@ public class PaymentForResultDto
     public Student Student { get; set; }
     public long GroupId { get; set; }
     public Group Group { get; set; }
+    public long TeacherId { get; set; }
+    public Teacher Teacher { get; set; }
     public long RegistryId { get; set; }
     public Et.Registry Registry { get; set; }
     public double Amount { get; set; }

@@ -383,6 +383,10 @@ namespace EduFlow.DAL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("student_id");
 
+                    b.Property<long>("TeacherId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("teacher_id");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer")
                         .HasColumnName("type");
@@ -398,6 +402,8 @@ namespace EduFlow.DAL.Migrations
                     b.HasIndex("RegistryId");
 
                     b.HasIndex("StudentId");
+
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Payments");
                 });
@@ -722,11 +728,19 @@ namespace EduFlow.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("EduFlow.Domain.Entities.Users.Teacher", "Teacher")
+                        .WithMany("Payments")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Group");
 
                     b.Navigation("Registry");
 
                     b.Navigation("Student");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("EduFlow.Domain.Entities.Users.Teacher", b =>
@@ -799,6 +813,8 @@ namespace EduFlow.DAL.Migrations
             modelBuilder.Entity("EduFlow.Domain.Entities.Users.Teacher", b =>
                 {
                     b.Navigation("Groups");
+
+                    b.Navigation("Payments");
                 });
 #pragma warning restore 612, 618
         }
