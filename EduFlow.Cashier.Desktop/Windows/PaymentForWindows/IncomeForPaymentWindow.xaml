@@ -74,7 +74,8 @@
                           FontWeight="SemiBold"
                           Margin="5 0 5 5"
                           VerticalContentAlignment="Center"
-                          ToolTip="O'qituvchi tanlang"/>
+                          ToolTip="O'qituvchi tanlang"
+                          SelectionChanged="teacherComboBox_SelectionChanged"/>
 
                 <ComboBox x:Name="paymentTypeComboBox"
                           Height="40"

@@ -1,8 +1,11 @@
-﻿using EduFlow.BLL.DTOs.Users.Teacher;
+﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Users.Teacher;
+using EduFlow.Cashier.Desktop.Components.GroupForComponents;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -21,6 +24,7 @@ public partial class IncomeForPaymentWindow : Window
     private readonly IGroupService _groupService;
     private readonly ITeacherService _teacherService;
     private readonly IStudentService _studentService;
+    private TeacherForResultDto _teacher = new TeacherForResultDto();
     public IncomeForPaymentWindow()
     {
         InitializeComponent();
@@ -88,9 +92,16 @@ public partial class IncomeForPaymentWindow : Window
 
     private async Task GetAllTeacher()
     {
-        var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+        try
+        {
+            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
 
-        ShowTeachers(teachers);
+            ShowTeachers(teachers);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowError("Xatolik yuz berdi!");
+        }
     }
 
     private void ShowTeachers(List<TeacherForResultDto> teachers)
@@ -138,8 +149,99 @@ public partial class IncomeForPaymentWindow : Window
         await GetAllTeacher();
     }
 
+    public bool isWindowLoaded = false;
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        LoadWindow();
+        if (!isWindowLoaded)
+        {
+            isWindowLoaded = true;
+            LoadWindow();
+        }
+    }
+
+    private async Task GetAllGroupByTeacher(long teacherId)
+    {
+        try
+        {
+            groupLoader.Visibility = Visibility.Visible;
+            emptyDataForGroups.Visibility = Visibility.Collapsed;
+
+            var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(teacherId));
+
+            ShowGroups(groups);
+        }
+        catch(Exception ex)
+        {
+            groupLoader.Visibility = Visibility.Collapsed;
+            emptyDataForGroups.Visibility = Visibility.Visible;
+            notifier.ShowError("Xatolik yuz berdi!");
+        }
+    }
+
+    private void ShowGroups(List<GroupForResultDto> groups)
+    {
+        stGroups.Children.Clear();
+
+        if (groups.Any())
+        {
+            groupLoader.Visibility = Visibility.Collapsed;
+            emptyDataForGroups.Visibility = Visibility.Collapsed;
+
+            foreach(var group in groups)
+            {
+                int lessonCount = group.Lessons?.Count ?? 0;
+
+                GroupForComponent component = new GroupForComponent();
+                component.SetValues(
+                    group.Id,
+                    group.Name,
+                    lessonCount,
+                    group.CreatedAt);
+
+                stGroups.Children.Add(component);
+            }
+        }
+        else
+        {
+            groupLoader.Visibility = Visibility.Collapsed;
+            emptyDataForGroups.Visibility = Visibility.Visible;
+        }
+    }
+
+    private async Task GetTeacher(long id)
+    {
+        try
+        {
+            var teacher = await _teacherService.GetByIdAsync(id);
+
+            if(teacher is not null)
+            {
+                this._teacher = teacher;
+
+                await GetAllGroupByTeacher(teacher.Id);
+                AmountTxt.Text = teacher.Course.Price.ToString("0");
+            }
+            else
+            {
+                notifier.ShowWarning("O'qituvchi ma'lumotlari topilmadi, qayta urinib ko'ring!");
+            }
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowError("Xatolik yuz berdi!");
+        }
+    }
+
+    private async void teacherComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (!isWindowLoaded)
+            return;
+
+        if (this.teacherComboBox.SelectedItem is ComboBoxItem selectedItem &&
+            selectedItem.Tag != null)
+        {
+            long id = (long)selectedItem.Tag;
+            await GetTeacher(id);
+        }
     }
 }
