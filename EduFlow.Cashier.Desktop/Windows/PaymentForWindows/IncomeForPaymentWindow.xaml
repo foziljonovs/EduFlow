@@ -147,23 +147,62 @@
                         BorderThickness="1"
                         BorderBrush="Gray">
                     <Grid Margin="5">
-                        <local1:Loader x:Name="grouploader"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"
-                                      Visibility="Collapsed"/>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                        <ScrollViewer>
-                            <StackPanel x:Name="stGroups"/>
-                        </ScrollViewer>
+                        <Grid Grid.Row="0"
+                              Margin="8 0 26 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="120"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="emptyDataForGroups"
-                                   Text="Guruhlar topilmadi!"
-                                   FontSize="14"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   Visibility="Collapsed"/>
+                            <TextBlock Grid.Column="0"
+                                       Text="Nomi"
+                                       FontSize="13"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="ExtraBold"
+                                       VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Text="Darslar"
+                                       FontSize="13"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="ExtraBold"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Column="2"
+                                       Text="Boshlangan sana"
+                                       FontSize="13"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="ExtraBold"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <local1:Loader x:Name="grouploader"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Visibility="Collapsed"/>
+
+                            <ScrollViewer>
+                                <StackPanel x:Name="stGroups"/>
+                            </ScrollViewer>
+
+                            <TextBlock x:Name="emptyDataForGroups"
+                                       Text="Guruhlar topilmadi!"
+                                       FontSize="14"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       Visibility="Collapsed"/>
+                        </Grid>
                     </Grid>
                 </Border>
 
@@ -173,23 +212,62 @@
                         BorderThickness="1"
                         BorderBrush="Gray">
                     <Grid Margin="5">
-                        <local1:Loader x:Name="studentloader"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Visibility="Collapsed"/>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                        <ScrollViewer>
-                            <StackPanel x:Name="stStudents"/>
-                        </ScrollViewer>
+                        <Grid Grid.Row="0"
+                              Margin="8 0 26 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="emptyDataForStudents"
-                                   Text="Guruhlar topilmadi!"
-                                   FontSize="14"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   Visibility="Collapsed"/>
+                            <TextBlock Grid.Column="0"
+                                       Text="Ism"
+                                       FontFamily="Jetbrains Mono"
+                                       FontSize="13"
+                                       FontWeight="ExtraBold"
+                                       VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Column="1"
+                                        Text="Telefon raqam"
+                                        FontFamily="Jetbrains Mono"
+                                        FontSize="13"
+                                        FontWeight="ExtraBold"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+
+                            <TextBlock Grid.Column="2"
+                                        Text="To'lovlar"
+                                        FontFamily="Jetbrains Mono"
+                                        FontSize="13"
+                                        FontWeight="ExtraBold"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <local1:Loader x:Name="studentloader"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Visibility="Collapsed"/>
+
+                            <ScrollViewer>
+                                <StackPanel x:Name="stStudents"/>
+                            </ScrollViewer>
+
+                            <TextBlock x:Name="emptyDataForStudents"
+                                        Text="Guruhlar topilmadi!"
+                                        FontSize="14"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Jetbrains Mono"
+                                        FontWeight="SemiBold"
+                                        Visibility="Collapsed"/>
+                        </Grid>
                     </Grid>
                 </Border>
             </Grid>
