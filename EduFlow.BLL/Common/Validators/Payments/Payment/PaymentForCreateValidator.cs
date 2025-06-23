@@ -17,9 +17,7 @@ public class PaymentForCreateValidator : AbstractValidator<PaymentForCreateDto>
             .GreaterThan(0).WithMessage("Registr IDsi 0 dan katta bo'lishi kerak");
 
         RuleFor(x => x.Discount)
-            .GreaterThanOrEqualTo(0).WithMessage("Chegirma 0 dan kam bo'lishi mumkin emas")
-            .LessThanOrEqualTo(100).When(x => x.Discount > 0)
-            .WithMessage("Chegirma 100% dan ko'p bo'lishi mumkin emas");
+            .GreaterThanOrEqualTo(0).WithMessage("Chegirma 0 dan kam bo'lishi mumkin emas");
 
         RuleFor(x => x.PaymentDate)
             .NotEmpty().WithMessage("To'lov sanasi kiritilishi shart");
