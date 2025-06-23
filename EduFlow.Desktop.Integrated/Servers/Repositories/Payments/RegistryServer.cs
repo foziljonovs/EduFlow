@@ -4,12 +4,34 @@ using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Payments;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using System.Text.Json;
 
 namespace EduFlow.Desktop.Integrated.Servers.Repositories.Payments;
 
 public class RegistryServer : IRegistryServer
 {
+    public async Task<bool> DeleteAsync(long id)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/registries/{id}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.DeleteAsync(client.BaseAddress);
+
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return false;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
     public async Task<List<RegistryForResultDto>> GetAllAsync()
     {
         try

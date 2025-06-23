@@ -65,6 +65,38 @@ public class PaymentServer : IPaymentServer
         }
     }
 
+    public async Task<List<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/payments/filter");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress)
+            {
+                Content = new StringContent(
+                    JsonConvert.SerializeObject(dto),
+                    System.Text.Encoding.UTF8,
+                    "application/json")
+            };
+
+            var response = await client.SendAsync(request);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<PaymentForResultDto> payments = JsonConvert.DeserializeObject<List<PaymentForResultDto>>(result)!;
+
+            return payments;
+        }
+        catch(Exception ex)
+        {
+            return new List<PaymentForResultDto>();
+        }
+    }
+
     public async Task<List<PaymentForResultDto>> GetAllAsync()
     {
         try

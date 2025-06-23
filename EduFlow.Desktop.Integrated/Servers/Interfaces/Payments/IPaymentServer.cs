@@ -11,4 +11,5 @@ public interface IPaymentServer
     Task<bool> DeleteAsync(long id);
     Task<List<PaymentForResultDto>> GetAllByStudentIdAsync(long studentId);
     Task<List<PaymentForResultDto>> GetAllByGroupIdAsync(long groupId);
+    Task<List<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto);
 }
