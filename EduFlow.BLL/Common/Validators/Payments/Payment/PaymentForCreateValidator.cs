@@ -22,8 +22,7 @@ public class PaymentForCreateValidator : AbstractValidator<PaymentForCreateDto>
             .WithMessage("Chegirma 100% dan ko'p bo'lishi mumkin emas");
 
         RuleFor(x => x.PaymentDate)
-            .NotEmpty().WithMessage("To'lov sanasi kiritilishi shart")
-            .LessThanOrEqualTo(DateTime.Now).WithMessage("To'lov sanasi kelajakda bo'lishi mumkin emas");
+            .NotEmpty().WithMessage("To'lov sanasi kiritilishi shart");
 
         RuleFor(x => x.Status)
             .IsInEnum().WithMessage("Noto'g'ri to'lov holati");

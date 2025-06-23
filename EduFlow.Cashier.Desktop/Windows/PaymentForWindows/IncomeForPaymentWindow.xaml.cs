@@ -474,7 +474,7 @@ public partial class IncomeForPaymentWindow : Window
                 return;
             }
 
-            paymentDto.ReceiptNumber = ""; //Receipt number backendda generatsiya qilinadi
+            paymentDto.ReceiptNumber = string.Empty; //Receipt number backendda generatsiya qilinadi
             paymentDto.PaymentDate = DateTime.UtcNow.AddHours(5);
             paymentDto.Status = PaymentStatus.Pending;
             registryDto.IsConfirmed = false;
