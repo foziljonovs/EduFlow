@@ -11,4 +11,5 @@ public interface IPaymentService
     Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default);
     Task<IEnumerable<PaymentForResultDto>> GetAllByStudentIdAsync(long studentId, CancellationToken cancellationToken = default);
     Task<IEnumerable<PaymentForResultDto>> GetAllByGroupIdAsync(long groupId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto, CancellationToken cancellation = default);
 }

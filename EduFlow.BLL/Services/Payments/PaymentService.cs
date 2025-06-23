@@ -98,6 +98,55 @@ public class PaymentService(
         }
     }
 
+    public async Task<IEnumerable<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var paymentQuery = _unitOfWork.Payment
+                .GetAllFullInformation();
+
+            if (!paymentQuery.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
+
+            if(dto.StartedDate.HasValue && dto.FinishedDate.HasValue)
+            {
+                var startedDateUtc = DateTime.SpecifyKind(dto.StartedDate.Value, DateTimeKind.Utc);
+                var finishedDateUtc = DateTime.SpecifyKind(dto.FinishedDate.Value, DateTimeKind.Utc);
+                paymentQuery = paymentQuery.Where(x =>
+                    x.PaymentDate >= startedDateUtc &&
+                    x.PaymentDate <= finishedDateUtc);
+            }
+
+            if(dto.CourseId > 0)
+                paymentQuery = paymentQuery
+                    .Where(x => x.Group.CourseId == dto.CourseId);
+
+            if (dto.TeacherId > 0)
+                paymentQuery = paymentQuery
+                    .Where(x => x.TeacherId == dto.TeacherId);
+
+            if(dto.Status.HasValue)
+                paymentQuery = paymentQuery
+                    .Where(x => x.Status == dto.Status.Value);
+
+            if(dto.Type.HasValue)
+                paymentQuery = paymentQuery
+                    .Where(x => x.Type == dto.Type.Value);
+
+            var payments = await paymentQuery.ToListAsync(cancellation);
+
+            if (!payments.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
+
+            return _mapper.Map<IEnumerable<PaymentForResultDto>>(payments);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while filter the payment. {ex}");
+            throw;
+        }
+    }
+
     public async Task<IEnumerable<PaymentForResultDto>> GetAllAsync(CancellationToken cancellation = default)
     {
         try

@@ -22,6 +22,29 @@ public class RegistryService(
     private readonly IMapper _mapper = mapper;
     private readonly ILogger<RegistryService> _logger = logger;
     private readonly IRegistryValidator _validator = validator;
+
+    public async Task<bool> DeleteAsync(long id, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var registry = await _unitOfWork.Registry.GetAsync(id);
+
+            if(registry is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Registry not found.");
+
+            if (registry.IsDeleted)
+                throw new StatusCodeException(HttpStatusCode.Gone, "This registry has been deleted.");
+
+            registry.IsDeleted = true;
+            return await _unitOfWork.SaveAsync(cancellation) > 0;
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while delete the registry. {ex}");
+            throw;
+        }
+    }
+
     public async Task<IEnumerable<RegistryForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         try
