@@ -6,10 +6,12 @@
              xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Components.GroupForComponents"
              mc:Ignorable="d"
              Height="40">
-    <Border CornerRadius="5"
+    <Border x:Name="mainBorder"
+            CornerRadius="5"
             Margin="3 5 3 0"
             BorderThickness="1"
-            BorderBrush="Gray">
+            BorderBrush="Gray"
+            MouseDown="Border_MouseDown">
         <Grid Margin="5 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
