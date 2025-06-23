@@ -1,17 +1,19 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Payments.Payment;
+using EduFlow.BLL.DTOs.Payments.Registry;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.GroupForComponents;
 using EduFlow.Cashier.Desktop.Components.StudentForComponents;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
+using EduFlow.Desktop.Integrated.Services.Payments.Registry;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
-using MaterialDesignThemes.Wpf;
+using EduFlow.Domain.Enums;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
@@ -25,6 +27,7 @@ namespace EduFlow.Cashier.Desktop.Windows.PaymentForWindows;
 public partial class IncomeForPaymentWindow : Window
 {
     private readonly IPaymentService _paymentService;
+    private readonly IRegistryService _registryService;
     private readonly IGroupService _groupService;
     private readonly ITeacherService _teacherService;
     private readonly IStudentService _studentService;
@@ -34,12 +37,31 @@ public partial class IncomeForPaymentWindow : Window
     {
         InitializeComponent();
         this._paymentService = new PaymentService();
+        this._registryService = new RegistryService();
         this._groupService = new GroupService();
         this._teacherService = new TeacherService();
         this._studentService = new StudentService();
     }
 
     Notifier notifier = new Notifier(cfg =>
+    {
+        cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.MainWindow,
+            corner: Corner.TopRight,
+            offsetX: 20,
+            offsetY: 20);
+
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+
+        cfg.Dispatcher = Application.Current.Dispatcher;
+
+        cfg.DisplayOptions.Width = 200;
+        cfg.DisplayOptions.TopMost = true;
+    });
+
+    Notifier notifierThis = new Notifier(cfg =>
     {
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
@@ -105,7 +127,7 @@ public partial class IncomeForPaymentWindow : Window
         }
         catch(Exception ex)
         {
-            notifier.ShowError("Xatolik yuz berdi!");
+            notifierThis.ShowError("Xatolik yuz berdi!");
         }
     }
 
@@ -179,7 +201,7 @@ public partial class IncomeForPaymentWindow : Window
         {
             groupLoader.Visibility = Visibility.Collapsed;
             emptyDataForGroups.Visibility = Visibility.Visible;
-            notifier.ShowError("Xatolik yuz berdi!");
+            notifierThis.ShowError("Xatolik yuz berdi!");
         }
     }
 
@@ -200,7 +222,7 @@ public partial class IncomeForPaymentWindow : Window
         {
             studentLoader.Visibility = Visibility.Collapsed;
             emptyDataForStudents.Visibility = Visibility.Visible;
-            notifier.ShowError("Xatolik yuz berdi!");
+            notifierThis.ShowError("Xatolik yuz berdi!");
         }
     }
 
@@ -239,7 +261,7 @@ public partial class IncomeForPaymentWindow : Window
                     }
                     catch (Exception ex)
                     {
-                        notifier.ShowError("Xatolik yuz berdi!");
+                        notifierThis.ShowError("Xatolik yuz berdi!");
                     }
                 };
 
@@ -288,7 +310,7 @@ public partial class IncomeForPaymentWindow : Window
                     }
                     catch (Exception ex)
                     {
-                        notifier.ShowError("Xatolik yuz berdi!");
+                        notifierThis.ShowError("Xatolik yuz berdi!");
                     }
                 };
 
@@ -317,12 +339,12 @@ public partial class IncomeForPaymentWindow : Window
             }
             else
             {
-                notifier.ShowWarning("O'qituvchi ma'lumotlari topilmadi, qayta urinib ko'ring!");
+                notifierThis.ShowWarning("O'qituvchi ma'lumotlari topilmadi, qayta urinib ko'ring!");
             }
         }
         catch(Exception ex)
         {
-            notifier.ShowError("Xatolik yuz berdi!");
+            notifierThis.ShowError("Xatolik yuz berdi!");
         }
     }
 
@@ -339,6 +361,176 @@ public partial class IncomeForPaymentWindow : Window
         {
             long id = (long)selectedItem.Tag;
             await GetTeacher(id);
+        }
+    }
+
+    private async Task SavedAsync()
+    {
+        try
+        {
+            RegistryForCreateDto registryDto = new RegistryForCreateDto();
+            PaymentForCreateDto paymentDto = new PaymentForCreateDto();
+
+            if(teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem &&
+                selectedTeacherItem.Tag != null)
+                paymentDto.TeacherId = (long)selectedTeacherItem.Tag;
+            else
+            {
+                notifierThis.ShowWarning("Iltimos, o'qituvchini tanlang!");
+                teacherComboBox.Focus();
+                saveBtn.IsEnabled = true;
+                return;
+            }
+
+            if (!double.TryParse(AmountTxt.Text, out double amount) || amount <= 0)
+            {
+                notifierThis.ShowWarning("Iltimos, to'g'ri to'lov summasini kiriting!");
+                AmountTxt.Focus();
+                saveBtn.IsEnabled = true;
+                return;
+            }
+
+            registryDto.Debit = amount;
+            registryDto.Credit = 0;
+            paymentDto.Amount = amount;
+            paymentDto.Discount = 0;
+
+            if (!string.IsNullOrWhiteSpace(DiscountTxt.Text))
+            {
+                if (double.TryParse(DiscountTxt.Text, out double discount) && discount >= 0)
+                {
+                    if (discount > amount)
+                    {
+                        notifierThis.ShowWarning("Chegirma summasi to'lovdan katta bo'lmasligi kerak!");
+                        DiscountTxt.Focus();
+                        return;
+                    }
+
+                    double totalAmount = amount - discount;
+
+                    paymentDto.Discount = discount;
+                    paymentDto.Amount = totalAmount;
+                    registryDto.Debit = totalAmount;
+                }
+                else
+                {
+                    notifierThis.ShowWarning("Iltimos, to'g'ri chegirma qiymatini kiriting!");
+                    DiscountTxt.Focus();
+                    return;
+                }
+            }
+
+            if (paymentTypeComboBox.SelectedItem is ComboBoxItem selectedPaymentTypeItem &&
+            selectedPaymentTypeItem.Tag != null)
+            {
+                PaymentType type = selectedPaymentTypeItem.Tag.ToString() switch
+                {
+                    "0" => PaymentType.Cash,
+                    "1" => PaymentType.Card,
+                    "2" => PaymentType.Transfer,
+                    "3" => PaymentType.Credit,
+                    "4" => PaymentType.Other,
+                    _ => PaymentType.Other
+                };
+
+                registryDto.Type = type;
+                paymentDto.Type = type;
+            }
+            else
+            {
+                notifierThis.ShowWarning("Iltimos, to'lov turini tanlang!");
+                paymentTypeComboBox.Focus();
+                saveBtn.IsEnabled = true;
+                return;
+            }
+
+            if(!string.IsNullOrEmpty(NotesTxt.Text))
+            {
+                registryDto.Description = NotesTxt.Text;
+                paymentDto.Notes = NotesTxt.Text;
+            }
+
+            if (_selectedGroupComponent is not null)
+            {
+                long groupId = _selectedGroupComponent.GetId();
+                paymentDto.GroupId = groupId;
+            }
+            else
+            {
+                notifierThis.ShowWarning("Iltimos, guruhni tanlang!");
+                saveBtn.IsEnabled = true;
+                return;
+            }
+
+            if (_selectedStudentComponent is not null)
+            {
+                long studentId = _selectedStudentComponent.GetId();
+                paymentDto.StudentId = studentId;
+            }
+            else
+            {
+                notifierThis.ShowWarning("Iltimos, o'quvchini tanlang!");
+                saveBtn.IsEnabled = true;
+                return;
+            }
+
+            paymentDto.ReceiptNumber = ""; //Receipt number backendda generatsiya qilinadi
+            paymentDto.PaymentDate = DateTime.UtcNow.AddHours(5);
+            paymentDto.Status = PaymentStatus.Pending;
+            registryDto.IsConfirmed = false;
+
+            long registryId = await _registryService.IncomeAsync(registryDto);
+
+            if(registryId > 0)
+            {
+                paymentDto.RegistryId = registryId;
+
+                bool paymentResult = await _paymentService.AddToPayAsync(paymentDto);
+
+                if (paymentResult)
+                {
+                    this.Close();
+                    notifier.ShowSuccess("To'lov muvaffaqiyatli saqlandi!");
+                }
+                else
+                {
+                    //Registry saqlangan, lekin payment saqlanmasa registtryni o'chirish kerak
+                    notifierThis.ShowWarning("To'lovni amalga oshirishda xatolik yuz berdi, qayta urinib ko'ring!");
+                    saveBtn.IsEnabled = true;
+                    return;
+                }
+            }
+            else
+            {
+                notifierThis.ShowWarning("To'lovni saqlashda xatolik yuz berdi, qayta urinib ko'ring!");
+                saveBtn.IsEnabled = true;
+                return;
+            }
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("Xatolik yuz berdi!");
+            saveBtn.IsEnabled = true;
+        }
+    }
+
+    private async void saveBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (!saveBtn.IsEnabled)
+        {
+            notifierThis.ShowWarning("iltimos, kuting!");
+            return;
+        }
+
+        saveBtn.IsEnabled = false;
+
+        try 
+        { 
+            await SavedAsync();
+        }
+        catch(Exception ex)
+        {
+            saveBtn.IsEnabled = true;
         }
     }
 }
