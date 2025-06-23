@@ -6,6 +6,7 @@ using EduFlow.Cashier.Desktop.Windows.PaymentForWindows;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -149,6 +150,7 @@ public partial class PaymentPage : Page
     private void ShowPayments(List<PaymentForResultDto> payments)
     {
         int count = 1;
+        stPayments.Children.Clear();
 
         if (payments.Any())
         {
@@ -192,9 +194,10 @@ public partial class PaymentPage : Page
         LoadPage();
     }
 
-    private void paymentBtn_Click(object sender, RoutedEventArgs e)
+    private async void paymentBtn_Click(object sender, RoutedEventArgs e)
     {
         IncomeForPaymentWindow window = new IncomeForPaymentWindow();
         window.ShowDialog();
+        await LoadPage();
     }
 }
