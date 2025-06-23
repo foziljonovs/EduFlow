@@ -1,13 +1,17 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.GroupForComponents;
+using EduFlow.Cashier.Desktop.Components.StudentForComponents;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using MaterialDesignThemes.Wpf;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
@@ -25,6 +29,7 @@ public partial class IncomeForPaymentWindow : Window
     private readonly ITeacherService _teacherService;
     private readonly IStudentService _studentService;
     private TeacherForResultDto _teacher = new TeacherForResultDto();
+    private long _studentId { get; set; }
     public IncomeForPaymentWindow()
     {
         InitializeComponent();
@@ -178,6 +183,77 @@ public partial class IncomeForPaymentWindow : Window
         }
     }
 
+    private async Task GetAllStudentByGroup(long groupId)
+    {
+        try
+        {
+            studentLoader.Visibility = Visibility.Visible;
+            emptyDataForStudents.Visibility = Visibility.Collapsed;
+
+            var groups = await Task.Run(async () => await _studentService.GetAllAsync());
+
+            var thisGroupStudents = groups.Where(x => x.Groups.Any(x => x.Id == groupId)).ToList();
+
+            ShowStudents(thisGroupStudents);
+        }
+        catch (Exception ex)
+        {
+            studentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudents.Visibility = Visibility.Visible;
+            notifier.ShowError("Xatolik yuz berdi!");
+        }
+    }
+
+    private StudentForComponent _selectedStudentComponent = null!;
+    private void ShowStudents(List<StudentForResultDto> students)
+    {
+        stStudents.Children.Clear();
+
+        if (students.Any())
+        {
+            studentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudents.Visibility = Visibility.Collapsed;
+
+            foreach (var student in students)
+            {
+                int paymentCount = student.Payments?.Count ?? 0;
+
+                StudentForComponent component = new StudentForComponent();
+                component.SetValues(
+                    student.Id,
+                    student.Fullname,
+                    student.PhoneNumber,
+                    paymentCount);
+
+                component.isClicked += async () =>
+                {
+                    try
+                    {
+                        if (_selectedStudentComponent is not null)
+                            _selectedStudentComponent.SelectedState(false);
+
+                        _selectedStudentComponent = component;
+                        _selectedStudentComponent.SelectedState(true);
+
+                        this._studentId = component.GetId();
+                    }
+                    catch (Exception ex)
+                    {
+                        notifier.ShowError("Xatolik yuz berdi!");
+                    }
+                };
+
+                stStudents.Children.Add(component);
+            }
+        }
+        else
+        {
+            studentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudents.Visibility = Visibility.Visible;
+        }
+    }
+
+    private GroupForComponent _selectedGroupComponent = null!;
     private void ShowGroups(List<GroupForResultDto> groups)
     {
         stGroups.Children.Clear();
@@ -197,6 +273,24 @@ public partial class IncomeForPaymentWindow : Window
                     group.Name,
                     lessonCount,
                     group.CreatedAt);
+
+                component.isClicked += async () =>
+                {
+                    try
+                    {
+                        if(_selectedGroupComponent is not null)
+                            _selectedGroupComponent.SelectedState(false);
+
+                        _selectedGroupComponent = component;
+                        _selectedGroupComponent.SelectedState(true);
+
+                        await GetAllStudentByGroup(component.GetId());
+                    }
+                    catch (Exception ex)
+                    {
+                        notifier.ShowError("Xatolik yuz berdi!");
+                    }
+                };
 
                 stGroups.Children.Add(component);
             }
@@ -234,6 +328,9 @@ public partial class IncomeForPaymentWindow : Window
 
     private async void teacherComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        stGroups.Children.Clear();
+        stStudents.Children.Clear();
+
         if (!isWindowLoaded)
             return;
 
