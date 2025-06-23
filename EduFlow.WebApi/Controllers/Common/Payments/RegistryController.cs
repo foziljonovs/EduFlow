@@ -93,4 +93,22 @@ public class RegistryController(
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpDelete("{id:long}")]
+    public async Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.DeleteAsync(id, cancellation);
+            return Ok(response);
+        }
+        catch(StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }
