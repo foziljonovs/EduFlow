@@ -35,7 +35,6 @@ public partial class MainPage : Page
     private readonly IStudentService _studentService;
     private readonly IRegistryService _registryService;
     private readonly IPaymentService _paymentService;
-    PrinterService _printerService = new PrinterService();
     public MainPage()
     {
         InitializeComponent();
@@ -368,19 +367,6 @@ public partial class MainPage : Page
         }
     }
 
-    private void CheckPrinter()
-    {
-        var printerName = _printerService.GetPrinterName();
-
-        if(string.IsNullOrEmpty(printerName))
-        {
-            notifier.ShowWarning("Printer sozlanmagan, iltimos sozlamalarini to'g'irlang!");
-            return;
-        }
-
-        _printerService.Test();
-    }
-
     private async Task LoadPage()
     {
         await GetAllGroup();
@@ -390,7 +376,6 @@ public partial class MainPage : Page
         await GetAllActiveStudent();
         await GetAllRegistry();
         await GetAllPayment();
-        CheckPrinter();
     }
 
     private bool isPageLoaded = false;

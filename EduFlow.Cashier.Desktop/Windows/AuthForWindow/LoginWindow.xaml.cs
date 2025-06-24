@@ -1,4 +1,5 @@
-﻿    using EduFlow.BLL.DTOs.Users.User;
+﻿using EduFlow.BLL.DTOs.Users.User;
+using EduFlow.Cashier.Desktop.Services;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Auth;
 using System.Windows;
@@ -15,6 +16,7 @@ namespace EduFlow.Cashier.Desktop.Windows.AuthForWindow;
 public partial class LoginWindow : Window
 {
     private readonly IAuthService _authService;
+    PrinterService _printerService = new PrinterService();
     public LoginWindow()
     {
         InitializeComponent();
@@ -22,6 +24,24 @@ public partial class LoginWindow : Window
     }
 
     Notifier notifier = new Notifier(cfg =>
+    {
+        cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
+            corner: Corner.TopRight,
+            offsetX: 20,
+            offsetY: 20);
+
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+
+        cfg.Dispatcher = Application.Current.Dispatcher;
+
+        cfg.DisplayOptions.Width = 200;
+        cfg.DisplayOptions.TopMost = true;
+    });
+
+    Notifier notifierMain = new Notifier(cfg =>
     {
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
@@ -86,6 +106,20 @@ public partial class LoginWindow : Window
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
         => this.Close();
 
+    private void CheckPrinter()
+    {
+        var printerName = _printerService.GetPrinterName();
+
+        if (string.IsNullOrEmpty(printerName))
+        {
+            notifierMain.ShowWarning("Printer sozlanmagan, iltimos sozlamalarini to'g'irlang!");
+            return;
+        }
+
+        _printerService.Test();
+    }
+
+
     private async void LoginBtn_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -140,6 +174,8 @@ public partial class LoginWindow : Window
                     window.Show();
 
                     this.Close();
+
+                    CheckPrinter();
                 }
                 else
                 {
