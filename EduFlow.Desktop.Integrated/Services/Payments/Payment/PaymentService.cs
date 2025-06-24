@@ -11,7 +11,7 @@ public class PaymentService : IPaymentService
     {
         this._server = new PaymentServer();
     }
-    public async Task<bool> AddToPayAsync(PaymentForCreateDto dto)
+    public async Task<long> AddToPayAsync(PaymentForCreateDto dto)
     {
         try
         {
@@ -20,7 +20,7 @@ public class PaymentService : IPaymentService
         }
         catch(Exception ex)
         {
-            return false;
+            return -1;
         }
     }
 

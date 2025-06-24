@@ -20,6 +20,8 @@ public class PaymentRepository : Repository<Payment>, IPaymentRepository
             .Where(x => !x.IsDeleted)
             .Include(x => x.Student)
             .Include(x => x.Group)
+            .Include(x => x.Group)
+                .ThenInclude(g => g.Course)
             .Include(x => x.Teacher)
                 .ThenInclude(t => t.User)
             .Include(x => x.Registry);

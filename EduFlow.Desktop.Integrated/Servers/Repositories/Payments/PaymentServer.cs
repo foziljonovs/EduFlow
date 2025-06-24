@@ -2,6 +2,7 @@
 using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Payments;
+using Microsoft.AspNetCore.ResponseCaching;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
@@ -9,7 +10,7 @@ namespace EduFlow.Desktop.Integrated.Servers.Repositories.Payments;
 
 public class PaymentServer : IPaymentServer
 {
-    public async Task<bool> AddToPayAsync(PaymentForCreateDto dto)
+    public async Task<long> AddToPayAsync(PaymentForCreateDto dto)
     {
         try
         {
@@ -30,13 +31,16 @@ public class PaymentServer : IPaymentServer
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
-                return true;
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                return long.Parse(result);
+            }
             else
-                return false;
+                return -1;
         }
         catch(Exception ex)
         {
-            return false;
+            return -1;
         }
     }
 
