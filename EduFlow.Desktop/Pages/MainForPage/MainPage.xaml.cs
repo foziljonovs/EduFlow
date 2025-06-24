@@ -346,8 +346,8 @@ public partial class MainPage : Page
             await GetAllCategories();
             await GetAllCourse();
             await GetAllTeachers();
-            await GetAllGroup();
             await GetAllStudent();
+            await GetAllGroup();
         }
     }
     private bool isPageLoaded = false;
@@ -360,28 +360,28 @@ public partial class MainPage : Page
         }
     }
 
-    private void dtEndDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+    private async void dtEndDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
     {
         if(isPageLoaded)
-            FilterCourses();
+            await FilterCourses();
     }
 
-    private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (isPageLoaded)
-            FilterCourses();
+            await FilterCourses();
     }
 
-    private void teacherComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void teacherComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (isPageLoaded)
-            FilterCourses();
+            await FilterCourses();
     }
 
-    private void categoryComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+    private async void categoryComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
     {
         if(isPageLoaded)
-            FilterCourses();
+            await FilterCourses();
     }
 
     private async void createCategoryBtn_Click(object sender, RoutedEventArgs e)

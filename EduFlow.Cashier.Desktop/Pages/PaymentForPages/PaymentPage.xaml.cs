@@ -6,6 +6,7 @@ using EduFlow.Cashier.Desktop.Windows.PaymentForWindows;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using EduFlow.Domain.Enums;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -78,6 +79,65 @@ public partial class PaymentPage : Page
         catch(Exception ex)
         {
             notifier.ShowWarning("O'qituvchilarni yuklashda xatolik yuz berdi!");
+        }
+    }
+
+    private async Task FilterAsync()
+    {
+        try
+        {
+            stPayments.Children.Clear();
+            paymentLoader.Visibility = Visibility.Visible;
+
+            PaymentForFilterDto dto = new PaymentForFilterDto();
+            if (StartedDate.SelectedDate is not null)
+                dto.StartedDate = StartedDate.SelectedDate.Value;
+
+            if(FinishedDate.SelectedDate is not null)
+                dto.FinishedDate = FinishedDate.SelectedDate.Value;
+
+            if (courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem &&
+                selectedCourseItem.Tag is not null)
+                dto.CourseId = (long)selectedCourseItem.Tag;
+
+            if (teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem &&
+                selectedTeacherItem.Tag is not null)
+                dto.TeacherId = (long)selectedTeacherItem.Tag;
+
+            if (statusComboBox.SelectedItem is ComboBoxItem selectedStatusItem &&
+                selectedStatusItem.Tag is not null)
+                dto.Status = selectedStatusItem.Tag.ToString() switch
+                {
+                    "0" => PaymentStatus.Pending,
+                    "1" => PaymentStatus.Completed,
+                    "2" => PaymentStatus.Failed,
+                    "3" => PaymentStatus.Refunded
+                };
+
+            if(typeComboBox.SelectedItem is ComboBoxItem selectedTypeItem &&
+                selectedTypeItem.Tag is not null)
+                dto.Type = selectedTypeItem.Tag.ToString() switch
+                {
+                    "0" => PaymentType.Cash,
+                    "1" => PaymentType.Card,
+                    "2" => PaymentType.Transfer,
+                    "3" => PaymentType.Credit,
+                    "4" => PaymentType.Other
+                };
+
+            var payments = await Task.Run(async () => await _paymentService.FilterAsync(dto));
+
+            if(payments.Any())
+                ShowPayments(payments);
+            else
+            {
+                paymentLoader.Visibility = Visibility.Collapsed;
+                emptyDataForPayment.Visibility = Visibility.Visible;
+            }
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Ma'lumotlarni filterlashda xatolik yuz berdi!");
         }
     }
 
@@ -185,13 +245,20 @@ public partial class PaymentPage : Page
 
     private async Task LoadPage()
     {
-        await GetAllPayment();
-        await GetAllCourse();
-        await GetAllTeacher();
+        await Task.WhenAll(
+            GetAllCourse(),
+            GetAllTeacher(),
+            GetAllPayment());
     }
+
+    private bool isPageLoaded = false;
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        LoadPage();
+        if(!isPageLoaded)
+        {
+            isPageLoaded = true;
+            LoadPage();
+        }
     }
 
     private async void paymentBtn_Click(object sender, RoutedEventArgs e)
@@ -199,5 +266,35 @@ public partial class PaymentPage : Page
         IncomeForPaymentWindow window = new IncomeForPaymentWindow();
         window.ShowDialog();
         await LoadPage();
+    }
+
+    private async void FinishedDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if(isPageLoaded)
+            await FilterAsync();
+    }
+
+    private async void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if(isPageLoaded)
+            await FilterAsync();
+    }
+
+    private async void teacherComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if(isPageLoaded)
+            await FilterAsync();
+    }
+
+    private async void statusComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if(isPageLoaded)
+            await FilterAsync();
+    }
+
+    private async void typeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if(isPageLoaded)
+            await FilterAsync();
     }
 }
