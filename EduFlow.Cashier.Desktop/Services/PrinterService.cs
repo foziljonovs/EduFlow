@@ -18,7 +18,7 @@ public class PrinterService : IDisposable
         
     }
 
-    public void Print(PaymentForResultDto paymentDto, double coursePrice)
+    public void Print(PaymentForResultDto paymentDto, double coursePrice, string paymentType)
     {
         var cashier = IdentitySingelton.GetInstance().Name;
 
@@ -31,18 +31,18 @@ public class PrinterService : IDisposable
         printer.Separator();
         printer.AlignLeft();
         printer.Append($"Kurs to'lovi:      {coursePrice} so'm");
-        printer.Append($"To'lov turi:       {paymentDto.Type}");
+        printer.Append($"To'lov turi:       {paymentType}");
         printer.Append($"Chegirma:          {paymentDto.Discount} so'm");
         printer.Append($"Yo'nalish:         {paymentDto.Group.Course.Name}");
-        printer.Append($"O'qituvchi: {paymentDto.Teacher.User.Firstname} {paymentDto.Teacher.User.Lastname}");
-        printer.Append($"O'quvchi: {paymentDto.Student.Fullname}");
+        printer.Append($"O'qituvchi:\n{paymentDto.Teacher.User.Firstname} {paymentDto.Teacher.User.Lastname}");
+        printer.Append($"O'quvchi:\n{paymentDto.Student.Fullname}");
         printer.Append($"Jami summa:        {paymentDto.Amount + paymentDto.Discount} so'm");
-        printer.Append($"To'langan summa:   {paymentDto.Amount}");
+        printer.Append($"To'langan summa:   {paymentDto.Amount} so'm");
         printer.Append("\n");
         printer.AlignLeft();
         printer.Append($"Kassir: {cashier}");
         printer.Append($"To'lov sanasi:     {paymentDto.PaymentDate:dd/MM/yyyy}");
-        printer.Append($"ID: {paymentDto.ReceiptNumber}");
+        printer.Append($"To'lov raqami:\n{paymentDto.ReceiptNumber}");
         printer.Append("\n");
 
         printer.AlignCenter();
@@ -54,6 +54,21 @@ public class PrinterService : IDisposable
         printer.PrintDocument();
     }
 
+    public string GetPrinterName()
+    {
+        if (string.IsNullOrEmpty(printerName))
+        {
+            printerName = GetSavedPrinterName();
+        }
+
+        if (string.IsNullOrEmpty(printerName))
+        {
+            printerName = GetUsbPrinterName();
+        }
+        
+        return printerName;
+    }
+
     public void Test()
     {
         printer = new Printer(PRINTER_NAME, "UTF-8");
@@ -61,7 +76,7 @@ public class PrinterService : IDisposable
         printer.Separator();
         printer.AlignCenter();
         printer.Append("\n");
-        printer.BoldMode("Test Printer");
+        printer.BoldMode("Printer bilan aloqa qilindi!");
         printer.Append("\n");
         printer.Separator();
         printer.FullPaperCut();

@@ -5,6 +5,7 @@ using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Payments.Registry;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.MainForComponents;
+using EduFlow.Cashier.Desktop.Services;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
@@ -34,6 +35,7 @@ public partial class MainPage : Page
     private readonly IStudentService _studentService;
     private readonly IRegistryService _registryService;
     private readonly IPaymentService _paymentService;
+    PrinterService _printerService = new PrinterService();
     public MainPage()
     {
         InitializeComponent();
@@ -366,6 +368,19 @@ public partial class MainPage : Page
         }
     }
 
+    private void CheckPrinter()
+    {
+        var printerName = _printerService.GetPrinterName();
+
+        if(string.IsNullOrEmpty(printerName))
+        {
+            notifier.ShowWarning("Printer sozlanmagan, iltimos sozlamalarini to'g'irlang!");
+            return;
+        }
+
+        _printerService.Test();
+    }
+
     private async Task LoadPage()
     {
         await GetAllGroup();
@@ -375,6 +390,7 @@ public partial class MainPage : Page
         await GetAllActiveStudent();
         await GetAllRegistry();
         await GetAllPayment();
+        CheckPrinter();
     }
 
     private bool isPageLoaded = false;
