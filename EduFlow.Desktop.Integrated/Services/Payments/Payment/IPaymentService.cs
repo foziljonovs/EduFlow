@@ -6,7 +6,7 @@ public interface IPaymentService
 {
     Task<List<PaymentForResultDto>> GetAllAsync();
     Task<PaymentForResultDto> GetByIdAsync(long id);
-    Task<bool> AddToPayAsync(PaymentForCreateDto dto);
+    Task<long> AddToPayAsync(PaymentForCreateDto dto);
     Task<bool> UpdateToPayAsync(long id, PaymentForUpdateDto dto);
     Task<bool> DeleteAsync(long id);
     Task<List<PaymentForResultDto>> GetAllByStudentIdAsync(long studentId);

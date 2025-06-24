@@ -5,6 +5,7 @@ using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.GroupForComponents;
 using EduFlow.Cashier.Desktop.Components.StudentForComponents;
+using EduFlow.Cashier.Desktop.Services;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Payments.Registry;
@@ -32,6 +33,7 @@ public partial class IncomeForPaymentWindow : Window
     private readonly ITeacherService _teacherService;
     private readonly IStudentService _studentService;
     private TeacherForResultDto _teacher = new TeacherForResultDto();
+    PrinterService _printerService = new PrinterService();
     private long _studentId { get; set; }
     public IncomeForPaymentWindow()
     {
@@ -485,16 +487,18 @@ public partial class IncomeForPaymentWindow : Window
             {
                 paymentDto.RegistryId = registryId;
 
-                bool paymentResult = await _paymentService.AddToPayAsync(paymentDto);
+                long paymentResult = await _paymentService.AddToPayAsync(paymentDto);
 
-                if (paymentResult)
+                if (paymentResult > 0)
                 {
+                    WriteToPrinter(paymentResult);
+
                     this.Close();
                     notifier.ShowSuccess("To'lov muvaffaqiyatli saqlandi!");
                 }
                 else
                 {
-                    //Registry saqlangan, lekin payment saqlanmasa registtryni o'chirish kerak
+                    // Agar to'lov saqlanmasa, registry qaytariladi
                     notifierThis.ShowWarning("To'lovni amalga oshirishda xatolik yuz berdi, qayta urinib ko'ring!");
                     saveBtn.IsEnabled = true;
                     return;
@@ -511,6 +515,35 @@ public partial class IncomeForPaymentWindow : Window
         {
             notifierThis.ShowError("Xatolik yuz berdi!");
             saveBtn.IsEnabled = true;
+        }
+    }
+
+    private async void WriteToPrinter(long paymentId)
+    {
+        try
+        {
+            if(paymentId > 0)
+            {
+                var payment = await Task.Run(async () => await _paymentService.GetByIdAsync(paymentId));
+                
+                if(payment is not null)
+                {
+                    double coursePrice = double.Parse(AmountTxt.Text.ToString());
+                    _printerService.Print(payment, coursePrice);
+                }
+                else
+                {
+                    notifierThis.ShowWarning("To'lov ma'lumotlari topilmadi, chekni qayta chiqarishga urinib ko'ring!");
+                }
+            }
+            else
+            {
+                notifierThis.ShowWarning("To'lov ma'lumotlari noto'g'ri yuklandi!");
+            }
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("Chekni chop etishda xatolik yuz berdi! Iltimos printerni tekshiring.");
         }
     }
 

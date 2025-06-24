@@ -2,6 +2,8 @@
 using EduFlow.Desktop.Integrated.Security;
 using ESC_POS_USB_NET.Printer;
 using System.ComponentModel;
+using System.IO;
+using System.Management;
 using System.Text;
 
 namespace EduFlow.Cashier.Desktop.Services;
@@ -31,6 +33,9 @@ public class PrinterService : IDisposable
         printer.Append($"Kurs to'lovi:      {coursePrice} so'm");
         printer.Append($"To'lov turi:       {paymentDto.Type}");
         printer.Append($"Chegirma:          {paymentDto.Discount} so'm");
+        printer.Append($"Yo'nalish:         {paymentDto.Group.Course.Name}");
+        printer.Append($"O'qituvchi: {paymentDto.Teacher.User.Firstname} {paymentDto.Teacher.User.Lastname}");
+        printer.Append($"O'quvchi: {paymentDto.Student.Fullname}");
         printer.Append($"Jami summa:        {paymentDto.Amount + paymentDto.Discount} so'm");
         printer.Append($"To'langan summa:   {paymentDto.Amount}");
         printer.Append("\n");
@@ -49,9 +54,79 @@ public class PrinterService : IDisposable
         printer.PrintDocument();
     }
 
-    public void Dispose()
+    public void Test()
     {
-        throw new NotImplementedException();
+        printer = new Printer(PRINTER_NAME, "UTF-8");
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        printer.Separator();
+        printer.AlignCenter();
+        printer.Append("\n");
+        printer.BoldMode("Test Printer");
+        printer.Append("\n");
+        printer.Separator();
+        printer.FullPaperCut();
+        printer.PrintDocument();
     }
+
+    public string GetSavedPrinterName()
+    {
+        try
+        {
+            StreamReader streamReader = new StreamReader(PRINTER_NAME);
+            string res = streamReader.ReadToEnd();
+            streamReader.Close();
+            return res;
+        }
+        catch(Exception ex)
+        {
+            return string.Empty;
+        } 
+    }
+
+    public void SavePrinter(string name)
+    {
+        StreamWriter writer = new StreamWriter(PRINTER_NAME);
+        writer.Write(name);
+        writer.Flush();
+        writer.Close();
+    }
+    public List<string> ConnectedPrinters()
+    {
+        List<string> printers = new List<string>();
+        foreach (var print in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
+        {
+            printers.Add(print.ToString()!);
+        }
+
+        return printers;
+    }
+
+    public string GetUsbPrinterName()
+    {
+        try
+        {
+            var usbPrinters = new List<string>();
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Printer WHERE PortName LIKE 'USB%'");
+            foreach (ManagementObject printer in searcher.Get())
+            {
+                usbPrinters.Add(printer["Name"].ToString()!);
+            }
+
+            if (usbPrinters.Count > 0)
+            {
+                SavePrinter(usbPrinters[0]);
+                return usbPrinters[0];
+            }
+
+            return string.Empty;
+        }
+        catch
+        {
+            return string.Empty;
+        }
+    }
+
+    public void Dispose()
+         => GC.SuppressFinalize(this);
 }
 

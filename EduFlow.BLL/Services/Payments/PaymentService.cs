@@ -26,7 +26,7 @@ public class PaymentService(
     private readonly ILogger<PaymentService> _logger = logger;
     private readonly IPaymentValidator _validator = validator;
     private readonly IRegistryService _registryService = registryService;
-    public async Task<bool> AddToPayAsync(PaymentForCreateDto dto, CancellationToken cancellationToken = default)
+    public async Task<long> AddToPayAsync(PaymentForCreateDto dto, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -56,7 +56,7 @@ public class PaymentService(
             var savedPayment = _mapper.Map<Payment>(dto);
             savedPayment.Status = PaymentStatus.Pending;
 
-            return await _unitOfWork.Payment.AddConfirmAsync(savedPayment);
+            return await _unitOfWork.Payment.AddAsync(savedPayment);
         }
         catch (Exception ex)
         {
