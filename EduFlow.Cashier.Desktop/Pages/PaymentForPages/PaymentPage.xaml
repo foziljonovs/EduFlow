@@ -28,25 +28,29 @@
                             Width="110"
                             VerticalAlignment="Center"
                             Margin="10 0"
-                            ToolTip="Sanagacha"/>
+                            ToolTip="Sanagacha"
+                            SelectedDateChanged="FinishedDate_SelectedDateChanged"/>
 
                 <ComboBox x:Name="courseComboBox"
                           Width="110"
                           VerticalAlignment="Center"
                           ToolTip="Kursni tanlash"
-                          Margin="10 0"/>
+                          Margin="10 0"
+                          SelectionChanged="courseComboBox_SelectionChanged"/>
 
                 <ComboBox x:Name="teacherComboBox"
                           Width="110"
                           VerticalAlignment="Center"
                           ToolTip="O'qituvchi tanlang"
-                          Margin="10 0"/>
+                          Margin="10 0"
+                          SelectionChanged="teacherComboBox_SelectionChanged"/>
 
                 <ComboBox x:Name="statusComboBox"
                           Width="110"
                           VerticalAlignment="Center"
                           ToolTip="To'lov holati"
-                          Margin="10 0">
+                          Margin="10 0"
+                          SelectionChanged="statusComboBox_SelectionChanged">
                     <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
                     <ComboBoxItem Tag="0" Content="Kutilmoqda"/>
                     <ComboBoxItem Tag="1" Content="Tugallangan"/>
@@ -58,7 +62,8 @@
                           Width="110"
                           VerticalAlignment="Center"
                           ToolTip="To'lov turi"
-                          Margin="10 0">
+                          Margin="10 0"
+                          SelectionChanged="typeComboBox_SelectionChanged">
                     <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
                     <ComboBoxItem Tag="0" Content="Naqd"/>
                     <ComboBoxItem Tag="1" Content="Karta"/>

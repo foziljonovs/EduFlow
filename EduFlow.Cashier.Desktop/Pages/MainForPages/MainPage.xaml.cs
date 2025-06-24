@@ -5,7 +5,6 @@ using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Payments.Registry;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.MainForComponents;
-using EduFlow.Cashier.Desktop.Services;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
@@ -13,7 +12,6 @@ using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Payments.Registry;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -369,13 +367,14 @@ public partial class MainPage : Page
 
     private async Task LoadPage()
     {
-        await GetAllGroup();
-        await GetAllCategory();
-        await GetAllCourse();
-        await GetAllTeacher();
-        await GetAllActiveStudent();
-        await GetAllRegistry();
-        await GetAllPayment();
+        await Task.WhenAll(
+            GetAllCategory(),
+            GetAllCourse(),
+            GetAllTeacher(),
+            GetAllActiveStudent(),
+            GetAllRegistry(),
+            GetAllPayment(),
+            GetAllGroup());
     }
 
     private bool isPageLoaded = false;
@@ -388,27 +387,27 @@ public partial class MainPage : Page
         }
     }
 
-    private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (isPageLoaded)
-            FilterAsync();
+            await FilterAsync();
     }
 
-    private void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (isPageLoaded)
-            FilterAsync();
+            await FilterAsync();
     }
 
-    private void teacherComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void teacherComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (isPageLoaded)
-            FilterAsync();
+            await FilterAsync();
     }
 
-    private void groupStatusComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void groupStatusComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (isPageLoaded)
-            FilterAsync();
+            await FilterAsync();
     }
 }
