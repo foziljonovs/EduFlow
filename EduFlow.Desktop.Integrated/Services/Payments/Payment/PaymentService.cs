@@ -37,6 +37,19 @@ public class PaymentService : IPaymentService
         }
     }
 
+    public async Task<List<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto)
+    {
+        try
+        {
+            var result = await _server.FilterAsync(dto);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new List<PaymentForResultDto>();
+        }
+    }
+
     public async Task<List<PaymentForResultDto>> GetAllAsync()
     {
         try

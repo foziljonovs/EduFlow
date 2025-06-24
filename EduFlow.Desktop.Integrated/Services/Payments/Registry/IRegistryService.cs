@@ -8,4 +8,5 @@ public interface IRegistryService
     Task<RegistryForResultDto> GetByIdAsync(long id);
     Task<long> IncomeAsync(RegistryForCreateDto dto);
     Task<long> OutlayAsync(RegistryForCreateDto dto);
+    Task<bool> DeleteAsync(long id);
 }

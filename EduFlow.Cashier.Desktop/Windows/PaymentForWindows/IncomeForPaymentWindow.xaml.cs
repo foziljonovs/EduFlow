@@ -370,6 +370,14 @@ public partial class IncomeForPaymentWindow : Window
     {
         try
         {
+            string printerName = _printerService.GetPrinterName();
+            if(string.IsNullOrEmpty(printerName))
+            {
+                notifierThis.ShowWarning("Iltimos, printerni sozlang!");
+                saveBtn.IsEnabled = true;
+                return;
+            }
+
             RegistryForCreateDto registryDto = new RegistryForCreateDto();
             PaymentForCreateDto paymentDto = new PaymentForCreateDto();
 
@@ -498,8 +506,13 @@ public partial class IncomeForPaymentWindow : Window
                 }
                 else
                 {
-                    // Agar to'lov saqlanmasa, registry qaytariladi
-                    notifierThis.ShowWarning("To'lovni amalga oshirishda xatolik yuz berdi, qayta urinib ko'ring!");
+                    bool deletedRegistry = await _registryService.DeleteAsync(registryId);
+
+                    if (deletedRegistry)
+                        notifierThis.ShowWarning("To'lov saqlanmadi, qayta urinib ko'ring!");
+                    else
+                        notifierThis.ShowWarning("Xatolik sabab joriy to'lov summasini tushumdan chiqarib yuboring!");
+
                     saveBtn.IsEnabled = true;
                     return;
                 }
@@ -529,7 +542,17 @@ public partial class IncomeForPaymentWindow : Window
                 if(payment is not null)
                 {
                     double coursePrice = double.Parse(AmountTxt.Text.ToString());
-                    _printerService.Print(payment, coursePrice);
+                    string paymentType = payment.Type switch
+                    {
+                        PaymentType.Cash => "Naqd",
+                        PaymentType.Card => "Karta",
+                        PaymentType.Transfer => "O'tkazma",
+                        PaymentType.Credit => "Nasiya",
+                        PaymentType.Other => "Aniq emas",
+                        _ => "Aniq emas"
+                    };
+
+                    _printerService.Print(payment, coursePrice, paymentType);
                 }
                 else
                 {
