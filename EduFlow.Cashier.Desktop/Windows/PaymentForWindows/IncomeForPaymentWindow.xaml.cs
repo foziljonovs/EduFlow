@@ -498,8 +498,13 @@ public partial class IncomeForPaymentWindow : Window
                 }
                 else
                 {
-                    // Agar to'lov saqlanmasa, registry qaytariladi
-                    notifierThis.ShowWarning("To'lovni amalga oshirishda xatolik yuz berdi, qayta urinib ko'ring!");
+                    bool deletedRegistry = await _registryService.DeleteAsync(registryId);
+
+                    if (deletedRegistry)
+                        notifierThis.ShowWarning("To'lov saqlanmadi, qayta urinib ko'ring!");
+                    else
+                        notifierThis.ShowWarning("Xatolik sabab joriy to'lov summasini tushumdan chiqarib yuboring!");
+
                     saveBtn.IsEnabled = true;
                     return;
                 }

@@ -11,6 +11,20 @@ public class RegistryService : IRegistryService
     {
         this._server = new RegistryServer();
     }
+
+    public async Task<bool> DeleteAsync(long id)
+    {
+        try
+        {
+            var result = await _server.DeleteAsync(id);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
     public async Task<List<RegistryForResultDto>> GetAllAsync()
     {
         try
