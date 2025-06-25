@@ -15,7 +15,7 @@ public class PrinterService : IDisposable
     Printer? printer;
     public PrinterService()
     {
-        
+        printerName = GetPrinterName();
     }
 
     public void Print(PaymentForResultDto paymentDto, double coursePrice, string paymentType)

@@ -111,12 +111,9 @@ public partial class LoginWindow : Window
         var printerName = _printerService.GetPrinterName();
 
         if (string.IsNullOrEmpty(printerName))
-        {
             notifierMain.ShowWarning("Printer sozlanmagan, iltimos sozlamalarini to'g'irlang!");
-            return;
-        }
-
-        _printerService.Test();
+        else
+            notifierMain.ShowInformation($"Printer {printerName} o'rnatilgan!");
     }
 
 

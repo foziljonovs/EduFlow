@@ -2,6 +2,7 @@
 using EduFlow.Cashier.Desktop.Pages.PaymentForPages;
 using EduFlow.Cashier.Desktop.Pages.StatsForPages;
 using EduFlow.Cashier.Desktop.Pages.StudentForPages;
+using EduFlow.Cashier.Desktop.Windows.SettingsForWindows;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -96,5 +97,13 @@ public partial class MainWindow : Window
 
         StatsPage page = new StatsPage();
         NavigatePage(page);
+    }
+
+    private void settingsBtn_Click(object sender, RoutedEventArgs e)
+    {
+        settingsBtn.IsChecked = true;
+
+        SettingsForPrinterWindow window = new SettingsForPrinterWindow();
+        window.ShowDialog();
     }
 }
