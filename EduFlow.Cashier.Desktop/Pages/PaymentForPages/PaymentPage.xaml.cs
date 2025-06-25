@@ -245,10 +245,9 @@ public partial class PaymentPage : Page
 
     private async Task LoadPage()
     {
-        await Task.WhenAll(
-            GetAllCourse(),
-            GetAllTeacher(),
-            GetAllPayment());
+        await GetAllCourse();
+        await GetAllTeacher();
+        await GetAllPayment();
     }
 
     private bool isPageLoaded = false;

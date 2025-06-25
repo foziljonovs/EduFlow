@@ -367,14 +367,13 @@ public partial class MainPage : Page
 
     private async Task LoadPage()
     {
-        await Task.WhenAll(
-            GetAllCategory(),
-            GetAllCourse(),
-            GetAllTeacher(),
-            GetAllActiveStudent(),
-            GetAllRegistry(),
-            GetAllPayment(),
-            GetAllGroup());
+        await GetAllCategory();
+        await GetAllCourse();
+        await GetAllTeacher();
+        await GetAllActiveStudent();
+        await GetAllRegistry();
+        await GetAllPayment();
+        await GetAllGroup();
     }
 
     private bool isPageLoaded = false;
