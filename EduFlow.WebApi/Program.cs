@@ -1,6 +1,7 @@
 using EduFlow.BLL.Common.Mapping;
 using EduFlow.BLL.Hubs;
 using EduFlow.WebApi.Configurations;
+using EduFlow.WebApi.Middlewares;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,6 +46,8 @@ app.UseSerilogRequestLogging();
 app.UseRouting();
 
 app.UseCors("AllowAll");
+
+//app.UseMiddleware<ExceptionMiddleware>();
 
 //app.UseHttpsRedirection();
 
