@@ -1,0 +1,28 @@
+﻿<Page x:Class="EduFlow.Cashier.Desktop.Pages.SettingsForPages.SettingsForPrinterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Pages.SettingsForPages"
+      mc:Ignorable="d" 
+      Title="SettingsForPrinterPage"
+      Loaded="Page_Loaded">
+
+    <Grid>
+        <StackPanel Margin="20">
+            <TextBlock Text="Chek chiqaruvchi printer: "
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"/>
+
+            <ComboBox x:Name="printerComboBox"
+                      Height="40"
+                      Margin="0 10"
+                      FontSize="18"
+                      VerticalContentAlignment="Center"
+                      SelectionChanged="printerComboBox_SelectionChanged">
+                <ComboBoxItem Content="Printer tanlang" IsSelected="True" IsEnabled="False"/>
+            </ComboBox>
+        </StackPanel>
+    </Grid>
+</Page>

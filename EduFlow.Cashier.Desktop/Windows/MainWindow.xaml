@@ -80,6 +80,12 @@
                          Tag="Statistics"
                          ToolTip="Statistika sahifasi"
                          Click="statisticBtn_Click"/>
+
+            <RadioButton x:Name="settingsBtn"
+                         Style="{DynamicResource SettingsButton}"
+                         Tag="Settings"
+                         ToolTip="Sozlamalar sahifasi"
+                         Click="settingsBtn_Click"/>
         </StackPanel>
 
         <Grid Grid.Row="2"

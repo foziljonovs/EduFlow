@@ -25,7 +25,7 @@ namespace EduFlow.Cashier.Desktop.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("XP-76")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string PrinterName {
             get {
                 return ((string)(this["PrinterName"]));

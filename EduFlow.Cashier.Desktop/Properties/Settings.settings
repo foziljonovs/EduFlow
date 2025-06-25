@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="PrinterName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">XP-76</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>
