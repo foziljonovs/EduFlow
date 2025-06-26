@@ -14,9 +14,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid>
-            <StackPanel Grid.Row="0"
-                        HorizontalAlignment="Center"
+        <Grid Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center"
                         Orientation="Horizontal">
                 <DatePicker x:Name="StartedDate"
                             Width="110"
