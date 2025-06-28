@@ -256,8 +256,8 @@ public partial class PaymentPage : Page
     {
         if(!isPageLoaded)
         {
-            isPageLoaded = true;
             LoadPage();
+            isPageLoaded = true;
         }
     }
 

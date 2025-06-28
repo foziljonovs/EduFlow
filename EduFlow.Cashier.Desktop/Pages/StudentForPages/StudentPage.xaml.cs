@@ -92,8 +92,17 @@ public partial class StudentPage : Page
                 selectedCourseItem.Tag is not null)
                 dto.CourseId = (long)selectedCourseItem.Tag;
 
-            //if(statusComboBox.SelectedItem is ComboBoxItem selectedStatusItem &&
-            //    selectedStatusItem.Tag is not null)
+            if(statusComboBox.SelectedItem is ComboBoxItem selectedStatusItem &&
+                selectedStatusItem.Tag is not null)
+                dto.CourseStatus = selectedStatusItem.Tag.ToString() switch
+                {
+                    "0" => EnrollmentStatus.Pending,
+                    "1" => EnrollmentStatus.Active,
+                    "2" => EnrollmentStatus.Suspended,
+                    "3" => EnrollmentStatus.Completed,
+                    "4" => EnrollmentStatus.Dropped,
+                    _ => EnrollmentStatus.Active
+                };
 
             var students = await Task.Run(async () => await _studentService.FilterAsync(dto));
             
@@ -101,7 +110,7 @@ public partial class StudentPage : Page
         }
         catch(Exception ex)
         {
-            notifier.ShowError("Xatolik yuz berdi!");
+            notifier.ShowError("Ma'lumotlarni filterlashda xatolik yuz berdi!");
         }
     }
 
@@ -182,27 +191,26 @@ public partial class StudentPage : Page
     {
         await GetAllCourse();
         await GetAllStudent();
+
+        IsPageLoaded = true;
     }
 
-    private bool IsLoaded = false;
+    private bool IsPageLoaded = false;
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        if(!IsLoaded)
-        {
-            IsLoaded = true;
+        if(!IsPageLoaded)
             LoadedPage();
-        }
     }
 
     private async void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (IsLoaded)
+        if (IsPageLoaded)
             await FilterAsync();
     }
 
     private async void statusComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (IsLoaded)
+        if (IsPageLoaded)
             await FilterAsync();
     }
 }

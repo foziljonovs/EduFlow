@@ -142,6 +142,11 @@ public class StudentService(
                 studentsQuery = studentsQuery
                     .Where(x => x.StudentCourses.Any(x => x.CourseId == dto.CourseId));
 
+            if (dto.CourseStatus.HasValue)
+                studentsQuery = studentsQuery.Where(x =>
+                    x.StudentCourses.Any(y =>
+                       y.Status == dto.CourseStatus.Value));
+
             var students = await studentsQuery.ToListAsync(cancellation);
 
             if (!students.Any())
