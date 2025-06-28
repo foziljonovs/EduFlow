@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Pages.StudentForPages" xmlns:local1="clr-namespace:EduFlow.Cashier.Desktop.Components.Loader"
       mc:Ignorable="d"
-      Title="StudentPage">
+      Title="StudentPage"
+      Loaded="Page_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -20,13 +21,22 @@
                           Width="110"
                           VerticalAlignment="Center"
                           ToolTip="Kursni tanlang"
-                          Margin="10 0"/>
+                          Margin="10 0"
+                          SelectionChanged="courseComboBox_SelectionChanged"/>
 
                 <ComboBox x:Name="statusComboBox"
                           Width="110"
                           VerticalAlignment="Center"
                           ToolTip="Holatni tanlang"
-                          Margin="10 0"/>
+                          Margin="10 0"
+                          SelectionChanged="statusComboBox_SelectionChanged">
+                    <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
+                    <ComboBoxItem Content="Ro'yxatga olingan" Tag="0"/>
+                    <ComboBoxItem Content="Faol" Tag="1"/>
+                    <ComboBoxItem Content="To'xtatilgan" Tag="2"/>
+                    <ComboBoxItem Content="Bitirgan" Tag="3"/>
+                    <ComboBoxItem Content="Chetlatilgan" Tag="4"/>
+                </ComboBox>
             </StackPanel>
         </Grid>
 
@@ -45,7 +55,7 @@
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
 

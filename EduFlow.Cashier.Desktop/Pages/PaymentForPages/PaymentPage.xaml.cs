@@ -64,6 +64,7 @@ public partial class PaymentPage : Page
         catch(Exception ex)
         {
             paymentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForPayment.Visibility = Visibility.Visible;
             notifier.ShowWarning("Kurslarni yuklashda xatolik yuz berdi!");
         }
     }
