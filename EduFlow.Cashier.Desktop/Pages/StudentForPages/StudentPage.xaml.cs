@@ -1,11 +1,15 @@
-﻿using EduFlow.BLL.DTOs.Users.Student;
+﻿using EduFlow.BLL.DTOs.Courses.Course;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Cashier.Desktop.Components.StudentForComponents;
+using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Domain.Enums;
+using MaterialDesignThemes.Wpf;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
 using ToastNotifications.Position;
 
 namespace EduFlow.Cashier.Desktop.Pages.StudentForPages;
@@ -16,10 +20,12 @@ namespace EduFlow.Cashier.Desktop.Pages.StudentForPages;
 public partial class StudentPage : Page
 {
     private readonly IStudentService _studentService;
+    private readonly ICourseService _courseService;
     public StudentPage()
     {
         InitializeComponent();
         this._studentService = new StudentService();
+        this._courseService = new CourseService();
     }
 
 
@@ -50,6 +56,49 @@ public partial class StudentPage : Page
         ShowStudents(students);
     }
 
+    private async Task GetAllCourse()
+    {
+        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+
+        ShowCourses(courses);    
+    }
+
+    private void ShowCourses(List<CourseForResultDto> courses)
+    {
+        courseComboBox.Items.Clear();
+
+        if (courses.Any())
+        {
+            ComboBoxItem defaultItem = new ComboBoxItem
+            {
+                Content = "Barcha",
+                Tag = "0"
+            };
+
+            foreach(var course in courses)
+            {
+                ComboBoxItem item = new ComboBoxItem
+                {
+                    Content = course.Name,
+                    Tag = course.Id
+                };
+
+                courseComboBox.Items.Add(item);
+            }
+        }
+        else
+        {
+            notifier.ShowWarning("Kurslar topilmadi!");
+
+            ComboBoxItem item = new ComboBoxItem
+            {
+                Content = "Topilmadi",
+                Tag = "0"
+            };
+
+            courseComboBox.Items.Add(item);
+        }
+    }
 
     private void ShowStudents(List<StudentForResultDto> students)
     {
@@ -85,6 +134,7 @@ public partial class StudentPage : Page
 
     private async Task LoadedPage()
     {
+        await GetAllCourse();
         await GetAllStudent();
     }
 

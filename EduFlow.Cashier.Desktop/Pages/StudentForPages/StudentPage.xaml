@@ -27,7 +27,14 @@
                           Width="110"
                           VerticalAlignment="Center"
                           ToolTip="Holatni tanlang"
-                          Margin="10 0"/>
+                          Margin="10 0">
+                    <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
+                    <ComboBoxItem Content="Ro'yxatga olingan" Tag="0"/>
+                    <ComboBoxItem Content="Faol" Tag="1"/>
+                    <ComboBoxItem Content="To'xtatilgan" Tag="2"/>
+                    <ComboBoxItem Content="Bitirgan" Tag="3"/>
+                    <ComboBoxItem Content="Chetlatilgan" Tag="4"/>
+                </ComboBox>
             </StackPanel>
         </Grid>
 
