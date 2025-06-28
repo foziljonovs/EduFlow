@@ -21,13 +21,15 @@
                           Width="110"
                           VerticalAlignment="Center"
                           ToolTip="Kursni tanlang"
-                          Margin="10 0"/>
+                          Margin="10 0"
+                          SelectionChanged="courseComboBox_SelectionChanged"/>
 
                 <ComboBox x:Name="statusComboBox"
                           Width="110"
                           VerticalAlignment="Center"
                           ToolTip="Holatni tanlang"
-                          Margin="10 0">
+                          Margin="10 0"
+                          SelectionChanged="statusComboBox_SelectionChanged">
                     <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
                     <ComboBoxItem Content="Ro'yxatga olingan" Tag="0"/>
                     <ComboBoxItem Content="Faol" Tag="1"/>

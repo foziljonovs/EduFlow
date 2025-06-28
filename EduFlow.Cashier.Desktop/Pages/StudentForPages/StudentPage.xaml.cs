@@ -5,6 +5,7 @@ using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Domain.Enums;
 using MaterialDesignThemes.Wpf;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -49,18 +50,59 @@ public partial class StudentPage : Page
 
     private async Task GetAllStudent()
     {
-        studentLoader.Visibility = Visibility.Visible;
+        try
+        {
+            studentLoader.Visibility = Visibility.Visible;
 
-        var students = await Task.Run(async () => await _studentService.GetAllAsync());
+            var students = await Task.Run(async () => await _studentService.GetAllAsync());
 
-        ShowStudents(students);
+            ShowStudents(students);
+        }
+        catch(Exception ex)
+        {
+            studentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudent.Visibility = Visibility.Visible;
+            notifier.ShowError("Kurslarni yuklashda xatolik yuz berdi!");
+        }
     }
 
     private async Task GetAllCourse()
     {
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+        try
+        {
+            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
 
-        ShowCourses(courses);    
+            ShowCourses(courses);    
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowError("Xatolik yuz berdi!");
+        }
+    }
+
+    private async Task FilterAsync()
+    {
+        try
+        {
+            stStudents.Children.Clear();
+            studentLoader.Visibility = Visibility.Visible;
+
+            StudentForFilterDto dto = new StudentForFilterDto();
+            if (courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem &&
+                selectedCourseItem.Tag is not null)
+                dto.CourseId = (long)selectedCourseItem.Tag;
+
+            //if(statusComboBox.SelectedItem is ComboBoxItem selectedStatusItem &&
+            //    selectedStatusItem.Tag is not null)
+
+            var students = await Task.Run(async () => await _studentService.FilterAsync(dto));
+            
+            ShowStudents(students);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowError("Xatolik yuz berdi!");
+        }
     }
 
     private void ShowCourses(List<CourseForResultDto> courses)
@@ -72,10 +114,14 @@ public partial class StudentPage : Page
             ComboBoxItem defaultItem = new ComboBoxItem
             {
                 Content = "Barcha",
+                IsSelected = true,
+                IsEnabled = false,
                 Tag = "0"
             };
 
-            foreach(var course in courses)
+            courseComboBox.Items.Add(defaultItem);
+
+            foreach (var course in courses)
             {
                 ComboBoxItem item = new ComboBoxItem
                 {
@@ -146,5 +192,17 @@ public partial class StudentPage : Page
             IsLoaded = true;
             LoadedPage();
         }
+    }
+
+    private async void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (IsLoaded)
+            await FilterAsync();
+    }
+
+    private async void statusComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (IsLoaded)
+            await FilterAsync();
     }
 }
