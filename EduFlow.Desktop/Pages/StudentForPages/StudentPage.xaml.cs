@@ -134,7 +134,7 @@ public partial class StudentPage : Page
                     student.Age,
                     student.Address,
                     student.PhoneNumber,
-                    student.Groups.Any() ? student.Groups.First().Name : "Yo'q");
+                    student.Groups.Any() ? student.Groups.First(x => x.IsStatus == Status.Active).Name : "Yo'q");
 
                 component.OnStudentDelete += GetAllStudent;
                 stStudents.Children.Add(component);
