@@ -3,15 +3,15 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Pages.StatsForPages"
+      xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Pages.StatsForPages" xmlns:local1="clr-namespace:EduFlow.Cashier.Desktop.Components.Loader"
       mc:Ignorable="d"
-      Title="StatsPage">
+      Title="StatsPage"
+      Loaded="Page_Loaded">
 
     <Grid Margin="10 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -31,378 +31,405 @@
             </StackPanel>
         </Grid>
 
-        <Border Grid.Row="1"
-                Margin="0 5"
-                CornerRadius="8"
-                BorderThickness="1"
-                BorderBrush="Gray">
-            <Grid>
+        <Grid Grid.Row="1">
+            <local1:Loader x:Name="statsLoader"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Visibility="Collapsed"/>
+
+            <Grid x:Name="st">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-
-                <TextBlock Grid.Row="0"
-                           Text="Tushum"
-                           FontSize="18"
-                           FontFamily="Jetbrains Mono"
-                           FontWeight="ExtraBold"
-                           VerticalAlignment="Bottom"
-                           Margin="10 0"/>
-
-                <Grid Grid.Row="1"
-                      Margin="10 0 5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Column="0">
+            
+                <Border Grid.Row="0"
+                        Margin="0 5"
+                        CornerRadius="8"
+                        BorderThickness="1"
+                        BorderBrush="Gray">
+                    <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
                             <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
                         <TextBlock Grid.Row="0"
-                                   Text="Umumiy kassa"
-                                   FontSize="16"
-                                   FontWeight="SemiBold"
+                                   Text="Tushum"
+                                   FontSize="18"
                                    FontFamily="Jetbrains Mono"
-                                   VerticalAlignment="Center"/>
+                                   FontWeight="ExtraBold"
+                                   VerticalAlignment="Bottom"
+                                   Margin="10 0"/>
 
-                        <TextBlock Grid.Row="1"
-                                   Text="Summa"
-                                   FontSize="16"
-                                   FontWeight="SemiBold"
-                                   FontFamily="Jetbrains Mono"
-                                   VerticalAlignment="Center"/>
+                        <Grid Grid.Row="1"
+                              Margin="10 0 5 5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="Umumiy kassa"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           FontFamily="Jetbrains Mono"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1"
+                                           Text="Summa"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           FontFamily="Jetbrains Mono"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="Naqd"
+                                           FontSize="16"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock x:Name="tbCash"
+                                           Grid.Row="1"
+                                           Text="0"
+                                           FontSize="16"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="Karta"
+                                           FontSize="16"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1"
+                                           x:Name="tbCard"
+                                           Text="0"
+                                           FontSize="16"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Column="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="O'tqazma"
+                                           FontSize="16"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1"
+                                           x:Name="tbTransfer"
+                                           Text="0"
+                                           FontSize="16"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Column="4">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="Nasiya"
+                                           FontSize="16"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1"
+                                           x:Name="tbCredit"
+                                           Text="0"
+                                           FontSize="16"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Column="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="Boshqa"
+                                           FontSize="16"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1"
+                                           x:Name="tbOther"
+                                           Text="0"
+                                           FontFamily="Jetbrains Mono"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Column="6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="Barcha"
+                                           FontSize="16"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
+                                           Foreground="MediumSeaGreen"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1"
+                                           x:Name="tbAllAmount"
+                                           FontSize="16"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
+                                           Foreground="MediumSeaGreen"
+                                           Text="0"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Grid>
                     </Grid>
+                </Border>
 
-                    <Grid Grid.Column="1">
+                <Border Grid.Row="1"
+                    Margin="0 5"
+                    CornerRadius="8"
+                    BorderThickness="1"
+                    BorderBrush="Gray">
+                    <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
                             <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
                         <TextBlock Grid.Row="0"
-                                   Text="Naqd"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
+                               Text="Chiqim"
+                               FontSize="18"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="ExtraBold"
+                               VerticalAlignment="Bottom"
+                               Margin="10 0"/>
 
-                        <TextBlock x:Name="tbCash"
-                                   Grid.Row="1"
-                                   Text="0"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
+                        <Grid Grid.Row="1"
+                          Margin="10 0 5 5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                       Text="Umumiy kassa"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       FontFamily="Jetbrains Mono"
+                                       VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1"
+                                       Text="Summa"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       FontFamily="Jetbrains Mono"
+                                       VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                       Text="Naqd"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+
+                                <TextBlock x:Name="tbOutlayCash"
+                                       Grid.Row="1"
+                                       Text="0"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                       Text="Karta"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1"
+                                       x:Name="tbOutlayCard"
+                                       Text="0"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Column="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                       Text="O'tqazma"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1"
+                                       x:Name="tbOutlayTransfer"
+                                       Text="0"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Column="4">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                       Text="Nasiya"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1"
+                                       x:Name="tbOutlayCredit"
+                                       Text="0"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Column="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                       Text="Boshqa"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1"
+                                       x:Name="tbOutlayOther"
+                                       Text="0"
+                                       FontFamily="Jetbrains Mono"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Column="6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                       Text="Barcha"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       Foreground="Tomato"
+                                       VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Row="1"
+                                       x:Name="tbOutlayAllAmount"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       Foreground="Tomato"
+                                       Text="0"
+                                       VerticalAlignment="Center"/>
+                            </Grid>
+                        </Grid>
                     </Grid>
-
-                    <Grid Grid.Column="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0"
-                                   Text="Karta"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="1"
-                                   x:Name="tbCard"
-                                   Text="0"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-
-                    <Grid Grid.Column="3">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0"
-                                   Text="O'tqazma"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="1"
-                                   x:Name="tbTransfer"
-                                   Text="0"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-
-                    <Grid Grid.Column="4">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0"
-                                   Text="Nasiya"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="1"
-                                   x:Name="tbCredit"
-                                   Text="0"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-
-                    <Grid Grid.Column="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0"
-                                   Text="Boshqa"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="1"
-                                   x:Name="tbOther"
-                                   Text="0"
-                                   FontFamily="Jetbrains Mono"
-                                   FontSize="16"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-
-                    <Grid Grid.Column="6">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0"
-                                   Text="Barcha"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="1"
-                                   x:Name="tbAllAmount"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   Text="0"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-                </Grid>
+                </Border>
             </Grid>
-        </Border>
 
-        <Border Grid.Row="2"
-                Margin="0 5"
-                CornerRadius="8"
-                BorderThickness="1"
-                BorderBrush="Gray">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Grid.Row="0"
-                           Text="Chiqim"
-                           FontSize="18"
-                           FontFamily="Jetbrains Mono"
-                           FontWeight="ExtraBold"
-                           VerticalAlignment="Bottom"
-                           Margin="10 0"/>
-
-                <Grid Grid.Row="1"
-                      Margin="10 0 5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Column="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0"
-                                   Text="Umumiy kassa"
-                                   FontSize="16"
-                                   FontWeight="SemiBold"
-                                   FontFamily="Jetbrains Mono"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="1"
-                                   Text="Summa"
-                                   FontSize="16"
-                                   FontWeight="SemiBold"
-                                   FontFamily="Jetbrains Mono"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-
-                    <Grid Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0"
-                                   Text="Naqd"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock x:Name="tbOutlayCash"
-                                   Grid.Row="1"
-                                   Text="0"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-
-                    <Grid Grid.Column="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0"
-                                   Text="Karta"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="1"
-                                   x:Name="tbOutlayCard"
-                                   Text="0"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-
-                    <Grid Grid.Column="3">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0"
-                                   Text="O'tqazma"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="1"
-                                   x:Name="tbOutlayTransfer"
-                                   Text="0"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-
-                    <Grid Grid.Column="4">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0"
-                                   Text="Nasiya"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="1"
-                                   x:Name="tbOutlayCredit"
-                                   Text="0"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-
-                    <Grid Grid.Column="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0"
-                                   Text="Boshqa"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="1"
-                                   x:Name="tbOutlayOther"
-                                   Text="0"
-                                   FontFamily="Jetbrains Mono"
-                                   FontSize="16"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-
-                    <Grid Grid.Column="6">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0"
-                                   Text="Barcha"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Row="1"
-                                   x:Name="tbOutlayAllAmount"
-                                   FontSize="16"
-                                   FontFamily="Jetbrains Mono"
-                                   FontWeight="SemiBold"
-                                   Text="0"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-                </Grid>
-            </Grid>
-        </Border>
+            <TextBlock x:Name="emptyData"
+                       Text="Ma'lumotlar topilmadi!"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       FontFamily="Jetbrains Mono"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Visibility="Collapsed"/>
+        </Grid>
     </Grid>
 </Page>
