@@ -94,6 +94,24 @@ public class RegistryController(
         }
     }
 
+    [HttpPost("filter")]
+    public async Task<IActionResult> FilterAsync([FromBody] RegistryForFilterDto dto, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.FilterAsync(dto, cancellation);
+            return Ok(response);
+        }
+        catch(StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellation = default)
     {

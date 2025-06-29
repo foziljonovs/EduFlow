@@ -32,6 +32,38 @@ public class RegistryServer : IRegistryServer
         }
     }
 
+    public async Task<List<RegistryForResultDto>> FilterAsync(RegistryForFilterDto dto)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/registries/filter");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress)
+            {
+                Content = new StringContent(
+                    JsonConvert.SerializeObject(dto),
+                    System.Text.Encoding.UTF8,
+                    "application/json")
+            };
+
+            var response = await client.SendAsync(request);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<RegistryForResultDto> registries = JsonConvert.DeserializeObject<List<RegistryForResultDto>>(result)!;
+
+            return registries;
+        }
+        catch(Exception ex)
+        {
+            return new List<RegistryForResultDto>();
+        }
+    }
+
     public async Task<List<RegistryForResultDto>> GetAllAsync()
     {
         try

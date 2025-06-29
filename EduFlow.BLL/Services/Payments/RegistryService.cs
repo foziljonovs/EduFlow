@@ -45,6 +45,43 @@ public class RegistryService(
         }
     }
 
+    public async Task<IEnumerable<RegistryForResultDto>> FilterAsync(RegistryForFilterDto dto, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var registries = await _unitOfWork.Registry
+                .GetAllAsync()
+                .Where(x => x.IsDeleted == false)
+                .ToListAsync(cancellationToken);
+
+            if(!registries.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Registries not found.");
+
+            if(dto.StartedDate.HasValue &&
+                dto.FinishedDate.HasValue)
+            {
+                var startedDate = DateTime.SpecifyKind(dto.StartedDate.Value, DateTimeKind.Utc);
+                var finishedDate = DateTime.SpecifyKind(dto.FinishedDate.Value, DateTimeKind.Utc);
+
+                registries = registries
+                    .Where(x => x.CreatedAt >= startedDate &&
+                                x.CreatedAt <= finishedDate)
+                    .ToList();
+            }
+
+            if(!registries.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Registries not found with the given filter.");
+
+            return _mapper.Map<IEnumerable<RegistryForResultDto>>(registries);
+
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while filter the registries. {ex}");
+            throw;
+        }
+    }
+
     public async Task<IEnumerable<RegistryForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         try
