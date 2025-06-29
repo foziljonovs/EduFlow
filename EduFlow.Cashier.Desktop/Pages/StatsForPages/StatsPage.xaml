@@ -7,7 +7,149 @@
       mc:Ignorable="d"
       Title="StatsPage">
 
-    <Grid>
-        
+    <Grid Margin="10 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <DatePicker x:Name="startedDate"
+                            Width="110"
+                            Margin="10 0"
+                            VerticalAlignment="Center"
+                            ToolTip="Boshlang'ich sana"/>
+
+                <DatePicker x:Name="finishadDate"
+                            Width="110"
+                            Margin="10 0"
+                            VerticalAlignment="Center"
+                            ToolTip="Yakuniy sana"/>
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="1"
+                Margin="0 5"
+                CornerRadius="8"
+                BorderThickness="1"
+                BorderBrush="Gray">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Text="Tushum"
+                           FontSize="18"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="ExtraBold"
+                           VerticalAlignment="Bottom"
+                           Margin="10 0"/>
+
+                <Grid Grid.Row="1"
+                      Margin="10 0 5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="Umumiy kassa"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   FontFamily="Jetbrains Mono"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="Summa"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   FontFamily="Jetbrains Mono"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="Naqd"
+                                   FontSize="16"
+                                   FontFamily="Jetbrains Mono"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBlock x:Name="tbCash"
+                                   Grid.Row="1"
+                                   Text="0"
+                                   FontSize="16"
+                                   FontFamily="Jetbrains Mono"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="Karta"
+                                   FontSize="16"
+                                   FontFamily="Jetbrains Mono"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBlock Grid.Row="1"
+                                   x:Name="tbCard"
+                                   Text="0"
+                                   FontSize="16"
+                                   FontFamily="Jetbrains Mono"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Grid.Column="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="O'tqazma"
+                                   FontSize="16"
+                                   FontFamily="Jetbrains Mono"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBlock Grid.Row="1"
+                                   x:Name="tbTransfer"
+                                   Text="0"
+                                   FontSize="16"
+                                   FontFamily="Jetbrains Mono"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </Page>
