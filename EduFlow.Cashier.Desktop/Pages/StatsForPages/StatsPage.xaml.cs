@@ -1,7 +1,11 @@
-﻿using System.Windows.Controls;
-using System.Windows;
+﻿using EduFlow.BLL.DTOs.Payments.Registry;
 using EduFlow.Desktop.Integrated.Services.Payments.Registry;
-using EduFlow.BLL.DTOs.Payments.Registry;
+using System.Windows;
+using System.Windows.Controls;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace EduFlow.Cashier.Desktop.Pages.StatsForPages;
 
@@ -17,13 +21,83 @@ public partial class StatsPage : Page
         this._registryService = new RegistryService();
     }
 
+    Notifier notifier = new Notifier(cfg =>
+    {
+        cfg.PositionProvider = new WindowPositionProvider(
+            parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
+            corner: Corner.TopRight,
+            offsetX: 20,
+            offsetY: 20);
+
+        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+            notificationLifetime: TimeSpan.FromSeconds(3),
+            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+
+        cfg.Dispatcher = Application.Current.Dispatcher;
+
+        cfg.DisplayOptions.Width = 200;
+        cfg.DisplayOptions.TopMost = true;
+    });
+
     private async Task GetAllRegistry()
     {
-        statsLoader.Visibility = Visibility.Visible;
+        try
+        {
+            statsLoader.Visibility = Visibility.Visible;
 
-        var registries = await Task.Run(async () => await _registryService.GetAllAsync());
+            var registries = await Task.Run(async () => await _registryService.GetAllAsync());
 
-        ShowRegistries(registries);
+            ShowRegistries(registries);
+        }
+        catch(Exception ex)
+        {
+            statsLoader.Visibility = Visibility.Collapsed;
+            emptyData.Visibility = Visibility.Visible;
+            notifier.ShowError("To'lov malumotlarini yuklashda xatolik yuz berdi!");
+        }
+    }
+
+    private async Task FilterAsync()
+    {
+        try
+        {
+            ClearStats();
+            statsLoader.Visibility = Visibility.Visible;
+
+            RegistryForFilterDto dto = new RegistryForFilterDto();
+
+            if (startedDate.SelectedDate is not null)
+                dto.StartedDate = startedDate.SelectedDate.Value;
+
+            if (finishadDate.SelectedDate is not null)
+                dto.FinishedDate = finishadDate.SelectedDate.Value;
+
+            var registries = await Task.Run(async () => await _registryService.FilterAsync(dto));
+
+            ShowRegistries(registries);
+        }
+        catch (Exception ex)
+        {
+            statsLoader.Visibility = Visibility.Collapsed;
+            emptyData.Visibility = Visibility.Visible;
+            notifier.ShowError("To'lov malumotlarini filtrlashda xatolik yuz berdi!");
+        }
+    }
+
+    private void ClearStats()
+    {
+        tbCash.Text = "0";
+        tbCard.Text = "0";
+        tbTransfer.Text = "0";
+        tbCredit.Text = "0";
+        tbOther.Text = "0";
+        tbAllAmount.Text = "0";
+        tbOutlayCash.Text = "0";
+        tbOutlayCard.Text = "0";
+        tbOutlayTransfer.Text = "0";
+        tbOutlayCredit.Text = "0";
+        tbOutlayOther.Text = "0";
+        tbOutlayAllAmount.Text = "0";
     }
 
     private void ShowRegistries(List<RegistryForResultDto> registries)
@@ -39,6 +113,7 @@ public partial class StatsPage : Page
         else
         {
             statsLoader.Visibility = Visibility.Collapsed;
+            st.Visibility = Visibility.Collapsed;
             emptyData.Visibility = Visibility.Visible;
         }
     }
@@ -151,5 +226,11 @@ public partial class StatsPage : Page
             await GetAllRegistry();
             IsPageLoaded = true;
         }
+    }
+
+    private async void finishadDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if(IsPageLoaded)
+            await FilterAsync();
     }
 }

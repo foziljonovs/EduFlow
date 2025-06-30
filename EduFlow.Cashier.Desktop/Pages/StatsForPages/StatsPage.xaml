@@ -27,7 +27,8 @@
                             Width="110"
                             Margin="10 0"
                             VerticalAlignment="Center"
-                            ToolTip="Yakuniy sana"/>
+                            ToolTip="Yakuniy sana"
+                            SelectedDateChanged="finishadDate_SelectedDateChanged"/>
             </StackPanel>
         </Grid>
 
