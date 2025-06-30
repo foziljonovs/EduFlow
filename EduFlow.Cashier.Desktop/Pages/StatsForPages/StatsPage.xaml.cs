@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Payments.Registry;
+using EduFlow.Cashier.Desktop.Windows.PaymentForWindows;
 using EduFlow.Desktop.Integrated.Services.Payments.Registry;
 using System.Windows;
 using System.Windows.Controls;
@@ -232,5 +233,11 @@ public partial class StatsPage : Page
     {
         if(IsPageLoaded)
             await FilterAsync();
+    }
+
+    private void OutlayBtn_Click(object sender, RoutedEventArgs e)
+    {
+        OutlayForPaymentWindow window = new OutlayForPaymentWindow();
+        window.ShowDialog();
     }
 }

@@ -168,6 +168,41 @@
         </Setter>
     </Style>
 
+    <Style x:Key="OutlayButton" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="B"
+                            CornerRadius="10"
+                            BorderThickness="1"
+                            Background="Tomato">
+                        <Grid>
+                            <Label
+                                x:Name="Lbl"
+                                Grid.Column="1"
+                                FontFamily="Jetbrains Mono"
+                                Content="Chiqim qilish"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                FontSize="14"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="B" Property="Background" Value="OrangeRed"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="CourseButton" TargetType="{x:Type RadioButton}">
         <Setter Property="Height" Value="40"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>

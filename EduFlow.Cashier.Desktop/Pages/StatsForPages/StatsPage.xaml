@@ -30,6 +30,13 @@
                             ToolTip="Yakuniy sana"
                             SelectedDateChanged="finishadDate_SelectedDateChanged"/>
             </StackPanel>
+
+            <Button x:Name="OutlayBtn"
+                    Style="{DynamicResource OutlayButton}"
+                    Width="100"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Click="OutlayBtn_Click"/>
         </Grid>
 
         <Grid Grid.Row="1">
