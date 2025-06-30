@@ -76,15 +76,10 @@
             </ComboBox>
         </StackPanel>
 
-        <Grid Grid.Row="2">
-            <local1:Loader x:Name="Loader"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Visibility="Collapsed"/>
-
             <Button x:Name="SaveBtn"
-                        Style="{DynamicResource saveButton}"
-                        Margin="5 0"/>
-        </Grid>
+                    Grid.Row="2"
+                    Style="{DynamicResource saveButton}"
+                    Margin="5 0"
+                    Click="SaveBtn_Click"/>
     </Grid>
 </Window>
