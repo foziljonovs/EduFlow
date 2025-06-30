@@ -12,7 +12,6 @@ using EduFlow.Desktop.Integrated.Services.Payments.Registry;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Domain.Enums;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -45,23 +44,23 @@ public partial class IncomeForPaymentWindow : Window
         this._studentService = new StudentService();
     }
 
-    Notifier notifier = new Notifier(cfg =>
-    {
-        cfg.PositionProvider = new WindowPositionProvider(
-            parentWindow: Application.Current.MainWindow,
-            corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+        Notifier notifier = new Notifier(cfg =>
+        {
+            cfg.PositionProvider = new WindowPositionProvider(
+                parentWindow: Application.Current.MainWindow,
+                corner: Corner.TopRight,
+                offsetX: 20,
+                offsetY: 20);
 
-        cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-            notificationLifetime: TimeSpan.FromSeconds(3),
-            maximumNotificationCount: MaximumNotificationCount.FromCount(2));
+            cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                notificationLifetime: TimeSpan.FromSeconds(3),
+                maximumNotificationCount: MaximumNotificationCount.FromCount(2));
 
-        cfg.Dispatcher = Application.Current.Dispatcher;
+            cfg.Dispatcher = Application.Current.Dispatcher;
 
-        cfg.DisplayOptions.Width = 200;
-        cfg.DisplayOptions.TopMost = true;
-    });
+            cfg.DisplayOptions.Width = 200;
+            cfg.DisplayOptions.TopMost = true;
+        });
 
     Notifier notifierThis = new Notifier(cfg =>
     {
