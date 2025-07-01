@@ -20,7 +20,5 @@ public class StudentRepository : Repository<Student>, IStudentRepository
             .Where(x => !x.IsDeleted)
             .Include(x => x.Payments)
             .Include(x => x.Groups)
-            .Include(x => x.StudentCourses)
-            .Include(x => x.StudentCourses)
-                .ThenInclude(x => x.Course);
+            .Include(x => x.StudentCourses);
 }

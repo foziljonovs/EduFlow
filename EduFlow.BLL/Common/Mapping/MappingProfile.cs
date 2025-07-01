@@ -36,24 +36,28 @@ public class MappingProfile : Profile
         /*----------------------------------Teacher------------------------------------*/
         CreateMap<Teacher, TeacherForResultDto>();
         CreateMap<TeacherForResultDto, Teacher>();
+        CreateMap<Teacher, TeacherForShortResultDto>();
         CreateMap<TeacherForCreateDto, Teacher>();
         CreateMap<TeacherForUpdateDto, Teacher>();
 
         /*------------------------------------Student--------------------------------------*/
         CreateMap<Student, StudentForResultDto>();
         CreateMap<StudentForResultDto, Student>();
+        CreateMap<Student, StudentForShortResultDto>();
         CreateMap<StudentForCreateDto, Student>();
         CreateMap<StudentForUpdateDto, Student>();
 
         /*--------------------------------------Course---------------------------------------*/
         CreateMap<Course, CourseForResultDto>();
         CreateMap<CourseForResultDto, Course>();
+        CreateMap<Course, CourseForShortResultDto>();
         CreateMap<CourseForCreateDto, Course>();
         CreateMap<CourseForUpdateDto, Course>();
 
         /*--------------------------------------Group----------------------------------------*/
         CreateMap<Group, GroupForResultDto>();
         CreateMap<GroupForResultDto, Group>();
+        CreateMap<Group, GroupForShortResultDto>();
         CreateMap<GroupForCreateDto, Group>()
             .ForMember(dest => dest.Students, opt => opt.Ignore())
             .ForMember(dest => dest.Payments, opt => opt.Ignore());
@@ -65,12 +69,14 @@ public class MappingProfile : Profile
         /*-------------------------------------StudentCourse----------------------------------*/
         CreateMap<StudentCourse, StudentCourseForResultDto>();
         CreateMap<StudentCourseForResultDto, StudentCourse>();
+        CreateMap<StudentCourse, StudentCourseForShortResultDto>();
         CreateMap<StudentCourseForCreateDto, StudentCourse>();
         CreateMap<StudentCourseForUpdateDto, StudentCourse>();
 
         /*-------------------------------------Category-----------------------------------------*/
         CreateMap<Category, CategoryForResultDto>();
         CreateMap<CategoryForResultDto, Category>();
+        CreateMap<Category, CategoryForShortResultDto>();
         CreateMap<CategoryForCraeteDto, Category>()
             .ForMember(dest => dest.Courses, opt => opt.Ignore());
 
@@ -80,6 +86,7 @@ public class MappingProfile : Profile
         /*--------------------------------------Attendance----------------------------------------*/
         CreateMap<Attendance, AttendanceForResultDto>();
         CreateMap<AttendanceForResultDto, Attendance>();
+        CreateMap<Attendance, AttendanceForShortResultDto>();
         CreateMap<AttendanceForCraeteDto, Attendance>();
         CreateMap<AttendanceForUpdateDto, Attendance>();
         CreateMap<AttendanceForUpdateRangeDto, Attendance>();
@@ -87,6 +94,7 @@ public class MappingProfile : Profile
         /*--------------------------------------Lesson------------------------------------------*/
         CreateMap<Lesson, LessonForResultDto>();
         CreateMap<LessonForResultDto, Lesson>();
+        CreateMap<Lesson, LessonForShortResultDto>();
         CreateMap<LessonForCreateDto, Lesson>();
         CreateMap<LessonForUpdateDto, Lesson>();
 
@@ -99,6 +107,7 @@ public class MappingProfile : Profile
         /*-------------------------------------Payment-----------------------------------------*/
         CreateMap<Payment, PaymentForResultDto>();
         CreateMap<PaymentForResultDto, Payment>();
+        CreateMap<Payment, PaymentForShortResultDto>();
         CreateMap<PaymentForCreateDto, Payment>();
         CreateMap<PaymentForUpdateDto, Payment>();
 

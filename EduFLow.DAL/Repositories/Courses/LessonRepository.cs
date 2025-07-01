@@ -19,6 +19,5 @@ public class LessonRepository : Repository<Lesson>, ILessonRepository
         => _dbSet
             .Where(x => !x.IsDeleted)
             .Include(x => x.Group)
-            .Include(x => x.Attendances)
-                .ThenInclude(a => a.Student);
+            .Include(x => x.Attendances);
 }

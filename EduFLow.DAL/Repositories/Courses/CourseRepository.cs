@@ -20,7 +20,5 @@ public class CourseRepository : Repository<Course>, ICourseRepository
             .Where(x => !x.IsDeleted)
             .Include(x => x.Category)
             .Include(x => x.Teachers)
-                .ThenInclude(t => t.User)
-            .Include(x => x.Groups)
-                .ThenInclude(s => s.Students);
+            .Include(x => x.Groups);
 }

@@ -1,4 +1,5 @@
-﻿using Et = EduFlow.Domain.Entities.Courses;
+﻿using EduFlow.BLL.DTOs.Courses.Attendance;
+using Et = EduFlow.Domain.Entities.Courses;
 
 namespace EduFlow.BLL.DTOs.Courses.Lesson;
 
@@ -9,5 +10,5 @@ public class LessonForResultDto
     public int LessonNumber { get; set; }
     public DateTime Date { get; set; }
     public long GroupId { get; set; }
-    public List<Et.Attendance> Attendances { get; set; }
+    public List<AttendanceForShortResultDto> Attendances { get; set; }
 }
