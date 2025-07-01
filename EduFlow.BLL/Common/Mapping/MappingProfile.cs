@@ -36,6 +36,7 @@ public class MappingProfile : Profile
         /*----------------------------------Teacher------------------------------------*/
         CreateMap<Teacher, TeacherForResultDto>();
         CreateMap<TeacherForResultDto, Teacher>();
+        CreateMap<Teacher, TeacherForShortResultDto>();
         CreateMap<TeacherForCreateDto, Teacher>();
         CreateMap<TeacherForUpdateDto, Teacher>();
 
@@ -49,6 +50,7 @@ public class MappingProfile : Profile
         /*--------------------------------------Course---------------------------------------*/
         CreateMap<Course, CourseForResultDto>();
         CreateMap<CourseForResultDto, Course>();
+        CreateMap<Course, CourseForShortResultDto>();
         CreateMap<CourseForCreateDto, Course>();
         CreateMap<CourseForUpdateDto, Course>();
 
@@ -67,12 +69,14 @@ public class MappingProfile : Profile
         /*-------------------------------------StudentCourse----------------------------------*/
         CreateMap<StudentCourse, StudentCourseForResultDto>();
         CreateMap<StudentCourseForResultDto, StudentCourse>();
+        CreateMap<StudentCourse, StudentCourseForShortResultDto>();
         CreateMap<StudentCourseForCreateDto, StudentCourse>();
         CreateMap<StudentCourseForUpdateDto, StudentCourse>();
 
         /*-------------------------------------Category-----------------------------------------*/
         CreateMap<Category, CategoryForResultDto>();
         CreateMap<CategoryForResultDto, Category>();
+        CreateMap<Category, CategoryForShortResultDto>();
         CreateMap<CategoryForCraeteDto, Category>()
             .ForMember(dest => dest.Courses, opt => opt.Ignore());
 
@@ -101,6 +105,7 @@ public class MappingProfile : Profile
         /*-------------------------------------Payment-----------------------------------------*/
         CreateMap<Payment, PaymentForResultDto>();
         CreateMap<PaymentForResultDto, Payment>();
+        CreateMap<Payment, PaymentForShortResultDto>();
         CreateMap<PaymentForCreateDto, Payment>();
         CreateMap<PaymentForUpdateDto, Payment>();
 
