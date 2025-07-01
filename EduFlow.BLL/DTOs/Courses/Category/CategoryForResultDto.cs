@@ -1,5 +1,5 @@
-﻿using EduFlow.Domain.Enums;
-using Et = EduFlow.Domain.Entities.Courses;
+﻿using EduFlow.BLL.DTOs.Courses.Course;
+using EduFlow.Domain.Enums;
 
 namespace EduFlow.BLL.DTOs.Courses.Category;
 
@@ -10,5 +10,5 @@ public class CategoryForResultDto
     public DateTime UpdatedAt { get; set; }
     public string Name { get; set; }
     public Status Status { get; set; }
-    public List<Et.Course> Courses { get; set; }
+    public List<CourseForShortResultDto> Courses { get; set; }
 }

@@ -86,6 +86,7 @@ public class MappingProfile : Profile
         /*--------------------------------------Attendance----------------------------------------*/
         CreateMap<Attendance, AttendanceForResultDto>();
         CreateMap<AttendanceForResultDto, Attendance>();
+        CreateMap<Attendance, AttendanceForShortResultDto>();
         CreateMap<AttendanceForCraeteDto, Attendance>();
         CreateMap<AttendanceForUpdateDto, Attendance>();
         CreateMap<AttendanceForUpdateRangeDto, Attendance>();
@@ -93,6 +94,7 @@ public class MappingProfile : Profile
         /*--------------------------------------Lesson------------------------------------------*/
         CreateMap<Lesson, LessonForResultDto>();
         CreateMap<LessonForResultDto, Lesson>();
+        CreateMap<Lesson, LessonForShortResultDto>();
         CreateMap<LessonForCreateDto, Lesson>();
         CreateMap<LessonForUpdateDto, Lesson>();
 

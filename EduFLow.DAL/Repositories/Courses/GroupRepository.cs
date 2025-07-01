@@ -19,10 +19,6 @@ public class GroupRepository : Repository<Group>, IGroupRepository
         => _dbSet
             .Where(x => !x.IsDeleted)
             .Include(x => x.Course)
-                .ThenInclude(c => c.Category)
-            .Include(x => x.Course)
             .Include(x => x.Students)
-            .Include(x => x.Teacher)
-            .Include(x => x.Teacher)
-                .ThenInclude(x => x.User);
+            .Include(x => x.Teacher);
 }
