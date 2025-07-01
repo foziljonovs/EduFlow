@@ -42,6 +42,7 @@ public class MappingProfile : Profile
         /*------------------------------------Student--------------------------------------*/
         CreateMap<Student, StudentForResultDto>();
         CreateMap<StudentForResultDto, Student>();
+        CreateMap<Student, StudentForShortResultDto>();
         CreateMap<StudentForCreateDto, Student>();
         CreateMap<StudentForUpdateDto, Student>();
 
@@ -54,6 +55,7 @@ public class MappingProfile : Profile
         /*--------------------------------------Group----------------------------------------*/
         CreateMap<Group, GroupForResultDto>();
         CreateMap<GroupForResultDto, Group>();
+        CreateMap<Group, GroupForShortResultDto>();
         CreateMap<GroupForCreateDto, Group>()
             .ForMember(dest => dest.Students, opt => opt.Ignore())
             .ForMember(dest => dest.Payments, opt => opt.Ignore());

@@ -1,7 +1,6 @@
-﻿using EduFlow.Domain.Entities.Courses;
-using EduFlow.Domain.Entities.Users;
+﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Domain.Enums;
-using System.Text.Json.Serialization;
 using Et = EduFlow.Domain.Entities.Payments;
 
 namespace EduFlow.BLL.DTOs.Payments.Payment;
@@ -12,11 +11,10 @@ public class PaymentForResultDto
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public long StudentId { get; set; }
-    public Student Student { get; set; }
+    public StudentForShortResultDto Student { get; set; }
     public long GroupId { get; set; }
-    public Group Group { get; set; }
+    public GroupForShortResultDto Group { get; set; }
     public long TeacherId { get; set; }
-    public Teacher Teacher { get; set; }
     public long RegistryId { get; set; }
     public Et.Registry Registry { get; set; }
     public double Amount { get; set; }
