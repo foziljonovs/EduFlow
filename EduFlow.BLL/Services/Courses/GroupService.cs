@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EduFlow.BLL.Common.Exceptions;
+using EduFlow.BLL.Common.Pagination;
 using EduFlow.BLL.Common.Validators.Courses.Interfaces;
 using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.Interfaces.Courses;
@@ -199,7 +200,7 @@ public class GroupService(
         }
     }
 
-    public async Task<IEnumerable<GroupForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<PagedList<GroupForResultDto>> GetAllAsync(int pageSize, int pageNumber, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -210,8 +211,18 @@ public class GroupService(
 
             if (!groups.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
+
+            var mappedGroups = groups
+                .Select(g => _mapper.Map<GroupForResultDto>(g))
+                .ToList();
+
+            var pagedList = new PagedList<GroupForResultDto>(
+                mappedGroups,
+                mappedGroups.Count,
+                pageNumber,
+                pageSize);
             
-            return _mapper.Map<IEnumerable<GroupForResultDto>>(groups);
+            return pagedList.ToPagedList(mappedGroups, pageSize, pageNumber);
         }
         catch (Exception ex)
         {
