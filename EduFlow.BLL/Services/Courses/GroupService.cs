@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EduFlow.BLL.Common.Exceptions;
+using EduFlow.BLL.Common.Pagination;
 using EduFlow.BLL.Common.Validators.Courses.Interfaces;
 using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.Interfaces.Courses;
@@ -150,14 +151,11 @@ public class GroupService(
         }
     }
 
-    public async Task<IEnumerable<GroupForResultDto>> FilterAsync(GroupForFilterDto dto, CancellationToken cancellationToken = default)
+    public async Task<PagedList<GroupForResultDto>> FilterAsync(GroupForFilterDto dto, int pageSize, int pageNumber, CancellationToken cancellationToken = default)
     {
         try
         {
             var groupQuery = _unitOfWork.Group.GetAllFullInformation();
-
-            if(!groupQuery.Any())
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
 
             if(dto.StartedDate.HasValue && dto.FinishedDate.HasValue)
             {
@@ -184,13 +182,22 @@ public class GroupService(
                 groupQuery = groupQuery
                     .Where(x => x.IsStatus == dto.IsStatus);
 
-            var groups = await groupQuery
-                .ToListAsync(cancellationToken);
+            var groups = await groupQuery.CountAsync(cancellationToken);
 
-            if(!groups.Any())
+            if (groups == 0)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
 
-            return _mapper.Map<IEnumerable<GroupForResultDto>>(groups);
+            var mappedGroups = await groupQuery
+                .Select(g => _mapper.Map<GroupForResultDto>(g))
+                .ToListAsync(cancellationToken);
+
+            var pagedList = new PagedList<GroupForResultDto>(
+                mappedGroups,
+                mappedGroups.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedList.ToPagedList(mappedGroups, pageSize, pageNumber);
         }
         catch (Exception ex)
         {
@@ -199,7 +206,7 @@ public class GroupService(
         }
     }
 
-    public async Task<IEnumerable<GroupForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<PagedList<GroupForResultDto>> GetAllAsync(int pageSize, int pageNumber, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -210,8 +217,18 @@ public class GroupService(
 
             if (!groups.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
+
+            var mappedGroups = groups
+                .Select(g => _mapper.Map<GroupForResultDto>(g))
+                .ToList();
+
+            var pagedList = new PagedList<GroupForResultDto>(
+                mappedGroups,
+                mappedGroups.Count,
+                pageNumber,
+                pageSize);
             
-            return _mapper.Map<IEnumerable<GroupForResultDto>>(groups);
+            return pagedList.ToPagedList(mappedGroups, pageSize, pageNumber);
         }
         catch (Exception ex)
         {
@@ -220,7 +237,7 @@ public class GroupService(
         }
     }
 
-    public async Task<IEnumerable<GroupForResultDto>> GetAllByCourseIdAsync(long courseId, CancellationToken cancellationToken = default)
+    public async Task<PagedList<GroupForResultDto>> GetAllByCourseIdAsync(long courseId, int pageSize, int pageNumber, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -230,8 +247,18 @@ public class GroupService(
 
             if (!groups.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Group not found.");
+
+            var mappedGroups = groups
+                .Select(g => _mapper.Map<GroupForResultDto>(g))
+                .ToList();
+
+            var pagedList = new PagedList<GroupForResultDto>(
+                mappedGroups,
+                mappedGroups.Count,
+                pageNumber,
+                pageSize);
             
-            return _mapper.Map<IEnumerable<GroupForResultDto>>(groups);
+            return pagedList.ToPagedList(mappedGroups, pageSize, pageNumber);
         }
         catch (Exception ex)
         {
