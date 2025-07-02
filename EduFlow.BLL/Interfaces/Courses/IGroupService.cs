@@ -11,8 +11,8 @@ public interface IGroupService
     Task<bool> UpdateAsync(long id, GroupForUpdateDto dto, CancellationToken cancellationToken = default);
     Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default);
     Task<IEnumerable<GroupForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellationToken = default);
-    Task<IEnumerable<GroupForResultDto>> GetAllByCourseIdAsync(long courseId, CancellationToken cancellationToken = default);
-    Task<IEnumerable<GroupForResultDto>> FilterAsync(GroupForFilterDto dto, CancellationToken cancellationToken = default);
+    Task<PagedList<GroupForResultDto>> GetAllByCourseIdAsync(long courseId, int pageSize, int pageNumber, CancellationToken cancellationToken = default);
+    Task<PagedList<GroupForResultDto>> FilterAsync(GroupForFilterDto dto, int pageSize, int pageNumber, CancellationToken cancellationToken = default);
     Task<bool> AddStudentsToGroupAsync(long id, List<long> students, CancellationToken cancellationToken = default);
     Task<bool> DeleteForStudentAsync(long id, long studentId, CancellationToken cancellationToken = default);
 }
