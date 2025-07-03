@@ -162,8 +162,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="40"/>
                 </Grid.ColumnDefinitions>
@@ -191,14 +190,6 @@
                            HorizontalAlignment="Center"/>
 
                 <TextBlock Grid.Column="3"
-                           Text="Dars soni"
-                           FontSize="12"
-                           FontWeight="ExtraBold"
-                           FontFamily="Jetbrains Mono"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="4"
                            Text="Boshlanish sanasi"
                            FontSize="12"
                            FontWeight="ExtraBold"

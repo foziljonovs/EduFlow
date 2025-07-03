@@ -1,5 +1,6 @@
-﻿using Et = EduFlow.Domain.Entities.Courses;
-using EduFlow.Domain.Entities.Users;
+﻿using EduFlow.Domain.Entities.Users;
+using EduFlow.Domain.Enums;
+using Et = EduFlow.Domain.Entities.Courses;
 
 namespace EduFlow.BLL.DTOs.Courses.StudentCourse;
 
@@ -12,4 +13,5 @@ public class StudentCourseForResultDto
     public Student Student { get; set; }
     public long CourseId { get; set; }
     public Et.Course Course { get; set; }
+    public EnrollmentStatus Status { get; set; }
 }

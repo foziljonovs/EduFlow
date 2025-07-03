@@ -15,7 +15,6 @@
         <Grid Margin="5 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
@@ -28,15 +27,6 @@
                        VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="1"
-                       x:Name="tbLessonCount"
-                       Text="7"
-                       FontSize="14"
-                       FontFamily="Jetbrains Mono"
-                       FontWeight="SemiBold"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-            <TextBlock Grid.Column="2"
                        x:Name="tbCreatedDate"
                        Text="22.06.2025"
                        FontSize="14"

@@ -94,7 +94,6 @@
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="80"/>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="100"/>
@@ -117,7 +116,7 @@
                            FontWeight="ExtraBold"
                            FontFamily="Jetbrains Mono"
                            VerticalAlignment="Center"/>
-                
+
                 <TextBlock Grid.Column="2"
                            Text="Summa"
                            FontSize="12"
@@ -127,13 +126,6 @@
                            VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Column="3"
-                           Text="O'qituvchi"
-                           FontSize="12"
-                           FontWeight="ExtraBold"
-                           FontFamily="Jetbrains Mono"
-                           VerticalAlignment="Center"/>
-
-                <TextBlock Grid.Column="4"
                            Text="Chegirma"
                            FontSize="12"
                            FontWeight="ExtraBold"
@@ -141,7 +133,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
 
-                <TextBlock Grid.Column="5"
+                <TextBlock Grid.Column="4"
                            Text="Holati"
                            FontSize="12"
                            FontWeight="ExtraBold"
@@ -149,7 +141,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
 
-                <TextBlock Grid.Column="6"
+                <TextBlock Grid.Column="5"
                            Text="Turi"
                            FontSize="12"
                            FontWeight="ExtraBold"
@@ -157,7 +149,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
 
-                <TextBlock Grid.Column="7"
+                <TextBlock Grid.Column="6"
                            Text="Sana"
                            FontSize="12"
                            FontWeight="ExtraBold"

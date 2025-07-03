@@ -15,7 +15,6 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
@@ -48,16 +47,8 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
-            <TextBlock x:Name="tbTeacher"
-                       Grid.Column="3"
-                       Text="Abdulvosid Foziljonov"
-                       FontSize="14"
-                       FontFamily="Jetbrains Mono"
-                       FontWeight="SemiBold"
-                       VerticalAlignment="Center"/>
-
             <TextBlock x:Name="tbDiscount"
-                       Grid.Column="4"
+                       Grid.Column="3"
                        Text="0"
                        FontSize="14"
                        FontFamily="Jetbrains Mono"
@@ -66,7 +57,7 @@
                        VerticalAlignment="Center"/>
 
             <TextBlock x:Name="tbStatus"
-                       Grid.Column="5"
+                       Grid.Column="4"
                        Text="Yakunlangan"
                        FontSize="14"
                        FontFamily="Jetbrains Mono"
@@ -75,7 +66,7 @@
                        VerticalAlignment="Center"/>
 
             <TextBlock x:Name="tbType"
-                       Grid.Column="6"
+                       Grid.Column="5"
                        Text="Naqt"
                        FontSize="14"
                        FontFamily="Jetbrains Mono"
@@ -84,7 +75,7 @@
                        VerticalAlignment="Center"/>
 
             <TextBlock x:Name="tbPaymentDate"
-                       Grid.Column="7"
+                       Grid.Column="6"
                        Text="16.06.2025 14:00"
                        FontSize="14"
                        FontFamily="Jetbrains Mono"
@@ -92,7 +83,7 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
-            <StackPanel Grid.Column="8"
+            <StackPanel Grid.Column="7"
                         Orientation="Horizontal">
                 <Button x:Name="deleteBtn"
                         Style="{DynamicResource CrudButton}"

@@ -17,11 +17,10 @@ public partial class GroupForComponent : UserControl
         InitializeComponent();
     }
 
-    public void SetValues(long id, string name, int lessonCount, DateTime CreatedDate)
+    public void SetValues(long id, string name, DateTime CreatedDate)
     {
         this.Id = id;
         tbName.Text = name;
-        tbLessonCount.Text = lessonCount.ToString();
         tbCreatedDate.Text = CreatedDate.ToString("dd/MM/yyyy");
     }
 

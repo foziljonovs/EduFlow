@@ -227,7 +227,6 @@ public partial class PaymentPage : Page
                     item.Id,
                     item.ReceiptNumber,
                     item.Amount,
-                    $"{item.Teacher.User.Firstname} {item.Teacher.User.Lastname}",
                     item.Discount,
                     item.Status,
                     item.Type,
