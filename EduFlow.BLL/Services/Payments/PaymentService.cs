@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EduFlow.BLL.Common.Exceptions;
+using EduFlow.BLL.Common.Pagination;
 using EduFlow.BLL.Common.Validators.Payments.Interfaces;
 using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Payments.Registry;
@@ -98,7 +99,7 @@ public class PaymentService(
         }
     }
 
-    public async Task<IEnumerable<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto, CancellationToken cancellation = default)
+    public async Task<PagedList<PaymentForResultDto>> FilterAsync(int pageSize, int pageNumber, PaymentForFilterDto dto, CancellationToken cancellation = default)
     {
         try
         {
@@ -133,12 +134,22 @@ public class PaymentService(
                 paymentQuery = paymentQuery
                     .Where(x => x.Type == dto.Type.Value);
 
-            var payments = await paymentQuery.ToListAsync(cancellation);
+            var paymentCount = await paymentQuery.CountAsync(cancellation);
 
-            if (!payments.Any())
+            if (paymentCount == 0)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
 
-            return _mapper.Map<IEnumerable<PaymentForResultDto>>(payments);
+            var mappedPayments = await paymentQuery
+                .Select(p => _mapper.Map<PaymentForResultDto>(p))
+                .ToListAsync(cancellation);
+
+            var pagedlist = new PagedList<PaymentForResultDto>(
+                mappedPayments,
+                mappedPayments.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedPayments, pageSize, pageNumber);
         }
         catch(Exception ex)
         {
@@ -147,7 +158,7 @@ public class PaymentService(
         }
     }
 
-    public async Task<IEnumerable<PaymentForResultDto>> GetAllAsync(CancellationToken cancellation = default)
+    public async Task<PagedList<PaymentForResultDto>> GetAllAsync(int pageSize, int pageNumber, CancellationToken cancellation = default)
     {
         try
         {
@@ -158,7 +169,17 @@ public class PaymentService(
             if (!payments.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
 
-            return _mapper.Map<IEnumerable<PaymentForResultDto>>(payments);
+            var mappedPayments = payments
+                .Select(p => _mapper.Map<PaymentForResultDto>(p))
+                .ToList();
+
+            var pagedlist = new PagedList<PaymentForResultDto>(
+                mappedPayments,
+                mappedPayments.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedPayments, pageSize, pageNumber);
         }
         catch(Exception ex)
         {
@@ -167,7 +188,7 @@ public class PaymentService(
         }
     }
 
-    public async Task<IEnumerable<PaymentForResultDto>> GetAllByGroupIdAsync(long groupId, CancellationToken cancellationToken = default)
+    public async Task<PagedList<PaymentForResultDto>> GetAllByGroupIdAsync(int pageSize, int pageNumber, long groupId, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -179,7 +200,17 @@ public class PaymentService(
             if (!payments.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
 
-            return _mapper.Map<IEnumerable<PaymentForResultDto>>(payments);
+            var mappedPayments = payments
+                .Select(p => _mapper.Map<PaymentForResultDto>(p))
+                .ToList();
+
+            var pagedlist = new PagedList<PaymentForResultDto>(
+                mappedPayments,
+                mappedPayments.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedPayments, pageSize, pageNumber);
         }
         catch(Exception ex)
         {
@@ -188,7 +219,7 @@ public class PaymentService(
         }
     }
 
-    public async Task<IEnumerable<PaymentForResultDto>> GetAllByStudentIdAsync(long studentId, CancellationToken cancellationToken = default)
+    public async Task<PagedList<PaymentForResultDto>> GetAllByStudentIdAsync(int pageSize, int pageNumber, long studentId, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -200,7 +231,17 @@ public class PaymentService(
             if (!payments.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
 
-            return _mapper.Map<IEnumerable<PaymentForResultDto>>(payments);
+            var mappedPayments = payments
+                .Select(p => _mapper.Map<PaymentForResultDto>(p))
+                .ToList();
+
+            var pagedlist = new PagedList<PaymentForResultDto>(
+                mappedPayments,
+                mappedPayments.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedPayments, pageSize, pageNumber);
         }
         catch(Exception ex)
         {

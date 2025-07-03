@@ -1,15 +1,16 @@
-﻿using EduFlow.BLL.DTOs.Payments.Payment;
+﻿using EduFlow.BLL.Common.Pagination;
+using EduFlow.BLL.DTOs.Payments.Payment;
 
 namespace EduFlow.BLL.Interfaces.Payments;
 
 public interface IPaymentService
 {
-    Task<IEnumerable<PaymentForResultDto>> GetAllAsync(CancellationToken cancellation = default);
+    Task<PagedList<PaymentForResultDto>> GetAllAsync(int pageSize, int pageNumber, CancellationToken cancellation = default);
     Task<PaymentForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default);
     Task<long> AddToPayAsync(PaymentForCreateDto dto, CancellationToken cancellationToken = default);
     Task<bool> UpdateToPayAsync(long id, PaymentForUpdateDto dto, CancellationToken cancellationToken = default);
     Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default);
-    Task<IEnumerable<PaymentForResultDto>> GetAllByStudentIdAsync(long studentId, CancellationToken cancellationToken = default);
-    Task<IEnumerable<PaymentForResultDto>> GetAllByGroupIdAsync(long groupId, CancellationToken cancellationToken = default);
-    Task<IEnumerable<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto, CancellationToken cancellation = default);
+    Task<PagedList<PaymentForResultDto>> GetAllByStudentIdAsync(int pageSize, int pageNumber, long studentId, CancellationToken cancellationToken = default);
+    Task<PagedList<PaymentForResultDto>> GetAllByGroupIdAsync(int pageSize, int pageNumber, long groupId, CancellationToken cancellationToken = default);
+    Task<PagedList<PaymentForResultDto>> FilterAsync(int pageSize, int pageNumber, PaymentForFilterDto dto, CancellationToken cancellation = default);
 }
