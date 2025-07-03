@@ -3,6 +3,7 @@ using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.Interfaces.Payments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace EduFlow.WebApi.Controllers.Common.Payments;
@@ -15,12 +16,24 @@ public class PaymentController(
     private readonly IPaymentService _service = service;
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync(CancellationToken cancellation = default)
+    public async Task<IActionResult> GetAllAsync(int pageSize = 10, int pageNumber = 1, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.GetAllAsync(cancellation);
-            return Ok(response);
+            var response = await _service.GetAllAsync(pageSize, pageNumber, cancellation);
+
+            var metadata = new
+            {
+                response.TotalCount,
+                response.PageSize,
+                response.CurrentPage,
+                response.HasNext,
+                response.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(response.Data);
         }
         catch(StatusCodeException ex)
         {
@@ -73,12 +86,24 @@ public class PaymentController(
     }
 
     [HttpPost("filter")]
-    public async Task<IActionResult> GetAllByFilterAsync([FromBody] PaymentForFilterDto filter, CancellationToken cancellation = default)
+    public async Task<IActionResult> GetAllByFilterAsync([FromBody] PaymentForFilterDto filter, int pageSize = 10, int pageNumber = 1, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.FilterAsync(filter, cancellation);
-            return Ok(response);
+            var response = await _service.FilterAsync(pageSize, pageNumber, filter, cancellation); 
+            
+            var metadata = new
+            {
+                response.TotalCount,
+                response.PageSize,
+                response.CurrentPage,
+                response.HasNext,
+                response.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(response.Data);
         }
         catch(StatusCodeException ex)
         {
@@ -131,12 +156,24 @@ public class PaymentController(
     }
 
     [HttpGet("{studentId:long}/student")]
-    public async Task<IActionResult> GetAllByStudentIdAsync([FromRoute] long studentId, CancellationToken cancellation = default)
+    public async Task<IActionResult> GetAllByStudentIdAsync([FromRoute] long studentId, int pageSize = 10, int pageNumber = 1, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.GetAllByStudentIdAsync(studentId, cancellation);
-            return Ok(response);
+            var response = await _service.GetAllByStudentIdAsync(pageSize, pageNumber, studentId, cancellation);
+
+            var metadata = new
+            {
+                response.TotalCount,
+                response.PageSize,
+                response.CurrentPage,
+                response.HasNext,
+                response.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(response.Data);
         }
         catch(StatusCodeException ex)
         {
@@ -149,12 +186,24 @@ public class PaymentController(
     }
 
     [HttpGet("{groupId:long}/group")]
-    public async Task<IActionResult> GetAllByGroupIdAsync([FromRoute] long groupId, CancellationToken cancellation = default)
+    public async Task<IActionResult> GetAllByGroupIdAsync([FromRoute] long groupId, int pageSize = 10, int pageNumber = 1, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.GetAllByGroupIdAsync(groupId, cancellation);
-            return Ok(response);
+            var response = await _service.GetAllByGroupIdAsync( pageSize, pageNumber, groupId, cancellation);
+
+            var metadata = new
+            {
+                response.TotalCount,
+                response.PageSize,
+                response.CurrentPage,
+                response.HasNext,
+                response.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(response.Data);
         }
         catch(StatusCodeException ex)
         {

@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using EduFlow.BLL.Common.Exceptions;
+using EduFlow.BLL.Common.Pagination;
 using EduFlow.BLL.Common.Validators.Users.Interface;
+using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.Interfaces.Users;
 using EduFlow.DAL.Interfaces;
+using EduFlow.Domain.Entities.Payments;
 using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
 using FluentValidation;
@@ -161,7 +164,7 @@ public class StudentService(
         }
     }
 
-    public async Task<IEnumerable<StudentForResultDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<PagedList<StudentForResultDto>> GetAllAsync(int pageSize, int pageNumber, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -172,7 +175,17 @@ public class StudentService(
             if (!students.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
 
-            return _mapper.Map<IEnumerable<StudentForResultDto>>(students);
+            var mappedStudents = students
+               .Select(p => _mapper.Map<StudentForResultDto>(p))
+               .ToList();
+
+            var pagedlist = new PagedList<StudentForResultDto>(
+                mappedStudents,
+                mappedStudents.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedStudents, pageSize, pageNumber);
         }
         catch(Exception ex)
         {
@@ -181,7 +194,7 @@ public class StudentService(
         }
     }
 
-    public async Task<IEnumerable<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId, CancellationToken cancellationToken = default)
+    public async Task<PagedList<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId, int pageSize, int pageNumber, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -197,7 +210,17 @@ public class StudentService(
             if(!students.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
 
-            return _mapper.Map<IEnumerable<StudentForResultDto>>(students);
+            var mappedStudents = students
+               .Select(p => _mapper.Map<StudentForResultDto>(p))
+               .ToList();
+
+            var pagedlist = new PagedList<StudentForResultDto>(
+                mappedStudents,
+                mappedStudents.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedStudents, pageSize, pageNumber);
         }
         catch(Exception ex)
         {
@@ -206,7 +229,7 @@ public class StudentService(
         }
     }
 
-    public async Task<IEnumerable<StudentForResultDto>> GetAllByCourseIdAsync(long courseId, CancellationToken cancellationToken = default)
+    public async Task<PagedList<StudentForResultDto>> GetAllByCourseIdAsync(long courseId, int pageSize, int pageNumber, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -222,7 +245,17 @@ public class StudentService(
             if (!students.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
 
-            return _mapper.Map<IEnumerable<StudentForResultDto>>(students);
+            var mappedStudents = students
+                .Select(p => _mapper.Map<StudentForResultDto>(p))
+                .ToList();
+
+            var pagedlist = new PagedList<StudentForResultDto>(
+                mappedStudents,
+                mappedStudents.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedStudents, pageSize, pageNumber);
         }
         catch(Exception ex)
         {

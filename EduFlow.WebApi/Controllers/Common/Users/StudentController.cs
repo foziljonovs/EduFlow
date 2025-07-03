@@ -1,10 +1,11 @@
-﻿using EduFlow.BLL.Common.Exceptions;
+﻿ using EduFlow.BLL.Common.Exceptions;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.Interfaces.Users;
 using EduFlow.Domain.Enums;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Net;
 
 namespace EduFlow.WebApi.Controllers.Common.Users;
@@ -17,12 +18,24 @@ public class StudentController(
     private readonly IStudentService _service = service;
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetAllAsync(int pageSize = 10, int pageNumber = 1, CancellationToken cancellationToken = default)
     {
         try
         {
-            var response = await _service.GetAllAsync(cancellationToken);
-            return Ok(response);
+            var response = await _service.GetAllAsync(pageSize, pageNumber, cancellationToken);
+
+            var metaData = new
+            {
+                response.TotalCount,
+                response.PageSize,
+                response.CurrentPage,
+                response.HasNext,
+                response.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metaData));
+
+            return Ok(response.Data);
         }
         catch (StatusCodeException ex)
         {
@@ -173,12 +186,24 @@ public class StudentController(
     }
 
     [HttpGet("{categoryId:long}/category")]
-    public async Task<IActionResult> GetAllByCategoryIdAsync([FromRoute] long categoryId, CancellationToken cancellation = default)
+    public async Task<IActionResult> GetAllByCategoryIdAsync([FromRoute] long categoryId, int pageSize = 10, int pageNumber = 1, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.GetAllByCategoryIdAsync(categoryId, cancellation);
-            return Ok(response);
+            var response = await _service.GetAllByCategoryIdAsync(categoryId, pageSize, pageNumber, cancellation);
+
+            var metadata = new
+            {
+                response.TotalCount,
+                response.TotalPages,
+                response.CurrentPage,
+                response.HasNext,
+                response.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(response.Data);
         }
         catch (StatusCodeException ex)
         {
@@ -209,11 +234,23 @@ public class StudentController(
     }
 
     [HttpGet("{courseId:long}/course")]
-    public async Task<IActionResult> GetAllByCourseIdAsync([FromRoute] long courseId, CancellationToken cancellation = default)
+    public async Task<IActionResult> GetAllByCourseIdAsync([FromRoute] long courseId, int pageSize = 10, int pageNumber = 1, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.GetAllByCourseIdAsync(courseId, cancellation);
+            var response = await _service.GetAllByCourseIdAsync(courseId, pageSize, pageNumber, cancellation);
+
+            var metadata = new
+            {
+                response.TotalCount,
+                response.TotalPages,
+                response.CurrentPage,
+                response.HasNext,
+                response.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
             return Ok(response);
         }
         catch (StatusCodeException ex)
