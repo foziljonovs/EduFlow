@@ -15,14 +15,13 @@ public partial class PaymentForComponent : UserControl
         InitializeComponent();
     }
 
-    public void SetValues(int number, long id, string receiptNumber, double amount, string teacherName, double discount, PaymentStatus status, PaymentType type, DateTime paymentDate)
+    public void SetValues(int number, long id, string receiptNumber, double amount, double discount, PaymentStatus status, PaymentType type, DateTime paymentDate)
     {
         this.Id = id;
         this.ReceiptNumber = receiptNumber;
         tbNumber.Text = number.ToString();
         tbReceiptNumber.Text = receiptNumber;
         tbAmount.Text = amount.ToString();
-        tbTeacher.Text = teacherName;
         tbDiscount.Text = discount.ToString();
         tbStatus.Text = status switch
         {

@@ -18,7 +18,7 @@ public class PrinterService : IDisposable
         printerName = GetPrinterName();
     }
 
-    public void Print(PaymentForResultDto paymentDto, double coursePrice, string paymentType)
+    public void Print(PaymentForResultDto paymentDto, double coursePrice, string paymentType, string teacher, string course)
     {
         var cashier = IdentitySingelton.GetInstance().Name;
 
@@ -33,8 +33,8 @@ public class PrinterService : IDisposable
         printer.Append($"Kurs to'lovi:      {coursePrice} so'm");
         printer.Append($"To'lov turi:       {paymentType}");
         printer.Append($"Chegirma:          {paymentDto.Discount} so'm");
-        printer.Append($"Yo'nalish:         {paymentDto.Group.Course.Name}");
-        printer.Append($"O'qituvchi:\n{paymentDto.Teacher.User.Firstname} {paymentDto.Teacher.User.Lastname}");
+        printer.Append($"Yo'nalish:         {course}");
+        printer.Append($"O'qituvchi:\n{teacher}");
         printer.Append($"O'quvchi:\n{paymentDto.Student.Fullname}");
         printer.Append($"Jami summa:        {paymentDto.Amount + paymentDto.Discount} so'm");
         printer.Append($"To'langan summa:   {paymentDto.Amount} so'm");

@@ -14,8 +14,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
@@ -46,15 +45,6 @@
                        HorizontalAlignment="Center"/>
 
             <TextBlock Grid.Column="3"
-                       x:Name="tbLessonCount"
-                       Text="7"
-                       FontSize="14"
-                       FontFamily="Jetbrains Mono"
-                       FontWeight="SemiBold"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-            <TextBlock Grid.Column="4"
                        x:Name="tbStartedDate"
                        Text="11-06-2025"
                        FontSize="14"
@@ -62,7 +52,7 @@
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
 
-            <Button Grid.Column="5"
+            <Button Grid.Column="4"
                     x:Name="ViewButton"
                     Style="{DynamicResource CrudButton}"
                     Tag="Eye"

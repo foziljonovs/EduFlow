@@ -288,13 +288,10 @@ public partial class IncomeForPaymentWindow : Window
 
             foreach(var group in groups)
             {
-                int lessonCount = group.Lessons?.Count ?? 0;
-
                 GroupForComponent component = new GroupForComponent();
                 component.SetValues(
                     group.Id,
                     group.Name,
-                    lessonCount,
                     group.CreatedAt);
 
                 component.isClicked += async () =>
@@ -370,6 +367,7 @@ public partial class IncomeForPaymentWindow : Window
         try
         {
             string printerName = _printerService.GetPrinterName();
+
             if(string.IsNullOrEmpty(printerName))
             {
                 notifierThis.ShowWarning("Iltimos, printerni sozlang!");
@@ -498,7 +496,7 @@ public partial class IncomeForPaymentWindow : Window
 
                 if (paymentResult > 0)
                 {
-                    WriteToPrinter(paymentResult);
+                    WriteToPrinter(paymentResult, $"{_teacher.Course.Name ?? "Nomalum"}", $"{_teacher.User?.Firstname + _teacher.User?.Lastname ?? "Nomalum"}");
 
                     this.Close();
                     notifier.ShowSuccess("To'lov muvaffaqiyatli saqlandi!");
@@ -530,7 +528,7 @@ public partial class IncomeForPaymentWindow : Window
         }
     }
 
-    private async void WriteToPrinter(long paymentId)
+    private async void WriteToPrinter(long paymentId, string courseName, string teacherName)
     {
         try
         {
@@ -551,7 +549,7 @@ public partial class IncomeForPaymentWindow : Window
                         _ => "Aniq emas"
                     };
 
-                    _printerService.Print(payment, coursePrice, paymentType);
+                    _printerService.Print(payment, coursePrice, paymentType, teacherName, courseName);
                 }
                 else
                 {
