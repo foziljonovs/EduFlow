@@ -73,7 +73,7 @@
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="140"/>
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
@@ -119,8 +119,8 @@
                        FontSize="12"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
+                       Margin="5 0 0 0"
+                       VerticalAlignment="Center"/>
 
             <Button Grid.Column="6"
                     x:Name="createStudent"

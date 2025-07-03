@@ -125,7 +125,6 @@ public partial class GroupPage : Page
                     count,
                     item.Name,
                     item.Course.Name,
-                    item.Teacher.User.Firstname,
                     item.Students.Count,
                     item.IsStatus,
                     item.CreatedAt);

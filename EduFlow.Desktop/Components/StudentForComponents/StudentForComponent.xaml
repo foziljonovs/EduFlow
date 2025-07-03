@@ -18,7 +18,7 @@
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="140"/>
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
@@ -70,8 +70,8 @@
                        FontFamily="Jetbrains Mono"
                        FontSize="14"
                        FontWeight="SemiBold"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
+                       Margin="5 0 0 0"
+                       VerticalAlignment="Center"/>
 
             <StackPanel Grid.Column="6"
                         Orientation="Horizontal">

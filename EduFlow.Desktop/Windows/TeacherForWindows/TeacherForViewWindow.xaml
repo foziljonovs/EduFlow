@@ -150,23 +150,6 @@
                                HorizontalAlignment="Right"/>
                 </Grid>
 
-                <Grid Height="50">
-                    <TextBlock Text="O'quvchilar soni: "
-                               FontSize="18"
-                               FontFamily="Jetbrains Mono"
-                               FontWeight="SemiBold"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"/>
-
-                    <TextBlock x:Name="tbStudentsCount"
-                               Text="27"
-                               FontSize="14"
-                               FontFamily="Jetbrains Mono"
-                               FontWeight="SemiBold"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Right"/>
-                </Grid>
-
                 <Border x:Name="teacherForPasswordEditBtn"
                         Height="30"
                         Width="140"

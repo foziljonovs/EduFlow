@@ -15,13 +15,12 @@ public partial class GroupForMinComponent : UserControl
         InitializeComponent();
     }
 
-    public void SetValues(int number, long id, string name, int studentCount, string teacherName, Status status)
+    public void SetValues(int number, long id, string name, int studentCount, Status status)
     {
         this.Id = id;
         tbNumber.Text = number.ToString();
         tbName.Text = name;
         tbStudentCount.Text = studentCount.ToString();
-        tbTeacher.Text = teacherName;
         tbStatus.Text = status.ToString();
     }
 

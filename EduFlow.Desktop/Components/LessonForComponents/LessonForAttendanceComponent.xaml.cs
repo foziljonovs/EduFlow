@@ -72,7 +72,7 @@ public partial class LessonForAttendanceComponent : UserControl
 
             if (attendance is null)
             {
-                attendance = new Attendance
+                attendance = new AttendanceForShortResultDto
                 {
                     Id = 0,
                     StudentId = studentId,

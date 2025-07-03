@@ -41,13 +41,12 @@ public partial class CourseForComponent : UserControl
         cfg.Dispatcher = Application.Current.Dispatcher;
     });
 
-    public void SetValues(int number, long id, string name, int courseCount, int studentCount)
+    public void SetValues(int number, long id, string name, int courseCount)
     {
         Id = id;
         tbNumber.Text = number.ToString();
         tbName.Text = name;
         tbCourseCount.Text = courseCount.ToString();
-        tbStudentCount.Text = studentCount.ToString();
     }
 
     private void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)

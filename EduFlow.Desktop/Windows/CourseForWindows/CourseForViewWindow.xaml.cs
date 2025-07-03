@@ -1,12 +1,11 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.GroupForComponents;
 using EduFlow.Desktop.Components.TeacherForComponents;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
-using EduFlow.Domain.Entities.Courses;
-using EduFlow.Domain.Entities.Users;
-using System.Threading.Tasks;
+using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using System.Windows;
 using System.Windows.Media;
 using ToastNotifications;
@@ -23,12 +22,14 @@ public partial class CourseForViewWindow : Window
 {
     private readonly ICourseService _courseService;
     private readonly IGroupService _groupService;
+    private readonly ITeacherService _teacherService;
     private long CourseId { get; set; }
     public CourseForViewWindow()
     {
         InitializeComponent();
         this._courseService = new CourseService();
         this._groupService = new GroupService();
+        this._teacherService = new TeacherService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -130,8 +131,8 @@ public partial class CourseForViewWindow : Window
             tbStatus.Content = course.Archived.ToString();
             tbCategory.Content = course.Category?.Name ?? "Nomalum";
 
-            ShowTeachers(course.Teachers);
-            ShowGroups(course.Groups);
+            await GetAllTeacherByTeacherId(course.Id);
+            await GetAllGroupByCourseId(course.Id);
         }
         else
         {
@@ -140,7 +141,41 @@ public partial class CourseForViewWindow : Window
         }
     }
 
-    private void ShowTeachers(List<Teacher> teachers)
+    private async Task GetAllTeacherByTeacherId(long courseId)
+    {
+        try
+        {
+            var teachers = await Task.Run(async () => await _teacherService.GetAllByCourseIdAsync(courseId));
+
+            if (teachers.Any())
+                ShowTeachers(teachers);
+            else
+                notifierThis.ShowWarning("Hech qanday o'qituvchi malumotlari topilmadi!");
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowWarning("O'qituvchilarning malumotlarini yuklashda xatolik yuz berdi!");
+        }
+    }
+
+    private async Task GetAllGroupByCourseId(long courseId)
+    {
+        try
+        {
+            var groups = await Task.Run(async () => await _groupService.GetAllByCourseIdAsync(courseId));
+
+            if (groups.Any())
+                ShowGroups(groups);
+            else
+                notifierThis.ShowWarning("Hech qanday guruh malumotlari yo'q!");
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowWarning("Guruhlarning malumotlarini yuklashda xatolik yuz berdi!");
+        }
+    }
+
+    private void ShowTeachers(List<TeacherForResultDto> teachers)
     {
         stTeachers.Children.Clear();
 
@@ -180,6 +215,7 @@ public partial class CourseForViewWindow : Window
     private async Task<List<GroupForResultDto>> GetAllGroupForTeacherId(long teacherId)
     {
         var groups = await _groupService.GetAllByTeacherIdAsync(teacherId);
+
         if (groups.Any())
             return groups;
         else
@@ -208,7 +244,6 @@ public partial class CourseForViewWindow : Window
                     item.Id,
                     item.Name,
                     item.Students.Count,
-                    $"{item.Teacher.User.Firstname} {item.Teacher.User.Lastname}",
                     item.IsStatus);
 
                 stGroups.Children.Add(component);
@@ -222,7 +257,7 @@ public partial class CourseForViewWindow : Window
         }
     }
 
-    private void ShowGroups(List<Group> groups)
+    private void ShowGroups(List<GroupForResultDto> groups)
     {
         stGroups.Children.Clear();
         int count = 1;
@@ -240,7 +275,6 @@ public partial class CourseForViewWindow : Window
                     item.Id,
                     item.Name,
                     item.Students.Count,
-                    $"{item.Teacher.User.Firstname} {item.Teacher.User.Lastname}",
                     item.IsStatus);
 
                 stGroups.Children.Add(component);

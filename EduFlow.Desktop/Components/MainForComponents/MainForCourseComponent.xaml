@@ -51,6 +51,7 @@
                        FontSize="14"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
             <StackPanel Grid.Column="4"

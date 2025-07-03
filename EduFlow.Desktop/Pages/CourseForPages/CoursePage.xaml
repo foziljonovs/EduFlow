@@ -21,7 +21,6 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
 
@@ -48,15 +47,7 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
-            <TextBlock Grid.Column="3"
-                       Text="O'quvchi soni"
-                       FontSize="12"
-                       FontFamily="Jetbrains Mono"
-                       FontWeight="ExtraBold"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-            <Grid Grid.Column="4">
+            <Grid Grid.Column="3">
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Right">
                     <ComboBox x:Name="categoryComboBox"
