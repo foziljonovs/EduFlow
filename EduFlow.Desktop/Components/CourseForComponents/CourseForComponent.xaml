@@ -16,7 +16,6 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
 
@@ -46,16 +45,7 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
-            <TextBlock x:Name="tbStudentCount"
-                       Grid.Column="3"
-                       Text="154"
-                       FontFamily="Jetbrains Mono"
-                       FontSize="14"
-                       FontWeight="SemiBold"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
-
-            <Grid Grid.Column="4">
+            <Grid Grid.Column="3">
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Right">
                     <Button x:Name="ViewButton"

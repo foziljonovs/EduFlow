@@ -114,7 +114,12 @@ public partial class CoursePage : Page
                 else
                     component.GetCourses += GetAllCourse;
 
-                component.SetValues(count, course.Id, course.Name, course.Groups.Count, course.Groups.Sum(x => x.Students.Count));
+                component.SetValues(
+                    count,
+                    course.Id,
+                    course.Name,
+                    course.Groups.Count);
+ 
                 stCategories.Children.Add(component);
                 count++;
             }

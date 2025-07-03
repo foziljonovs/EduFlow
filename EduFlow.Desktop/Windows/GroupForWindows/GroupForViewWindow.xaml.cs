@@ -1,6 +1,7 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Courses.Lesson;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.LessonForComponents;
 using EduFlow.Desktop.Components.StudentForComponents;
@@ -173,7 +174,7 @@ public partial class GroupForViewWindow : Window
         ShowStudents(group.Students);
     }
 
-    private void ShowStudents(List<Student> students)
+    private void ShowStudents(List<StudentForShortResultDto> students)
     {
         _students.Clear();
         int count = 1;

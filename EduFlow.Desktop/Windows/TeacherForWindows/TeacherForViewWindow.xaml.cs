@@ -138,7 +138,6 @@ public partial class TeacherForViewWindow : Window
             tbPhoneNumber.Text = _teacher.User.PhoneNumber;
             tbSalary.Text = "0";
             tbSkills.Text = string.Join(", ", _teacher.Skills);
-            tbStudentsCount.Text = _teacher.Groups.Sum(x => x.Students.Count()).ToString() ?? "0";
         }
         else
         {
@@ -167,7 +166,6 @@ public partial class TeacherForViewWindow : Window
                     group.Id,
                     group.Name,
                     group.Students.Count(),
-                    _teacher.User.Firstname,
                     group.IsStatus);
 
                 stGroups.Children.Add(component);
@@ -189,7 +187,6 @@ public partial class TeacherForViewWindow : Window
         tbPhoneNumber.Text = "+998000000000";
         tbSalary.Text = "0";
         tbSkills.Text = string.Empty;
-        tbStudentsCount.Text = "0";
 
         groupForEmptyData.Text = string.Empty;
     }

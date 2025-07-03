@@ -16,7 +16,6 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="100"/>
@@ -39,7 +38,7 @@
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
-            
+
             <TextBlock Grid.Column="2"
                        x:Name="tbCourse"
                        Text="Foundation"
@@ -49,14 +48,6 @@
                        VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="3"
-                       x:Name="tbTeacher"
-                       Text="Abdulvosid"
-                       FontSize="14"
-                       FontFamily="Jetbrains Mono"
-                       FontWeight="SemiBold"
-                       VerticalAlignment="Center"/>
-            
-            <TextBlock Grid.Column="4"
                        x:Name="tbStudentCount"
                        Text="12"
                        FontSize="14"
@@ -65,7 +56,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
 
-            <TextBlock Grid.Column="5"
+            <TextBlock Grid.Column="4"
                        x:Name="tbStatus"
                        Text="Faol"
                        FontSize="14"
@@ -74,7 +65,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
 
-            <TextBlock Grid.Column="6"
+            <TextBlock Grid.Column="5"
                        x:Name="tbStartedDate"
                        Text="2025-04-11"
                        FontSize="14"
@@ -83,7 +74,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
 
-            <StackPanel Grid.Column="7"
+            <StackPanel Grid.Column="6"
                         Orientation="Horizontal"
                         HorizontalAlignment="Right">
                 <Button x:Name="ViewButton"

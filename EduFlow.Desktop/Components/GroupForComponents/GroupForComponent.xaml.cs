@@ -41,13 +41,12 @@ public partial class GroupForComponent : UserControl
         cfg.Dispatcher = Application.Current.Dispatcher;
     });
 
-    public void setValues(long id, int number, string name, string courseName, string teacherName, int studentCount, Status status, DateTime startedDate)
+    public void setValues(long id, int number, string name, string courseName, int studentCount, Status status, DateTime startedDate)
     {
         Id = id;
         tbNumber.Text = number.ToString();
         tbName.Text = name;
         tbCourse.Text = courseName;
-        tbTeacher.Text = teacherName;
         tbStudentCount.Text = studentCount.ToString();
         string groupStatus = status switch
         {
