@@ -159,23 +159,59 @@
             </Grid>
 
             <Grid Grid.Row="1">
-                <local1:Loader x:Name="paymentLoader"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <local1:Loader x:Name="paymentLoader"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="Collapsed"/>
+
+                    <ScrollViewer>
+                        <StackPanel x:Name="stPayments"/>
+                    </ScrollViewer>
+
+                    <TextBlock x:Name="emptyDataForPayment"
+                               Text="To'lovlar topilmadi!"
+                               FontSize="14"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
                                Visibility="Collapsed"/>
+                </Grid>
 
-                <ScrollViewer>
-                    <StackPanel x:Name="stPayments"/>
-                </ScrollViewer>
+                <Grid Grid.Row="1"
+                      Width="auto"
+                      HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <RadioButton Grid.Column="0"
+                                 x:Name="btnPrevious"
+                                 Style="{DynamicResource StateButton}"
+                                 Tag="ChevronLeft"
+                                 Click="btnPrevious_Click"/>
 
-                <TextBlock x:Name="emptyDataForPayment"
-                           Text="To'lovlar topilmadi!"
-                           FontSize="14"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontFamily="Jetbrains Mono"
-                           FontWeight="SemiBold"
-                           Visibility="Collapsed"/>
+                        <TextBlock x:Name="tbCurrentPageNumber"
+                                   Grid.Column="1"
+                                   Text="1"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   FontFamily="Jetbrains Mono"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                    <RadioButton Grid.Column="2"
+                                 x:Name="btnNext"
+                                 Style="{DynamicResource StateButton}"
+                                 Tag="ChevronRight"
+                                 Click="btnNext_Click"/>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>
