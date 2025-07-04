@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Payments.Payment;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Payments;
 using EduFlow.Desktop.Integrated.Servers.Repositories.Payments;
 
@@ -86,6 +87,19 @@ public class PaymentService : IPaymentService
         catch (Exception ex)
         {
             return new List<PaymentForResultDto>();
+        }
+    }
+
+    public async Task<PagedResponse<PaymentForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber)
+    {
+        try
+        {
+            var result = await _server.GetAllPaginationAsync(pageSize, pageNumber);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new PagedResponse<PaymentForResultDto>();
         }
     }
 

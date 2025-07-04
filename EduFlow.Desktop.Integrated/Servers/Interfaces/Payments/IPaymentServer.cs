@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Payments.Payment;
+using EduFlow.Desktop.Integrated.Helpers;
 
 namespace EduFlow.Desktop.Integrated.Servers.Interfaces.Payments;
 
@@ -12,4 +13,5 @@ public interface IPaymentServer
     Task<List<PaymentForResultDto>> GetAllByStudentIdAsync(long studentId);
     Task<List<PaymentForResultDto>> GetAllByGroupIdAsync(long groupId);
     Task<List<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto);
+    Task<PagedResponse<PaymentForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber);
 }

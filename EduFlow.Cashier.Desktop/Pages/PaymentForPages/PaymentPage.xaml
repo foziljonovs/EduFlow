@@ -159,23 +159,37 @@
             </Grid>
 
             <Grid Grid.Row="1">
-                <local1:Loader x:Name="paymentLoader"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <local1:Loader x:Name="paymentLoader"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="Collapsed"/>
+
+                    <ScrollViewer>
+                        <StackPanel x:Name="stPayments"/>
+                    </ScrollViewer>
+
+                    <TextBlock x:Name="emptyDataForPayment"
+                               Text="To'lovlar topilmadi!"
+                               FontSize="14"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
                                Visibility="Collapsed"/>
+                </Grid>
 
-                <ScrollViewer>
-                    <StackPanel x:Name="stPayments"/>
-                </ScrollViewer>
-
-                <TextBlock x:Name="emptyDataForPayment"
-                           Text="To'lovlar topilmadi!"
-                           FontSize="14"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontFamily="Jetbrains Mono"
-                           FontWeight="SemiBold"
-                           Visibility="Collapsed"/>
+                <Grid Grid.Row="1">
+                    <StackPanel HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Width="85">
+                        
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>
