@@ -3,6 +3,7 @@ using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.PaymentForComponents;
 using EduFlow.Cashier.Desktop.Windows.PaymentForWindows;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
@@ -25,6 +26,10 @@ public partial class PaymentPage : Page
     private readonly IPaymentService _paymentService;
     private readonly ICourseService _courseService;
     private readonly ITeacherService _teacherService;
+    private int pageNumber = 1;
+    private int pageSize = 10;
+    private bool hasNext = false;
+    private bool hasPrevious = false;
     public PaymentPage()
     {
         InitializeComponent();
@@ -57,9 +62,10 @@ public partial class PaymentPage : Page
         {
             paymentLoader.Visibility = Visibility.Visible;
 
-            var payments = await Task.Run(async () => await _paymentService.GetAllAsync());
+            var payments = await Task.Run(async () => await _paymentService.GetAllPaginationAsync(pageSize, pageNumber));
 
-            ShowPayments(payments);
+            ShowPayments(payments.Data);
+            Pagination(payments);
         }
         catch(Exception ex)
         {
@@ -67,6 +73,28 @@ public partial class PaymentPage : Page
             emptyDataForPayment.Visibility = Visibility.Visible;
             notifier.ShowWarning("Kurslarni yuklashda xatolik yuz berdi!");
         }
+    }
+
+    private void Pagination(PagedResponse<PaymentForResultDto> pagedResponse)
+    {
+        this.pageNumber = pagedResponse.CurrentPage;
+        this.pageSize = pagedResponse.PageSize;
+        this.hasNext = pagedResponse.HasNext;
+        this.hasPrevious = pagedResponse.HasPrevious;
+
+        btnPrevious.Visibility = pagedResponse.HasPrevious switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+        
+        btnNext.Visibility = pagedResponse.HasNext switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        tbCurrentPageNumber.Text = pagedResponse.CurrentPage.ToString();
     }
 
     private async Task GetAllTeacher()
@@ -295,5 +323,17 @@ public partial class PaymentPage : Page
     {
         if(isPageLoaded)
             await FilterAsync();
+    }
+
+    private async void btnPrevious_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber -= 1;
+        await GetAllPayment();
+    }
+
+    private async void btnNext_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber += 1;
+        await GetAllPayment();
     }
 }
