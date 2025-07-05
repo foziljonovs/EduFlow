@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Users.Student;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
 using EduFlow.Desktop.Integrated.Servers.Repositories.Users.Student;
 using EduFlow.Domain.Enums;
@@ -127,6 +128,19 @@ public class StudentService : IStudentService
         catch (Exception ex)
         {
             return new List<StudentForResultDto>();
+        }
+    }
+
+    public async Task<PagedResponse<StudentForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber)
+    {
+        try
+        {
+            var result = await _server.GetAllPaginationAsync(pageSize, pageNumber);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new PagedResponse<StudentForResultDto>();
         }
     }
 

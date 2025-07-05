@@ -1,10 +1,11 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Course;
+using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Cashier.Desktop.Components.StudentForComponents;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Domain.Enums;
-using MaterialDesignThemes.Wpf;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,11 +23,24 @@ public partial class StudentPage : Page
 {
     private readonly IStudentService _studentService;
     private readonly ICourseService _courseService;
+    private int pageSize = 10;
+    private int pageNumber = 1;
+    private bool hasNext = false;
+    private bool hasPrevious = false;
     public StudentPage()
     {
         InitializeComponent();
         this._studentService = new StudentService();
         this._courseService = new CourseService();
+
+        var window = GetActiveWindow();
+
+        if (window.WindowState == WindowState.Maximized)
+            pageSize = 15;
+        else if (window.WindowState == WindowState.Normal)
+            pageSize = 10;
+        else
+            pageSize = 10;
     }
 
 
@@ -48,15 +62,19 @@ public partial class StudentPage : Page
         cfg.DisplayOptions.TopMost = true;
     });
 
+    private Window? GetActiveWindow()
+        => Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+
     private async Task GetAllStudent()
     {
         try
         {
             studentLoader.Visibility = Visibility.Visible;
 
-            var students = await Task.Run(async () => await _studentService.GetAllAsync());
+            var students = await Task.Run(async () => await _studentService.GetAllPaginationAsync(pageSize, pageNumber));
 
-            ShowStudents(students);
+            ShowStudents(students.Data);
+            Pagination(students);
         }
         catch(Exception ex)
         {
@@ -112,6 +130,30 @@ public partial class StudentPage : Page
         {
             notifier.ShowError("Ma'lumotlarni filterlashda xatolik yuz berdi!");
         }
+    }
+
+    private void Pagination(PagedResponse<StudentForResultDto> pagedResponse)
+    {
+        this.pageNumber = pagedResponse.CurrentPage;
+        this.pageSize = pagedResponse.PageSize;
+        this.hasNext = pagedResponse.HasNext;
+        this.hasPrevious = pagedResponse.HasPrevious;
+
+        btnPrevious.Visibility = pagedResponse.HasPrevious switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        btnNext.Visibility = pagedResponse.HasNext switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        tbCurrentPageNumber.Text = pagedResponse.CurrentPage.ToString();
+        btnPrevious.IsChecked = false;
+        btnNext.IsChecked = false;
     }
 
     private void ShowCourses(List<CourseForResultDto> courses)
@@ -212,5 +254,17 @@ public partial class StudentPage : Page
     {
         if (IsPageLoaded)
             await FilterAsync();
+    }
+
+    private async void btnPrevious_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber -= 1;
+        await GetAllStudent();
+    }
+
+    private async void btnNext_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber += 1;
+        await GetAllStudent();
     }
 }

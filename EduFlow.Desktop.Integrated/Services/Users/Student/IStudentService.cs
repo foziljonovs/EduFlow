@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Users.Student;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Domain.Enums;
 
 namespace EduFlow.Desktop.Integrated.Services.Users.Student;
@@ -18,4 +19,5 @@ public interface IStudentService
     Task<bool> UpdateStudentByGroupAsync(long studentId, long groupId, Status status);
     Task<List<StudentForResultDto>> GetAllByCourseIdAsync(long courseId);
     Task<List<StudentForResultDto>> FilterAsync(StudentForFilterDto dto);
+    Task<PagedResponse<StudentForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber);
 }
