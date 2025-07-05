@@ -36,6 +36,18 @@ public partial class PaymentPage : Page
         this._paymentService = new PaymentService();
         this._courseService = new CourseService();
         this._teacherService = new TeacherService();
+
+        var window = GetActiveWindow();
+
+        if (window is not null)
+        {
+            if (window.WindowState == WindowState.Maximized)
+                pageSize = 15;
+            else if (window.WindowState == WindowState.Normal)
+                pageSize = 10;
+            else
+                pageSize = 10;
+        }
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -95,6 +107,8 @@ public partial class PaymentPage : Page
         };
 
         tbCurrentPageNumber.Text = pagedResponse.CurrentPage.ToString();
+        btnPrevious.IsChecked = false;
+        btnNext.IsChecked = false;
     }
 
     private async Task GetAllTeacher()
@@ -294,6 +308,9 @@ public partial class PaymentPage : Page
         window.ShowDialog();
         await LoadPage();
     }
+
+    private Window? GetActiveWindow()
+        => Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
 
     private async void FinishedDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
     {
