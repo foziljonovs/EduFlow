@@ -20,6 +20,9 @@ public class PrinterService : IDisposable
 
     public void Print(PaymentForResultDto paymentDto, double coursePrice, string paymentType, string teacher, string course)
     {
+        if (string.IsNullOrEmpty(printerName))
+            throw new ArgumentException("Printer aniqlanmadi. Printerni sozlang!");
+
         var cashier = IdentitySingelton.GetInstance().Name;
 
         printer = new Printer(PRINTER_NAME, "UTF-8");
