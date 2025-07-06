@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.Desktop.Integrated.Helpers;
 
 namespace EduFlow.Desktop.Integrated.Services.Courses.Group;
 
@@ -14,4 +15,5 @@ public interface IGroupService
     Task<List<GroupForResultDto>> FilterAsync(GroupForFilterDto dto);
     Task<bool> AddStudentsToGroupAsync(long groupId, List<long> studentIds);
     Task<bool> DeleteForStudentAsync(long id, long studentId);
+    Task<PagedResponse<GroupForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber);
 }

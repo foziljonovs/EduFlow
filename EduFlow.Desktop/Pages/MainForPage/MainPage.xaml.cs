@@ -1,6 +1,8 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.MainForComponents;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
@@ -12,6 +14,7 @@ using EduFlow.Desktop.Windows.CategoryForWindows;
 using EduFlow.Desktop.Windows.CourseForWindows;
 using EduFlow.Desktop.Windows.GroupForWindows;
 using EduFlow.Desktop.Windows.TeacherForWindows;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -32,6 +35,12 @@ public partial class MainPage : Page
     private readonly IGroupService _groupService;
     private readonly IStudentService _studentService;
     private TeacherForResultDto _teacher;
+    private int pageSize = 10;
+    private int pageNumber = 1;
+    private bool hasNext = false;
+    private bool hasPrevious = false;
+    private bool isFiltered = false;
+    private GroupForFilterDto? isFilterDto = new GroupForFilterDto();
 
     public MainPage()
     {
@@ -41,6 +50,15 @@ public partial class MainPage : Page
         this._categoryService = new CategoryService();
         this._groupService = new GroupService();
         this._studentService = new StudentService();
+
+        var window = GetActiveWindow();
+
+        if (window.WindowState == WindowState.Maximized)
+            pageSize = 15;
+        else if (window.WindowState == WindowState.Normal)
+            pageSize = 10;
+        else
+            pageSize = 10;
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -60,6 +78,30 @@ public partial class MainPage : Page
         cfg.DisplayOptions.Width = 200;
         cfg.DisplayOptions.TopMost = true;
     });
+
+    private void Pagination(PagedResponse<GroupForResultDto> pagedResponse)
+    {
+        this.pageNumber = pagedResponse.CurrentPage;
+        this.pageSize = pagedResponse.PageSize;
+        this.hasNext = pagedResponse.HasNext;
+        this.hasPrevious = pagedResponse.HasPrevious;
+
+        btnPrevious.Visibility = pagedResponse.HasPrevious switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        btnNext.Visibility = pagedResponse.HasNext switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        tbCurrentPageNumber.Text = pagedResponse.CurrentPage.ToString();
+        btnPrevious.IsChecked = false;
+        btnNext.IsChecked = false;
+    }
 
     private async Task GetAllCategories()
     {
@@ -169,10 +211,21 @@ public partial class MainPage : Page
 
     private async Task GetAllGroup()
     {
-        courseForLoader.Visibility = Visibility.Visible;
+        try
+        {
+            courseForLoader.Visibility = Visibility.Visible;
 
-        var groups = await Task.Run(async () => await _groupService.GetAllAsync());
-        ShowGroup(groups);
+            var groups = await Task.Run(async () => await _groupService.GetAllPaginationAsync(pageSize, pageNumber));
+
+            ShowGroup(groups.Data);
+            Pagination(groups);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowError("Guruh malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+            courseForLoader.Visibility = Visibility.Collapsed;
+            emptyDataForCourse.Visibility = Visibility.Visible;
+        }
     }
 
     private async Task GetAllGroupByTeacherId()
@@ -360,6 +413,9 @@ public partial class MainPage : Page
         }
     }
 
+    private Window? GetActiveWindow()
+        => Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+
     private async void dtEndDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
     {
         if(isPageLoaded)
@@ -409,6 +465,20 @@ public partial class MainPage : Page
     {
         GroupForCreateWindow window = new GroupForCreateWindow();
         window.ShowDialog();
+        await GetAllGroup();
+    }
+
+    private async void btnPrevious_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber -= 1;
+
+        await GetAllGroup();
+    }
+
+    private async void btnNext_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber += 1;
+
         await GetAllGroup();
     }
 }
