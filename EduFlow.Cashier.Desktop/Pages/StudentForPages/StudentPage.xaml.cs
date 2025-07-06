@@ -27,6 +27,8 @@ public partial class StudentPage : Page
     private int pageNumber = 1;
     private bool hasNext = false;
     private bool hasPrevious = false;
+    private bool isFiltered = false;
+    private StudentForFilterDto? isFilterDto = new StudentForFilterDto();
     public StudentPage()
     {
         InitializeComponent();
@@ -122,9 +124,14 @@ public partial class StudentPage : Page
                     _ => EnrollmentStatus.Active
                 };
 
-            var students = await Task.Run(async () => await _studentService.FilterAsync(dto));
+            this.pageNumber = 1;
+            this.isFiltered = true;
+            this.isFilterDto = dto;
+
+            var students = await Task.Run(async () => await _studentService.FilterAsync(dto, pageSize, pageNumber));
             
-            ShowStudents(students);
+            ShowStudents(students.Data);
+            Pagination(students);
         }
         catch(Exception ex)
         {
@@ -259,12 +266,30 @@ public partial class StudentPage : Page
     private async void btnPrevious_Click(object sender, RoutedEventArgs e)
     {
         this.pageNumber -= 1;
-        await GetAllStudent();
+
+        if(this.isFiltered && this.isFilterDto is not null)
+        {
+            var students = await Task.Run(async () => await _studentService.FilterAsync(isFilterDto, pageSize, pageNumber));
+
+            ShowStudents(students.Data);
+            Pagination(students);
+        }
+        else
+            await GetAllStudent();
     }
 
     private async void btnNext_Click(object sender, RoutedEventArgs e)
     {
         this.pageNumber += 1;
-        await GetAllStudent();
+
+        if(this.isFiltered && this.isFilterDto is not null)
+        {
+            var students = await Task.Run(async () => await _studentService.FilterAsync(isFilterDto, pageSize, pageNumber));
+
+            ShowStudents(students.Data);
+            Pagination(students);
+        }
+        else
+            await GetAllStudent();
     }
 }

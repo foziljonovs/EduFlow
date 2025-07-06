@@ -8,7 +8,6 @@ using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Domain.Enums;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -30,6 +29,8 @@ public partial class PaymentPage : Page
     private int pageSize = 10;
     private bool hasNext = false;
     private bool hasPrevious = false;
+    private bool isFiltered = false;
+    private PaymentForFilterDto? lastFilterDto = new PaymentForFilterDto();
     public PaymentPage()
     {
         InitializeComponent();
@@ -168,10 +169,17 @@ public partial class PaymentPage : Page
                     "4" => PaymentType.Other
                 };
 
-            var payments = await Task.Run(async () => await _paymentService.FilterAsync(dto));
+            this.pageNumber = 1;
+            this.isFiltered = true;
+            this.lastFilterDto = dto;
 
-            if(payments.Any())
-                ShowPayments(payments);
+            var payments = await Task.Run(async () => await _paymentService.FilterAsync(dto, pageSize, pageNumber));
+
+            if (payments.Data.Any())
+            {
+                ShowPayments(payments.Data);
+                Pagination(payments);
+            }
             else
             {
                 paymentLoader.Visibility = Visibility.Collapsed;
@@ -345,12 +353,28 @@ public partial class PaymentPage : Page
     private async void btnPrevious_Click(object sender, RoutedEventArgs e)
     {
         this.pageNumber -= 1;
-        await GetAllPayment();
+
+        if(this.isFiltered && this.lastFilterDto is not null)
+        {
+            var payments = await Task.Run(async () => await _paymentService.FilterAsync(lastFilterDto, pageSize, pageNumber));
+            ShowPayments(payments.Data);
+            Pagination(payments);
+        }
+        else 
+            await GetAllPayment();
     }
 
     private async void btnNext_Click(object sender, RoutedEventArgs e)
     {
         this.pageNumber += 1;
-        await GetAllPayment();
+
+        if (this.isFiltered && this.lastFilterDto is not null)
+        {
+            var payments = await Task.Run(async () => await _paymentService.FilterAsync(lastFilterDto, pageSize, pageNumber));
+            ShowPayments(payments.Data);
+            Pagination(payments);
+        }
+        else
+            await GetAllPayment();
     }
 }

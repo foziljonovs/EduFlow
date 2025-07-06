@@ -38,16 +38,16 @@ public class PaymentService : IPaymentService
         }
     }
 
-    public async Task<List<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto)
+    public async Task<PagedResponse<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto, int pageSize, int pageNumber)
     {
         try
         {
-            var result = await _server.FilterAsync(dto);
+            var result = await _server.FilterAsync(dto, pageSize, pageNumber);
             return result;
         }
         catch(Exception ex)
         {
-            return new List<PaymentForResultDto>();
+            return new PagedResponse<PaymentForResultDto>();
         }
     }
 
