@@ -15,12 +15,11 @@ public partial class StudentForGroupComponent : UserControl
         InitializeComponent();
     }
 
-    public void SetValues(int number, long id, string fullName, string courseName, int age, string address, string phoneNumber)
+    public void SetValues(int number, long id, string fullName, int age, string address, string phoneNumber)
     {
         Id = id;
         tbNumber.Text = number.ToString();
         tbFullname.Text = fullName;
-        tbCourse.Text = courseName;
         tbAge.Text = age.ToString();
         tbAddress.Text = address;
         tbPhoneNumber.Text = phoneNumber;

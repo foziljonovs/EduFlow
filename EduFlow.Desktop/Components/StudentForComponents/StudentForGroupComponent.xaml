@@ -19,7 +19,6 @@
                 <ColumnDefinition Width="70"/>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
@@ -68,15 +67,6 @@
                        HorizontalAlignment="Center"/>
 
             <TextBlock Grid.Column="5"
-                       x:Name="tbCourse"
-                       Text="AKT Pro - 1"
-                       FontFamily="Jetbrains Mono"
-                       FontSize="14"
-                       FontWeight="SemiBold"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
-
-            <TextBlock Grid.Column="6"
                        x:Name="tbStatus"
                        Text="Faol emas"
                        FontFamily="Jetbrains Mono"
@@ -85,7 +75,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
 
-            <CheckBox Grid.Column="7"
+            <CheckBox Grid.Column="6"
                       x:Name="ChooseStudent"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"

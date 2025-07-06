@@ -18,5 +18,5 @@ public interface IStudentService
     Task<bool> AddStudentByGroupAsync(long studentId, long groupId, CancellationToken cancellationToken = default);
     Task<bool> UpdateStudentByGroupAsync(long id, long groupId, Status status, CancellationToken cancellationToken = default);
     Task<PagedList<StudentForResultDto>> GetAllByCourseIdAsync(long courseId, int pageSize, int pageNumber, CancellationToken cancellationToken = default);
-    Task<IEnumerable<StudentForResultDto>> FilterAsync(StudentForFilterDto dto, CancellationToken cancellation = default);
+    Task<PagedList<StudentForResultDto>> FilterAsync(StudentForFilterDto dto, int pageSize, int pageNumber, CancellationToken cancellation = default);
 }

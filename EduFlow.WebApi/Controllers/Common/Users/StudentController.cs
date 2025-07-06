@@ -264,12 +264,24 @@ public class StudentController(
     }
 
     [HttpPost("filter")]
-    public async Task<IActionResult> FilterAsync([FromBody] StudentForFilterDto dto, CancellationToken cancellation = default)
+    public async Task<IActionResult> FilterAsync([FromBody] StudentForFilterDto dto, int pageSize = 10, int pageNumber = 1, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.FilterAsync(dto, cancellation);
-            return Ok(response);
+            var response = await _service.FilterAsync(dto, pageSize, pageNumber, cancellation);
+
+            var metadata = new
+            {
+                response.TotalCount,
+                response.TotalPages,
+                response.CurrentPage,
+                response.HasNext,
+                response.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(response.Data);
         }
         catch (StatusCodeException ex)
         {
