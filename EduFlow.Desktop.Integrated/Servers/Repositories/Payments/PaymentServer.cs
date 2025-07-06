@@ -70,14 +70,14 @@ public class PaymentServer : IPaymentServer
         }
     }
 
-    public async Task<List<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto)
+    public async Task<PagedResponse<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto, int pageSize, int pageNumber)
     {
         try
         {
             HttpClient client = new HttpClient();
             var token = IdentitySingelton.GetInstance().Token;
 
-            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/payments/filter");
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/payments/filter?pageSize={pageSize}&pageNumber={pageNumber}");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress)
@@ -94,11 +94,21 @@ public class PaymentServer : IPaymentServer
 
             List<PaymentForResultDto> payments = JsonConvert.DeserializeObject<List<PaymentForResultDto>>(result)!;
 
-            return payments;
+            var pageNavigation = response.Headers.GetValues("X-Pagination").FirstOrDefault();
+            var pagination = JsonConvert.DeserializeObject<PaginationMetadata>(pageNavigation!);
+
+            return new PagedResponse<PaymentForResultDto>
+            {
+                Data = payments,
+                PageSize = pagination.PageSize,
+                CurrentPage = pagination.CurrentPage,
+                HasNext = pagination.HasNext,
+                HasPrevious = pagination.HasPrevious
+            };
         }
         catch(Exception ex)
         {
-            return new List<PaymentForResultDto>();
+            return new PagedResponse<PaymentForResultDto>();
         }
     }
 
