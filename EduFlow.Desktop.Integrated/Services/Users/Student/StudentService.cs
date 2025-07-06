@@ -1,4 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Users.Student;
+﻿using EduFlow.BLL.Common.Pagination;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
 using EduFlow.Desktop.Integrated.Servers.Repositories.Users.Student;
@@ -66,16 +67,16 @@ public class StudentService : IStudentService
         }
     }
 
-    public async Task<List<StudentForResultDto>> FilterAsync(StudentForFilterDto dto)
+    public async Task<PagedResponse<StudentForResultDto>> FilterAsync(StudentForFilterDto dto, int pageSize, int pageNumber)
     {
         try
         {
-            var result = await _server.FilterAsync(dto);
+            var result = await _server.FilterAsync(dto, pageSize, pageNumber);
             return result;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            return new List<StudentForResultDto>(); 
+            return new PagedResponse<StudentForResultDto>();
         }
     }
 

@@ -1,10 +1,13 @@
-﻿using EduFlow.BLL.DTOs.Users.Student;
+﻿using EduFlow.BLL.DTOs.Payments.Payment;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
+using EduFlow.Domain.Entities.Payments;
 using EduFlow.Domain.Enums;
 using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -126,14 +129,14 @@ public class StudentServer : IStudentServer
         }
     }
 
-    public async Task<List<StudentForResultDto>> FilterAsync(StudentForFilterDto dto)
+    public async Task<PagedResponse<StudentForResultDto>> FilterAsync(StudentForFilterDto dto, int pageSize, int pageNumber)
     {
         try
         {
             HttpClient client = new HttpClient();
             var token = IdentitySingelton.GetInstance().Token;
 
-            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/filter");
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/filter?pageSize={pageSize}&pageNumber={pageNumber}");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress)
@@ -150,11 +153,21 @@ public class StudentServer : IStudentServer
 
             List<StudentForResultDto> students = JsonConvert.DeserializeObject<List<StudentForResultDto>>(result)!;
 
-            return students;
+            var pageNavigation = response.Headers.GetValues("X-Pagination").FirstOrDefault();
+            var pagination = JsonConvert.DeserializeObject<PaginationMetadata>(pageNavigation!);
+
+            return new PagedResponse<StudentForResultDto>
+            {
+                Data = students,
+                PageSize = pagination.PageSize,
+                CurrentPage = pagination.CurrentPage,
+                HasNext = pagination.HasNext,
+                HasPrevious = pagination.HasPrevious
+            };
         }
         catch(Exception ex)
         {
-            return new List<StudentForResultDto>();
+            return new PagedResponse<StudentForResultDto>();
         }
     }
 

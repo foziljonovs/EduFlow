@@ -18,6 +18,6 @@ public interface IStudentServer
     Task<bool> AddStudentByCourseAsync(long studentId, long courseId);
     Task<bool> UpdateStudentByGroupAsync(long id, long groupId, Status status);
     Task<List<StudentForResultDto>> GetAllByCourseIdAsync(long courseId);
-    Task<List<StudentForResultDto>> FilterAsync(StudentForFilterDto dto);
+    Task<PagedResponse<StudentForResultDto>> FilterAsync(StudentForFilterDto dto, int pageSize, int pageNumber);
     Task<PagedResponse<StudentForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber);
 }
