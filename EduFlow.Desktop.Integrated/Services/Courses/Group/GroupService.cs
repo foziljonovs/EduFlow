@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Courses.Group;
 using EduFlow.Desktop.Integrated.Servers.Repositories.Courses.Group;
 
@@ -112,6 +113,19 @@ public class GroupService : IGroupService
         catch(Exception ex)
         {
             return new List<GroupForResultDto>();
+        }
+    }
+
+    public async Task<PagedResponse<GroupForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber)
+    {
+        try
+        {
+            var res = await _server.GetAllPaginationAsync(pageSize, pageNumber);
+            return res;
+        }
+        catch(Exception ex)
+        {
+            return new PagedResponse<GroupForResultDto>();
         }
     }
 

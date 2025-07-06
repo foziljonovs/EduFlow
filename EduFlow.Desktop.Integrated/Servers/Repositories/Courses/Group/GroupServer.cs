@@ -1,7 +1,10 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Desktop.Integrated.Api.Auth;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Courses.Group;
+using EduFlow.Domain.Entities.Users;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
@@ -219,6 +222,40 @@ public class GroupServer : IGroupServer
         catch (Exception ex)
         {
             return new List<GroupForResultDto>();
+        }
+    }
+
+    public async Task<PagedResponse<GroupForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/groups?pageSize={pageSize}&pageNumber={pageNumber}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<GroupForResultDto> groups = JsonConvert.DeserializeObject<List<GroupForResultDto>>(result)!;
+
+            var pageNavigation = response.Headers.GetValues("X-Pagination").FirstOrDefault();
+            var pagination = JsonConvert.DeserializeObject<PaginationMetadata>(pageNavigation!);
+
+            return new PagedResponse<GroupForResultDto>
+            {
+                Data = groups,
+                PageSize = pagination.PageSize,
+                CurrentPage = pagination.CurrentPage,
+                HasNext = pagination.HasNext,
+                HasPrevious = pagination.HasPrevious
+            };
+        }
+        catch (Exception ex)
+        {
+            return new PagedResponse<GroupForResultDto>();
         }
     }
 
