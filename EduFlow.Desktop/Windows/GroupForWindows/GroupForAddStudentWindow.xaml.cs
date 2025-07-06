@@ -1,9 +1,12 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Desktop.Components.StudentForComponents;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
+using EduFlow.Domain.Enums;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -21,6 +24,12 @@ public partial class GroupForAddStudentWindow : Window
     private long Id { get; set; }
     private GroupForResultDto _group = new GroupForResultDto();
     private List<long> ChooseStudents = new List<long>();
+    private int pageSize = 10;
+    private int pageNumber = 1;
+    private bool hasNext = false;
+    private bool hasPrevious = false;
+    private bool isFiltered = false;
+    private StudentForFilterDto? isFilterDto = new StudentForFilterDto();
 
     private readonly IStudentService _studentService;
     private readonly IGroupService _groupService;
@@ -88,49 +97,106 @@ public partial class GroupForAddStudentWindow : Window
 
     private async Task GetGroup()
     {
-        var group = await _groupService.GetByIdAsync(Id);
+        try
+        {
+            var group = await _groupService.GetByIdAsync(Id);
 
-        if (group is not null)
-            _group = group;
-        else
-            notifierThis.ShowError("Guruh topilmadi! Iltimos oynani qaytadan oching.");
+            if (group is not null)
+                _group = group;
+            else
+                notifierThis.ShowError("Guruh topilmadi! Iltimos oynani qaytadan oching.");
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("Malumotlarni yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
+        }
     }
 
     private async Task GetStudents()
     {
-        var students = await Task.Run(async () => await _studentService.GetAllAsync());
+        try
+        {
+            var students = await Task.Run(async () => await _studentService.GetAllPaginationAsync(pageSize, pageNumber));
         
-        var result = students.Where(x => x.StudentCourses
-            .Any(y => y.Status == Domain.Enums.EnrollmentStatus.Pending &&
-                y.CourseId == _group.CourseId)).ToList();
+            var result = students.Data
+                .Where(x => x.StudentCourses
+                    .Any(y => y.Status == Domain.Enums.EnrollmentStatus.Pending &&
+                        y.CourseId == _group.CourseId)).ToList();
 
-        ShowStudents(result);
+            ShowStudents(result);
+            Pagination(students);
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("Malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
+            studentLoader.Visibility = Visibility.Collapsed;
+            studentforEmptyData.Visibility = Visibility.Visible;
+        }
     }
+
+    private void Pagination(PagedResponse<StudentForResultDto> pagedResponse)
+    {
+        this.pageNumber = pagedResponse.CurrentPage;
+        this.pageSize = pagedResponse.PageSize;
+        this.hasNext = pagedResponse.HasNext;
+        this.hasPrevious = pagedResponse.HasPrevious;
+
+        btnPrevious.Visibility = pagedResponse.HasPrevious switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        btnNext.Visibility = pagedResponse.HasNext switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        tbCurrentPageNumber.Text = pagedResponse.CurrentPage.ToString();
+        btnPrevious.IsChecked = false;
+        btnNext.IsChecked = false;
+    }
+
 
     private async Task FilterAsync()
     {
-        stStudents.Children.Clear();
-        studentLoader.Visibility = Visibility.Visible;
-
-        StudentForFilterDto dto = new StudentForFilterDto();
-
-        if (dtStartDate.SelectedDate != null)
-            dto.StartedDate = dtStartDate.SelectedDate.Value;
-
-        if (dtEndDate.SelectedDate != null)
-            dto.FinishedDate = dtEndDate.SelectedDate.Value;
-
-        dto.CourseId = _group.CourseId;
-
-        var students = await Task.Run(async () => await _studentService.FilterAsync(dto));
-
-        var result = students.Where(x => x.StudentCourses
-            .Any(y => y.Status == Domain.Enums.EnrollmentStatus.Pending)).ToList();
-
-        if (students.Any())
-            ShowStudents(result);
-        else
+        try
         {
+            stStudents.Children.Clear();
+            studentLoader.Visibility = Visibility.Visible;
+
+            StudentForFilterDto dto = new StudentForFilterDto();
+
+            if (dtStartDate.SelectedDate != null)
+                dto.StartedDate = dtStartDate.SelectedDate.Value;
+
+            if (dtEndDate.SelectedDate != null)
+                dto.FinishedDate = dtEndDate.SelectedDate.Value;
+
+            dto.CourseId = _group.CourseId;
+            dto.CourseStatus = EnrollmentStatus.Pending;
+
+            this.pageNumber = 1;
+            this.isFiltered = true;
+            this.isFilterDto = dto;
+        
+            var students = await Task.Run(async () => await _studentService.FilterAsync(dto, pageSize, pageNumber));
+
+            if (students.Data.Any())
+            {
+                ShowStudents(students.Data);
+                Pagination(students);
+            }
+            else
+            {
+                studentLoader.Visibility = Visibility.Collapsed;
+                studentforEmptyData.Visibility = Visibility.Visible;
+            }
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("Malumotlarni filterlashda xatolik yuz berdi, Iltimos qayta yuklang!");
             studentLoader.Visibility = Visibility.Collapsed;
             studentforEmptyData.Visibility = Visibility.Visible;
         }
@@ -150,15 +216,11 @@ public partial class GroupForAddStudentWindow : Window
 
             foreach(var item in students)
             {
-                var courseName = item.StudentCourses
-                    .FirstOrDefault(x => x.Course is not null).Course.Name ?? "Nomalum";
-
                 StudentForGroupComponent component = new StudentForGroupComponent();
                 component.SetValues(
                     count,
                     item.Id,
                     item.Fullname,
-                    courseName,
                     item.Age,
                     item.Address,
                     item.PhoneNumber);
@@ -222,5 +284,35 @@ public partial class GroupForAddStudentWindow : Window
         }
         else
             notifierThis.ShowWarning("Yangi talabalar tanlanmadi!");
+    }
+
+    private async void btnPrevious_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber -= 1;
+
+        if(this.isFiltered && this.isFilterDto is not null)
+        {
+            var students = await Task.Run(async () => await _studentService.FilterAsync(isFilterDto, pageSize, pageNumber));
+
+            ShowStudents(students.Data);
+            Pagination(students);
+        }
+        else
+            await GetStudents();
+    }
+
+    private async void btnNext_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber += 1;
+
+        if (this.isFiltered && this.isFilterDto is not null)
+        {
+            var students = await Task.Run(async () => await _studentService.FilterAsync(isFilterDto, pageSize, pageNumber));
+
+            ShowStudents(students.Data);
+            Pagination(students);
+        }
+        else
+            await GetStudents();
     }
 }

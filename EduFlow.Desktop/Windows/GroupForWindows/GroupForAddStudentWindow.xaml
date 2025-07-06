@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EduFlow.Desktop.Windows.GroupForWindows" xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
+        xmlns:local="clr-namespace:EduFlow.Desktop.Windows.GroupForWindows"
+        xmlns:local1="clr-namespace:EduFlow.Desktop.Components.Loader"
         mc:Ignorable="d"
         Title="GroupForAddStudentWindow" 
         Height="600" 
@@ -69,7 +70,6 @@
                     <ColumnDefinition Width="70"/>
                     <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="80"/>
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
@@ -113,14 +113,6 @@
                            HorizontalAlignment="Center"/>
 
                 <TextBlock Grid.Column="5"
-                           Text="Kurs"
-                           FontFamily="Jetbrains Mono"
-                           FontSize="14"
-                           FontWeight="SemiBold"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center"/>
-
-                <TextBlock Grid.Column="6"
                            Text="Holat"
                            FontFamily="Jetbrains Mono"
                            FontSize="14"
@@ -128,35 +120,66 @@
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"/>
             </Grid>
-            
+
             <Grid Grid.Row="1">
                 <local1:Loader x:Name="studentLoader"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Visibility="Collapsed"/>
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="Collapsed"/>
 
-                <ScrollViewer>
-                    <StackPanel x:Name="stStudents"/>
-                </ScrollViewer>
+                    <ScrollViewer>
+                        <StackPanel x:Name="stStudents"/>
+                    </ScrollViewer>
 
                 <Label x:Name="studentforEmptyData"
-                       Content="O'quvchilar topilmadi"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontFamily="Jetbrains Mono"
-                       FontWeight="SemiBold"
-                       FontSize="14"
-                       Visibility="Collapsed"/>
+                           Content="O'quvchilar topilmadi"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           FontSize="14"
+                           Visibility="Collapsed"/>
             </Grid>
         </Grid>
 
-        <Button Grid.Row="3"
-                x:Name="saveBtn"
-                Style="{DynamicResource saveButton}"
-                Width="100"
-                Height="30"
-                HorizontalAlignment="Right"
-                Margin="0 0 10 0"
-                Click="saveBtn_Click"/>
+        <Grid Grid.Row="3">
+            <Grid Width="auto"
+                  HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton Grid.Column="0"
+                             x:Name="btnPrevious"
+                             Style="{DynamicResource StateButton}"
+                             Tag="ChevronLeft"
+                             Click="btnPrevious_Click"/>
+
+                <TextBlock x:Name="tbCurrentPageNumber"
+                           Grid.Column="1"
+                           Text="1"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           FontFamily="Jetbrains Mono"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+
+                <RadioButton Grid.Column="2"
+                             x:Name="btnNext"
+                             Style="{DynamicResource StateButton}"
+                             Tag="ChevronRight"
+                             Click="btnNext_Click"/>
+            </Grid>
+
+            <Button 
+                    x:Name="saveBtn"
+                    Style="{DynamicResource saveButton}"
+                    Width="100"
+                    Height="30"
+                    HorizontalAlignment="Right"
+                    Margin="0 0 10 0"
+                    Click="saveBtn_Click"/>
+        </Grid>
     </Grid>
 </Window>

@@ -121,17 +121,13 @@ public class StudentService(
         }
     }
 
-    public async Task<IEnumerable<StudentForResultDto>> FilterAsync(StudentForFilterDto dto, CancellationToken cancellation = default)
+    public async Task<PagedList<StudentForResultDto>> FilterAsync(StudentForFilterDto dto, int pageSize, int pageNumber, CancellationToken cancellation = default)
     {
         try
         {
-            var studentsQuery = _unitOfWork.Student
-                .GetAllFullInformation();
+            var studentsQuery = _unitOfWork.Student.GetAllFullInformation();
 
-            if(!studentsQuery.Any())
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
-
-            if(dto.StartedDate.HasValue && dto.FinishedDate.HasValue)
+            if (dto.StartedDate.HasValue && dto.FinishedDate.HasValue)
             {
                 var startedDateUtc = DateTime.SpecifyKind(dto.StartedDate.Value, DateTimeKind.Utc);
                 var finishedDateUtc = DateTime.SpecifyKind(dto.FinishedDate.Value, DateTimeKind.Utc);
@@ -142,27 +138,39 @@ public class StudentService(
             }
 
             if (dto.CourseId > 0)
+            {
                 studentsQuery = studentsQuery
-                    .Where(x => x.StudentCourses.Any(x => x.CourseId == dto.CourseId));
+                    .Where(x => x.StudentCourses.Any(sc => sc.CourseId == dto.CourseId));
+            }
 
             if (dto.CourseStatus.HasValue)
-                studentsQuery = studentsQuery.Where(x =>
-                    x.StudentCourses.Any(y =>
-                       y.Status == dto.CourseStatus.Value));
+            {
+                studentsQuery = studentsQuery
+                    .Where(x => x.StudentCourses.Any(sc => sc.Status == dto.CourseStatus.Value));
+            }
 
-            var students = await studentsQuery.ToListAsync(cancellation);
-
-            if (!students.Any())
+            if (!studentsQuery.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
 
-            return _mapper.Map<IEnumerable<StudentForResultDto>>(studentsQuery);
+            var mappedStudents = studentsQuery
+               .Select(p => _mapper.Map<StudentForResultDto>(p))
+               .ToList();
+
+            var pagedlist = new PagedList<StudentForResultDto>(
+                mappedStudents,
+                mappedStudents.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedStudents, pageSize, pageNumber);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             _logger.LogError($"An error occured while filtering the students. {ex}");
             throw;
         }
     }
+
 
     public async Task<PagedList<StudentForResultDto>> GetAllAsync(int pageSize, int pageNumber, CancellationToken cancellationToken = default)
     {
