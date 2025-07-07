@@ -1,6 +1,7 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.GroupForComponents;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using System.Windows;
@@ -19,6 +20,8 @@ public partial class TeacherForViewWindow : Window
     private readonly ITeacherService _teacherService;
     private readonly IGroupService _groupService;
     private long Id { get; set; }
+    private int pageSize = 15;
+    private int pageNumber = 1;
     private TeacherForResultDto _teacher { get; set; } = new TeacherForResultDto();
     public TeacherForViewWindow()
     {
@@ -88,43 +91,67 @@ public partial class TeacherForViewWindow : Window
 
     private async Task<TeacherForResultDto> GetTeacher()
     {
-        var teacher = await _teacherService.GetByIdAsync(Id);
+        try
+        {
+            var teacher = await _teacherService.GetByIdAsync(Id);
 
-        if (teacher is not null)
-            return teacher;
-        else
+            if (teacher is not null)
+                return teacher;
+            else
+                return new TeacherForResultDto();
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("O'qituvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
             return new TeacherForResultDto();
+        }
     }
 
     private async Task<List<GroupForResultDto>> GetGroups()
     {
-        var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(Id));
+        try
+        {
+            var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(Id));
 
-        if (groups is not null)
-            return groups;
-        else
+            if (groups is not null)
+                return groups;
+            else
+                return new List<GroupForResultDto>();
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("Guruh malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
             return new List<GroupForResultDto>();
+        }
     }
 
     private async Task FilterAsync()
     {
-        stGroups.Children.Clear();
-        groupsForLoader.Visibility = Visibility.Visible;
+        try
+        {
+            stGroups.Children.Clear();
+            groupsForLoader.Visibility = Visibility.Visible;
 
-        GroupForFilterDto dto = new GroupForFilterDto();
+            GroupForFilterDto dto = new GroupForFilterDto();
 
-        if(startedDate.SelectedDate is not null)
-            dto.StartedDate = startedDate.SelectedDate.Value;
+            if(startedDate.SelectedDate is not null)
+                dto.StartedDate = startedDate.SelectedDate.Value;
 
-        if (endDate.SelectedDate is not null)
-            dto.FinishedDate = endDate.SelectedDate.Value;
+            if (endDate.SelectedDate is not null)
+                dto.FinishedDate = endDate.SelectedDate.Value;
 
-        dto.TeacherId = Id;
+            dto.TeacherId = Id;
 
-        var groups = await Task.Run(async () => await _groupService.FilterAsync(dto));
+            var groups = await Task.Run(async () => await _groupService.FilterAsync(dto, pageSize, pageNumber));
 
-        ShowGroups(groups);
+            ShowGroups(groups.Data);
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("Malumotlarni filterlashda xatolik yuz berdi, Iltimos qayta urining!");
+        }
     }
+
 
     private async void ShowValues()
     {

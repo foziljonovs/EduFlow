@@ -12,7 +12,7 @@ public interface IGroupServer
     Task<bool> DeleteAsync(long id);
     Task<List<GroupForResultDto>> GetAllByTeacherIdAsync(long teacherId);
     Task<List<GroupForResultDto>> GetAllByCourseIdAsync(long courseId);
-    Task<List<GroupForResultDto>> FilterAsync(GroupForFilterDto dto);
+    Task<PagedResponse<GroupForResultDto>> FilterAsync(GroupForFilterDto dto, int pageSize, int pageNumber);
     Task<bool> AddStudentsToGroupAsync(long groupId, List<long> students);
     Task<bool> DeleteForStudentAsync(long id, long studentId);
     Task<PagedResponse<GroupForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber);

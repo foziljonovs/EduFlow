@@ -158,10 +158,17 @@ public partial class MainPage : Page
         if (window.MainMenuNavigation.Content is TeacherNavigationPage)
             dto.TeacherId = _teacher.Id;
 
-        var groups = await Task.Run(async () => await _groupService.FilterAsync(dto));
+        this.isFiltered = true;
+        this.isFilterDto = dto;
+        this.pageNumber = 1;
 
-        if(groups.Any()) 
-            ShowGroup(groups);
+        var groups = await Task.Run(async () => await _groupService.FilterAsync(dto, pageSize, pageNumber));
+
+        if(groups.Data.Any())
+        {
+            ShowGroup(groups.Data);
+            Pagination(groups);
+        }
         else
         {
             courseForLoader.Visibility = Visibility.Collapsed;
@@ -472,13 +479,29 @@ public partial class MainPage : Page
     {
         this.pageNumber -= 1;
 
-        await GetAllGroup();
+        if(this.isFiltered && this.isFilterDto is not null)
+        {
+            var groups = await Task.Run(async () => await _groupService.FilterAsync(isFilterDto, pageSize, pageNumber));
+
+            ShowGroup(groups.Data);
+            Pagination(groups);
+        }
+        else
+            await GetAllGroup();
     }
 
     private async void btnNext_Click(object sender, RoutedEventArgs e)
     {
         this.pageNumber += 1;
 
-        await GetAllGroup();
+        if(this.isFiltered && this.isFilterDto is not null)
+        {
+            var groups = await Task.Run(async () => await _groupService.FilterAsync(isFilterDto, pageSize, pageNumber));
+
+            ShowGroup(groups.Data);
+            Pagination(groups);
+        }
+        else
+            await GetAllGroup();
     }
 }

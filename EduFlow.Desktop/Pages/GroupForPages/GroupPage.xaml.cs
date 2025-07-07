@@ -1,11 +1,13 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.GroupForComponents;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Windows.GroupForWindows;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -24,6 +26,12 @@ public partial class GroupPage : Page
     private readonly ICourseService _courseService;
     private readonly ITeacherService _teacherService;
     private TeacherForResultDto _teacher;
+    private int pageSize = 10;
+    private int pageNumber = 1;
+    private bool hasNext = false;
+    private bool hasPrevious = false;
+    private bool isFiltered = false;
+    private GroupForFilterDto isFilteredDto = new GroupForFilterDto();
     public GroupPage()
     {
         InitializeComponent();
@@ -71,30 +79,69 @@ public partial class GroupPage : Page
 
     private async Task GetAllTeacher()
     {
-        var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
-        if (teachers.Any())
+        try
         {
-            foreach (var item in teachers)
+            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+            if (teachers.Any())
             {
-                ComboBoxItem comboBoxItem = new ComboBoxItem();
-                comboBoxItem.Content = item.User.Firstname + " " + item.User.Lastname;
-                comboBoxItem.Tag = item.Id;
-                teacherComboBox.Items.Add(comboBoxItem);
+                foreach (var item in teachers)
+                {
+                    ComboBoxItem comboBoxItem = new ComboBoxItem();
+                    comboBoxItem.Content = item.User.Firstname + " " + item.User.Lastname;
+                    comboBoxItem.Tag = item.Id;
+                    teacherComboBox.Items.Add(comboBoxItem);
+                }
+            }
+            else
+            {
+                notifier.ShowWarning("O'qituvchilar topilmadi!");
             }
         }
-        else
+        catch(Exception ex)
         {
-            notifier.ShowWarning("O'qituvchilar topilmadi!");
+            notifier.ShowError("O'qituvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
         }
+    }
+
+    private void Pagination(PagedResponse<GroupForResultDto> pagedResponse)
+    {
+        this.pageNumber = pagedResponse.CurrentPage;
+        this.pageSize = pagedResponse.PageSize;
+        this.hasNext = pagedResponse.HasNext;
+        this.hasPrevious = pagedResponse.HasPrevious;
+
+        btnPrevious.Visibility = pagedResponse.HasPrevious switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        btnNext.Visibility = pagedResponse.HasNext switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        tbCurrentPageNumber.Text = pagedResponse.CurrentPage.ToString();
+        btnPrevious.IsChecked = false;
+        btnNext.IsChecked = false;
     }
 
     private async Task GetAllGroup()
     {
-        stGroups.Children.Clear();
-        groupLoader.Visibility = Visibility.Visible;
-        var groups = await Task.Run(async () => await _groupService.GetAllAsync());
+        try
+        {
+            stGroups.Children.Clear();
+            groupLoader.Visibility = Visibility.Visible;
+            var groups = await Task.Run(async () => await _groupService.GetAllPaginationAsync(pageSize, pageNumber));
 
-        ShowGroups(groups);
+            ShowGroups(groups.Data);
+            Pagination(groups);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowError("Guruh malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+        }
     }
 
     private async Task GetAllGroupByTeacherId()
@@ -185,12 +232,19 @@ public partial class GroupPage : Page
             }
         }
 
-        var groups = await Task.Run(async () => await _groupService.FilterAsync(dto));
-        if (groups.Any())
+        this.isFiltered = true;
+        this.isFilteredDto = dto;
+        this.pageNumber = 1;
+
+        var groups = await Task.Run(async () => await _groupService.FilterAsync(dto, pageSize, pageNumber));
+
+        if (groups.Data.Any())
         {
             groupLoader.Visibility = Visibility.Collapsed;
             emptyData.Visibility = Visibility.Collapsed;
-            ShowGroups(groups);
+
+            ShowGroups(groups.Data);
+            Pagination(groups);
         }
         else
         {
@@ -275,5 +329,35 @@ public partial class GroupPage : Page
         GroupForCreateWindow window = new GroupForCreateWindow();
         window.ShowDialog();
         await GetAllGroup();
+    }
+
+    private async void btnPrevious_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber -= 1;
+
+        if (this.isFiltered && this.isFilteredDto is not null)
+        {
+            var groups = await Task.Run(async () => await _groupService.FilterAsync(isFilteredDto, pageSize, pageNumber));
+
+            ShowGroups(groups.Data);
+            Pagination(groups);
+        }
+        else
+            await GetAllGroup();
+    }
+
+    private async void btnNext_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber += 1;
+
+        if (this.isFiltered && this.isFilteredDto is not null)
+        {
+            var groups = await Task.Run(async () => await _groupService.FilterAsync(isFilteredDto, pageSize, pageNumber));
+
+            ShowGroups(groups.Data);
+            Pagination(groups);
+        }
+        else
+            await GetAllGroup();
     }
 }
