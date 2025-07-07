@@ -64,16 +64,16 @@ public class GroupService : IGroupService
         }
     }
 
-    public async Task<List<GroupForResultDto>> FilterAsync(GroupForFilterDto dto)
+    public async Task<PagedResponse<GroupForResultDto>> FilterAsync(GroupForFilterDto dto, int pageSize, int pageNumber)
     {
         try
         {
-            var res = await _server.FilterAsync(dto);
+            var res = await _server.FilterAsync(dto, pageSize, pageNumber);
             return res;
         }
         catch (Exception ex)
         {
-            return new List<GroupForResultDto>();
+            return new PagedResponse<GroupForResultDto>();
         }
     }
 
