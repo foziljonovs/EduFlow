@@ -238,4 +238,34 @@ public class GroupController(
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpGet("{teacherId:long}/teacher/pagination")]
+    public async Task<IActionResult> GetAllPaginationByTeacherIdAsync([FromRoute] long teacherId, int pageSize = 1, int pageNumber = 10, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.GetAllPaginationByTeacherIdAsync(teacherId, pageSize, pageNumber, cancellation);
+
+            var metaData = new
+            {
+                response.TotalCount,
+                response.PageSize,
+                response.CurrentPage,
+                response.HasNext,
+                response.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metaData));
+
+            return Ok(response.Data);
+        }
+        catch(StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }

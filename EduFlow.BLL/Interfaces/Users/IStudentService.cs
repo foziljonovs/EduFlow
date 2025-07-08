@@ -19,4 +19,5 @@ public interface IStudentService
     Task<bool> UpdateStudentByGroupAsync(long id, long groupId, Status status, CancellationToken cancellationToken = default);
     Task<PagedList<StudentForResultDto>> GetAllByCourseIdAsync(long courseId, int pageSize, int pageNumber, CancellationToken cancellationToken = default);
     Task<PagedList<StudentForResultDto>> FilterAsync(StudentForFilterDto dto, int pageSize, int pageNumber, CancellationToken cancellation = default);
+    Task<PagedList<StudentForResultDto>> GetAllPaginationByTeacherIdAsync(long teacherId, int pageSize, int pageNumber, CancellationToken cancellationToken = default);
 }
