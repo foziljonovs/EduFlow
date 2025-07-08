@@ -1,4 +1,5 @@
-﻿using EduFlow.Domain.Enums;
+﻿using EduFlow.Cashier.Desktop.Windows.PaymentForWindows;
+using EduFlow.Domain.Enums;
 using System.Windows.Controls;
 
 namespace EduFlow.Cashier.Desktop.Components.PaymentForComponents;
@@ -43,5 +44,12 @@ public partial class PaymentForComponent : UserControl
         };
 
         tbPaymentDate.Text = paymentDate.ToString("dd.MM.yyyy HH:MM");
+    }
+
+    private void viewBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        PaymentForViewWindow window = new PaymentForViewWindow();
+        window.SetId(this.Id);
+        window.ShowDialog();
     }
 }

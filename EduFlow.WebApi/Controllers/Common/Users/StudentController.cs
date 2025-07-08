@@ -252,7 +252,7 @@ public class StudentController(
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
-            return Ok(response);
+            return Ok(response.Data);
         }
         catch (StatusCodeException ex)
         {

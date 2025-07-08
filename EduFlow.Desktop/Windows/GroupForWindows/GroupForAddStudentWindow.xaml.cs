@@ -1,12 +1,10 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Desktop.Components.StudentForComponents;
-using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Domain.Enums;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -116,15 +114,14 @@ public partial class GroupForAddStudentWindow : Window
     {
         try
         {
-            var students = await Task.Run(async () => await _studentService.GetAllPaginationAsync(pageSize, pageNumber));
+            var students = await Task.Run(async () => await _studentService.GetAllAsync());
         
-            var result = students.Data
+            var result = students
                 .Where(x => x.StudentCourses
                     .Any(y => y.Status == Domain.Enums.EnrollmentStatus.Pending &&
                         y.CourseId == _group.CourseId)).ToList();
 
             ShowStudents(result);
-            Pagination(students);
         }
         catch(Exception ex)
         {
@@ -133,31 +130,6 @@ public partial class GroupForAddStudentWindow : Window
             studentforEmptyData.Visibility = Visibility.Visible;
         }
     }
-
-    private void Pagination(PagedResponse<StudentForResultDto> pagedResponse)
-    {
-        this.pageNumber = pagedResponse.CurrentPage;
-        this.pageSize = pagedResponse.PageSize;
-        this.hasNext = pagedResponse.HasNext;
-        this.hasPrevious = pagedResponse.HasPrevious;
-
-        btnPrevious.Visibility = pagedResponse.HasPrevious switch
-        {
-            true => Visibility.Visible,
-            false => Visibility.Collapsed
-        };
-
-        btnNext.Visibility = pagedResponse.HasNext switch
-        {
-            true => Visibility.Visible,
-            false => Visibility.Collapsed
-        };
-
-        tbCurrentPageNumber.Text = pagedResponse.CurrentPage.ToString();
-        btnPrevious.IsChecked = false;
-        btnNext.IsChecked = false;
-    }
-
 
     private async Task FilterAsync()
     {
@@ -184,10 +156,7 @@ public partial class GroupForAddStudentWindow : Window
             var students = await Task.Run(async () => await _studentService.FilterAsync(dto, pageSize, pageNumber));
 
             if (students.Data.Any())
-            {
                 ShowStudents(students.Data);
-                Pagination(students);
-            }
             else
             {
                 studentLoader.Visibility = Visibility.Collapsed;
@@ -284,35 +253,5 @@ public partial class GroupForAddStudentWindow : Window
         }
         else
             notifierThis.ShowWarning("Yangi talabalar tanlanmadi!");
-    }
-
-    private async void btnPrevious_Click(object sender, RoutedEventArgs e)
-    {
-        this.pageNumber -= 1;
-
-        if(this.isFiltered && this.isFilterDto is not null)
-        {
-            var students = await Task.Run(async () => await _studentService.FilterAsync(isFilterDto, pageSize, pageNumber));
-
-            ShowStudents(students.Data);
-            Pagination(students);
-        }
-        else
-            await GetStudents();
-    }
-
-    private async void btnNext_Click(object sender, RoutedEventArgs e)
-    {
-        this.pageNumber += 1;
-
-        if (this.isFiltered && this.isFilterDto is not null)
-        {
-            var students = await Task.Run(async () => await _studentService.FilterAsync(isFilterDto, pageSize, pageNumber));
-
-            ShowStudents(students.Data);
-            Pagination(students);
-        }
-        else
-            await GetStudents();
     }
 }
