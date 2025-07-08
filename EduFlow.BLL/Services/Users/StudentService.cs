@@ -87,11 +87,11 @@ public class StudentService(
             if (existsStudent is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
 
-            //var existsCourse = await _unitOfWork.Group.GetAsync(groupId);
-            //if (existsCourse is null)
-            //    throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+            var existsCourse = await _unitOfWork.Group.GetAsync(groupId);
+            if (existsCourse is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
 
-            //existsStudent.Groups.Add(existsCourse);
+            existsStudent.Groups.Add(existsCourse);
             var res = await _unitOfWork.Student.UpdateAsync(existsStudent);
 
             return res;
@@ -293,6 +293,40 @@ public class StudentService(
         catch(Exception ex)
         {
             _logger.LogError($"An error occured while get all by teacher id: {teacherId}. {ex}");
+            throw;
+        }
+    }
+
+    public async Task<PagedList<StudentForResultDto>> GetAllPaginationByTeacherIdAsync(long teacherId, int pageSize, int pageNumber, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var existsTeacher = await _unitOfWork.Teacher.GetAsync(teacherId);
+            if (existsTeacher is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Teacher not found.");
+
+            var students = await _unitOfWork.Student.GetAllFullInformation()
+                //.Where(x => x.StudentCourses.Any(x => x.TeacherId == existsTeacher.Id);
+                .ToListAsync(cancellationToken);
+
+            if (!students.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
+
+            var mappedStudents = students
+                .Select(p => _mapper.Map<StudentForResultDto>(p))
+                .ToList();
+
+            var pagedlist = new PagedList<StudentForResultDto>(
+                mappedStudents,
+                mappedStudents.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedStudents, pageSize, pageNumber);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while getting the student by teacher id: {teacherId}");
             throw;
         }
     }

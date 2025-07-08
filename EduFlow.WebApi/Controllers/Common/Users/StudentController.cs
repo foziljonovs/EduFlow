@@ -5,6 +5,7 @@ using EduFlow.Domain.Enums;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using System.Net;
 
@@ -306,6 +307,36 @@ public class StudentController(
             return StatusCode((int)ex.StatusCode, ex.Message);
         }
         catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("{teacherId:long}/teacher/pagination")]
+    public async Task<IActionResult> GetAllPaginationByTeacherIdAsync([FromRoute] long teacherId, int pageSize = 10, int pageNumber = 1, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.GetAllPaginationByTeacherIdAsync(teacherId, pageSize, pageNumber, cancellation);
+
+            var metaData = new
+            {
+                response.TotalCount,
+                response.PageSize,
+                response.CurrentPage,
+                response.HasNext,
+                response.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metaData));
+
+            return Ok(response.Data);
+        }
+        catch(StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch(Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }

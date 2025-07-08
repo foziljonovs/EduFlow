@@ -316,10 +316,10 @@ public partial class MainPage : Page
                 };
             }
 
-            var groups = await Task.Run(async () => await _groupService.FilterAsync(dto));
+            var groups = await Task.Run(async () => await _groupService.FilterAsync(dto, 1, 10)); //default pagination
 
-            if (groups.Any())
-                ShowGroup(groups);
+            if (groups.Data.Any())
+                ShowGroup(groups.Data);
             else
             {
                 groupLoader.Visibility = Visibility.Collapsed;

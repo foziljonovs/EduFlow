@@ -20,5 +20,6 @@ public class GroupRepository : Repository<Group>, IGroupRepository
             .Where(x => !x.IsDeleted)
             .Include(x => x.Course)
             .Include(x => x.Students)
-            .Include(x => x.Teacher);
+            .Include(x => x.Teacher)
+            .OrderByDescending(x => x.CreatedAt);
 }
