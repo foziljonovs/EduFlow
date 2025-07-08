@@ -85,11 +85,12 @@
 
             <StackPanel Grid.Column="7"
                         Orientation="Horizontal">
-                <Button x:Name="deleteBtn"
+                <Button x:Name="viewBtn"
                         Style="{DynamicResource CrudButton}"
                         Tag="eye"
                         Background="DeepSkyBlue"
-                        ToolTip="To'lovni ko'rish"/>
+                        ToolTip="To'lovni ko'rish"
+                        Click="viewBtn_Click"/>
 
                 <Button x:Name="editBtn"
                         Style="{DynamicResource CrudButton}"
