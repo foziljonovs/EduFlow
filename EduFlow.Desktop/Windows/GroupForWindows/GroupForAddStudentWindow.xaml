@@ -127,9 +127,9 @@
                                    VerticalAlignment="Center"
                                    Visibility="Collapsed"/>
 
-                    <ScrollViewer>
-                        <StackPanel x:Name="stStudents"/>
-                    </ScrollViewer>
+                <ScrollViewer>
+                    <StackPanel x:Name="stStudents"/>
+                </ScrollViewer>
 
                 <Label x:Name="studentforEmptyData"
                            Content="O'quvchilar topilmadi"
@@ -142,37 +142,7 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="3">
-            <Grid Width="auto"
-                  HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="30"/>
-                </Grid.ColumnDefinitions>
-                <RadioButton Grid.Column="0"
-                             x:Name="btnPrevious"
-                             Style="{DynamicResource StateButton}"
-                             Tag="ChevronLeft"
-                             Click="btnPrevious_Click"/>
-
-                <TextBlock x:Name="tbCurrentPageNumber"
-                           Grid.Column="1"
-                           Text="1"
-                           FontSize="18"
-                           FontWeight="SemiBold"
-                           FontFamily="Jetbrains Mono"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-
-                <RadioButton Grid.Column="2"
-                             x:Name="btnNext"
-                             Style="{DynamicResource StateButton}"
-                             Tag="ChevronRight"
-                             Click="btnNext_Click"/>
-            </Grid>
-
-            <Button 
+        <Button Grid.Row="3"
                     x:Name="saveBtn"
                     Style="{DynamicResource saveButton}"
                     Width="100"
@@ -180,6 +150,5 @@
                     HorizontalAlignment="Right"
                     Margin="0 0 10 0"
                     Click="saveBtn_Click"/>
-        </Grid>
     </Grid>
 </Window>
