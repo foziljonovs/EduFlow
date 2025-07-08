@@ -292,7 +292,7 @@ public class GroupService(
         try
         {
             var groups = await _unitOfWork.Group.GetAllFullInformation()
-                .Where(x => x.TeacherId == teacherId)
+                .Where(x => x.Teacher.Id == teacherId)
                 .ToListAsync(cancellationToken);
 
             if (!groups.Any())
