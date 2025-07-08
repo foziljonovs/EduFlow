@@ -20,5 +20,6 @@ public class StudentRepository : Repository<Student>, IStudentRepository
             .Where(x => !x.IsDeleted)
             .Include(x => x.Payments)
             .Include(x => x.Groups)
-            .Include(x => x.StudentCourses);
+            .Include(x => x.StudentCourses)
+            .OrderByDescending(x => x.CreatedAt);
 }
