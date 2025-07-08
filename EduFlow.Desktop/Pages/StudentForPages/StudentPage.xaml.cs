@@ -1,6 +1,8 @@
-﻿using EduFlow.BLL.DTOs.Users.Student;
+﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.StudentForComponents;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
@@ -8,6 +10,8 @@ using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Windows.StudentForWindows;
 using EduFlow.Domain.Enums;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -27,6 +31,10 @@ public partial class StudentPage : Page
     private readonly ICourseService _courseService;
     private readonly ICategoryService _categoryService;
     private TeacherForResultDto _teacher;
+    private int pageSize = 10;
+    private int pageNumber = 1;
+    private bool hasNext = false;
+    private bool hasPrevious = false;
     public StudentPage()
     {
         InitializeComponent();
@@ -34,6 +42,15 @@ public partial class StudentPage : Page
         this._teacherService = new TeacherService();
         this._courseService = new CourseService();
         this._categoryService = new CategoryService();
+
+        var window = GetActiveWindow();
+
+        if (window.WindowState == WindowState.Maximized)
+            pageSize = 15;
+        else if (window.WindowState == WindowState.Normal)
+            pageSize = 10;
+        else
+            pageSize = 10;
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -54,54 +71,117 @@ public partial class StudentPage : Page
         cfg.DisplayOptions.TopMost = true;
     });
 
+    private Window? GetActiveWindow()
+        => Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+    private void Pagination(PagedResponse<StudentForResultDto> pagedResponse)
+    {
+        this.pageNumber = pagedResponse.CurrentPage;
+        this.pageSize = pagedResponse.PageSize;
+        this.hasNext = pagedResponse.HasNext;
+        this.hasPrevious = pagedResponse.HasPrevious;
+
+        btnPrevious.Visibility = pagedResponse.HasPrevious switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        btnNext.Visibility = pagedResponse.HasNext switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        tbCurrentPageNumber.Text = pagedResponse.CurrentPage.ToString();
+        btnPrevious.IsChecked = false;
+        btnNext.IsChecked = false;
+    }
     private async Task GetAllStudent()
     {
-        studentLoader.Visibility = Visibility.Visible;
-        var students = await Task.Run(async () => await _service.GetAllAsync());
+        try
+        {
+            studentLoader.Visibility = Visibility.Visible;
+            var students = await Task.Run(async () => await _service.GetAllPaginationAsync(pageSize, pageNumber));
 
-        ShowStudents(students);
+            if (students.Data.Any())
+            {
+                ShowStudents(students.Data);
+                Pagination(students);
+            }
+            else
+            {
+                studentLoader.Visibility = Visibility.Collapsed;
+                emptyDataForStudent.Visibility = Visibility.Visible;
+                tbCurrentPageNumber.Text = "0";
+            }
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowError("O'quvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
+        }
     }
 
     private async Task GetAllStudentByTeacher(long teacherId)
     {
-        studentLoader.Visibility = Visibility.Visible;
-        var students = await Task.Run(async () => await _service.GetAllByTeacherIdAsync(teacherId));
+        try
+        {
+            studentLoader.Visibility = Visibility.Visible;
+            var students = await Task.Run(async () => await _service.GetAllByTeacherIdAsync(teacherId));
 
-        ShowStudents(students);
+            ShowStudents(students);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowError("O'quvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
+        }
     }
 
     private async Task GetAllCourse()
     {
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
-
-        if (courses.Any())
+        try
         {
-            foreach (var course in courses)
+            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+
+            if (courses.Any())
             {
-                ComboBoxItem item = new ComboBoxItem();
-                item.Content = course.Name;
-                item.Tag = course.Id;
-                courseComboBox.Items.Add(item);
+                foreach (var course in courses)
+                {
+                    ComboBoxItem item = new ComboBoxItem();
+                    item.Content = course.Name;
+                    item.Tag = course.Id;
+                    courseComboBox.Items.Add(item);
+                }
+            }
+            else
+            {
+                notifier.ShowInformation("Kurslar topilmadi!");
             }
         }
-        else
+        catch(Exception ex)
         {
-            notifier.ShowInformation("Kurslar topilmadi!");
+            notifier.ShowError("Kurs malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
         }
     }
 
     private async Task GetAllStudentByCourse()
     {
-        long courseId = 0;
-        studentLoader.Visibility = Visibility.Visible;
+        try
+        {
+            long courseId = 0;
+            studentLoader.Visibility = Visibility.Visible;
 
-        if(courseComboBox.SelectedItem is ComboBoxItem selectedComboBoxItem
-            && selectedComboBoxItem.Tag != null)
-            courseId = (long)selectedComboBoxItem.Tag;
+            if(courseComboBox.SelectedItem is ComboBoxItem selectedComboBoxItem
+                && selectedComboBoxItem.Tag != null)
+                courseId = (long)selectedComboBoxItem.Tag;
 
-        var students = await Task.Run(async () => await _service.GetAllByCourseIdAsync(courseId));
+            var students = await Task.Run(async () => await _service.GetAllByCourseIdAsync(courseId));
         
-        ShowStudents(students);
+            ShowStudents(students);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowError("Kurs bo'yicha o'quvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+        }
     }
 
     private void ShowStudents(List<StudentForResultDto> students)
@@ -150,16 +230,24 @@ public partial class StudentPage : Page
 
     private async Task<long> GetTeacher(long userId)
     {
-        var teacher = await Task.Run(async () => await _teacherService.GetByUserIdAsync(userId));
-
-        if (teacher is null)
+        try
         {
-            notifier.ShowInformation("Ustoz topilmadi!");
-            return 0;
-        }
+            var teacher = await Task.Run(async () => await _teacherService.GetByUserIdAsync(userId));
 
-        _teacher = teacher;
-        return teacher.Id;
+            if (teacher is null)
+            {
+                notifier.ShowInformation("Ustoz topilmadi!");
+                return 0;
+            }
+
+            _teacher = teacher;
+            return teacher.Id;
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowError("O'qituvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+            return -1;
+        }
     }
 
     private async Task LoadPage()
@@ -207,17 +295,24 @@ public partial class StudentPage : Page
 
     private async Task GetStudentByPhoneNumber(string phoneNumber)
     {
-        studentLoader.Visibility = Visibility.Visible;
-
-        var student = await Task.Run(async () => await _service.GetByPhoneNumberAsync(phoneNumber));
-
-        if(!string.IsNullOrEmpty(student.PhoneNumber))
+        try
         {
-            stStudents.Children.Clear();
-            emptyDataForStudent.Visibility = Visibility.Visible;
-        }
+            studentLoader.Visibility = Visibility.Visible;
 
-        ShowStudents(new List<StudentForResultDto> { student });
+            var student = await Task.Run(async () => await _service.GetByPhoneNumberAsync(phoneNumber));
+
+            if(!string.IsNullOrEmpty(student.PhoneNumber))
+            {
+                stStudents.Children.Clear();
+                emptyDataForStudent.Visibility = Visibility.Visible;
+            }
+
+            ShowStudents(new List<StudentForResultDto> { student });
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowError("Telefon raqam orqali o'quvchini qidirishda xatolik yuz berdi, Iltimos qayta urining!");
+        }
     }
 
     private void searchPhoneNumberForStudentTxt_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -240,6 +335,20 @@ public partial class StudentPage : Page
     {
         StudentForCreateWindow window = new StudentForCreateWindow();
         window.ShowDialog();
+        await GetAllStudent();
+    }
+
+    private async void btnPrevious_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber -= 1;
+
+        await GetAllStudent();
+    }
+
+    private async void btnNext_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber += 1;
+
         await GetAllStudent();
     }
 }

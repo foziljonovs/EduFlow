@@ -15,6 +15,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -149,6 +150,36 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        Visibility="Collapsed"/>
+        </Grid>
+
+        <Grid Grid.Row="3"
+              HorizontalAlignment="Center"
+              Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+            <RadioButton Grid.Column="0"
+                         x:Name="btnPrevious"
+                         Style="{DynamicResource StateButton}"
+                         Tag="ChevronLeft"
+                         Click="btnPrevious_Click"/>
+
+            <TextBlock x:Name="tbCurrentPageNumber"
+                       Grid.Column="1"
+                       Text="1"
+                       FontSize="18"
+                       FontWeight="SemiBold"
+                       FontFamily="Jetbrains Mono"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <RadioButton Grid.Column="2"
+                         x:Name="btnNext"
+                         Style="{DynamicResource StateButton}"
+                         Tag="ChevronRight"
+                         Click="btnNext_Click"/>
         </Grid>
     </Grid>
 </Page>

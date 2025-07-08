@@ -38,6 +38,15 @@ public partial class GroupPage : Page
         this._groupService = new GroupService();
         this._courseService = new CourseService();
         this._teacherService = new TeacherService();
+
+        var window = GetActiveWindow();
+
+        if (window.WindowState == WindowState.Maximized)
+            pageSize = 15;
+        else if (window.WindowState == WindowState.Normal)
+            pageSize = 10;
+        else
+            pageSize = 10;
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -57,6 +66,9 @@ public partial class GroupPage : Page
         cfg.DisplayOptions.Width = 200;
         cfg.DisplayOptions.TopMost = true;
     });
+
+    private Window? GetActiveWindow()
+        => Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
 
     private async Task GetAllCourse()
     {
