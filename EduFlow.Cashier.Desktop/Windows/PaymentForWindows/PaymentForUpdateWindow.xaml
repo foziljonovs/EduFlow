@@ -9,7 +9,8 @@
         Height="550"
         Width="800"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -275,5 +276,12 @@
             </Grid>
         </Grid>
 
+        <Button Grid.Row="2"
+                x:Name="SaveBtn"
+                Style="{DynamicResource saveButton}"
+                Width="100"
+                Height="30"
+                HorizontalAlignment="Right"
+                Margin="10 0"/>
     </Grid>
 </Window>

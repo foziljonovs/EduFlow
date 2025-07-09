@@ -129,6 +129,8 @@ public partial class IncomeForPaymentWindow : Window
         catch(Exception ex)
         {
             notifierThis.ShowError("Xatolik yuz berdi!");
+            groupLoader.Visibility = Visibility.Collapsed;
+            emptyDataForGroups.Visibility = Visibility.Visible;
         }
     }
 
