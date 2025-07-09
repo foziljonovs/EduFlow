@@ -3,8 +3,10 @@ using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Payments.Registry;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.MainForComponents;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
@@ -12,6 +14,7 @@ using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Payments.Registry;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -33,6 +36,12 @@ public partial class MainPage : Page
     private readonly IStudentService _studentService;
     private readonly IRegistryService _registryService;
     private readonly IPaymentService _paymentService;
+    private int pageSize = 10;
+    private int pageNumber = 1;
+    private bool hasNext = false;
+    private bool hasPrevious = false;
+    private bool isFiltered = false;
+    private GroupForFilterDto isFilterDto = new GroupForFilterDto();
     public MainPage()
     {
         InitializeComponent();
@@ -62,6 +71,30 @@ public partial class MainPage : Page
         cfg.DisplayOptions.Width = 200;
         cfg.DisplayOptions.TopMost = true;
     });
+
+    private void Pagination(PagedResponse<GroupForResultDto> pagedResponse)
+    {
+        this.pageNumber = pagedResponse.CurrentPage;
+        this.pageSize = pagedResponse.PageSize;
+        this.hasNext = pagedResponse.HasNext;
+        this.hasPrevious = pagedResponse.HasPrevious;
+
+        btnPrevious.Visibility = pagedResponse.HasPrevious switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        btnNext.Visibility = pagedResponse.HasNext switch
+        {
+            true => Visibility.Visible,
+            false => Visibility.Collapsed
+        };
+
+        tbCurrentPageNumber.Text = pagedResponse.CurrentPage.ToString();
+        btnPrevious.IsChecked = false;
+        btnNext.IsChecked = false;
+    }
 
     private async Task GetAllCategory()
     {
@@ -111,10 +144,11 @@ public partial class MainPage : Page
         {
             groupLoader.Visibility = Visibility.Visible;
 
-            var groups = await Task.Run(async () => await _groupService.GetAllAsync());
+            var groups = await Task.Run(async () => await _groupService.GetAllPaginationAsync(pageSize, pageNumber));
 
-            ShowGroup(groups);
-            ActiveGroupCount(groups);
+            ShowGroup(groups.Data);
+            Pagination(groups);
+            ActiveGroupCount(groups.Data);
         }
         catch(Exception ex)
         {
@@ -316,7 +350,11 @@ public partial class MainPage : Page
                 };
             }
 
-            var groups = await Task.Run(async () => await _groupService.FilterAsync(dto, 1, 10)); //default pagination
+            this.isFiltered = true;
+            this.isFilterDto = dto;
+            this.pageNumber = 1;
+
+            var groups = await Task.Run(async () => await _groupService.FilterAsync(dto, pageSize, pageNumber));
 
             if (groups.Data.Any())
                 ShowGroup(groups.Data);
@@ -407,5 +445,35 @@ public partial class MainPage : Page
     {
         if (isPageLoaded)
             await FilterAsync();
+    }
+
+    private async void btnPrevious_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber -= 1;
+
+        if(this.isFiltered && this.isFilterDto is not null)
+        {
+            var groups = await Task.Run(async () => await _groupService.FilterAsync(isFilterDto, pageSize, pageNumber));
+
+            ShowGroup(groups.Data);
+            Pagination(groups);
+        }
+        else
+            await GetAllGroup();
+    }
+
+    private async void btnNext_Click(object sender, RoutedEventArgs e)
+    {
+        this.pageNumber += 1;
+
+        if (this.isFiltered && this.isFilterDto is not null)
+        {
+            var groups = await Task.Run(async () => await _groupService.FilterAsync(isFilterDto, pageSize, pageNumber));
+
+            ShowGroup(groups.Data);
+            Pagination(groups);
+        }
+        else
+            await GetAllGroup();
     }
 }
