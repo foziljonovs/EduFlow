@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using EduFlow.Cashier.Desktop.Windows.StudentForWindows;
+using System.Windows.Controls;
 
 namespace EduFlow.Cashier.Desktop.Components.StudentForComponents;
 
@@ -22,5 +23,12 @@ public partial class StudentForSecondComponent : UserControl
         tbAddress.Text = address.ToString();
         tbPhoneNumber.Text = phoneNumber.ToString();
         tbCourse.Text = courseName;
+    }
+
+    private void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        StudentForViewWindow window = new StudentForViewWindow();
+        window.SetId(this.Id);
+        window.ShowDialog();
     }
 }

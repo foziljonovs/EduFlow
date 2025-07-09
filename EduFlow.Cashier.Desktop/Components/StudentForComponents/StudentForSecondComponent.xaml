@@ -77,7 +77,8 @@
                     x:Name="ViewButton"
                     Style="{DynamicResource CrudButton}"
                     Tag="eye"
-                    Background="DeepSkyBlue"/>
+                    Background="DeepSkyBlue"
+                    Click="ViewButton_Click"/>
         </Grid>
     </Border>
 </UserControl>
