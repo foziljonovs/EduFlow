@@ -2,7 +2,6 @@
 using EduFlow.Cashier.Desktop.Components.GroupForComponents;
 using EduFlow.Cashier.Desktop.Components.PaymentForComponents;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
-using System.Diagnostics.Eventing.Reader;
 using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -124,7 +123,7 @@ public partial class StudentForViewWindow : Window
             else
             {
                 paymentForLoader.Visibility = Visibility.Collapsed;
-                paymentForEmptyDate.Visibility = Visibility.Collapsed;
+                paymentForEmptyDate.Visibility = Visibility.Visible;
             }
         }
         else
