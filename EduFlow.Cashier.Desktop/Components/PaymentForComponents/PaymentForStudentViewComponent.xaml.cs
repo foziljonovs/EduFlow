@@ -14,10 +14,19 @@ public partial class PaymentForStudentViewComponent : UserControl
         InitializeComponent();
     }
 
-    public void SetValues(long id, double amount, DateTime paymentDate)
+    public void SetValues(long id, double amount, PaymentStatus status, DateTime paymentDate)
     {
         this.Id = id;
         tbPaymentAmount.Text = amount.ToString();
+
+        tbStatus.Text = status switch
+        {
+            PaymentStatus.Pending => "Kutilmoqda",
+            PaymentStatus.Completed => "Yakunlangan",
+            PaymentStatus.Failed => "Xatolik yuz bergan",
+            PaymentStatus.Refunded => "Qaytarilgan"
+        };
+
         tbPaymentDate.Text = paymentDate.ToString();
     }
 }

@@ -28,7 +28,7 @@
 
             <TextBlock Grid.Column="1"
                        x:Name="tbStatus"
-                       Text="Faol"
+                       Text="Kutilmoqda"
                        FontSize="14"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
