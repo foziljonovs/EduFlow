@@ -115,6 +115,7 @@ public partial class StudentForViewWindow : Window
                     component.SetValues(
                         payment.Id,
                         payment.Amount,
+                        payment.Status,
                         payment.PaymentDate);
 
                     stPayments.Children.Add(component);

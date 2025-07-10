@@ -83,7 +83,6 @@
                             FontWeight="SemiBold"
                             VerticalContentAlignment="Center"
                             Margin="5 10">
-                    <ComboBoxItem Content="To'lov turini tanlang" IsSelected="True" IsEnabled="False"/>
                     <ComboBoxItem Content="Naqt" Tag="0"/>
                     <ComboBoxItem Content="Plastik" Tag="1"/>
                     <ComboBoxItem Content="O'tqazma" Tag="2"/>
@@ -159,7 +158,6 @@
                               Margin="8 0 26 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="100"/>
                                 <ColumnDefinition Width="120"/>
                             </Grid.ColumnDefinitions>
 
@@ -171,14 +169,6 @@
                                        VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Column="1"
-                                       Text="Darslar"
-                                       FontSize="13"
-                                       FontFamily="Jetbrains Mono"
-                                       FontWeight="ExtraBold"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-
-                            <TextBlock Grid.Column="2"
                                        Text="Boshlangan sana"
                                        FontSize="13"
                                        FontFamily="Jetbrains Mono"

@@ -52,4 +52,11 @@ public partial class PaymentForComponent : UserControl
         window.SetId(this.Id);
         window.ShowDialog();
     }
+
+    private void editBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        PaymentForUpdateWindow window = new PaymentForUpdateWindow();
+        window.SetId(this.Id);
+        window.ShowDialog();
+    }
 }
