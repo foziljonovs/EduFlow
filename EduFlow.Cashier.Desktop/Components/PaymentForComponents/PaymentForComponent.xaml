@@ -96,7 +96,8 @@
                         Style="{DynamicResource CrudButton}"
                         Tag="pencil"
                         Background="Gold"
-                        ToolTip="To'lovni tahrirlash"/>
+                        ToolTip="To'lovni tahrirlash"
+                        Click="editBtn_Click"/>
 
                 <Button x:Name="returnBtn"
                         Style="{DynamicResource CrudButton}"
