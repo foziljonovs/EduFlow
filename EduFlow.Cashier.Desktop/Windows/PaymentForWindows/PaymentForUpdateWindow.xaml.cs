@@ -144,7 +144,10 @@ public partial class PaymentForUpdateWindow : Window
             var teacher = await _teacherService.GetByIdAsync(id);
 
             if (teacher is not null)
+            {
                 this.teacher = teacher;
+                AmountTxt.Text = teacher.Course.Price.ToString();
+            }
             else
             {
                 this.teacher = null;
@@ -335,7 +338,6 @@ public partial class PaymentForUpdateWindow : Window
             this.payment = payment;
             this.TeacherId = payment.TeacherId;
 
-            AmountTxt.Text = payment.Amount.ToString();
             DiscountTxt.Text = payment.Discount.ToString();
             NotesTxt.Text = payment.Notes?.ToString() ?? "...";
         }
@@ -559,14 +561,14 @@ public partial class PaymentForUpdateWindow : Window
                 return;
             }
 
-            paymentDto.ReceiptNumber = string.Empty; //Receipt number backendda generatsiya qilinadi
+            paymentDto.ReceiptNumber = payment.ReceiptNumber;
             paymentDto.PaymentDate = DateTime.UtcNow.AddHours(5);
             paymentDto.Status = PaymentStatus.Pending;
             registryDto.IsConfirmed = false;
 
-            if(this.payment.Amount != paymentDto.Amount &&
-                this.payment.Type != paymentDto.Type)
-            {
+            //if(this.payment.Amount != paymentDto.Amount &&
+            //    this.payment.Type != paymentDto.Type)
+            //{
                 var deletedOldRegistry = await _registryService.DeleteAsync(payment.RegistryId);
 
                 if(!deletedOldRegistry)
@@ -586,7 +588,7 @@ public partial class PaymentForUpdateWindow : Window
                     SaveBtn.IsEnabled = true;
                     return;
                 }
-            }
+            //}
 
             var updatedPayment = await _paymentService.UpdateToPayAsync(this.Id, paymentDto);
 
