@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using EduFlow.Cashier.Desktop.Windows;
+using System.Windows.Controls;
 
 namespace EduFlow.Cashier.Desktop.Components.MainForComponents;
 
@@ -24,4 +25,11 @@ public partial class MainForGroupComponent : UserControl
 
     public long GetId()
         => this.Id;
+
+    private void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        GroupForViewWindow window = new GroupForViewWindow();
+        window.SetId(this.Id);
+        window.ShowDialog();
+    }
 }
