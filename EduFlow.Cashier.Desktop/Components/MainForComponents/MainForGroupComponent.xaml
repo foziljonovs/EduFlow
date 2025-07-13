@@ -57,7 +57,8 @@
                     Style="{DynamicResource CrudButton}"
                     Tag="Eye"
                     Background="DeepSkyBlue"
-                    ToolTip="Guruhni ko'rish"/>
+                    ToolTip="Guruhni ko'rish"
+                    Click="ViewButton_Click"/>
         </Grid>
     </Border>
 </UserControl>
