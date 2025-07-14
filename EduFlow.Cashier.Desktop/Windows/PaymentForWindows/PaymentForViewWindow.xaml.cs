@@ -1,5 +1,9 @@
-﻿using EduFlow.BLL.DTOs.Payments.Payment;
+﻿using Accessibility;
+using EduFlow.BLL.DTOs.Payments.Payment;
+using EduFlow.BLL.DTOs.Users.Teacher;
+using EduFlow.Cashier.Desktop.Services;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
+using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Domain.Enums;
 using System.Windows;
 using ToastNotifications;
@@ -15,12 +19,16 @@ namespace EduFlow.Cashier.Desktop.Windows.PaymentForWindows;
 public partial class PaymentForViewWindow : Window
 {
     private readonly IPaymentService _paymentService;
+    private readonly ITeacherService _teacherService;
+    PrinterService _printerService = new PrinterService();
     private long Id { get; set; }
     private PaymentForResultDto payment = new PaymentForResultDto();
+    private TeacherForResultDto teacher = new TeacherForResultDto();
     public PaymentForViewWindow()
     {
         InitializeComponent();
         this._paymentService = new PaymentService();
+        this._teacherService = new TeacherService();
     }
 
     Notifier notifierThis = new Notifier(cfg =>
@@ -67,6 +75,7 @@ public partial class PaymentForViewWindow : Window
             var payment = await _paymentService.GetByIdAsync(Id);
 
             ShowValues(payment);
+            await GetTeacher(payment.TeacherId);
         }
         catch(Exception ex)
         {
@@ -74,10 +83,29 @@ public partial class PaymentForViewWindow : Window
         }
     }
 
+    private async Task GetTeacher(long id)
+    {
+        try
+        {
+            var teacher = await _teacherService.GetByIdAsync(id);
+
+            if (teacher is not null)
+                this.teacher = teacher;
+            else
+                notifierThis.ShowWarning("Malumotlarini yuklashda nosozlik yuz berdi, Iltimos qayta urining!");
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("Malumotlarni yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+        }
+    }
+
     private void ShowValues(PaymentForResultDto payment)
     {
         if (payment is not null)
         {
+            this.payment = payment;
+
             tbReceiptNumber.Text = payment.ReceiptNumber;
             tbStudentName.Text = payment.Student.Fullname;
             tbGroupName.Text = payment.Group.Name;
@@ -116,5 +144,59 @@ public partial class PaymentForViewWindow : Window
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
         await GetPayment();
+    }
+
+    private async void WriteToPrinter()
+    {
+        try
+        {
+            if (payment is not null)
+            {
+                string paymentType = payment.Type switch
+                {
+                    PaymentType.Cash => "Naqd",
+                    PaymentType.Card => "Karta",
+                    PaymentType.Transfer => "O'tkazma",
+                    PaymentType.Credit => "Nasiya",
+                    PaymentType.Other => "Aniq emas",
+                    _ => "Aniq emas"
+                };
+
+                _printerService.Print(
+                    this.payment,
+                    this.teacher.Course.Price,
+                    paymentType,
+                    $"{this.teacher.User?.Firstname} {this.teacher.User?.Lastname}",
+                    this.teacher.Course.Name);
+            }
+            else
+            {
+                notifierThis.ShowWarning("To'lov ma'lumotlari topilmadi, chekni qayta chiqarishga urinib ko'ring!");
+            }
+        }
+        catch (Exception ex)
+        {
+            notifierThis.ShowError("Chekni chop etishda xatolik yuz berdi! Iltimos printerni tekshiring.");
+        }
+    }
+
+    private void printBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (!printBtn.IsEnabled)
+        {
+            notifierThis.ShowWarning("Iltimos, kuting!");
+            return;
+        }
+
+        printBtn.IsEnabled = false;
+
+        try
+        {
+            WriteToPrinter();
+        }
+        catch(Exception ex)
+        {
+            printBtn.IsEnabled = true;
+        }
     }
 }
