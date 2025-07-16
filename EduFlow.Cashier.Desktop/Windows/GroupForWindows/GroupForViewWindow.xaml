@@ -121,7 +121,8 @@
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"/>
 
-                    <TextBlock Text="0"
+                    <TextBlock x:Name="tbThisMonthlyPaymentCount"
+                               Text="0"
                                FontSize="14"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"

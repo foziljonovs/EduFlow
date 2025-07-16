@@ -6,6 +6,7 @@ using EduFlow.Cashier.Desktop.Components.LessonForComponents;
 using EduFlow.Cashier.Desktop.Components.StudentForComponents;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
+using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Domain.Enums;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ public partial class GroupForViewWindow : Window
     private readonly IGroupService _groupService;
     private readonly ILessonService _lessonService;
     private readonly ITeacherService _teacherService;
+    private readonly IPaymentService _paymentService;
     private long Id { get; set; }
     private GroupForResultDto _group = new GroupForResultDto();
     private Dictionary<int, long> _students = new Dictionary<int, long>();
@@ -34,6 +36,7 @@ public partial class GroupForViewWindow : Window
         this._groupService = new GroupService();
         this._lessonService = new LessonService();
         this._teacherService = new TeacherService();
+        this._paymentService = new PaymentService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -165,6 +168,34 @@ public partial class GroupForViewWindow : Window
         }
     }
 
+    private async Task<int> GetPayments()
+    {
+        try
+        {
+            var payments = await Task.Run(async () => await _paymentService.GetAllByGroupIdAsync(this.Id));
+
+            if(payments.Any())
+            {
+                DateTime currentDate = DateTime.UtcNow.AddHours(5);
+
+                int thisMonthPaymentCount = payments.Count(
+                    x => x.PaymentDate.Month == currentDate.Month &&
+                    x.PaymentDate.Year == currentDate.Year);
+
+                return thisMonthPaymentCount;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowWarning("To'lov malumotlarini yuklab bo'lmadi, Iltimos qayta urining!");
+            return 0;
+        }
+    }
+
     private async Task ShowValues()
     {
         var group = await GetGroup();
@@ -196,6 +227,13 @@ public partial class GroupForViewWindow : Window
             _ => "Nomalum"
         };
         statedDateTxt.Text = group.CreatedAt.ToString("dd/MM/yyyy");
+
+        int paymentCount = await GetPayments();
+
+        if (paymentCount > 0)
+            tbThisMonthlyPaymentCount.Text = paymentCount.ToString();
+        else
+            tbThisMonthlyPaymentCount.Text = "0";
 
         ShowStudents(group.Students);
     }
