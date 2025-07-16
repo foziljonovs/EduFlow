@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="130"/>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock x:Name="tbNumber"
@@ -30,9 +30,9 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
-            <TextBlock x:Name="tbReceiptNumber"
+            <TextBlock x:Name="tbStudentName"
                        Grid.Column="1"
-                       Text="86794010-6564-4127-92ED-6210EB6325F0"
+                       Text="Palonchi Pistonchiyev"
                        FontSize="14"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
@@ -99,11 +99,11 @@
                         ToolTip="To'lovni tahrirlash"
                         Click="editBtn_Click"/>
 
-                <Button x:Name="returnBtn"
+                <!--<Button x:Name="returnBtn"
                         Style="{DynamicResource CrudButton}"
                         Tag="creditCardRefund"
                         Background="Tomato"
-                        ToolTip="To'lovni qaytarish"/>
+                        ToolTip="To'lovni qaytarish"/>-->
             </StackPanel>
         </Grid>
     </Border>
