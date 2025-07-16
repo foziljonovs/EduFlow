@@ -276,6 +276,7 @@ public partial class PaymentPage : Page
                     count,
                     item.Id,
                     item.ReceiptNumber,
+                    item.Student.Fullname,
                     item.Amount,
                     item.Discount,
                     item.Status,

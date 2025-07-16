@@ -1,10 +1,9 @@
-﻿<UserControl x:Class="EduFlow.Desktop.Components.LessonForComponents.LessonForAttendanceComponent"
+﻿<UserControl x:Class="EduFlow.Cashier.Desktop.Components.LessonForComponents.LessonForAttendanceComponent"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EduFlow.Desktop.Components.LessonForComponents"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Components.LessonForComponents"
              mc:Ignorable="d" 
              Width="100"
              Loaded="UserControl_Loaded">
@@ -19,31 +18,6 @@
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
 
-            <Grid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem x:Name="mnDelete"
-                              Header="O'chirish"
-                              Click="mnDelete_Click">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Delete"
-                                                     Width="16"
-                                                     Height="16"
-                                                     Foreground="Tomato"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-
-                    <MenuItem x:Name="mnUpdate"
-                              Header="Tahrirlash">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Pencil"
-                                                     Width="16"
-                                                     Height="16"
-                                                     Foreground="DodgerBlue"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                </ContextMenu>
-            </Grid.ContextMenu>
-            
             <StackPanel Grid.Row="0"
                         x:Name="stAttendances"
                         VerticalAlignment="Top"

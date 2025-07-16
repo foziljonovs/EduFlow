@@ -10,18 +10,18 @@ namespace EduFlow.Cashier.Desktop.Components.PaymentForComponents;
 public partial class PaymentForComponent : UserControl
 {
     private long Id { get; set; }
-    private string ReceiptNumber { get; set; }
+    private string ReceiptNumber { get; set; } = string.Empty;
     public PaymentForComponent()
     {
         InitializeComponent();
     }
 
-    public void SetValues(int number, long id, string receiptNumber, double amount, double discount, PaymentStatus status, PaymentType type, DateTime paymentDate)
+    public void SetValues(int number, long id, string receiptNumber, string studentName, double amount, double discount, PaymentStatus status, PaymentType type, DateTime paymentDate)
     {
         this.Id = id;
         this.ReceiptNumber = receiptNumber;
         tbNumber.Text = number.ToString();
-        tbReceiptNumber.Text = receiptNumber;
+        tbStudentName.Text = studentName;
         tbAmount.Text = amount.ToString();
         tbDiscount.Text = discount.ToString();
         tbStatus.Text = status switch

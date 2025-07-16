@@ -99,7 +99,7 @@
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="130"/>
-                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="80"/>
                 </Grid.ColumnDefinitions>
 
 
@@ -112,7 +112,7 @@
                            VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Column="1"
-                           Text="Chek raqam"
+                           Text="O'quvchi ismi"
                            FontSize="12"
                            FontWeight="ExtraBold"
                            FontFamily="Jetbrains Mono"

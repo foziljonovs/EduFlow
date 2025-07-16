@@ -3,13 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Windows" xmlns:local1="clr-namespace:EduFlow.Cashier.Desktop.Components.Loader"
+        xmlns:local="clr-namespace:EduFlow.Cashier.Desktop.Windows"
+        xmlns:local1="clr-namespace:EduFlow.Cashier.Desktop.Components.Loader"
         mc:Ignorable="d"
         Title="GroupForViewWindow"
         Height="600"
         Width="1024"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None">
+        WindowStyle="None"
+        Loaded="Window_Loaded">
     <Grid Margin="10 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -28,24 +30,28 @@
                 <RadioButton x:Name="MinButton"
                              Style="{DynamicResource StateButton}"
                              Tag="ChevronDown"
-                             ToolTip="Yashirish"/>
+                             ToolTip="Yashirish"
+                             Click="MinButton_Click"/>
                 <StackPanel VerticalAlignment="Center">
                     <RadioButton x:Name="NormalButton"
                                  Style="{DynamicResource StateButton}"
                                  Tag="ArrowCollapse"
                                  ToolTip="Oddiy holat"
-                                 Visibility="Collapsed"/>
+                                 Visibility="Collapsed"
+                                 Click="NormalButton_Click"/>
 
                     <RadioButton x:Name="MaxButton"
                                  Style="{DynamicResource StateButton}"
                                  Tag="ArrowExpand"
-                                 ToolTip="Kattalashtirish"/>
+                                 ToolTip="Kattalashtirish"
+                                 Click="MaxButton_Click"/>
                 </StackPanel>
 
                 <RadioButton x:Name="CloseBtn"
                              Style="{DynamicResource StateButton}"
                              Tag="Close"
-                             ToolTip="Yopish"/>
+                             ToolTip="Yopish"
+                             Click="CloseBtn_Click"/>
             </StackPanel>
         </Grid>
 
@@ -65,7 +71,7 @@
                                HorizontalAlignment="Left"/>
 
                     <TextBlock x:Name="nameTxt"
-                               Text="Foundation 22.04.25"
+                               Text="..."
                                FontSize="14"
                                FontFamily="JetBrains Mono"
                                FontWeight="DemiBold"
@@ -82,7 +88,7 @@
                                HorizontalAlignment="Left"/>
 
                     <TextBlock x:Name="teacherNameTxt"
-                               Text="Abdulvosid Foziljonov"
+                               Text="..."
                                FontSize="14"
                                FontFamily="JetBrains Mono"
                                FontWeight="DemiBold"
@@ -108,45 +114,36 @@
                 </Grid>
 
                 <Grid Height="50">
-                    <TextBlock Text="To'lov tarixi: "
+                    <TextBlock Text="Joriy oydagi to'lovlar: "
                                FontSize="18"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"/>
 
-                    <Border x:Name="paymentHistoryBtn"
-                            Width="80"
-                            Height="30"
-                            CornerRadius="5"
-                            Background="DeepSkyBlue"
-                            ToolTip="Guruh to'lovlarini ko'rish"
-                            HorizontalAlignment="Right">
-                        <Label Content="Ko'rish"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Foreground="White"
+                    <TextBlock Text="0"
                                FontSize="14"
                                FontFamily="Jetbrains Mono"
-                               FontWeight="DemiBold"/>
-                    </Border>
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right"/>
                 </Grid>
 
                 <Grid Height="50">
                     <TextBlock Text="Boshlangan sana: "
-                       FontSize="18"
-                       FontFamily="Jetbrains Mono"
-                       FontWeight="SemiBold"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"/>
+                               FontSize="18"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"/>
 
                     <TextBlock x:Name="statedDateTxt"
-                       Text="22.04.25"
-                       FontSize="14"
-                       FontFamily="JetBrains Mono"
-                       FontWeight="DemiBold"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Right"/>
+                               Text="00.00.00"
+                               FontSize="14"
+                               FontFamily="JetBrains Mono"
+                               FontWeight="DemiBold"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right"/>
                 </Grid>
             </StackPanel>
 
@@ -155,7 +152,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -166,7 +162,7 @@
                                VerticalAlignment="Center"/>
 
                     <TextBlock x:Name="studentCountTbc"
-                               Text="12"
+                               Text="0"
                                FontSize="14"
                                FontFamily="Jetbrains Mono"
                                FontWeight="DemiBold"
@@ -180,7 +176,7 @@
                                 VerticalAlignment="Center"/>
 
                     <TextBlock x:Name="lessonCountTbc"
-                                Text="12"
+                                Text="0"
                                 FontSize="14"
                                 FontFamily="Jetbrains Mono"
                                 FontWeight="DemiBold"
@@ -233,14 +229,6 @@
                                            FontFamily="Jetbrains Mono"
                                            FontWeight="SemiBold"
                                            VerticalAlignment="Center"/>
-
-
-                                    <Button x:Name="createLessonBtn"
-                                            Style="{DynamicResource CrudButton}"
-                                            Tag="add"
-                                            ToolTip="Dars yaratish"
-                                            Background="MediumSeaGreen"
-                                            HorizontalAlignment="Right"/>
                                 </Grid>
                             </Grid>
 
@@ -303,15 +291,6 @@
                         </Grid>
                     </Grid>
                 </Border>
-
-                <Grid Grid.Row="2">
-                    <Button x:Name="saveButton"
-                            Style="{DynamicResource saveButton}"
-                            Height="30"
-                            Width="100"
-                            ToolTip="Ma'lumotlarni saqlash"
-                            HorizontalAlignment="Right"/>
-                </Grid>
             </Grid>
         </Grid>
     </Grid>

@@ -1,5 +1,9 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Courses.Lesson;
+using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
+using EduFlow.Cashier.Desktop.Components.LessonForComponents;
+using EduFlow.Cashier.Desktop.Components.StudentForComponents;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
@@ -23,6 +27,7 @@ public partial class GroupForViewWindow : Window
     private readonly ITeacherService _teacherService;
     private long Id { get; set; }
     private GroupForResultDto _group = new GroupForResultDto();
+    private Dictionary<int, long> _students = new Dictionary<int, long>();
     public GroupForViewWindow()
     {
         InitializeComponent();
@@ -70,6 +75,24 @@ public partial class GroupForViewWindow : Window
     public void SetId(long id)
         => this.Id = id;
 
+    private async Task<Stack<LessonForResultDto>> GetLessons()
+    {
+        try
+        {
+            var lessons = await Task.Run(async () => await _lessonService.GetByGroupIdAsync(this.Id));
+
+            if (lessons.Any())
+                return new Stack<LessonForResultDto>(lessons);
+            else
+                return new Stack<LessonForResultDto>();
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowWarning("Darslarni yuklab bo'lmadi, Iltimos qayta urining!");
+            return new Stack<LessonForResultDto>();
+        }
+    }
+
     private async Task<GroupForResultDto> GetGroup()
     {
         try
@@ -106,7 +129,43 @@ public partial class GroupForViewWindow : Window
         }
     }
 
-    private async void ShowValues()
+    private async void ShowLessons()
+    {
+        var lessons = await GetLessons();
+
+        int count = lessons.Count();
+
+        stLessons.Children.Clear();
+        lessonLoader.Visibility = Visibility.Visible;
+
+        if (lessons.Any())
+        {
+            lessonLoader.Visibility = Visibility.Collapsed;
+            emptyDataForLesson.Visibility = Visibility.Collapsed;
+
+            foreach (var lesson in lessons)
+            {
+                LessonForAttendanceComponent component = new LessonForAttendanceComponent();
+                component.SetValues(
+                    count,
+                    _students,
+                    lesson);
+
+                stLessons.Children.Add(component);
+                count--;
+            }
+
+            lessonCountTbc.Text = count.ToString();
+        }
+        else
+        {
+            lessonLoader.Visibility = Visibility.Collapsed;
+            emptyDataForLesson.Visibility = Visibility.Collapsed;
+            lessonCountTbc.Text = "0";
+        }
+    }
+
+    private async Task ShowValues()
     {
         var group = await GetGroup();
 
@@ -138,6 +197,86 @@ public partial class GroupForViewWindow : Window
         };
         statedDateTxt.Text = group.CreatedAt.ToString("dd/MM/yyyy");
 
-        //ShowStudents(group.Students);
+        ShowStudents(group.Students);
+    }
+
+    private void ShowStudents(List<StudentForShortResultDto> students)
+    {
+        _students.Clear();
+        int count = 1;
+
+        stStudents.Children.Clear();
+        studentLoader.Visibility = Visibility.Visible;
+
+        if(students.Any())
+        {
+            studentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudent.Visibility = Visibility.Collapsed;
+
+            foreach(var student in students)
+            {
+                StudentForAttendanceComponent component = new StudentForAttendanceComponent();
+                component.setValues(
+                    student.Id,
+                    count,
+                    student.Fullname,
+                    EnrollmentStatus.Active,
+                    this.Id);
+
+                stStudents.Children.Add(component);
+                _students.Add(count, student.Id);
+                count++;
+            }
+        }
+        else
+        {
+            studentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudent.Visibility = Visibility.Visible;
+            studentCountTbc.Text = "0";
+        }
+    }
+
+    private void CloseBtn_Click(object sender, RoutedEventArgs e)
+        => this.Close();
+
+    private void MaxButton_Click(object sender, RoutedEventArgs e)
+    {
+        this.WindowState = WindowState.Maximized;
+
+        if(this.WindowState == WindowState.Maximized)
+        {
+            MaxButton.Visibility = Visibility.Collapsed;
+            NormalButton.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            MaxButton.Visibility = Visibility.Visible;
+            NormalButton.Visibility = Visibility.Collapsed;
+        }
+    }
+
+    private void NormalButton_Click(object sender, RoutedEventArgs e)
+    {
+        this.WindowState = WindowState.Normal;
+
+        if (this.WindowState == WindowState.Normal)
+        {
+            MaxButton.Visibility = Visibility.Visible;
+            NormalButton.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            MaxButton.Visibility = Visibility.Collapsed;
+            NormalButton.Visibility = Visibility.Visible;
+        }
+    }
+
+    private void MinButton_Click(object sender, RoutedEventArgs e)
+        => this.WindowState = WindowState.Minimized;
+
+    private async void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        await ShowValues();
+        ShowLessons();
     }
 }
