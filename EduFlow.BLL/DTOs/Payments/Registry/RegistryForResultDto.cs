@@ -10,4 +10,5 @@ public class RegistryForResultDto
     public double Debit { get; set; }
     public double Credit { get; set; }
     public PaymentType Type { get; set; }
+    public string? Description { get; set; }
 }

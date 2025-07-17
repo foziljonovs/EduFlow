@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Payments.Registry;
+using EduFlow.Cashier.Desktop.Components.PaymentForComponents;
 using EduFlow.Cashier.Desktop.Windows.PaymentForWindows;
 using EduFlow.Desktop.Integrated.Services.Payments.Registry;
 using System.Threading.Tasks;
@@ -47,7 +48,13 @@ public partial class StatsPage : Page
         {
             statsLoader.Visibility = Visibility.Visible;
 
-            var registries = await Task.Run(async () => await _registryService.GetAllAsync());
+            RegistryForFilterDto dto = new RegistryForFilterDto
+            {
+                StartedDate = DateTime.UtcNow.Date,
+                FinishedDate = DateTime.UtcNow.Date.AddDays(1)
+            };
+
+            var registries = await Task.Run(async () => await _registryService.FilterAsync(dto));
 
             ShowRegistries(registries);
         }
@@ -111,6 +118,7 @@ public partial class StatsPage : Page
 
             ShowIncome(registries);
             ShowOutlay(registries);
+            ShowOutlayData(registries);
         }
         else
         {
@@ -218,6 +226,44 @@ public partial class StatsPage : Page
             tbOutlayAllAmount.Text = totalAllAmount.ToString();
         else
             tbOutlayAllAmount.Text = "0";
+    }
+
+    private void ShowOutlayData(List<RegistryForResultDto> registries)
+    {
+        List<RegistryForResultDto> filteredRegistry = registries
+            .Where(x => x.Credit > 0)
+            .ToList();
+
+        int count = 1;
+
+        stOutlay.Children.Clear();
+        outlayLoader.Visibility = Visibility.Collapsed;
+
+        if (filteredRegistry.Any())
+        {
+            outlayLoader.Visibility = Visibility.Collapsed;
+            emptyDataForOutlay.Visibility = Visibility.Collapsed;
+
+            foreach(RegistryForResultDto registry in filteredRegistry)
+            {
+                RegistryForComponent component = new RegistryForComponent();
+                component.SetValues(
+                    registry.Id,
+                    count,
+                    registry.Credit,
+                    registry.Description,
+                    registry.CreatedAt,
+                    registry.Type);
+
+                stOutlay.Children.Add(component);
+                count++;
+            }
+        }
+        else
+        {
+            outlayLoader.Visibility = Visibility.Collapsed;
+            emptyDataForOutlay.Visibility = Visibility.Visible;
+        }
     }
 
     private bool IsPageLoaded = false;
