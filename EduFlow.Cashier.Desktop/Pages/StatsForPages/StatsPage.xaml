@@ -49,6 +49,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
             
                 <Border Grid.Row="0"
@@ -241,10 +242,10 @@
                 </Border>
 
                 <Border Grid.Row="1"
-                    Margin="0 5"
-                    CornerRadius="8"
-                    BorderThickness="1"
-                    BorderBrush="Gray">
+                        Margin="0 5"
+                        CornerRadius="8"
+                        BorderThickness="1"
+                        BorderBrush="Gray">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40"/>
@@ -260,7 +261,7 @@
                                Margin="10 0"/>
 
                         <Grid Grid.Row="1"
-                          Margin="10 0 5 5">
+                              Margin="10 0 5 5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="200"/>
                                 <ColumnDefinition Width="*"/>
@@ -428,6 +429,100 @@
                         </Grid>
                     </Grid>
                 </Border>
+
+                <Grid Grid.Row="2"
+                      Margin="0 5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Text="Chiqimlar"
+                               FontSize="18"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="ExtraBold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+
+                    <Border BorderBrush="Gray"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Grid.Row="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0"
+                                  Margin="3 0 21 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0"
+                                           Text="No"
+                                           FontSize="12"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="Summa"
+                                           FontSize="12"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="2"
+                                           Text="Tavsif"
+                                           FontSize="12"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="3"
+                                           Text="Sana"
+                                           FontSize="12"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="4"
+                                           Text="Turi"
+                                           FontSize="12"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Row="1">  
+                                <local1:Loader x:Name="outlayLoader"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Visibility="Collapsed"/>
+
+                                <ScrollViewer>
+                                    <StackPanel x:Name="stOutlay"/>
+                                </ScrollViewer>
+
+                                <TextBlock x:Name="emptyDataForOutlay"
+                                           Text="Chiqimlar topilmadi!"
+                                           FontSize="14"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Visibility="Collapsed"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
             </Grid>
 
             <TextBlock x:Name="emptyData"
