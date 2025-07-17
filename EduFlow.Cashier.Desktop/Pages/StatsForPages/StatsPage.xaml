@@ -449,29 +449,77 @@
                             CornerRadius="8"
                             Grid.Row="1">
                         <Grid>
-                            <StackPanel Height="25">
-                                
-                            </StackPanel>
-                            <Grid>  
-                                
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0"
+                                  Margin="3 0 21 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0"
+                                           Text="No"
+                                           FontSize="12"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="Summa"
+                                           FontSize="12"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="2"
+                                           Text="Tavsif"
+                                           FontSize="12"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="3"
+                                           Text="Sana"
+                                           FontSize="12"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="4"
+                                           Text="Turi"
+                                           FontSize="12"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
                             </Grid>
-                            <local1:Loader x:Name="outlayLoader"
+                            <Grid Grid.Row="1">  
+                                <local1:Loader x:Name="outlayLoader"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Visibility="Collapsed"/>
+
+                                <ScrollViewer>
+                                    <StackPanel x:Name="stOutlay"/>
+                                </ScrollViewer>
+
+                                <TextBlock x:Name="emptyDataForOutlay"
+                                           Text="Chiqimlar topilmadi!"
+                                           FontSize="14"
+                                           FontFamily="Jetbrains Mono"
+                                           FontWeight="SemiBold"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Visibility="Collapsed"/>
-
-                            <ScrollViewer>
-                                <StackPanel x:Name="stOutlay"/>
-                            </ScrollViewer>
-
-                            <TextBlock x:Name="emptyDataForOutlay"
-                                       Text="Chiqimlar topilmadi!"
-                                       FontSize="14"
-                                       FontFamily="Jetbrains Mono"
-                                       FontWeight="SemiBold"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Visibility="Collapsed"/>
+                            </Grid>
                         </Grid>
                     </Border>
                 </Grid>
