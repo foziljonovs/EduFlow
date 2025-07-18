@@ -34,6 +34,7 @@ public partial class IncomeForPaymentWindow : Window
     private TeacherForResultDto _teacher = new TeacherForResultDto();
     PrinterService _printerService = new PrinterService();
     private long _studentId { get; set; }
+    private long _groupId { get; set; }
     public IncomeForPaymentWindow()
     {
         InitializeComponent();
@@ -229,6 +230,37 @@ public partial class IncomeForPaymentWindow : Window
         }
     }
 
+    private async Task GetAllStudentByPayment()
+    {
+        try
+        {
+            studentOldPaymentsLoader.Visibility = Visibility.Visible;
+            emptyDataForStudentOldPayment.Visibility = Visibility.Collapsed;
+
+            if(this._studentId > 0)
+            {
+                var payments = await Task.Run(async () => await _paymentService.GetAllByStudentIdAsync(this._studentId));
+
+                List<PaymentForResultDto> existsPayment = payments
+                    .Where(x => x.GroupId == this._groupId)
+                    .ToList();
+
+                //ShowStudentPayments(existsPayment);
+            }
+            else
+            {
+                notifierThis.ShowWarning("Iltimos, o'quvchini qayta tanlang!");
+                return;
+            }
+        }
+        catch(Exception ex)
+        {
+            studentOldPaymentsLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudentOldPayment.Visibility = Visibility.Visible;
+            notifierThis.ShowWarning("O'quvchining oldingi to'lovlari topilmadi!");
+        }
+    }
+
     private StudentForComponent _selectedStudentComponent = null!;
     private void ShowStudents(List<StudentForResultDto> students)
     {
@@ -307,6 +339,7 @@ public partial class IncomeForPaymentWindow : Window
                         _selectedGroupComponent.SelectedState(true);
 
                         await GetAllStudentByGroup(component.GetId());
+                        this._groupId = component.GetId();
                     }
                     catch (Exception ex)
                     {
