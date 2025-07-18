@@ -4,6 +4,7 @@ using EduFlow.BLL.DTOs.Payments.Registry;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.GroupForComponents;
+using EduFlow.Cashier.Desktop.Components.PaymentForComponents;
 using EduFlow.Cashier.Desktop.Components.StudentForComponents;
 using EduFlow.Cashier.Desktop.Services;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
@@ -245,7 +246,7 @@ public partial class IncomeForPaymentWindow : Window
                     .Where(x => x.GroupId == this._groupId)
                     .ToList();
 
-                //ShowStudentPayments(existsPayment);
+                ShowStudentPayments(existsPayment);
             }
             else
             {
@@ -258,6 +259,34 @@ public partial class IncomeForPaymentWindow : Window
             studentOldPaymentsLoader.Visibility = Visibility.Collapsed;
             emptyDataForStudentOldPayment.Visibility = Visibility.Visible;
             notifierThis.ShowWarning("O'quvchining oldingi to'lovlari topilmadi!");
+        }
+    }
+
+    private void ShowStudentPayments(List<PaymentForResultDto> payments)
+    {
+        stStudentOldPayments.Children.Clear();
+
+        if (payments.Any())
+        {
+            studentOldPaymentsLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudentOldPayment.Visibility = Visibility.Collapsed;
+
+            foreach(PaymentForResultDto payment in payments)
+            {
+                PaymentForStudentViewComponent component = new PaymentForStudentViewComponent();
+                component.SetValues(
+                    payment.Id,
+                    payment.Amount,
+                    payment.Status,
+                    payment.PaymentDate);
+
+                stStudentOldPayments.Children.Add(component);
+            }
+        }
+        else
+        {
+            studentOldPaymentsLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudentOldPayment.Visibility = Visibility.Visible;
         }
     }
 
@@ -293,6 +322,7 @@ public partial class IncomeForPaymentWindow : Window
                         _selectedStudentComponent.SelectedState(true);
 
                         this._studentId = component.GetId();
+                        await GetAllStudentByPayment();
                     }
                     catch (Exception ex)
                     {

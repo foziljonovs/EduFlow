@@ -27,6 +27,6 @@ public partial class PaymentForStudentViewComponent : UserControl
             PaymentStatus.Refunded => "Qaytarilgan"
         };
 
-        tbPaymentDate.Text = paymentDate.ToString();
+        tbPaymentDate.Text = paymentDate.ToString("dd.MM.yyyy");
     }
 }

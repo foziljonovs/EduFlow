@@ -163,7 +163,7 @@
                                FontWeight="ExtraBold"
                                HorizontalAlignment="Center"/>
 
-                    <Grid Margin="5">
+                    <Grid Margin="5 20 5 0">
                         <local1:Loader x:Name="studentOldPaymentsLoader"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
