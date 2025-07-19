@@ -118,7 +118,7 @@ public partial class GroupPage : Page
     private void Pagination(PagedResponse<GroupForResultDto> pagedResponse)
     {
         this.pageNumber = pagedResponse.CurrentPage;
-        this.pageSize = pagedResponse.PageSize;
+        this.pageSize = (pagedResponse.PageSize > 0 ? pagedResponse.PageSize : 10);
         this.hasNext = pagedResponse.HasNext;
         this.hasPrevious = pagedResponse.HasPrevious;
 
