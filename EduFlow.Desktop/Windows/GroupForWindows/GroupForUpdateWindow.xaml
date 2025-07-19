@@ -54,7 +54,6 @@
                       FontFamily="Jetbrains Mono"
                       VerticalContentAlignment="Center"
                       SelectionChanged="courseComboBox_SelectionChanged">
-                <ComboBoxItem Content="Kurs tanlang" IsSelected="True" IsEnabled="False"/>
             </ComboBox>
 
             <ComboBox x:Name="teacherComboBox"
@@ -64,7 +63,6 @@
                       Margin="0 10"
                       FontFamily="Jetbrains Mono"
                       VerticalContentAlignment="Center">
-                <ComboBoxItem Content="O'qituvchi tanlang" IsSelected="True" IsEnabled="False"/>
             </ComboBox>
 
             <ComboBox x:Name="statusComboBox"

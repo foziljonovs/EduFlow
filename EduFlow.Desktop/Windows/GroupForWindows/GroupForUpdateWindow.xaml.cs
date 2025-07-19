@@ -136,15 +136,6 @@ public partial class GroupForUpdateWindow : Window
             {
                 teacherComboBox.Items.Clear();
 
-                ComboBoxItem defaultItem = new ComboBoxItem
-                {
-                    Content = "O'qituvchi tanlang",
-                    IsEnabled = false,
-                    IsSelected = true
-                };
-
-                teacherComboBox.Items.Add(defaultItem);
-
                 foreach (var teacher in teachers)
                 {
                     ComboBoxItem item = new ComboBoxItem
@@ -344,6 +335,10 @@ public partial class GroupForUpdateWindow : Window
         if(IsLoaded)
             if(courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem
                 && selectedCourseItem.Tag is long courseId)
+            {
                 await GetAllTeacherByCourseId(courseId);
+
+                Favourites();
+            }
     }
 }
