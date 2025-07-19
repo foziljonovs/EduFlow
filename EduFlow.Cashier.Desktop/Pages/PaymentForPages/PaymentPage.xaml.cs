@@ -91,7 +91,7 @@ public partial class PaymentPage : Page
     private void Pagination(PagedResponse<PaymentForResultDto> pagedResponse)
     {
         this.pageNumber = pagedResponse.CurrentPage;
-        this.pageSize = pagedResponse.PageSize;
+        this.pageSize = (pagedResponse.PageSize > 0 ? pagedResponse.PageSize : 10);
         this.hasNext = pagedResponse.HasNext;
         this.hasPrevious = pagedResponse.HasPrevious;
 
@@ -189,6 +189,8 @@ public partial class PaymentPage : Page
         catch(Exception ex)
         {
             notifier.ShowWarning("Ma'lumotlarni filterlashda xatolik yuz berdi!");
+            paymentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForPayment.Visibility = Visibility.Visible;
         }
     }
 

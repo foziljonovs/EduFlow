@@ -115,6 +115,7 @@ public partial class StatsPage : Page
         {
             statsLoader.Visibility = Visibility.Collapsed;
             emptyData.Visibility = Visibility.Collapsed;
+            st.Visibility = Visibility.Visible;
 
             ShowIncome(registries);
             ShowOutlay(registries);
