@@ -67,40 +67,54 @@ public partial class TeacherForUpdateWindow : Window
 
     private async Task GetTeacher()
     {
-        if (this.Id > 0)
+        try
         {
-            var teacher = await _service.GetByIdAsync(this.Id);
-
-            if(teacher is not null)
+            if (this.Id > 0)
             {
-                this.Teacher = teacher;
-                fullNameTxt.Text = teacher.User.Firstname + " " + teacher.User.Lastname;
-                phoneNumberTxt.Text = teacher.User.PhoneNumber;
-                skillTxt.Text = string.Join(", ", teacher.Skills);
+                var teacher = await _service.GetByIdAsync(this.Id);
+
+                if(teacher is not null)
+                {
+                    this.Teacher = teacher;
+                    fullNameTxt.Text = teacher.User.Firstname + " " + teacher.User.Lastname;
+                    phoneNumberTxt.Text = teacher.User.PhoneNumber;
+                    skillTxt.Text = string.Join(", ", teacher.Skills);
+                }
             }
+            else
+                notifierThis.ShowError("Xatolik yuz berdi, iltimos qayta yuklang!");
         }
-        else
-            notifierThis.ShowError("Xatolik yuz berdi, iltimos qayta yuklang!");
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("O'qituvchi malumotlari topilmadi, iltimos qayta yuklang!");
+        }
     }
 
     private async Task GetAllCourse()
     {
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
-
-        if (courses.Any())
+        try
         {
-            foreach (var course in courses)
+            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+
+            if (courses.Any())
             {
-                ComboBoxItem item = new ComboBoxItem
+                foreach (var course in courses)
                 {
-                    Tag = course.Id,
-                    Content = course.Name
-                };
-                courseComboBox.Items.Add(item);
+                    ComboBoxItem item = new ComboBoxItem
+                    {
+                        Tag = course.Id,
+                        Content = course.Name
+                    };
+                    courseComboBox.Items.Add(item);
+                }
             }
+            else
+                notifierThis.ShowWarning("Kurslar topilmadi, iltimos qayta yuklang!");
         }
-        else
-            notifierThis.ShowWarning("Kurslar topilmadi, iltimos qayta yuklang!");
+        catch(Exception ex)
+        {
+             notifierThis.ShowError("Kurslar topilmadi, iltimos qayta yuklang!");
+        }
     }
 
     private void Favourites()
