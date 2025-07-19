@@ -173,6 +173,11 @@ public partial class IncomeForPaymentWindow : Window
         stStudents.Children.Clear();
         studentLoader.Visibility = Visibility.Collapsed;
         emptyDataForStudents.Visibility = Visibility.Visible;
+
+        //student old payments
+        stStudentOldPayments.Children.Clear();
+        studentOldPaymentsLoader.Visibility = Visibility.Collapsed;
+        emptyDataForStudentOldPayment.Visibility = Visibility.Visible;
     }
 
     private async Task LoadWindow()
@@ -210,7 +215,7 @@ public partial class IncomeForPaymentWindow : Window
         }
     }
 
-    private async Task  GetAllStudentByGroup(long groupId)
+    private async Task GetAllStudentByGroup(long groupId)
     {
         try
         {
@@ -415,6 +420,7 @@ public partial class IncomeForPaymentWindow : Window
     {
         stGroups.Children.Clear();
         stStudents.Children.Clear();
+        stStudentOldPayments.Children.Clear();
 
         if (!isWindowLoaded)
             return;
