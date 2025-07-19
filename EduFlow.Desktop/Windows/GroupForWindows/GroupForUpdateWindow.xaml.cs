@@ -69,98 +69,126 @@ public partial class GroupForUpdateWindow : Window
 
     private async Task GetGroup()
     {
-        if (this.Id > 0)
+        try
         {
-            var group = await _service.GetByIdAsync(this.Id);
-
-            if (group is not null)
+            if (this.Id > 0)
             {
-                this.Group = group;
-                nameTxt.Text = group.Name;
-                statusComboBox.SelectedIndex = group.IsStatus switch 
+                var group = await _service.GetByIdAsync(this.Id);
+
+                if (group is not null)
                 {
-                    Domain.Enums.Status.Active => 0,
-                    Domain.Enums.Status.Archived => 1,
-                    Domain.Enums.Status.Graduated => 2
-                };
+                    this.Group = group;
+                    nameTxt.Text = group.Name;
+                    statusComboBox.SelectedIndex = group.IsStatus switch 
+                    {
+                        Domain.Enums.Status.Active => 0,
+                        Domain.Enums.Status.Archived => 1,
+                        Domain.Enums.Status.Graduated => 2
+                    };
+                }
+                else
+                    notifierThis.ShowWarning("Malumotlar topilmadi, iltimos qayta yuklang!");
             }
             else
-                notifierThis.ShowWarning("Malumotlar topilmadi, iltimos qayta yuklang!");
+                notifierThis.ShowError("Xatolik yuz berdi!");
         }
-        else
-            notifierThis.ShowError("Xatolik yuz berdi!");
+        catch (Exception ex)
+        {
+            notifierThis.ShowError("Guruh malumotlarini yuklashda xatolik yuz berdi! Iltimos qayta urinib ko'ring!");
+        }
     }
 
     private async Task GetAllTeacher()
     {
-        var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
-
-        if (teachers.Any())
+        try
         {
-            foreach(var item in teachers)
-            {
-                ComboBoxItem comboBoxItem = new ComboBoxItem
-                {
-                    Tag = item.Id,
-                    Content = item.User.Firstname + " " + item.User.Lastname
-                };
+            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
 
-                teacherComboBox.Items.Add(comboBoxItem);
+            if (teachers.Any())
+            {
+                foreach(var item in teachers)
+                {
+                    ComboBoxItem comboBoxItem = new ComboBoxItem
+                    {
+                        Tag = item.Id,
+                        Content = item.User.Firstname + " " + item.User.Lastname
+                    };
+
+                    teacherComboBox.Items.Add(comboBoxItem);
+                }
             }
+            else
+                notifierThis.ShowWarning("O'qituvchilar topilmadi, iltimos qayta yuklang!");
         }
-        else
-            notifierThis.ShowWarning("O'qituvchilar topilmadi, iltimos qayta yuklang!");
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("O'qituvchi malumotini yuklashda xatolik yuz berdi! Iltimos qayta urinib ko'ring!");
+        }
     }
 
     private async Task GetAllTeacherByCourseId(long courseId)
     {
-        var teachers = await Task.Run(async () => await _teacherService.GetAllByCourseIdAsync(courseId));
-
-        if (teachers.Any())
+        try
         {
-            teacherComboBox.Items.Clear();
+            var teachers = await Task.Run(async () => await _teacherService.GetAllByCourseIdAsync(courseId));
 
-            ComboBoxItem defaultItem = new ComboBoxItem
+            if (teachers.Any())
             {
-                Content = "O'qituvchi tanlang",
-                IsEnabled = false,
-                IsSelected = true
-            };
+                teacherComboBox.Items.Clear();
 
-            teacherComboBox.Items.Add(defaultItem);
-
-            foreach (var teacher in teachers)
-            {
-                ComboBoxItem item = new ComboBoxItem
+                ComboBoxItem defaultItem = new ComboBoxItem
                 {
-                    Tag = teacher.Id,
-                    Content = teacher.User.Firstname + " " + teacher.User.Lastname
+                    Content = "O'qituvchi tanlang",
+                    IsEnabled = false,
+                    IsSelected = true
                 };
 
-                teacherComboBox.Items.Add(item);
+                teacherComboBox.Items.Add(defaultItem);
+
+                foreach (var teacher in teachers)
+                {
+                    ComboBoxItem item = new ComboBoxItem
+                    {
+                        Tag = teacher.Id,
+                        Content = teacher.User.Firstname + " " + teacher.User.Lastname
+                    };
+
+                    teacherComboBox.Items.Add(item);
+                }
             }
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowError("O'qituvchilarni yuklashda xatolik yuz berdi! Iltimos qayta urinib ko'ring!");
         }
     }
 
     private async Task GetAllCourse()
     {
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
-
-        if (courses.Any())
+        try
         {
-            foreach(var item in courses)
-            {
-                ComboBoxItem comboBoxItem = new ComboBoxItem
-                {
-                    Tag = item.Id,
-                    Content = item.Name
-                };
+            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
 
-                courseComboBox.Items.Add(comboBoxItem);
+            if (courses.Any())
+            {
+                foreach(var item in courses)
+                {
+                    ComboBoxItem comboBoxItem = new ComboBoxItem
+                    {
+                        Tag = item.Id,
+                        Content = item.Name
+                    };
+
+                    courseComboBox.Items.Add(comboBoxItem);
+                }
             }
+            else
+                notifierThis.ShowWarning("Kurslar topilmadi, iltimos qayta yuklang!");
         }
-        else
-            notifierThis.ShowWarning("Kurslar topilmadi, iltimos qayta yuklang!");
+        catch(Exception ex)
+        {
+             notifierThis.ShowError("Kurslarni yuklashda xatolik yuz berdi! Iltimos qayta urinib ko'ring!");
+        }
     }
 
     private void Favourites()

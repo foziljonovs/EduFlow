@@ -205,7 +205,6 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="160"/>
                                 <ColumnDefinition Width="80"/>
                                 <ColumnDefinition Width="120"/>
                             </Grid.ColumnDefinitions>
@@ -227,14 +226,6 @@
                                         VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Column="2"
-                                        Text="O'qituvchi"
-                                        FontSize="12"
-                                        FontFamily="Jetbrains Mono"
-                                        FontWeight="ExtraBold"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"/>
-
-                            <TextBlock Grid.Column="3"
                                         Text="O'quvchilar"
                                         FontSize="12"
                                         FontFamily="Jetbrains Mono"
@@ -242,7 +233,7 @@
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"/>
 
-                            <TextBlock Grid.Column="4"
+                            <TextBlock Grid.Column="3"
                                         Text="Holati"
                                         FontSize="12"
                                         FontFamily="Jetbrains Mono"

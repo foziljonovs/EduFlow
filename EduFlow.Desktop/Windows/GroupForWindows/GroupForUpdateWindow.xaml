@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <TextBlock Text="Guruh yaratish"
+            <TextBlock Text="Guruhni tahrirlash"
                        FontSize="20"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
