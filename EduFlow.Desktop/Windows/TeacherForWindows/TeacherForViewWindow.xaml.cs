@@ -148,7 +148,9 @@ public partial class TeacherForViewWindow : Window
         }
         catch(Exception ex)
         {
-            notifierThis.ShowError("Malumotlarni filterlashda xatolik yuz berdi, Iltimos qayta urining!");
+            notifierThis.ShowWarning("Malumotlarni filterlashda xatolik yuz berdi, Iltimos qayta urining!");
+            groupsForLoader.Visibility = Visibility.Collapsed;
+            groupForEmptyData.Visibility = Visibility.Visible;
         }
     }
 
