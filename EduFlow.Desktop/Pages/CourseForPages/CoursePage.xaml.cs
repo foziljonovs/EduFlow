@@ -38,8 +38,8 @@ public partial class CoursePage : Page
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -73,27 +73,51 @@ public partial class CoursePage : Page
 
     private async Task GetAllCourse()
     {
-        stCategories.Children.Clear();
-        courseLoader.Visibility = Visibility.Visible;
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+        try
+        {
+            stCategories.Children.Clear();
+            courseLoader.Visibility = Visibility.Visible;
+            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
 
-        ShowCourses(courses);
+            ShowCourses(courses);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Kurslarni yuklashda xatolik yuz berdi, Iltimos qaytra urining!");
+            courseLoader.Visibility = Visibility.Collapsed;
+            emptyDataForCategories.Visibility = Visibility.Visible;
+        }
     }
 
     private async Task GetAllByTeacherId()
     {
-        stCategories.Children.Clear();
-        courseLoader.Visibility = Visibility.Visible;
-        var courses = await Task.Run(async () => await _courseService.GetAllByTeacherIdAsync(this._teacher.Id));
-        ShowCourses(courses);
+        try
+        {
+            stCategories.Children.Clear();
+            courseLoader.Visibility = Visibility.Visible;
+            var courses = await Task.Run(async () => await _courseService.GetAllByTeacherIdAsync(this._teacher.Id));
+            ShowCourses(courses);
+        }
+        catch
+        {
+            notifier.ShowWarning("Kurslaringiz topilmadi, Iltimos qayta urining!");
+        }
     }
 
     private async Task GetAllCourseByCategory(long id)
     {
-        stCategories.Children.Clear();
-        courseLoader.Visibility = Visibility.Visible;
-        var courses = await Task.Run(async () => await _courseService.GetAllByCategoryIdAsync(id));
-        ShowCourses(courses);
+        try
+        {
+            stCategories.Children.Clear();
+            courseLoader.Visibility = Visibility.Visible;
+            var courses = await Task.Run(async () => await _courseService.GetAllByCategoryIdAsync(id));
+            ShowCourses(courses);
+        }
+        catch(Exception ex)
+        {
+            courseLoader.Visibility = Visibility.Collapsed;
+            emptyDataForCategories.Visibility = Visibility.Visible;
+        }
     }
 
     private void ShowCourses(List<CourseForResultDto> courses)
@@ -133,16 +157,24 @@ public partial class CoursePage : Page
     }
     private async Task<long> GetTeacher(long userId)
     {
-        var teacher = await Task.Run(async () => await _teacherService.GetByUserIdAsync(userId));
-
-        if (teacher is null)
+        try
         {
-            notifier.ShowInformation("Ustoz topilmadi!");
+            var teacher = await Task.Run(async () => await _teacherService.GetByUserIdAsync(userId));
+
+            if (teacher is null)
+            {
+                notifier.ShowInformation("Ustoz topilmadi!");
+                return 0;
+            }
+
+            this._teacher = teacher;
+            return teacher.Id;
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Malumotlaringizni yuklashda xatolik yuz berdi, Iltimos qayta urining!");
             return 0;
         }
-
-        this._teacher = teacher;
-        return teacher.Id;
     }
 
     private async Task LoadPage()
