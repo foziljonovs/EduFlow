@@ -332,10 +332,10 @@ public class StudentServer : IStudentServer
             HttpClient client = new HttpClient();
             var token = IdentitySingelton.GetInstance().Token;
 
-            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/{phoneNumber}/phone-number");
+            client.BaseAddress = new Uri(AuthApi.BASE_URL);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.GetAsync(client.BaseAddress);
+            var response = await client.GetAsync($"/api/students/{phoneNumber}/phone-number");
 
             var result = await response.Content.ReadAsStringAsync();
 

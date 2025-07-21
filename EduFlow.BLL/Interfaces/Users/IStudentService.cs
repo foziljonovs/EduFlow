@@ -12,7 +12,7 @@ public interface IStudentService
     Task<long> AddAndReturnIdAsync(StudentForCreateDto dto, CancellationToken cancellationToken = default);
     Task<bool> UpdateAsync(long id, StudentForUpdateDto dto, CancellationToken cancellationToken = default);
     Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default);
-    Task<StudentForResultDto> GetByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default);
+    Task<PagedList<StudentForResultDto>> GetByPhoneNumberAsync(string phoneNumberSuffix, int pageNumber, int pageSize, CancellationToken cancellationToken = default);
     Task<IEnumerable<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellationToken = default);
     Task<PagedList<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId, int pageSize, int pageNumber, CancellationToken cancellationToken = default); 
     Task<bool> AddStudentByGroupAsync(long studentId, long groupId, CancellationToken cancellationToken = default);
