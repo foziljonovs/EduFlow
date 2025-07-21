@@ -354,25 +354,33 @@ public class StudentService(
         }
     }
 
-    public async Task<StudentForResultDto> GetByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default)
+    public async Task<PagedList<StudentForResultDto>> GetByPhoneNumberAsync(string phoneNumberSuffix, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
         try
         {
-            var student = await _unitOfWork.Student
+            var students = await _unitOfWork.Student
                 .GetAllFullInformation()
-                .FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
+                .Where(x => x.PhoneNumber.EndsWith(phoneNumberSuffix))
+                .ToListAsync(cancellationToken);
 
-            if (student is null)
-                throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
+            if (!students.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
 
-            if (student.IsDeleted)
-                throw new StatusCodeException(HttpStatusCode.Gone, "This student has been deleted");
+            var mappedStudents = students
+                .Select(p => _mapper.Map<StudentForResultDto>(p))
+                .ToList();
 
-            return _mapper.Map<StudentForResultDto>(student);
+            var pagedlist = new PagedList<StudentForResultDto>(
+                mappedStudents,
+                mappedStudents.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedStudents, pageSize, pageNumber);
         }
         catch(Exception ex)
         {
-            _logger.LogError($"An error occured while getting student by phone number: {phoneNumber}. {ex}");
+            _logger.LogError($"An error occured while getting student by phone number: {phoneNumberSuffix}. {ex}");
             throw;
         }
     }

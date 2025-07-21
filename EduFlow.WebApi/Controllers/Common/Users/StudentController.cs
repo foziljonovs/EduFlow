@@ -1,4 +1,4 @@
-﻿ using EduFlow.BLL.Common.Exceptions;
+﻿using EduFlow.BLL.Common.Exceptions;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.Interfaces.Users;
 using EduFlow.Domain.Enums;
@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using System.Net;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EduFlow.WebApi.Controllers.Common.Users;
 
@@ -150,13 +151,25 @@ public class StudentController(
         }
     }
 
-    [HttpGet("{phoneNumber}/phone-number")]
-    public async Task<IActionResult> GetAllByPhoneNumberAsync([FromRoute] string phoneNumber, CancellationToken cancellation = default)
+    [HttpGet("{phoneNumberSuffix}/phone-number")]
+    public async Task<IActionResult> GetAllByPhoneNumberAsync([FromRoute] string phoneNumberSuffix, int pageSize = 10, int pageNumber = 1, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.GetByPhoneNumberAsync(phoneNumber, cancellation);
-            return Ok(response);
+            var response = await _service.GetByPhoneNumberAsync(phoneNumberSuffix, pageNumber, pageSize, cancellation);
+
+            var metaData = new
+            {
+                response.TotalCount,
+                response.PageSize,
+                response.CurrentPage,
+                response.HasNext,
+                response.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metaData));
+
+            return Ok(response.Data);
         }
         catch (StatusCodeException ex)
         {

@@ -5,6 +5,7 @@ using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
 using EduFlow.Domain.Entities.Payments;
+using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
 using Newtonsoft.Json;
 using System.ComponentModel;
@@ -325,27 +326,37 @@ public class StudentServer : IStudentServer
         }
     }
 
-    public async Task<StudentForResultDto> GetByPhoneNumberAsync(string phoneNumber)
+    public async Task<PagedResponse<StudentForResultDto>> GetByPhoneNumberAsync(string phoneNumberSuffix, int pageSize, int pageNumber)
     {
         try
         {
             HttpClient client = new HttpClient();
             var token = IdentitySingelton.GetInstance().Token;
 
-            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/{phoneNumber}/phone-number");
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/{phoneNumberSuffix}/phone-number?pageSize={pageSize}&pageNumber={pageNumber}");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await client.GetAsync(client.BaseAddress);
 
             var result = await response.Content.ReadAsStringAsync();
 
-            StudentForResultDto student = JsonConvert.DeserializeObject<StudentForResultDto>(result)!;
+            List<StudentForResultDto> students = JsonConvert.DeserializeObject<List<StudentForResultDto>>(result)!;
 
-            return student;
+            var pageNavigation = response.Headers.GetValues("X-Pagination").FirstOrDefault();
+            var pagination = JsonConvert.DeserializeObject<PaginationMetadata>(pageNavigation!);
+
+            return new PagedResponse<StudentForResultDto>
+            {
+                Data = students,
+                PageSize = pagination.PageSize,
+                CurrentPage = pagination.CurrentPage,
+                HasNext = pagination.HasNext,
+                HasPrevious = pagination.HasPrevious
+            };
         }
         catch(Exception ex)
         {
-            return new StudentForResultDto();
+            return new PagedResponse<StudentForResultDto>();
         }
     }
 

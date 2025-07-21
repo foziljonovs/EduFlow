@@ -118,6 +118,8 @@ public partial class StudentPage : Page
         catch(Exception ex)
         {
             notifier.ShowError("O'quvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
+            studentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudent.Visibility = Visibility.Visible;
         }
     }
 
@@ -133,6 +135,8 @@ public partial class StudentPage : Page
         catch(Exception ex)
         {
             notifier.ShowError("O'quvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
+            studentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudent.Visibility = Visibility.Visible;
         }
     }
 
@@ -298,36 +302,52 @@ public partial class StudentPage : Page
         try
         {
             studentLoader.Visibility = Visibility.Visible;
+            this.pageNumber = 1;
 
-            var student = await Task.Run(async () => await _service.GetByPhoneNumberAsync(phoneNumber));
+            var students = await Task.Run(async () => await _service.GetByPhoneNumberAsync(phoneNumber, pageSize, pageNumber));
 
-            if(!string.IsNullOrEmpty(student.PhoneNumber))
+            if(!students.Data.Any())
             {
                 stStudents.Children.Clear();
                 emptyDataForStudent.Visibility = Visibility.Visible;
             }
 
-            ShowStudents(new List<StudentForResultDto> { student });
+            ShowStudents(students.Data);
+            Pagination(students);
         }
         catch(Exception ex)
         {
             notifier.ShowError("Telefon raqam orqali o'quvchini qidirishda xatolik yuz berdi, Iltimos qayta urining!");
+            studentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudent.Visibility = Visibility.Visible;
         }
     }
 
-    private void searchPhoneNumberForStudentTxt_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    private async void searchPhoneNumberForStudentTxt_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
     {
         if (e.Key == System.Windows.Input.Key.Enter)
         {
-            if (string.IsNullOrWhiteSpace(searchPhoneNumberForStudentTxt.Text))
+            string phoneNumber = searchPhoneNumberForStudentTxt.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(phoneNumber))
             {
-                notifier.ShowError("Telefon raqam no'to'g'ri kiritildi!");
+                notifier.ShowWarning("Telefon raqamni ohirgi 4 raqamini kiriting!");
                 return;
             }
 
-            var phoneNumber = "+998" + searchPhoneNumberForStudentTxt.Text;
+            if (!phoneNumber.All(char.IsDigit))
+            {
+                notifier.ShowWarning("Telefon raqam faqat raqamlardan iborat bo‘lishi kerak!");
+                return;
+            }
 
-            GetStudentByPhoneNumber(phoneNumber);
+            if (phoneNumber.Length != 4)
+            {
+                notifier.ShowWarning("Telefon raqam aniq 4 ta raqamdan iborat bo‘lishi kerak!");
+                return;
+            }
+
+            await GetStudentByPhoneNumber(phoneNumber);
         }
     }
 
