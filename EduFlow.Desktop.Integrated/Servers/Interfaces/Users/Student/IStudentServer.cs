@@ -12,7 +12,7 @@ public interface IStudentServer
     Task<long> AddAndReturnIdAsync(StudentForCreateDto dto);
     Task<bool> UpdateAsync(long id, StudentForUpdateDto dto);
     Task<bool> DeleteAsync(long id);
-    Task<StudentForResultDto> GetByPhoneNumberAsync(string phoneNumber);
+    Task<PagedResponse<StudentForResultDto>> GetByPhoneNumberAsync(string phoneNumberSuffix, int pageSize, int pageNumber);
     Task<List<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId);
     Task<List<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId);
     Task<bool> AddStudentByCourseAsync(long studentId, long courseId);

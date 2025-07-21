@@ -302,16 +302,18 @@ public partial class StudentPage : Page
         try
         {
             studentLoader.Visibility = Visibility.Visible;
+            this.pageNumber = 1;
 
-            var student = await Task.Run(async () => await _service.GetByPhoneNumberAsync(phoneNumber));
+            var students = await Task.Run(async () => await _service.GetByPhoneNumberAsync(phoneNumber, pageSize, pageNumber));
 
-            if(!string.IsNullOrEmpty(student.PhoneNumber))
+            if(!students.Data.Any())
             {
                 stStudents.Children.Clear();
                 emptyDataForStudent.Visibility = Visibility.Visible;
             }
 
-            ShowStudents(new List<StudentForResultDto> { student });
+            ShowStudents(students.Data);
+            Pagination(students);
         }
         catch(Exception ex)
         {
@@ -329,7 +331,7 @@ public partial class StudentPage : Page
 
             if (string.IsNullOrWhiteSpace(phoneNumber))
             {
-                notifier.ShowWarning("Telefon raqam kiritilmagan!");
+                notifier.ShowWarning("Telefon raqamni ohirgi 4 raqamini kiriting!");
                 return;
             }
 
@@ -339,15 +341,13 @@ public partial class StudentPage : Page
                 return;
             }
 
-            if (phoneNumber.Length != 9)
+            if (phoneNumber.Length != 4)
             {
-                notifier.ShowWarning("Telefon raqam aniq 9 ta raqamdan iborat bo‘lishi kerak!");
+                notifier.ShowWarning("Telefon raqam aniq 4 ta raqamdan iborat bo‘lishi kerak!");
                 return;
             }
 
-            string fullPhoneNumber = "+998" + phoneNumber;
-
-            await GetStudentByPhoneNumber(fullPhoneNumber);
+            await GetStudentByPhoneNumber(phoneNumber);
         }
     }
 
