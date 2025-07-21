@@ -58,8 +58,8 @@ public partial class StudentPage : Page
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -117,7 +117,7 @@ public partial class StudentPage : Page
         }
         catch(Exception ex)
         {
-            notifier.ShowError("O'quvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
+            notifier.ShowWarning("O'quvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
             studentLoader.Visibility = Visibility.Collapsed;
             emptyDataForStudent.Visibility = Visibility.Visible;
         }
@@ -134,7 +134,7 @@ public partial class StudentPage : Page
         }
         catch(Exception ex)
         {
-            notifier.ShowError("O'quvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
+            notifier.ShowWarning("O'quvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
             studentLoader.Visibility = Visibility.Collapsed;
             emptyDataForStudent.Visibility = Visibility.Visible;
         }
@@ -163,7 +163,7 @@ public partial class StudentPage : Page
         }
         catch(Exception ex)
         {
-            notifier.ShowError("Kurs malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
+            notifier.ShowWarning("Kurs malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta yuklang!");
         }
     }
 
@@ -184,7 +184,8 @@ public partial class StudentPage : Page
         }
         catch(Exception ex)
         {
-            notifier.ShowError("Kurs bo'yicha o'quvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+            studentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForStudent.Visibility = Visibility.Visible;
         }
     }
 
@@ -249,8 +250,8 @@ public partial class StudentPage : Page
         }
         catch(Exception ex)
         {
-            notifier.ShowError("O'qituvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
-            return -1;
+            notifier.ShowWarning("O'qituvchi malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+            return 0;
         }
     }
 
@@ -317,7 +318,7 @@ public partial class StudentPage : Page
         }
         catch(Exception ex)
         {
-            notifier.ShowError("Telefon raqam orqali o'quvchini qidirishda xatolik yuz berdi, Iltimos qayta urining!");
+            notifier.ShowWarning("Telefon raqam orqali o'quvchini qidirishda xatolik yuz berdi, Iltimos qayta urining!");
             studentLoader.Visibility = Visibility.Collapsed;
             emptyDataForStudent.Visibility = Visibility.Visible;
         }

@@ -87,4 +87,11 @@ public partial class StudentForViewWindow : Window
     {
         ShowValues();
     }
+
+    private void addStudentCourseBtn_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        StudentForRegisterCourseWindow window = new StudentForRegisterCourseWindow();
+        window.SetStudentId(this.Id);
+        window.ShowDialog();
+    }
 }

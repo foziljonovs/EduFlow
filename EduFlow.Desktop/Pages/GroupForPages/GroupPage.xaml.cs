@@ -54,8 +54,8 @@ public partial class GroupPage : Page
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -72,20 +72,27 @@ public partial class GroupPage : Page
 
     private async Task GetAllCourse()
     {
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
-        if (courses.Any())
+        try
         {
-            foreach (var item in courses)
+            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            if (courses.Any())
             {
-                ComboBoxItem comboBoxItem = new ComboBoxItem();
-                comboBoxItem.Content = item.Name;
-                comboBoxItem.Tag = item.Id;
-                courseComboBox.Items.Add(comboBoxItem);
+                foreach (var item in courses)
+                {
+                    ComboBoxItem comboBoxItem = new ComboBoxItem();
+                    comboBoxItem.Content = item.Name;
+                    comboBoxItem.Tag = item.Id;
+                    courseComboBox.Items.Add(comboBoxItem);
+                }
+            }
+            else
+            {
+                notifier.ShowWarning("Kurslar topilmadi!");
             }
         }
-        else
+        catch(Exception ex)
         {
-            notifier.ShowWarning("Kurslar topilmadi!");
+            notifier.ShowWarning("Kurs malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
         }
     }
 
@@ -152,17 +159,28 @@ public partial class GroupPage : Page
         }
         catch(Exception ex)
         {
-            notifier.ShowError("Guruh malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+            notifier.ShowWarning("Guruh malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+            groupLoader.Visibility = Visibility.Collapsed;
+            emptyData.Visibility = Visibility.Visible;
         }
     }
 
     private async Task GetAllGroupByTeacherId()
     {
-        stGroups.Children.Clear();
-        groupLoader.Visibility = Visibility.Visible;
-        var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(_teacher.Id));
+        try
+        {
+            stGroups.Children.Clear();
+            groupLoader.Visibility = Visibility.Visible;
+            var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(_teacher.Id));
 
-        ShowGroups(groups);
+            ShowGroups(groups);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Guruhlaringizni yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+            groupLoader.Visibility = Visibility.Collapsed;
+            emptyData.Visibility = Visibility.Visible;
+        }
     }
 
     private void ShowGroups(List<GroupForResultDto> groups)
@@ -206,59 +224,67 @@ public partial class GroupPage : Page
 
     private async Task Filter()
     {
-        stGroups.Children.Clear();
-        emptyData.Visibility = Visibility.Collapsed;
-        groupLoader.Visibility = Visibility.Visible;
-
-        GroupForFilterDto dto = new GroupForFilterDto();
-
-        if(courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem
-            && selectedCourseItem.Tag != null)
-            dto.CourseId = (long)selectedCourseItem.Tag;
-
-        if (teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem
-            && selectedTeacherItem.Tag != null)
-            dto.TeacherId = (long)selectedTeacherItem.Tag;
-
-        if(IdentitySingelton.GetInstance().Role == Domain.Enums.UserRole.Teacher)
-            dto.TeacherId = _teacher.Id;
-
-        if (activeComboBox.SelectedItem is ComboBoxItem selectedActiveItem)
+        try
         {
-            string status = selectedActiveItem.Content.ToString();
+            stGroups.Children.Clear();
+            emptyData.Visibility = Visibility.Collapsed;
+            groupLoader.Visibility = Visibility.Visible;
 
-            switch (status)
+            GroupForFilterDto dto = new GroupForFilterDto();
+
+            if(courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem
+                && selectedCourseItem.Tag != null)
+                dto.CourseId = (long)selectedCourseItem.Tag;
+
+            if (teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem
+                && selectedTeacherItem.Tag != null)
+                dto.TeacherId = (long)selectedTeacherItem.Tag;
+
+            if(IdentitySingelton.GetInstance().Role == Domain.Enums.UserRole.Teacher)
+                dto.TeacherId = _teacher.Id;
+
+            if (activeComboBox.SelectedItem is ComboBoxItem selectedActiveItem)
             {
-                case "Faol":
-                    dto.IsStatus = Domain.Enums.Status.Active;
-                    break;
-                case "Arxivlangan":
-                    dto.IsStatus = Domain.Enums.Status.Archived;
-                    break;
-                case "Yakunlangan":
-                    dto.IsStatus = Domain.Enums.Status.Graduated;
-                    break;
-                default:
-                    dto.IsStatus = null;
-                    break;
+                string status = selectedActiveItem.Content.ToString();
+
+                switch (status)
+                {
+                    case "Faol":
+                        dto.IsStatus = Domain.Enums.Status.Active;
+                        break;
+                    case "Arxivlangan":
+                        dto.IsStatus = Domain.Enums.Status.Archived;
+                        break;
+                    case "Yakunlangan":
+                        dto.IsStatus = Domain.Enums.Status.Graduated;
+                        break;
+                    default:
+                        dto.IsStatus = null;
+                        break;
+                }
+            }
+
+            this.isFiltered = true;
+            this.isFilteredDto = dto;
+            this.pageNumber = 1;
+
+            var groups = await Task.Run(async () => await _groupService.FilterAsync(dto, pageSize, pageNumber));
+
+            if (groups.Data.Any())
+            {
+                groupLoader.Visibility = Visibility.Collapsed;
+                emptyData.Visibility = Visibility.Collapsed;
+
+                ShowGroups(groups.Data);
+                Pagination(groups);
+            }
+            else
+            {
+                groupLoader.Visibility = Visibility.Collapsed;
+                emptyData.Visibility = Visibility.Visible;
             }
         }
-
-        this.isFiltered = true;
-        this.isFilteredDto = dto;
-        this.pageNumber = 1;
-
-        var groups = await Task.Run(async () => await _groupService.FilterAsync(dto, pageSize, pageNumber));
-
-        if (groups.Data.Any())
-        {
-            groupLoader.Visibility = Visibility.Collapsed;
-            emptyData.Visibility = Visibility.Collapsed;
-
-            ShowGroups(groups.Data);
-            Pagination(groups);
-        }
-        else
+        catch(Exception ex)
         {
             groupLoader.Visibility = Visibility.Collapsed;
             emptyData.Visibility = Visibility.Visible;
@@ -267,16 +293,24 @@ public partial class GroupPage : Page
 
     private async Task<long> GetTeacher(long userId)
     {
-        var teacher = await Task.Run(async () => await _teacherService.GetByUserIdAsync(userId));
-
-        if (teacher is null)
+        try
         {
-            notifier.ShowInformation("Ustoz topilmadi!");
+            var teacher = await Task.Run(async () => await _teacherService.GetByUserIdAsync(userId));
+
+            if (teacher is null)
+            {
+                notifier.ShowInformation("Ustoz topilmadi!");
+                return 0;
+            }
+
+            _teacher = teacher;
+            return teacher.Id;
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Malumotlaringizni yuklashda xatolik yuz berdi, Iltimos qayta urining!");
             return 0;
         }
-
-        _teacher = teacher;
-        return teacher.Id;
     }
 
     private async Task LoadPage()

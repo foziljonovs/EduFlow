@@ -136,13 +136,29 @@
                            VerticalAlignment="Center"/>
 
 
-                <TextBlock Grid.Row="3"
-                           x:Name="tbAge"
-                           Text="18"
-                           FontSize="18"
-                           FontFamily="Jetbrains Mono"
-                           FontWeight="SemiBold"
-                           VerticalAlignment="Center"/>
+                <Grid Grid.Row="3">
+                    <TextBlock x:Name="tbAge"
+                               Text="18"
+                               FontSize="18"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+
+                    <Border x:Name="addStudentCourseBtn"
+                            Width="100"
+                            Height="25"
+                            CornerRadius="5"
+                            Background="DeepSkyBlue"
+                            HorizontalAlignment="Right"
+                            MouseDown="addStudentCourseBtn_MouseDown">
+                        <Label Content="Kursga qo'shish"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               FontSize="12"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"/>
+                    </Border>
+                </Grid>
 
                 <Grid Grid.Row="4"
                       Margin="0 5">

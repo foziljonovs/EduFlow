@@ -31,8 +31,8 @@ public partial class TeacherPage : Page
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -46,38 +46,62 @@ public partial class TeacherPage : Page
 
     private async Task GetAllCourse()
     {
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
-        if (courses != null)
+        try
         {
-            foreach (var item in courses)
+            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            if (courses != null)
             {
-                ComboBoxItem comboBoxItem = new ComboBoxItem();
-                comboBoxItem.Tag = item.Id;
-                comboBoxItem.Content = item.Name;
-                courseComboBox.Items.Add(comboBoxItem);
+                foreach (var item in courses)
+                {
+                    ComboBoxItem comboBoxItem = new ComboBoxItem();
+                    comboBoxItem.Tag = item.Id;
+                    comboBoxItem.Content = item.Name;
+                    courseComboBox.Items.Add(comboBoxItem);
+                }
+            }
+            else
+            {
+                notifier.ShowWarning("Kurslar topilmadi!");
             }
         }
-        else
+        catch(Exception ex)
         {
-            notifier.ShowWarning("Kurslar topilmadi!");
+            notifier.ShowWarning("Kurslarni yuklashda xatolik yuz berdi, Iltimos qayta urining!");
         }
     }
 
     private async Task GetAllTeacher()
     {
-        teacherLoader.Visibility = Visibility.Visible;
-        var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+        try
+        {
+            teacherLoader.Visibility = Visibility.Visible;
+            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
 
-        ShowTeachers(teachers);
+            ShowTeachers(teachers);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("O'qituvchilarning malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+            teacherLoader.Visibility = Visibility.Collapsed;
+            emptyData.Visibility = Visibility.Visible;
+        }
     }
 
     private async Task GetAllByCourseId()
     {
-        teacherLoader.Visibility = Visibility.Visible;
-        var courseId = (long)((ComboBoxItem)courseComboBox.SelectedItem).Tag;
+        try
+        {
+            teacherLoader.Visibility = Visibility.Visible;
+            var courseId = (long)((ComboBoxItem)courseComboBox.SelectedItem).Tag;
 
-        var teachers = await Task.Run(async () => await _teacherService.GetAllByCourseIdAsync(courseId));
-        ShowTeachers(teachers);
+            var teachers = await Task.Run(async () => await _teacherService.GetAllByCourseIdAsync(courseId));
+            ShowTeachers(teachers);
+        }
+        catch(Exception ex)
+        {
+            teacherLoader.Visibility = Visibility.Collapsed;
+            emptyData.Visibility = Visibility.Visible;
+        }
     }
 
     private void ShowTeachers(List<TeacherForResultDto> teachers)

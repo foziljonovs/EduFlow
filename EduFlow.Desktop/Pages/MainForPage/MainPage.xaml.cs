@@ -66,8 +66,8 @@ public partial class MainPage : Page
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -129,90 +129,112 @@ public partial class MainPage : Page
 
     private async Task FilterCourses()
     {
-        stCourses.Children.Clear();
-        courseForLoader.Visibility = Visibility.Visible;
-
-        GroupForFilterDto dto = new GroupForFilterDto();
-
-        if(dtStartDate.SelectedDate is not null)
-            dto.StartedDate = dtStartDate.SelectedDate.Value;
-
-        if(dtEndDate.SelectedDate is not null)
-            dto.FinishedDate = dtEndDate.SelectedDate.Value;
-
-        if (categoryComboBox.SelectedItem is ComboBoxItem selectedCategoryItem
-            && selectedCategoryItem.Tag != null)
-            dto.CategoryId = (long)selectedCategoryItem.Tag;
-
-        if (courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem
-            && selectedCourseItem.Tag != null)
-            dto.CourseId = (long)selectedCourseItem.Tag;
-
-        if(teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem
-            && selectedTeacherItem.Tag != null)
-            dto.TeacherId = (long)selectedTeacherItem.Tag;
-
-        dto.IsStatus = Domain.Enums.Status.Active;
-
-        var window = Window.GetWindow(this) as MainWindow;
-        if (window.MainMenuNavigation.Content is TeacherNavigationPage)
-            dto.TeacherId = _teacher.Id;
-
-        this.isFiltered = true;
-        this.isFilterDto = dto;
-        this.pageNumber = 1;
-
-        var groups = await Task.Run(async () => await _groupService.FilterAsync(dto, pageSize, pageNumber));
-
-        if(groups.Data.Any())
+        try
         {
-            ShowGroup(groups.Data);
-            Pagination(groups);
+            stCourses.Children.Clear();
+            courseForLoader.Visibility = Visibility.Visible;
+
+            GroupForFilterDto dto = new GroupForFilterDto();
+
+            if(dtStartDate.SelectedDate is not null)
+                dto.StartedDate = dtStartDate.SelectedDate.Value;
+
+            if(dtEndDate.SelectedDate is not null)
+                dto.FinishedDate = dtEndDate.SelectedDate.Value;
+
+            if (categoryComboBox.SelectedItem is ComboBoxItem selectedCategoryItem
+                && selectedCategoryItem.Tag != null)
+                dto.CategoryId = (long)selectedCategoryItem.Tag;
+
+            if (courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem
+                && selectedCourseItem.Tag != null)
+                dto.CourseId = (long)selectedCourseItem.Tag;
+
+            if(teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem
+                && selectedTeacherItem.Tag != null)
+                dto.TeacherId = (long)selectedTeacherItem.Tag;
+
+            dto.IsStatus = Domain.Enums.Status.Active;
+
+            var window = Window.GetWindow(this) as MainWindow;
+            if (window.MainMenuNavigation.Content is TeacherNavigationPage)
+                dto.TeacherId = _teacher.Id;
+
+            this.isFiltered = true;
+            this.isFilterDto = dto;
+            this.pageNumber = 1;
+
+            var groups = await Task.Run(async () => await _groupService.FilterAsync(dto, pageSize, pageNumber));
+
+            if(groups.Data.Any())
+            {
+                ShowGroup(groups.Data);
+                Pagination(groups);
+            }
+            else
+            {
+                courseForLoader.Visibility = Visibility.Collapsed;
+                emptyDataForCourse.Visibility = Visibility.Visible;
+            }    
         }
-        else
+        catch(Exception ex)
         {
             courseForLoader.Visibility = Visibility.Collapsed;
             emptyDataForCourse.Visibility = Visibility.Visible;
-        }    
+        }
     }
 
     private async Task GetAllTeacherCourses(long teacherId)
     {
-        stCourses.Children.Clear();
-        courseForLoader.Visibility = Visibility.Visible;
+        try
+        {
+            stCourses.Children.Clear();
+            courseForLoader.Visibility = Visibility.Visible;
 
-        var courses = await Task.Run(async () => await _courseService.GetAllByTeacherIdAsync(teacherId));
-        //ShowCourse(courses);
+            var courses = await Task.Run(async () => await _courseService.GetAllByTeacherIdAsync(teacherId));
+            //ShowCourse(courses);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Kurslarni yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+        }
     }
 
     private async Task GetAllTeachers()
     {
-        var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
-
-        if (teachers.Any())
+        try
         {
-            teacherComboBox.Items.Clear();
+            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
 
-            var defaultItem = new ComboBoxItem
+            if (teachers.Any())
             {
-                Content = "Barcha",
-                IsSelected = true,
-                IsEnabled = false
-            };
+                teacherComboBox.Items.Clear();
 
-            teacherComboBox.Items.Add(defaultItem);
+                var defaultItem = new ComboBoxItem
+                {
+                    Content = "Barcha",
+                    IsSelected = true,
+                    IsEnabled = false
+                };
 
-            foreach (var teacher in teachers)
+                teacherComboBox.Items.Add(defaultItem);
+
+                foreach (var teacher in teachers)
+                {
+                    ComboBoxItem item = new ComboBoxItem();
+                    item.Content = teacher.User.Firstname;
+                    item.Tag = teacher.Id;
+                    teacherComboBox.Items.Add(item);
+                }
+            }
+            else
             {
-                ComboBoxItem item = new ComboBoxItem();
-                item.Content = teacher.User.Firstname;
-                item.Tag = teacher.Id;
-                teacherComboBox.Items.Add(item);
+                notifier.ShowInformation("Ustozlar topilmadi!");
             }
         }
-        else
+        catch(Exception ex)
         {
-            notifier.ShowInformation("Ustozlar topilmadi!");
+            notifier.ShowWarning("O'qituvchilarning malumotlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
         }
     }
 
@@ -237,9 +259,18 @@ public partial class MainPage : Page
 
     private async Task GetAllGroupByTeacherId()
     {
-        courseForLoader.Visibility = Visibility.Visible;
-        var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(_teacher.Id));
-        ShowGroup(groups);
+        try
+        {
+            courseForLoader.Visibility = Visibility.Visible;
+            var groups = await Task.Run(async () => await _groupService.GetAllByTeacherIdAsync(_teacher.Id));
+            ShowGroup(groups);
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Guruhlaringizni yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+            courseForLoader.Visibility = Visibility.Collapsed;
+            emptyDataForCourse.Visibility = Visibility.Visible;
+        }
     }
 
     private void ShowGroup(List<GroupForResultDto> groups)
@@ -284,27 +315,34 @@ public partial class MainPage : Page
 
     private async Task GetAllCourse()
     {
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
-        //ShowCourse(courses);
-
-        if (courses.Any())
+        try
         {
-            courseComboBox.Items.Clear();
+            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            //ShowCourse(courses);
 
-            courseComboBox.Items.Add(new ComboBoxItem
+            if (courses.Any())
             {
-                Content = "Barcha",
-                IsSelected = true,
-                IsEnabled = false
-            });
+                courseComboBox.Items.Clear();
 
-            foreach (var course in courses)
-            {
-                ComboBoxItem item = new ComboBoxItem();
-                item.Content = course.Name;
-                item.Tag = course.Id;
-                courseComboBox.Items.Add(item);
+                courseComboBox.Items.Add(new ComboBoxItem
+                {
+                    Content = "Barcha",
+                    IsSelected = true,
+                    IsEnabled = false
+                });
+
+                foreach (var course in courses)
+                {
+                    ComboBoxItem item = new ComboBoxItem();
+                    item.Content = course.Name;
+                    item.Tag = course.Id;
+                    courseComboBox.Items.Add(item);
+                }
             }
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Kurslarni yuklashda xatolik yuz berdi, Iltimos qayta urining!");
         }
     }
 
@@ -344,16 +382,24 @@ public partial class MainPage : Page
 
     private async Task<long> GetTeacher(long userId)
     {
-        var teacher = await Task.Run(async () => await _teacherService.GetByUserIdAsync(userId));
-
-        if(teacher is null)
+        try
         {
-            notifier.ShowInformation("Ustoz topilmadi!");
+            var teacher = await Task.Run(async () => await _teacherService.GetByUserIdAsync(userId));
+
+            if(teacher is null)
+            {
+                notifier.ShowInformation("Ustoz topilmadi!");
+                return 0;
+            }
+
+            _teacher = teacher;
+            return teacher.Id;
+        }
+        catch(Exception ex)
+        {
+            notifier.ShowWarning("Malumotlaringizni yuklashda xatolik yuz berdi, Iltimos qayta urining!");
             return 0;
         }
-
-        _teacher = teacher;
-        return teacher.Id;
     }
 
     private async Task GetAllStudent()
