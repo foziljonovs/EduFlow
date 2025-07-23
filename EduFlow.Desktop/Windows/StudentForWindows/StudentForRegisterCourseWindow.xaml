@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EduFlow.Desktop.Windows.StudentForWindows"
         mc:Ignorable="d"
         Title="StudentForRegisterCourseWindow"
-        Height="180" 
+        Height="230" 
         Width="450"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
@@ -55,6 +55,62 @@
                               IsSelected="True"
                               IsEnabled="False"/>
             </ComboBox>
+
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="0 5 0 10">
+                <TextBlock Text="Soat: "
+                           FontSize="13"
+                           Foreground="Gray"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Margin="5 0 10 0"
+                           VerticalAlignment="Center"/>
+
+                <ComboBox x:Name="hourCombobox"
+                          Width="80"
+                          FontSize="18"
+                          ToolTip="Soatni tanlang"
+                          Height="40"
+                          VerticalContentAlignment="Center"
+                          FontFamily="Jetbrains Mono"
+                          FontWeight="SemiBold"/>
+
+                <TextBlock Text="Daqiqa: "
+                           FontSize="13"
+                           Foreground="Gray"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Margin="10 0"
+                           VerticalAlignment="Center"/>
+
+                <ComboBox x:Name="minuteCombobox"
+                          Width="80"
+                          FontSize="18"
+                          ToolTip="Daqiqa tanlang"
+                          Height="40"
+                          VerticalContentAlignment="Center"
+                          FontFamily="Jetbrains Mono"
+                          FontWeight="SemiBold"/>
+
+                <TextBlock Text="Kunlar: "
+                           FontSize="13"
+                           FontFamily="Jetbrains Mono"
+                           Foreground="Gray"
+                           FontWeight="SemiBold"
+                           Margin="10 0"
+                           VerticalAlignment="Center"/>
+
+                <ComboBox x:Name="dayCombobox"
+                          FontSize="13"
+                          Foreground="Gray"
+                          ToolTip="Kunni tanlang"
+                          FontWeight="SemiBold"
+                          VerticalContentAlignment="Center"
+                          Width="80"
+                          FontFamily="Jetbrains Mono"/>
+            </StackPanel>
 
             <Button x:Name="saveBtn"
                     Style="{DynamicResource saveButton}"
