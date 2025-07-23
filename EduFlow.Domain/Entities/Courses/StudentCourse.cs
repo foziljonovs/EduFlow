@@ -15,4 +15,8 @@ public class StudentCourse : BaseEntity
     public Course Course { get; set; }
     [Column("status")]
     public EnrollmentStatus Status { get; set; }
+    [Column("preferred_time")]
+    public TimeOnly? PreferredTime { get; set; }
+    [Column("preferred_days")]
+    public Day PreferredDay { get; set; }
 }
