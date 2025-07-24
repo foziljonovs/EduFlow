@@ -2,6 +2,7 @@
 using EduFlow.BLL.DTOs.Courses.StudentCourse;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.StudentCourse;
+using EduFlow.Domain.Enums;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -125,6 +126,40 @@ public partial class StudentForRegisterCourseWindow : Window
                 saveBtn.IsEnabled = true;
                 return;
             }
+
+            if (hourCombobox.SelectedItem is ComboBoxItem selectedHourItem &&
+                minuteCombobox.SelectedItem is ComboBoxItem selectedMinuteItem)
+            {
+                string selectedHourString = selectedHourItem.Content.ToString();
+                string selectedMinuteString = selectedMinuteItem.Content.ToString();
+
+                if (int.TryParse(selectedHourString, out int hour) &&
+                    int.TryParse(selectedMinuteString, out int minute))
+                {
+                    TimeOnly time = new TimeOnly(hour, minute);
+                    dto.PreferredTime = time;
+                }
+                else
+                {
+                    notifierThis.ShowWarning("Iltimos, o'quv vaqti tanlanganligini tekshiring!");
+                    saveBtn.IsEnabled = true;
+                    return;
+                }
+            }
+            else
+            {
+                notifierThis.ShowWarning("Iltimos, o'quv vaqti tanlanganligini tekshiring!");
+                saveBtn.IsEnabled = true;
+                return;
+            }
+
+            if (dayCombobox.SelectedItem is ComboBoxItem selectedDay)
+                dto.PreferredDay = selectedDay.Tag.ToString() switch
+                {
+                    "0" => Day.None,
+                    "1" => Day.ToqKunlar,
+                    "2" => Day.JuftKunlar
+                };
 
             var result = await _studentCourseService.AddAsync(dto);
 

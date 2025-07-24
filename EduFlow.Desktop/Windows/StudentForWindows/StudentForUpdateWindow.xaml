@@ -113,13 +113,27 @@
                            VerticalAlignment="Center"/>
 
                 <ComboBox x:Name="hourCombobox"
-                          Width="80"
+                          Width="60"
                           FontSize="18"
                           ToolTip="Soatni tanlang"
                           Height="40"
                           VerticalContentAlignment="Center"
                           FontFamily="Jetbrains Mono"
-                          FontWeight="SemiBold"/>
+                          FontWeight="SemiBold">
+                    <ComboBoxItem Content="08" IsSelected="True"/>
+                    <ComboBoxItem Content="09"/>
+                    <ComboBoxItem Content="10"/>
+                    <ComboBoxItem Content="11"/>
+                    <ComboBoxItem Content="12"/>
+                    <ComboBoxItem Content="13"/>
+                    <ComboBoxItem Content="14"/>
+                    <ComboBoxItem Content="15"/>
+                    <ComboBoxItem Content="16"/>
+                    <ComboBoxItem Content="17"/>
+                    <ComboBoxItem Content="18"/>
+                    <ComboBoxItem Content="19"/>
+                    <ComboBoxItem Content="20"/>
+                </ComboBox>
 
                 <TextBlock Text="Daqiqa: "
                            FontSize="13"
@@ -130,13 +144,18 @@
                            VerticalAlignment="Center"/>
 
                 <ComboBox x:Name="minuteCombobox"
-                          Width="80"
+                          Width="60"
                           FontSize="18"
                           ToolTip="Daqiqa tanlang"
                           Height="40"
                           VerticalContentAlignment="Center"
                           FontFamily="Jetbrains Mono"
-                          FontWeight="SemiBold"/>
+                          FontWeight="SemiBold">
+                    <ComboBoxItem Content="00" IsSelected="True"/>
+                    <ComboBoxItem Content="15"/>
+                    <ComboBoxItem Content="30"/>
+                    <ComboBoxItem Content="45"/>
+                </ComboBox>
 
                 <TextBlock Text="Kunlar: "
                            FontSize="13"
@@ -147,13 +166,16 @@
                            VerticalAlignment="Center"/>
 
                 <ComboBox x:Name="dayCombobox"
-                          FontSize="13"
-                          Foreground="Gray"
+                          FontSize="18"
                           ToolTip="Kunni tanlang"
                           FontWeight="SemiBold"
                           VerticalContentAlignment="Center"
-                          Width="80"
-                          FontFamily="Jetbrains Mono"/>
+                          Width="110"
+                          FontFamily="Jetbrains Mono">
+                    <ComboBoxItem Content="Farqi yo'q" Tag="0" IsSelected="True"/>
+                    <ComboBoxItem Content="DCHJ" Tag="1"/>
+                    <ComboBoxItem Content="SPSH" Tag="2"/>
+                </ComboBox>
             </StackPanel>
 
             <Button x:Name="saveBtn"
