@@ -10,6 +10,7 @@ public interface IPaymentService
     Task<long> AddToPayAsync(PaymentForCreateDto dto, CancellationToken cancellationToken = default);
     Task<bool> UpdateToPayAsync(long id, PaymentForUpdateDto dto, CancellationToken cancellationToken = default);
     Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default);
+    Task<IEnumerable<PaymentForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellation = default);
     Task<PagedList<PaymentForResultDto>> GetAllByStudentIdAsync(int pageSize, int pageNumber, long studentId, CancellationToken cancellationToken = default);
     Task<PagedList<PaymentForResultDto>> GetAllByGroupIdAsync(int pageSize, int pageNumber, long groupId, CancellationToken cancellationToken = default);
     Task<PagedList<PaymentForResultDto>> FilterAsync(int pageSize, int pageNumber, PaymentForFilterDto dto, CancellationToken cancellation = default);
