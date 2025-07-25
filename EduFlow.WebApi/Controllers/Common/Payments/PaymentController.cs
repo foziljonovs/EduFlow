@@ -4,6 +4,7 @@ using EduFlow.BLL.Interfaces.Payments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace EduFlow.WebApi.Controllers.Common.Payments;
@@ -204,6 +205,24 @@ public class PaymentController(
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
             return Ok(response.Data);
+        }
+        catch(StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("{teacherId:long}/teacher")]
+    public async Task<IActionResult> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.GetAllByTeacherIdAsync(teacherId, cancellation);
+            return Ok(response);
         }
         catch(StatusCodeException ex)
         {

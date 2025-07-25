@@ -250,6 +250,27 @@ public class PaymentService(
         }
     }
 
+    public async Task<IEnumerable<PaymentForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var payments = await _unitOfWork.Payment.GetAllFullInformation()
+                .Where(x => x.TeacherId == teacherId && 
+                       (x.Status == PaymentStatus.Pending || x.Status == PaymentStatus.Completed))
+                .ToListAsync();
+
+            if (!payments.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
+
+            return _mapper.Map<IEnumerable<PaymentForResultDto>>(payments);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all payment by teacher id: {teacherId}. {ex}");
+            throw;
+        }
+    }
+
     public async Task<PaymentForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
         try

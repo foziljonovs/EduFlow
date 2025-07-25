@@ -1,8 +1,10 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.GroupForComponents;
 using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
+using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using System.Windows;
 using ToastNotifications;
@@ -19,6 +21,7 @@ public partial class TeacherForViewWindow : Window
 {
     private readonly ITeacherService _teacherService;
     private readonly IGroupService _groupService;
+    private readonly IPaymentService _paymentService;
     private long Id { get; set; }
     private int pageSize = 15;
     private int pageNumber = 1;
@@ -28,6 +31,7 @@ public partial class TeacherForViewWindow : Window
         InitializeComponent();
         this._teacherService = new TeacherService();
         this._groupService = new GroupService();
+        this._paymentService = new PaymentService();
     }
 
     Notifier notifierThis = new Notifier(cfg =>
@@ -106,6 +110,18 @@ public partial class TeacherForViewWindow : Window
             return new TeacherForResultDto();
         }
     }
+
+    //private async Task GetThisMonthTeacherAllPayment()
+    //{
+    //    try
+    //    {
+            
+    //    }
+    //    catch(Exception ex)
+    //    {
+    //        notifierThis.ShowWarning("O'qituvchining oylik tushumlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+    //    }
+    //}
 
     private async Task<List<GroupForResultDto>> GetGroups()
     {
