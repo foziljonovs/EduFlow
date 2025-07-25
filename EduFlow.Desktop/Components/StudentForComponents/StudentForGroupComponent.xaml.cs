@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using EduFlow.Domain.Enums;
+using System.Windows.Controls;
 
 namespace EduFlow.Desktop.Components.StudentForComponents;
 
@@ -15,7 +16,7 @@ public partial class StudentForGroupComponent : UserControl
         InitializeComponent();
     }
 
-    public void SetValues(int number, long id, string fullName, int age, string address, string phoneNumber)
+    public void SetValues(int number, long id, string fullName, int age, string address, string phoneNumber, TimeOnly? preferredTime, Day preferredDay)
     {
         Id = id;
         tbNumber.Text = number.ToString();
@@ -23,6 +24,14 @@ public partial class StudentForGroupComponent : UserControl
         tbAge.Text = age.ToString();
         tbAddress.Text = address;
         tbPhoneNumber.Text = phoneNumber;
+        tbPreferredTime.Text = preferredTime?.ToString("HH:mm") ?? "00:00";
+        tbPreferredDate.Text = preferredDay switch
+        {
+            Day.None => "Farqi yo'q",
+            Day.JuftKunlar => "Juft kunlar",
+            Day.ToqKunlar => "Toq kunlar",
+            _ => "Noma'lum"
+        };
     }
 
     public bool GetIsChosen()

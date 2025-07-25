@@ -185,6 +185,10 @@ public partial class GroupForAddStudentWindow : Window
 
             foreach(var item in students)
             {
+                var courseInfo = item.StudentCourses.FirstOrDefault(x =>
+                                                                    x.CourseId == _group.CourseId &&
+                                                                    x.Status == Domain.Enums.EnrollmentStatus.Pending);
+
                 StudentForGroupComponent component = new StudentForGroupComponent();
                 component.SetValues(
                     count,
@@ -192,7 +196,9 @@ public partial class GroupForAddStudentWindow : Window
                     item.Fullname,
                     item.Age,
                     item.Address,
-                    item.PhoneNumber);
+                    item.PhoneNumber,
+                    courseInfo.PreferredTime,
+                    courseInfo.PreferredDay);
 
                 component.SelectionChanged += OnStudentComponentSelectionChanged;
                 stStudents.Children.Add(component);

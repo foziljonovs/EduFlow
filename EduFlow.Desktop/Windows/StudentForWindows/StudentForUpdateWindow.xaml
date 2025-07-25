@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EduFlow.Desktop.Windows.StudentForWindows"
         mc:Ignorable="d"
         Title="StudentForUpdateWindow"
-        Height="520"
+        Height="420"
         Width="450"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -33,7 +33,8 @@
         </Grid>
 
         <StackPanel Grid.Row="1"
-                    Margin="10 5">
+                    Margin="10 5"
+                    VerticalAlignment="Center">
             <TextBlock Text="To'liq ism"
                        FontSize="13"
                        Foreground="Gray"
@@ -91,92 +92,6 @@
                 <ComboBoxItem Content="24"/>
                 <ComboBoxItem Content="25"/>
             </ComboBox>
-
-            <ComboBox x:Name="CourseComboBox"
-                      Height="40"
-                      FontSize="18"
-                      VerticalContentAlignment="Center"
-                      FontFamily="Jetbrains Mono"
-                      FontWeight="SemiBold"
-                      Margin="0 5 0 10">
-            </ComboBox>
-
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        Margin="0 5 0 10">
-                <TextBlock Text="Soat: "
-                           FontSize="13"
-                           Foreground="Gray"
-                           FontFamily="Jetbrains Mono"
-                           FontWeight="SemiBold"
-                           Margin="5 0 10 0"
-                           VerticalAlignment="Center"/>
-
-                <ComboBox x:Name="hourCombobox"
-                          Width="60"
-                          FontSize="18"
-                          ToolTip="Soatni tanlang"
-                          Height="40"
-                          VerticalContentAlignment="Center"
-                          FontFamily="Jetbrains Mono"
-                          FontWeight="SemiBold">
-                    <ComboBoxItem Content="08" IsSelected="True"/>
-                    <ComboBoxItem Content="09"/>
-                    <ComboBoxItem Content="10"/>
-                    <ComboBoxItem Content="11"/>
-                    <ComboBoxItem Content="12"/>
-                    <ComboBoxItem Content="13"/>
-                    <ComboBoxItem Content="14"/>
-                    <ComboBoxItem Content="15"/>
-                    <ComboBoxItem Content="16"/>
-                    <ComboBoxItem Content="17"/>
-                    <ComboBoxItem Content="18"/>
-                    <ComboBoxItem Content="19"/>
-                    <ComboBoxItem Content="20"/>
-                </ComboBox>
-
-                <TextBlock Text="Daqiqa: "
-                           FontSize="13"
-                           Foreground="Gray"
-                           FontFamily="Jetbrains Mono"
-                           FontWeight="SemiBold"
-                           Margin="10 0"
-                           VerticalAlignment="Center"/>
-
-                <ComboBox x:Name="minuteCombobox"
-                          Width="60"
-                          FontSize="18"
-                          ToolTip="Daqiqa tanlang"
-                          Height="40"
-                          VerticalContentAlignment="Center"
-                          FontFamily="Jetbrains Mono"
-                          FontWeight="SemiBold">
-                    <ComboBoxItem Content="00" IsSelected="True"/>
-                    <ComboBoxItem Content="15"/>
-                    <ComboBoxItem Content="30"/>
-                    <ComboBoxItem Content="45"/>
-                </ComboBox>
-
-                <TextBlock Text="Kunlar: "
-                           FontSize="13"
-                           FontFamily="Jetbrains Mono"
-                           Foreground="Gray"
-                           FontWeight="SemiBold"
-                           Margin="10 0"
-                           VerticalAlignment="Center"/>
-
-                <ComboBox x:Name="dayCombobox"
-                          FontSize="18"
-                          ToolTip="Kunni tanlang"
-                          FontWeight="SemiBold"
-                          VerticalContentAlignment="Center"
-                          Width="110"
-                          FontFamily="Jetbrains Mono">
-                    <ComboBoxItem Content="Farqi yo'q" Tag="0" IsSelected="True"/>
-                    <ComboBoxItem Content="DCHJ" Tag="1"/>
-                    <ComboBoxItem Content="SPSH" Tag="2"/>
-                </ComboBox>
-            </StackPanel>
 
             <Button x:Name="saveBtn"
                     Style="{DynamicResource saveButton}"
