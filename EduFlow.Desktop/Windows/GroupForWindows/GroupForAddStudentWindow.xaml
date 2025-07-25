@@ -71,6 +71,8 @@
                     <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
 
@@ -114,6 +116,22 @@
 
                 <TextBlock Grid.Column="5"
                            Text="Holat"
+                           FontFamily="Jetbrains Mono"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+
+                <TextBlock Grid.Column="6"
+                           Text="Soat"
+                           FontFamily="Jetbrains Mono"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+
+                <TextBlock Grid.Column="7"
+                           Text="Kun"
                            FontFamily="Jetbrains Mono"
                            FontSize="14"
                            FontWeight="SemiBold"

@@ -92,30 +92,6 @@ public partial class StudentForUpdateWindow : Window
             notifierThis.ShowError("Xatolik yuz berdi, iltimos qayta yuklang!");
     }
 
-    private async Task GetAllCourse()
-    {
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
-
-        if (courses.Any())
-        {
-            foreach(var item in courses)
-            {
-                ComboBoxItem comboBoxItem = new ComboBoxItem
-                {
-                    Tag = item.Id,
-                    Content = item.Name
-                };
-
-                CourseComboBox.Items.Add(comboBoxItem);
-            }
-
-            if(IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
-                CourseComboBox.IsEnabled = false;
-        }
-        else
-            notifierThis.ShowWarning("Kurs malumotlari topilmadi, iltimos qayta yuklang!");
-    }
-
     private void Favourites()
     {
         if(this.Student is not null)
@@ -128,33 +104,6 @@ public partial class StudentForUpdateWindow : Window
                 {
                     AgeComboBox.SelectedItem = item;
                     break;
-                }
-            }
-
-            foreach (ComboBoxItem item in CourseComboBox.Items)
-            {
-                var studentActiveCourse = this.Student.StudentCourses?
-                    .FirstOrDefault(x => x.Status == Domain.Enums.EnrollmentStatus.Active
-                                    || x.Status == Domain.Enums.EnrollmentStatus.Pending);
-
-                if (studentActiveCourse is not null)
-                {
-                    if (item.Tag is long courseId && studentActiveCourse.CourseId == courseId)
-                    {
-                        CourseComboBox.SelectedItem = item;
-                        break;
-                    }
-                }
-                else
-                {
-                    ComboBoxItem defaultItem = new ComboBoxItem
-                    {
-                        Content = "Kursni tanlang",
-                        IsEnabled = false,
-                        IsSelected = true
-                    };
-
-                    CourseComboBox.Items.Add(defaultItem);
                 }
             }
         }
@@ -174,7 +123,6 @@ public partial class StudentForUpdateWindow : Window
     private async Task LoadedWindow()
     {
         await GetStudent();
-        await GetAllCourse();
 
         Favourites();
     }
@@ -237,87 +185,8 @@ public partial class StudentForUpdateWindow : Window
 
             if (studentResult)
             {
-                StudentCourseForUpdateDto studentCourseDto = new StudentCourseForUpdateDto()
-                {
-                    StudentId = this.Id
-                };
-
-                if (CourseComboBox.SelectedItem is ComboBoxItem selectedCourseItem && long.TryParse(selectedCourseItem.Tag.ToString(), out long courseId))
-                {
-                    studentCourseDto.CourseId = courseId;
-
-                    var updateStudentCourse = this.Student.StudentCourses.FirstOrDefault(x => x.CourseId == courseId
-                                                                                      && x.Status == Domain.Enums.EnrollmentStatus.Active
-                                                                                      || x.Status == Domain.Enums.EnrollmentStatus.Pending);
-
-                    if(updateStudentCourse is not null)
-                    {
-                        notifierThis.ShowWarning("Talaba guruhda o'qimoqda, iltimos qayta tekshiring!");
-                        saveBtn.IsEnabled = true;
-                        return;
-                    }
-
-                    StudentCourseForCreateDto studentCourseForCreateDto = new StudentCourseForCreateDto
-                    {
-                        StudentId = this.Id,
-                        CourseId = courseId
-                    };
-
-                    if (hourCombobox.SelectedItem is ComboBoxItem selectedHourItem &&
-                        minuteCombobox.SelectedItem is ComboBoxItem selectedMinuteItem)
-                    {
-                        string selectedHourString = selectedHourItem.Content.ToString();
-                        string selectedMinuteString = selectedMinuteItem.Content.ToString();
-
-                        if (int.TryParse(selectedHourString, out int hour) &&
-                            int.TryParse(selectedMinuteString, out int minute))
-                        {
-                            TimeOnly time = new TimeOnly(hour, minute);
-                            studentCourseDto.PreferredTime = time;
-                        }
-                        else
-                        {
-                            notifierThis.ShowWarning("Iltimos, o'quv vaqti tanlanganligini tekshiring!");
-                            saveBtn.IsEnabled = true;
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        notifierThis.ShowWarning("Iltimos, o'quv vaqti tanlanganligini tekshiring!");
-                        saveBtn.IsEnabled = true;
-                        return;
-                    }
-
-                    if (dayCombobox.SelectedItem is ComboBoxItem selectedDay)
-                        studentCourseDto.PreferredDay = selectedDay.Tag.ToString() switch
-                        {
-                            "0" => Day.None,
-                            "1" => Day.ToqKunlar,
-                            "2" => Day.JuftKunlar
-                        };
-
-                    var studentCourseResult = await _studentCourseService.AddAsync(studentCourseForCreateDto);
-
-                    if(studentCourseResult)
-                    {
-                        this.Close();
-                        notifier.ShowSuccess("Talaba malumotlari muvaffaqiyatli yangilandi!");
-                    }
-                    else
-                    {
-                        notifierThis.ShowWarning("Talaba kursini yangilashda xatolik yuz berdi!");
-                        saveBtn.IsEnabled = true;
-                        return;
-                    }
-                }
-                else
-                {
-                    notifierThis.ShowWarning("Iltimos, kursni tanlang!");
-                    CourseComboBox.Focus();
-                    saveBtn.IsEnabled = true;
-                    return;
-                }
+                this.Close();
+                notifier.ShowSuccess("Talaba malumotlari muvaffaqiyatli yangilandi!");
             }
             else
             {

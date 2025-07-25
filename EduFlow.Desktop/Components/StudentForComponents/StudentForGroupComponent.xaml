@@ -20,6 +20,8 @@
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
 
@@ -75,7 +77,25 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
 
-            <CheckBox Grid.Column="6"
+            <TextBlock Grid.Column="6"
+                       x:Name="tbPreferredTime"
+                       Text="00:00"
+                       FontFamily="Jetbrains Mono"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+
+            <TextBlock Grid.Column="7"
+                       x:Name="tbPreferredDate"
+                       Text="Toq kunlar"
+                       FontFamily="Jetbrains Mono"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+
+            <CheckBox Grid.Column="8"
                       x:Name="ChooseStudent"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
