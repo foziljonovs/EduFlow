@@ -14,4 +14,5 @@ public interface IPaymentService
     Task<List<PaymentForResultDto>> GetAllByGroupIdAsync(long groupId);
     Task<PagedResponse<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto, int pageSize, int pageNumber);
     Task<PagedResponse<PaymentForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber);
+    Task<List<PaymentForResultDto>> GetAllByTeacherIdAsync(long teacherId);
 }

@@ -134,15 +134,15 @@
                 </Grid>
 
                 <Grid Height="50">
-                    <TextBlock Text="Ish haqi: "
-                               FontSize="18"
+                    <TextBlock Text="Shu oydagi tushum: "
+                               FontSize="14"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"/>
 
                     <TextBlock x:Name="tbSalary"
-                               Text="5000000"
+                               Text="0"
                                FontSize="14"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
