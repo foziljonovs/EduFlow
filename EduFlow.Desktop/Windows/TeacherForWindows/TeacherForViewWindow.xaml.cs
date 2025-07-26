@@ -111,17 +111,33 @@ public partial class TeacherForViewWindow : Window
         }
     }
 
-    //private async Task GetThisMonthTeacherAllPayment()
-    //{
-    //    try
-    //    {
-            
-    //    }
-    //    catch(Exception ex)
-    //    {
-    //        notifierThis.ShowWarning("O'qituvchining oylik tushumlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
-    //    }
-    //}
+    private async Task GetThisMonthTeacherAllPayment()
+    {
+        try
+        {
+            var payments = await Task.Run(async () => await _paymentService.GetAllByTeacherIdAsync(_teacher.Id));
+
+            DateTime now = DateTime.UtcNow;
+            var thisMonthPayments = payments
+                .Where(x => (x.Status == Domain.Enums.PaymentStatus.Pending ||
+                             x.Status == Domain.Enums.PaymentStatus.Completed) &&
+                       x.CreatedAt.Year == now.Year &&
+                       x.CreatedAt.Month == now.Month)
+                .ToList();
+
+            if(thisMonthPayments.Any())
+            {
+                double totalPaymentAmount = thisMonthPayments.Sum(x => x.Amount);
+                tbSalary.Text = totalPaymentAmount.ToString("0");
+            }
+            else
+                tbSalary.Text = "0";
+        }
+        catch (Exception ex)
+        {
+            notifierThis.ShowWarning("O'qituvchining oylik tushumlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+        }
+    }
 
     private async Task<List<GroupForResultDto>> GetGroups()
     {
@@ -193,6 +209,7 @@ public partial class TeacherForViewWindow : Window
 
         var groups = await GetGroups();
         ShowGroups(groups);
+        await GetThisMonthTeacherAllPayment();
     }
 
     private void ShowGroups(List<GroupForResultDto> groups)
