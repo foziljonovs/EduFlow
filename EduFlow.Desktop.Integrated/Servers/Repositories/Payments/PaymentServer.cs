@@ -3,6 +3,7 @@ using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Payments;
+using EduFlow.Domain.Entities.Users;
 using Microsoft.AspNetCore.ResponseCaching;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -179,6 +180,30 @@ public class PaymentServer : IPaymentServer
             return payments;
         }
         catch(Exception ex)
+        {
+            return new List<PaymentForResultDto>();
+        }
+    }
+
+    public async Task<List<PaymentForResultDto>> GetAllByTeacherIdAsync(long teacherId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/payments/{teacherId}/teacher");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<PaymentForResultDto> payments = JsonConvert.DeserializeObject<List<PaymentForResultDto>>(result)!;
+
+            return payments;
+        }
+        catch (Exception ex)
         {
             return new List<PaymentForResultDto>();
         }

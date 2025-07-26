@@ -90,6 +90,19 @@ public class PaymentService : IPaymentService
         }
     }
 
+    public async Task<List<PaymentForResultDto>> GetAllByTeacherIdAsync(long teacherId)
+    {
+        try
+        {
+            var result = await _server.GetAllByTeacherIdAsync(teacherId);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new List<PaymentForResultDto>();
+        }
+    }
+
     public async Task<PagedResponse<PaymentForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber)
     {
         try
