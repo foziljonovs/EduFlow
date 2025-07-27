@@ -15,6 +15,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -61,19 +62,103 @@
                     HorizontalAlignment="Center">
 
             <DatePicker x:Name="dtStartDate"
-                                Width="110"
-                                VerticalAlignment="Center"
-                                ToolTip="Sanadan"
-                                Margin="10 0 10 0"/>
+                        Width="110"
+                        VerticalAlignment="Center"
+                        ToolTip="Sanadan"
+                        Margin="10 0 10 0"/>
 
             <DatePicker x:Name="dtEndDate"
-                                Width="110"
-                                VerticalAlignment="Center"
-                                Margin="10 0 10 0"
-                                ToolTip="Sanagacha"/>
+                        Width="110"
+                        VerticalAlignment="Center"
+                        Margin="10 0 10 0"
+                        ToolTip="Sanagacha"
+                        SelectedDateChanged="dtEndDate_SelectedDateChanged"/>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Jami summa: "
+                           FontSize="14"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock x:Name="tbAllPaymentAmount"
+                           Text="0"
+                           FontSize="16"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
         </StackPanel>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2"
+              Margin="3 0 21 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="130"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="No"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="1"
+                       Text="O'quvchi ismi"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="2"
+                       Text="Summa"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="3"
+                       Text="Chegirma"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="4"
+                       Text="Holati"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="5"
+                       Text="Turi"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="6"
+                       Text="Sana"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Grid>
+
+        <Grid Grid.Row="3">
             <local1:Loader x:Name="paymentLoader"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"

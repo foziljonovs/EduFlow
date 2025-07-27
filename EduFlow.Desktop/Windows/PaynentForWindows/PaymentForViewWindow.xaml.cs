@@ -1,7 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Courses.Group;
-using EduFlow.BLL.DTOs.Payments.Payment;
+﻿using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.Desktop.Components.PaymentForComponents;
-using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using System.Windows;
 using ToastNotifications;
@@ -88,6 +86,26 @@ public partial class PaymentForViewWindow : Window
             var payments = await Task.Run(async () => await _paymentService.GetAllByGroupIdAsync(this._groupId));
 
             ShowPayments(payments);
+            PaymentAmount(payments);
+        }
+        catch(Exception ex)
+        {
+            paymentLoader.Visibility = Visibility.Collapsed;
+            emptyDataForPayment.Visibility = Visibility.Visible;
+        }
+    }
+
+    private async Task FilterAsync()
+    {
+        try
+        {
+            stPayments.Children.Clear();
+            paymentLoader.Visibility = Visibility.Visible;
+
+            PaymentForFilterDto dto = new PaymentForFilterDto
+            {
+                
+            };
         }
         catch(Exception ex)
         {
@@ -130,6 +148,20 @@ public partial class PaymentForViewWindow : Window
         }
     }
 
+    private void PaymentAmount(List<PaymentForResultDto> payments)
+    {
+        if (payments.Any())
+        {
+            double allAmount = payments
+                .Where(x => x.Status == Domain.Enums.PaymentStatus.Pending || x.Status == Domain.Enums.PaymentStatus.Completed)
+                .Sum(x => x.Amount);
+
+            tbAllPaymentAmount.Text = allAmount.ToString();
+        }
+        else
+            tbAllPaymentAmount.Text = "0";
+    }
+
     public void SetId(long id)
         => this._groupId = id;
 
@@ -146,5 +178,13 @@ public partial class PaymentForViewWindow : Window
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         LoadedWindow();
+    }
+
+    private void dtEndDate_SelectedDateChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (IsWindowLoaded)
+        {
+
+        }
     }
 }
