@@ -128,7 +128,8 @@
                             CornerRadius="5"
                             Background="DeepSkyBlue"
                             ToolTip="Guruh to'lovlarini ko'rish"
-                            HorizontalAlignment="Right">
+                            HorizontalAlignment="Right"
+                            MouseDown="paymentHistoryBtn_MouseDown">
                         <Label Content="Ko'rish"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
