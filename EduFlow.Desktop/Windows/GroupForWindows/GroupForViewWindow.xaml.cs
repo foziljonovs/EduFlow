@@ -11,6 +11,7 @@ using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using EduFlow.Desktop.Windows.PaynentForWindows;
 using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
 using System.Windows;
@@ -370,5 +371,12 @@ public partial class GroupForViewWindow : Window
             notifierThis.ShowError("O'zgarishlarni saqlashda xatolik yuz berdi!");
         else
             notifierThis.ShowWarning("O'zgarishlar mavjud emas!");
+    }
+
+    private void paymentHistoryBtn_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        PaymentForViewWindow window = new PaymentForViewWindow();
+        window.SetId(this.Id);
+        window.ShowDialog();
     }
 }
