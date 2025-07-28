@@ -1,6 +1,9 @@
-﻿using EduFlow.BLL.DTOs.Payments.Payment;
+﻿using EduFlow.BLL.DTOs.Courses.Group;
+using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.Desktop.Components.PaymentForComponents;
+using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
+using System.Threading.Tasks;
 using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -14,7 +17,7 @@ namespace EduFlow.Desktop.Windows.PaynentForWindows;
 public partial class PaymentForViewWindow : Window
 {
     private readonly IPaymentService _paymentService;
-    private long _groupId { get; set; }
+    private long _teacherId { get; set; }
     public PaymentForViewWindow()
     {
         InitializeComponent();
@@ -83,7 +86,7 @@ public partial class PaymentForViewWindow : Window
         {
             paymentLoader.Visibility = Visibility.Visible;
 
-            var payments = await Task.Run(async () => await _paymentService.GetAllByGroupIdAsync(this._groupId));
+            var payments = await Task.Run(async () => await _paymentService.GetAllByTeacherIdAsync(this._teacherId));
 
             ShowPayments(payments);
             PaymentAmount(payments);
@@ -104,8 +107,18 @@ public partial class PaymentForViewWindow : Window
 
             PaymentForFilterDto dto = new PaymentForFilterDto
             {
-                
+                TeacherId = this._teacherId
             };
+
+            if (dtStartDate.SelectedDate is not null)
+                dto.StartedDate = dtStartDate.SelectedDate.Value;
+
+            if(dtEndDate.SelectedDate is not null)
+                dto.StartedDate = dtEndDate.SelectedDate.Value;
+
+            //var payments = await Task.Run(async () => await _paymentService.FilterAsync(dto));
+
+            //ShowPayments(payments);
         }
         catch(Exception ex)
         {
@@ -163,7 +176,7 @@ public partial class PaymentForViewWindow : Window
     }
 
     public void SetId(long id)
-        => this._groupId = id;
+        => this._teacherId = id;
 
     private bool IsWindowLoaded = false;
     private async Task LoadedWindow()
@@ -180,11 +193,11 @@ public partial class PaymentForViewWindow : Window
         LoadedWindow();
     }
 
-    private void dtEndDate_SelectedDateChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private async void dtEndDate_SelectedDateChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
         if (IsWindowLoaded)
         {
-
+            await FilterAsync();
         }
     }
 }

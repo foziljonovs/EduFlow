@@ -6,6 +6,7 @@ using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using EduFlow.Desktop.Windows.PaynentForWindows;
 using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -111,34 +112,6 @@ public partial class TeacherForViewWindow : Window
         }
     }
 
-    private async Task GetThisMonthTeacherAllPayment()
-    {
-        try
-        {
-            var payments = await Task.Run(async () => await _paymentService.GetAllByTeacherIdAsync(_teacher.Id));
-
-            DateTime now = DateTime.UtcNow;
-            var thisMonthPayments = payments
-                .Where(x => (x.Status == Domain.Enums.PaymentStatus.Pending ||
-                             x.Status == Domain.Enums.PaymentStatus.Completed) &&
-                       x.CreatedAt.Year == now.Year &&
-                       x.CreatedAt.Month == now.Month)
-                .ToList();
-
-            if(thisMonthPayments.Any())
-            {
-                double totalPaymentAmount = thisMonthPayments.Sum(x => x.Amount);
-                tbSalary.Text = totalPaymentAmount.ToString("0");
-            }
-            else
-                tbSalary.Text = "0";
-        }
-        catch (Exception ex)
-        {
-            notifierThis.ShowWarning("O'qituvchining oylik tushumlarini yuklashda xatolik yuz berdi, Iltimos qayta urining!");
-        }
-    }
-
     private async Task<List<GroupForResultDto>> GetGroups()
     {
         try
@@ -197,7 +170,6 @@ public partial class TeacherForViewWindow : Window
             tbName.Text = _teacher.User.Firstname + " " + _teacher.User.Lastname;
             tbCourseName.Text = _teacher.Course.Name;
             tbPhoneNumber.Text = _teacher.User.PhoneNumber;
-            tbSalary.Text = "0";
             tbSkills.Text = string.Join(", ", _teacher.Skills);
         }
         else
@@ -209,7 +181,6 @@ public partial class TeacherForViewWindow : Window
 
         var groups = await GetGroups();
         ShowGroups(groups);
-        await GetThisMonthTeacherAllPayment();
     }
 
     private void ShowGroups(List<GroupForResultDto> groups)
@@ -247,7 +218,6 @@ public partial class TeacherForViewWindow : Window
         tbName.Text = string.Empty;
         tbCourseName.Text = string.Empty;
         tbPhoneNumber.Text = "+998000000000";
-        tbSalary.Text = "0";
         tbSkills.Text = string.Empty;
 
         groupForEmptyData.Text = string.Empty;
@@ -267,5 +237,12 @@ public partial class TeacherForViewWindow : Window
     {
         if (IsLoaded)
             FilterAsync();
+    }
+
+    private void btnTeacherForViewPayments_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        PaymentForViewWindow window = new PaymentForViewWindow();
+        window.SetId(this.Id);
+        window.ShowDialog();
     }
 }
