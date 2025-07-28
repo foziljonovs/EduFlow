@@ -115,29 +115,20 @@
                 </Grid>
 
                 <Grid Height="50">
-                    <TextBlock Text="To'lov tarixi: "
-                               FontSize="18"
+                    <TextBlock Text="To'lovlar summasi: "
+                               FontSize="14"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"/>
 
-                    <Border x:Name="paymentHistoryBtn"
-                            Width="80"
-                            Height="30"
-                            CornerRadius="5"
-                            Background="DeepSkyBlue"
-                            ToolTip="Guruh to'lovlarini ko'rish"
-                            HorizontalAlignment="Right"
-                            MouseDown="paymentHistoryBtn_MouseDown">
-                        <Label Content="Ko'rish"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Foreground="White"
-                               FontSize="14"
+                    <TextBlock x:Name="tbMonthlyIncome"
+                               FontSize="18"
+                               FontWeight="SemiBold"
                                FontFamily="Jetbrains Mono"
-                               FontWeight="DemiBold"/>
-                    </Border>
+                               Text="0"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"/>
                 </Grid>
 
                 <Grid Height="50">

@@ -133,36 +133,42 @@
                                HorizontalAlignment="Right"/>
                 </Grid>
 
-                <Grid Height="50">
-                    <TextBlock Text="Shu oydagi tushum: "
-                               FontSize="14"
-                               FontFamily="Jetbrains Mono"
-                               FontWeight="SemiBold"
+                <StackPanel Height="50"
+                            Orientation="Horizontal">
+                    <Border x:Name="teacherForPasswordEditBtn"
+                            Margin="5 0"
+                            Height="30"
+                            Width="110"
+                            Background="DeepSkyBlue"
+                            CornerRadius="5"
+                            HorizontalAlignment="Left"
+                            ToolTip="Bu funksiya hozirda faol emas.">
+                        <Label Content="Parol o'zgartirish"
+                               FontSize="12"
+                               HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               HorizontalAlignment="Left"/>
-
-                    <TextBlock x:Name="tbSalary"
-                               Text="0"
-                               FontSize="14"
                                FontFamily="Jetbrains Mono"
-                               FontWeight="SemiBold"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Right"/>
-                </Grid>
+                               Foreground="White"/>
+                    </Border>
 
-                <Border x:Name="teacherForPasswordEditBtn"
-                        Height="30"
-                        Width="140"
-                        Background="DeepSkyBlue"
-                        CornerRadius="5"
-                        HorizontalAlignment="Left">
-                    <Label Content="Parolni o'zgartirish"
-                           FontSize="14"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontFamily="Jetbrains Mono"
-                           Foreground="White"/>
-                </Border>
+                    <Border x:Name="btnTeacherForViewPayments"
+                            Margin="5 0"
+                            Height="30"
+                            Width="110"
+                            Background="MediumSeaGreen"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            CornerRadius="5"
+                            ToolTip="Joriy oydagi tushumlarni ko'rish"
+                            MouseDown="btnTeacherForViewPayments_MouseDown">
+                        <Label Content="To'lovlarni ko'rish"
+                               FontSize="12"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontFamily="Jetbrains Mono"
+                               Foreground="White"/>
+                    </Border>
+                </StackPanel>
             </StackPanel>
 
             <Grid Grid.Column="1">
