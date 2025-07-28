@@ -1,6 +1,7 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Courses.Lesson;
+using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.LessonForComponents;
@@ -9,10 +10,9 @@ using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Attendance;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
+using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
-using EduFlow.Desktop.Windows.PaynentForWindows;
-using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
 using System.Windows;
 using ToastNotifications;
@@ -32,6 +32,7 @@ public partial class GroupForViewWindow : Window
     private readonly IAttendanceService _attendanceService;
     private readonly ITeacherService _teacherService;
     private readonly ILessonService _lessonService;
+    private readonly IPaymentService _paymentService;
     private long Id { get; set; }
     private Dictionary<int, long> _students = new Dictionary<int, long>();
     private List<AttendanceForUpdateRangeDto> allUpdateAttendances = new List<AttendanceForUpdateRangeDto>();
@@ -43,6 +44,7 @@ public partial class GroupForViewWindow : Window
         this._attendanceService = new AttendanceService();
         this._teacherService = new TeacherService();
         this._lessonService = new LessonService();
+        this._paymentService = new PaymentService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -114,6 +116,37 @@ public partial class GroupForViewWindow : Window
             return new Stack<LessonForResultDto>();
     }
 
+    private async Task GetAllPaymentByGroupId()
+    {
+        try
+        {
+            var payments = await Task.Run(async () => await _paymentService.GetAllByGroupIdAsync(Id));
+
+            ShowPaymentValue(payments);
+        }
+        catch(Exception ex)
+        {
+            tbMonthlyIncome.Text = "0";
+        }
+    }
+
+    private void ShowPaymentValue(List<PaymentForResultDto> payments)
+    {
+        if (payments.Any())
+        {
+            DateTime now = DateTime.UtcNow.AddHours(5);
+
+            var thisMonthlyIncome = payments
+                .Where(x => x.PaymentDate.Month == now.Month &&
+                       (x.Status == PaymentStatus.Pending || x.Status == PaymentStatus.Completed))
+                .Sum(x => x.Amount);
+
+            tbMonthlyIncome.Text = thisMonthlyIncome.ToString();
+        }
+        else
+            tbMonthlyIncome.Text = "0";
+    }
+
     private async void ShowLessons()
     {
         var lessons = await GetLessons();
@@ -173,6 +206,7 @@ public partial class GroupForViewWindow : Window
         statedDateTxt.Text = group.CreatedAt.ToString("dd/MM/yyyy");
 
         ShowStudents(group.Students);
+        await GetAllPaymentByGroupId();
     }
 
     private void ShowStudents(List<StudentForShortResultDto> students)
@@ -371,12 +405,5 @@ public partial class GroupForViewWindow : Window
             notifierThis.ShowError("O'zgarishlarni saqlashda xatolik yuz berdi!");
         else
             notifierThis.ShowWarning("O'zgarishlar mavjud emas!");
-    }
-
-    private void paymentHistoryBtn_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-    {
-        PaymentForViewWindow window = new PaymentForViewWindow();
-        window.SetId(this.Id);
-        window.ShowDialog();
     }
 }

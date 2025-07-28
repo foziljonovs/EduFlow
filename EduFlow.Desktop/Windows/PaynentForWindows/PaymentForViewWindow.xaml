@@ -57,24 +57,26 @@
             </StackPanel>
         </Grid>
 
-        <StackPanel Grid.Row="1"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center">
+        <Grid Grid.Row="1">
 
-            <DatePicker x:Name="dtStartDate"
-                        Width="110"
-                        VerticalAlignment="Center"
-                        ToolTip="Sanadan"
-                        Margin="10 0 10 0"/>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <DatePicker x:Name="dtStartDate"
+                            Width="110"
+                            VerticalAlignment="Center"
+                            ToolTip="Sanadan"
+                            Margin="10 0 10 0"/>
 
-            <DatePicker x:Name="dtEndDate"
-                        Width="110"
-                        VerticalAlignment="Center"
-                        Margin="10 0 10 0"
-                        ToolTip="Sanagacha"
-                        SelectedDateChanged="dtEndDate_SelectedDateChanged"/>
+                <DatePicker x:Name="dtEndDate"
+                            Width="110"
+                            VerticalAlignment="Center"
+                            Margin="10 0 10 0"
+                            ToolTip="Sanagacha"
+                            SelectedDateChanged="dtEndDate_SelectedDateChanged"/>
+            </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Right">
                 <TextBlock Text="Jami summa: "
                            FontSize="14"
                            FontFamily="Jetbrains Mono"
@@ -88,7 +90,7 @@
                            FontWeight="Bold"
                            VerticalAlignment="Center"/>
             </StackPanel>
-        </StackPanel>
+        </Grid>
 
         <Grid Grid.Row="2"
               Margin="3 0 21 0">
