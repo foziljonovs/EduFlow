@@ -1,4 +1,5 @@
-﻿using EduFlow.DAL.Interfaces.Courses;
+﻿using EduFlow.DAL.Interfaces.Companies;
+using EduFlow.DAL.Interfaces.Courses;
 using EduFlow.DAL.Interfaces.Messages;
 using EduFlow.DAL.Interfaces.Payments;
 using EduFlow.DAL.Interfaces.Users;
@@ -20,4 +21,5 @@ public interface IUnitOfWork
     public IMessageRepository Message { get; set; }
     public IStudentCourseRepository StudentCourse { get; set; }
     public Task<int> SaveAsync(CancellationToken cancellation = default);
+    public ICompnayRepasitory Compnay {  get; set; }
 }

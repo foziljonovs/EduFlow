@@ -1,4 +1,5 @@
-﻿using EduFlow.Domain.Entities.Courses;
+﻿using EduFlow.Domain.Entities.Companies;
+using EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Messaging;
 using EduFlow.Domain.Entities.Payments;
 using EduFlow.Domain.Entities.Users;
@@ -20,4 +21,5 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Message> Messages { get; set; }
     public DbSet<StudentCourse> StudentCourses { get; set; }
+    public DbSet<Company> Companies { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EduFlow.BLL.DTOs.Companies;
 using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.DTOs.Courses.Category;
 using EduFlow.BLL.DTOs.Courses.Course;
@@ -11,6 +12,7 @@ using EduFlow.BLL.DTOs.Payments.Registry;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.BLL.DTOs.Users.User;
+using EduFlow.Domain.Entities.Companies;
 using EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Messaging;
 using EduFlow.Domain.Entities.Payments;
@@ -115,5 +117,13 @@ public class MappingProfile : Profile
         CreateMap<Registry, RegistryForResultDto>();
         CreateMap<RegistryForResultDto, Registry>();
         CreateMap<RegistryForCreateDto, Registry>();
+
+        /*--------------------------------------Company---------------------------------------*/
+
+        CreateMap<Company, CompanyForGetDto>();
+        CreateMap<CompanyForGetDto, Company>();
+        CreateMap<CompanyForUpdateDto, Company>();
+        CreateMap<CompanyForCreateDto, Company>();
+
     }
 }
