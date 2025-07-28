@@ -257,12 +257,43 @@ public class PaymentService(
             var payments = await _unitOfWork.Payment.GetAllFullInformation()
                 .Where(x => x.TeacherId == teacherId && 
                        (x.Status == PaymentStatus.Pending || x.Status == PaymentStatus.Completed))
-                .ToListAsync();
+                .ToListAsync(cancellation);
 
             if (!payments.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
 
             return _mapper.Map<IEnumerable<PaymentForResultDto>>(payments);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all payment by teacher id: {teacherId}. {ex}");
+            throw;
+        }
+    }
+
+    public async Task<PagedList<PaymentForResultDto>> GetAllPaginationByTeacherIdAsync(long teacherId, int pageSize, int pageNumber, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var payments = await _unitOfWork.Payment.GetAllFullInformation()
+                .Where(x => x.TeacherId == teacherId &&
+                    (x.Status == PaymentStatus.Pending || x.Status == PaymentStatus.Completed))
+                .ToListAsync(cancellation);
+
+            if (payments.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
+
+            var mappedPayments = payments
+                .Select(p => _mapper.Map<PaymentForResultDto>(p))
+                .ToList();
+
+            var pagedlist = new PagedList<PaymentForResultDto>(
+                mappedPayments,
+                mappedPayments.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedPayments, pageSize, pageNumber);
         }
         catch(Exception ex)
         {
