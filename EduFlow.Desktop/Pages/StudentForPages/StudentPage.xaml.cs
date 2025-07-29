@@ -210,6 +210,9 @@ public partial class StudentPage : Page
 
             foreach(var student in studentsShow)
             {
+                string activeGroupName = student.Groups.Any(x => x.IsStatus == Status.Active)
+                                        ? student.Groups.FirstOrDefault(x => x.IsStatus == Status.Active).Name : "Yo'q";
+
                 StudentForComponent component = new StudentForComponent();
                 component.Tag = student;
                 component.SetValues(
@@ -219,7 +222,7 @@ public partial class StudentPage : Page
                     student.Age,
                     student.Address,
                     student.PhoneNumber,
-                    student.Groups.Any() ? student.Groups.First(x => x.IsStatus == Status.Active).Name : "Yo'q");
+                    activeGroupName);
 
                 component.OnStudentDelete += GetAllStudent;
                 stStudents.Children.Add(component);

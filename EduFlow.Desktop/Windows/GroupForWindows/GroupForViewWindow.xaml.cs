@@ -137,8 +137,10 @@ public partial class GroupForViewWindow : Window
             DateTime now = DateTime.UtcNow.AddHours(5);
 
             var thisMonthlyIncome = payments
-                .Where(x => x.PaymentDate.Month == now.Month &&
-                       (x.Status == PaymentStatus.Pending || x.Status == PaymentStatus.Completed))
+                .Where(x => x.PaymentDate.Year == now.Year &&
+                            x.PaymentDate.Month == now.Month &&
+                           (x.Status == Domain.Enums.PaymentStatus.Pending ||
+                            x.Status == Domain.Enums.PaymentStatus.Completed))
                 .Sum(x => x.Amount);
 
             tbMonthlyIncome.Text = thisMonthlyIncome.ToString();

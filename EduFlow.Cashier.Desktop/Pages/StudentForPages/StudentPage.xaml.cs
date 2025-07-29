@@ -217,6 +217,9 @@ public partial class StudentPage : Page
 
             foreach(var student in students)
             {
+                string activeGroupName = student.Groups.Any(x => x.IsStatus == Status.Active)
+                                        ? student.Groups.FirstOrDefault(x => x.IsStatus == Status.Active).Name : "Yo'q";
+
                 StudentForSecondComponent component = new StudentForSecondComponent();
                 component.SetValues(
                     student.Id,
@@ -225,7 +228,7 @@ public partial class StudentPage : Page
                     student.Age,
                     student.Address ?? "Nomalum",
                     student.PhoneNumber,
-                    student.Groups.Any() ? student.Groups.First(x => x.IsStatus == Status.Active).Name : "Nomalum");
+                    activeGroupName);
 
                 stStudents.Children.Add(component);
                 count++;
