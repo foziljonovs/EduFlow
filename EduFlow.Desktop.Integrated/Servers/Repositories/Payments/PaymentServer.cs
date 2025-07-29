@@ -243,6 +243,40 @@ public class PaymentServer : IPaymentServer
         }
     }
 
+    public async Task<PagedResponse<PaymentForResultDto>> GetAllPaginationByTeacherIdAsync(long teacherId, int pageSize, int pageNumber)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/payments/{teacherId}/teacher/pagination?pageSize={pageSize}&pageNumber={pageNumber}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<PaymentForResultDto> payments = JsonConvert.DeserializeObject<List<PaymentForResultDto>>(result)!;
+
+            var pageNavigation = response.Headers.GetValues("X-Pagination").FirstOrDefault();
+            var pagination = JsonConvert.DeserializeObject<PaginationMetadata>(pageNavigation!);
+
+            return new PagedResponse<PaymentForResultDto>
+            {
+                Data = payments,
+                PageSize = pagination.PageSize,
+                CurrentPage = pagination.CurrentPage,
+                HasNext = pagination.HasNext,
+                HasPrevious = pagination.HasPrevious
+            };
+        }
+        catch (Exception ex)
+        {
+            return new PagedResponse<PaymentForResultDto>();
+        }
+    }
+
     public async Task<PaymentForResultDto> GetByIdAsync(long id)
     {
         try

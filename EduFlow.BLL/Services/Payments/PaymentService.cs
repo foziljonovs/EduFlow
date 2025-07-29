@@ -280,7 +280,7 @@ public class PaymentService(
                     (x.Status == PaymentStatus.Pending || x.Status == PaymentStatus.Completed))
                 .ToListAsync(cancellation);
 
-            if (payments.Any())
+            if (!payments.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
 
             var mappedPayments = payments

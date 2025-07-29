@@ -116,6 +116,19 @@ public class PaymentService : IPaymentService
         }
     }
 
+    public async Task<PagedResponse<PaymentForResultDto>> GetAllPaginationByTeacherIdAsync(long teacherId, int pageSize, int pageNumber)
+    {
+        try
+        {
+            var result = await _server.GetAllPaginationByTeacherIdAsync(teacherId, pageSize, pageNumber);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new PagedResponse<PaymentForResultDto>();
+        }
+    }
+
     public async Task<PaymentForResultDto> GetByIdAsync(long id)
     {
         try
