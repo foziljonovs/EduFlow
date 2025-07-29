@@ -15,4 +15,5 @@ public interface IPaymentServer
     Task<PagedResponse<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto, int pageSize, int pageNumber);
     Task<PagedResponse<PaymentForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber);
     Task<List<PaymentForResultDto>> GetAllByTeacherIdAsync(long teacherId);
+    Task<PagedResponse<PaymentForResultDto>> GetAllPaginationByTeacherIdAsync(long teacherId, int pageSize, int pageNumber);
 }
