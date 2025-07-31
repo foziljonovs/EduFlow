@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:EduFlow.Desktop.Windows.GroupForWindows"
         mc:Ignorable="d"
         Title="GroupForUpdateWindow"
-        Height="350"
-        Width="400"
+        Height="400"
+        Width="420"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded">
@@ -76,6 +76,82 @@
                 <ComboBoxItem Content="Saqlangan"/>
                 <ComboBoxItem Content="Yakunlangan"/>
             </ComboBox>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="0 5 0 10">
+                <TextBlock Text="Soat: "
+                           FontSize="13"
+                           Foreground="Gray"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Margin="5 0 10 0"
+                           VerticalAlignment="Center"/>
+
+                <ComboBox x:Name="hourCombobox"
+                          Width="50"
+                          FontSize="18"
+                          ToolTip="Soatni tanlang"
+                          Height="40"
+                          VerticalContentAlignment="Center"
+                          FontFamily="Jetbrains Mono"
+                          FontWeight="SemiBold">
+                    <ComboBoxItem Tag="8" Content="08" IsSelected="True"/>
+                    <ComboBoxItem Tag="9" Content="09"/>
+                    <ComboBoxItem Tag="10" Content="10"/>
+                    <ComboBoxItem Tag="11" Content="11"/>
+                    <ComboBoxItem Tag="12" Content="12"/>
+                    <ComboBoxItem Tag="13" Content="13"/>
+                    <ComboBoxItem Tag="14" Content="14"/>
+                    <ComboBoxItem Tag="15" Content="15"/>
+                    <ComboBoxItem Tag="16" Content="16"/>
+                    <ComboBoxItem Tag="17" Content="17"/>
+                    <ComboBoxItem Tag="18" Content="18"/>
+                    <ComboBoxItem Tag="19" Content="19"/>
+                    <ComboBoxItem Tag="20" Content="20"/>
+                </ComboBox>
+
+                <TextBlock Text="Daqiqa: "
+                           FontSize="13"
+                           Foreground="Gray"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Margin="10 0"
+                           VerticalAlignment="Center"/>
+
+                <ComboBox x:Name="minuteCombobox"
+                          Width="50"
+                          FontSize="18"
+                          ToolTip="Daqiqa tanlang"
+                          Height="40"
+                          VerticalContentAlignment="Center"
+                          FontFamily="Jetbrains Mono"
+                          FontWeight="SemiBold">
+                    <ComboBoxItem Tag="00" Content="00" IsSelected="True"/>
+                    <ComboBoxItem Tag="15" Content="15"/>
+                    <ComboBoxItem Tag="30" Content="30"/>
+                    <ComboBoxItem Tag="45" Content="45"/>
+                </ComboBox>
+
+                <TextBlock Text="Kunlar: "
+                           FontSize="13"
+                           FontFamily="Jetbrains Mono"
+                           Foreground="Gray"
+                           FontWeight="SemiBold"
+                           Margin="10 0"
+                           VerticalAlignment="Center"/>
+
+                <ComboBox x:Name="dayCombobox"
+                          FontSize="18"
+                          ToolTip="Kunni tanlang"
+                          FontWeight="SemiBold"
+                          VerticalContentAlignment="Center"
+                          Width="110"
+                          FontFamily="Jetbrains Mono">
+                    <ComboBoxItem Content="Farqi yo'q" Tag="0" IsSelected="True"/>
+                    <ComboBoxItem Content="DCHJ" Tag="1"/>
+                    <ComboBoxItem Content="SPSH" Tag="2"/>
+                </ComboBox>
+            </StackPanel>
 
             <Button x:Name="saveBtn"
                     Style="{DynamicResource saveButton}"

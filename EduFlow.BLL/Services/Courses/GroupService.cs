@@ -46,6 +46,7 @@ public class GroupService(
                 throw new StatusCodeException(HttpStatusCode.Gone, "This course has been deleted.");
 
             var savedCourse = _mapper.Map<Group>(dto);
+            savedCourse.PreferredTime = dto.PreferredTime;
             return await _unitOfWork.Group.AddConfirmAsync(savedCourse);
         }
         catch(Exception ex)

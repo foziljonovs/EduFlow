@@ -3,6 +3,7 @@ using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using EduFlow.Domain.Enums;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -200,7 +201,40 @@ public partial class GroupForUpdateWindow : Window
                     break;
                 }
 
-            if(IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
+            int hour = this.Group.PreferredTime.Value.Hours;
+            int minute = this.Group.PreferredTime.Value.Minutes;
+
+            foreach (ComboBoxItem hourItem in hourCombobox.Items)
+                if (hourItem.Tag is string hourTag && int.TryParse(hourTag, out int hourValue) && hourValue == hour)
+                {
+                    hourCombobox.SelectedItem = hourItem;
+                    break;
+                }
+
+            foreach (ComboBoxItem minuteItem in minuteCombobox.Items)
+                if (minuteItem.Tag is string minuteTag && int.TryParse(minuteTag, out int minuteValue) && minuteValue == minute)
+                {
+                    minuteCombobox.SelectedItem = minuteItem;
+                    break;
+                }
+
+            string preferredDayTag = this.Group.PreferredDay switch
+            {
+                Day.None => "0",
+                Day.ToqKunlar => "1",
+                Day.JuftKunlar => "2",
+                _ => "0"
+            };
+
+            foreach (ComboBoxItem item in dayCombobox.Items)
+                if (item.Tag?.ToString() == preferredDayTag)
+                {
+                    dayCombobox.SelectedItem = item;
+                    break;
+                }
+
+
+            if (IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
                 courseComboBox.IsEnabled = false;
         }
         else
@@ -279,6 +313,37 @@ public partial class GroupForUpdateWindow : Window
                 saveBtn.IsEnabled = true;
                 return;
             }
+
+            if (hourCombobox.SelectedItem is ComboBoxItem selectedHourItem &&
+                minuteCombobox.SelectedItem is ComboBoxItem selectedMinuteItem)
+            {
+                string selectedHourString = selectedHourItem.Content.ToString();
+                string selectedMinuteString = selectedMinuteItem.Content.ToString();
+
+                if (int.TryParse(selectedHourString, out int hour) &&
+                    int.TryParse(selectedMinuteString, out int minute))
+                    dto.PreferredTime = new TimeSpan(hour, minute, 0);
+                else
+                {
+                    notifierThis.ShowWarning("Iltimos, o'quv vaqti tanlanganligini tekshiring!");
+                    saveBtn.IsEnabled = true;
+                    return;
+                }
+            }
+            else
+            {
+                notifierThis.ShowWarning("Iltimos, o'quv vaqti tanlanganligini tekshiring!");
+                saveBtn.IsEnabled = true;
+                return;
+            }
+
+            if (dayCombobox.SelectedItem is ComboBoxItem selectedDay)
+                dto.PreferredDay = selectedDay.Tag.ToString() switch
+                {
+                    "0" => Day.None,
+                    "1" => Day.ToqKunlar,
+                    "2" => Day.JuftKunlar
+                };
 
             if (this.Id > 0)
             {

@@ -17,6 +17,6 @@ public class GroupForResultDto
     public TeacherForShortResultDto Teacher { get; set; }
     public List<StudentForShortResultDto> Students { get; set; }
     public Status IsStatus { get; set; }
-    public TimeOnly? PreferredTime { get; set; }
+    public TimeSpan? PreferredTime { get; set; }
     public Day PreferredDay { get; set; }
 }
