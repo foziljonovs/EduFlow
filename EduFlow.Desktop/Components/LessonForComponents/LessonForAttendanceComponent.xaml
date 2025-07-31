@@ -33,7 +33,8 @@
                     </MenuItem>
 
                     <MenuItem x:Name="mnUpdate"
-                              Header="Tahrirlash">
+                              Header="Tahrirlash"
+                              Click="mnUpdate_Click">
                         <MenuItem.Icon>
                             <materialDesign:PackIcon Kind="Pencil"
                                                      Width="16"

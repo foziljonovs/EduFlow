@@ -152,9 +152,9 @@ public class LessonService(
     {
         try
         {
-            var validationResult = await _validator.ValidateUpdate(lesson);
-            if (validationResult.IsValid)
-                throw new ValidationException(validationResult.Errors);
+            //var validationResult = await _validator.ValidateUpdate(lesson);
+            //if (validationResult.IsValid)
+            //    throw new ValidationException(validationResult.Errors);
 
             var existsLesson = await _unitOfWork.Lesson.GetAllAsync()
                 .Where(x => x.Id == id && !x.IsDeleted)
@@ -166,10 +166,12 @@ public class LessonService(
             if (existsLesson.IsDeleted)
                 throw new StatusCodeException(HttpStatusCode.Gone, "This lesson has been deleted.");
 
-            var savedLesson = _mapper.Map(lesson, existsLesson);
-            savedLesson.Id = id;
+            _mapper.Map(lesson, existsLesson);
+            existsLesson.Id = id;
+            existsLesson.UpdatedAt = DateTime.UtcNow.AddHours(5);
+            existsLesson.Date = lesson.Date.Date;
 
-            return await _unitOfWork.Lesson.UpdateAsync(savedLesson);
+            return await _unitOfWork.Lesson.UpdateAsync(existsLesson);
         }
         catch(Exception ex)
         {

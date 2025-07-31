@@ -1,0 +1,60 @@
+﻿<Window x:Class="EduFlow.Desktop.Windows.LessonForWindows.LessonForUpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EduFlow.Desktop.Windows.LessonForWindows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="LessonForUpdateWindow"
+        Height="160"
+        Width="300"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              Margin="5 0">
+            <TextBlock Text="Darsni tahrirlash"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"/>
+            
+            <RadioButton x:Name="closeBtn"
+                         Style="{DynamicResource StateButton}"
+                         Tag="close"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Center"
+                         Click="closeBtn_Click"/>
+        </Grid>
+
+        <StackPanel Grid.Row="1"
+                    Margin="5"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Dars sanasi"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       Foreground="Gray"
+                       Margin="5"/>
+
+            <DatePicker x:Name="dtDateTime"
+                        materialDesign:HintAssist.Hint="Tugash sanasini tanlang"
+                        VerticalAlignment="Center"
+                        ToolTip="Sanagacha"/>
+        </StackPanel>
+
+        <Button Grid.Row="2"
+                x:Name="saveBtn"
+                Style="{DynamicResource saveButton}"
+                Margin="5"
+                Click="saveBtn_Click"/>
+    </Grid>
+</Window>

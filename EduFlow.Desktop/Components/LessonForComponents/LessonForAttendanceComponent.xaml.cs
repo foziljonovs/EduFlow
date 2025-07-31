@@ -2,7 +2,7 @@
 using EduFlow.BLL.DTOs.Courses.Lesson;
 using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
 using EduFlow.Desktop.Windows;
-using EduFlow.Domain.Entities.Courses;
+using EduFlow.Desktop.Windows.LessonForWindows;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -185,5 +185,12 @@ public partial class LessonForAttendanceComponent : UserControl
         {
             notifierThis.ShowError("Xatolik yuz berdi, qayta urining!");
         }
+    }
+
+    private void mnUpdate_Click(object sender, RoutedEventArgs e)
+    {
+        LessonForUpdateWindow window = new LessonForUpdateWindow();
+        window.SetId(this.lesson.Id);
+        window.ShowDialog();
     }
 }
