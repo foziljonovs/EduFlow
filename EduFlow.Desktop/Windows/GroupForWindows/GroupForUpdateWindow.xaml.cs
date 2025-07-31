@@ -201,37 +201,38 @@ public partial class GroupForUpdateWindow : Window
                     break;
                 }
 
-            int hour = this.Group.PreferredTime.Value.Hour;
-            int minute = this.Group.PreferredTime.Value.Minute;
+            int hour = this.Group.PreferredTime.Value.Hours;
+            int minute = this.Group.PreferredTime.Value.Minutes;
 
             foreach (ComboBoxItem hourItem in hourCombobox.Items)
-            {
                 if (hourItem.Tag is string hourTag && int.TryParse(hourTag, out int hourValue) && hourValue == hour)
                 {
                     hourCombobox.SelectedItem = hourItem;
                     break;
                 }
-            }
 
             foreach (ComboBoxItem minuteItem in minuteCombobox.Items)
-            {
                 if (minuteItem.Tag is string minuteTag && int.TryParse(minuteTag, out int minuteValue) && minuteValue == minute)
                 {
                     minuteCombobox.SelectedItem = minuteItem;
                     break;
                 }
-            }
 
-            int day = this.Group.PreferredDay switch
+            string preferredDayTag = this.Group.PreferredDay switch
             {
-                Day.None => 0,
-                Day.ToqKunlar => 1,
-                Day.JuftKunlar => 2
+                Day.None => "0",
+                Day.ToqKunlar => "1",
+                Day.JuftKunlar => "2",
+                _ => "0"
             };
 
-            foreach (ComboBoxItem dayItem in dayCombobox.Items)
-                if(dayItem.Tag is int dayTag && dayTag == day)
-                    dayCombobox.SelectedItem = dayItem;
+            foreach (ComboBoxItem item in dayCombobox.Items)
+                if (item.Tag?.ToString() == preferredDayTag)
+                {
+                    dayCombobox.SelectedItem = item;
+                    break;
+                }
+
 
             if (IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
                 courseComboBox.IsEnabled = false;
@@ -321,10 +322,7 @@ public partial class GroupForUpdateWindow : Window
 
                 if (int.TryParse(selectedHourString, out int hour) &&
                     int.TryParse(selectedMinuteString, out int minute))
-                {
-                    TimeOnly time = new TimeOnly(hour, minute);
-                    dto.PreferredTime = time;
-                }
+                    dto.PreferredTime = new TimeSpan(hour, minute, 0);
                 else
                 {
                     notifierThis.ShowWarning("Iltimos, o'quv vaqti tanlanganligini tekshiring!");

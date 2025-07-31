@@ -11,6 +11,6 @@ public class GroupForShortResultDto
     public long CourseId { get; set; }
     public long TeacherId { get; set; }
     public Status IsStatus { get; set; }
-    public TimeOnly? PreferredTime { get; set; }
+    public TimeSpan? PreferredTime { get; set; }
     public Day PreferredDay { get; set; }
 }

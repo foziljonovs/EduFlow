@@ -27,9 +27,9 @@ public class GroupService(
     {
         try
         {
-            //var validationResult = await _validator.ValidateCreate(dto);
-            //if (!validationResult.IsValid)
-            //    throw new ValidationException(validationResult.Errors);
+            var validationResult = await _validator.ValidateCreate(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
 
             var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
             if(existsCourse is null)
@@ -46,6 +46,7 @@ public class GroupService(
                 throw new StatusCodeException(HttpStatusCode.Gone, "This course has been deleted.");
 
             var savedCourse = _mapper.Map<Group>(dto);
+            savedCourse.PreferredTime = dto.PreferredTime;
             return await _unitOfWork.Group.AddConfirmAsync(savedCourse);
         }
         catch(Exception ex)
@@ -342,9 +343,9 @@ public class GroupService(
     {
         try
         {
-            //var validationResult = await _validator.ValidateUpdate(dto);
-            //if (!validationResult.IsValid)
-            //    throw new ValidationException(validationResult.Errors);
+            var validationResult = await _validator.ValidateUpdate(dto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
 
             var group = await _unitOfWork.Group.GetAllAsync()
                 .Where(x => x.IsDeleted == false && x.Id == id)

@@ -23,7 +23,7 @@ public class Group : BaseEntity
     [Column("status")]
     public Status IsStatus { get; set; }
     [Column("preferred_time")]
-    public TimeOnly? PreferredTime { get; set; }
+    public TimeSpan? PreferredTime { get; set; }
     [Column("preferred_days")]
     public Day PreferredDay { get; set; }
 }

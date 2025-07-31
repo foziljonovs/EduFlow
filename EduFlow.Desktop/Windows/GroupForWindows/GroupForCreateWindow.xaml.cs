@@ -174,10 +174,7 @@ public partial class GroupForCreateWindow : Window
 
                 if (int.TryParse(selectedHourString, out int hour) &&
                     int.TryParse(selectedMinuteString, out int minute))
-                {
-                    TimeOnly time = new TimeOnly(hour, minute);
-                    dto.PreferredTime = time;
-                }
+                    dto.PreferredTime = new TimeSpan(hour, minute, 0);
                 else
                 {
                     notifierThis.ShowWarning("Iltimos, o'quv vaqti tanlanganligini tekshiring!");
