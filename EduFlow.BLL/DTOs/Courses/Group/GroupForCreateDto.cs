@@ -1,4 +1,5 @@
 ﻿using EduFlow.Domain.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduFlow.BLL.DTOs.Courses.Group;
 
@@ -8,4 +9,6 @@ public class GroupForCreateDto
     public long CourseId { get; set; }
     public long TeacherId { get; set; }
     public Status IsStatus { get; set; }
+    public TimeOnly? PreferredTime { get; set; }
+    public Day PreferredDay { get; set; }
 }
