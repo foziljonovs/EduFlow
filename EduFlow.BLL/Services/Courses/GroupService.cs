@@ -27,9 +27,9 @@ public class GroupService(
     {
         try
         {
-            var validationResult = await _validator.ValidateCreate(dto);
-            if (!validationResult.IsValid)
-                throw new ValidationException(validationResult.Errors);
+            //var validationResult = await _validator.ValidateCreate(dto);
+            //if (!validationResult.IsValid)
+            //    throw new ValidationException(validationResult.Errors);
 
             var existsCourse = await _unitOfWork.Course.GetAsync(dto.CourseId);
             if(existsCourse is null)
@@ -342,9 +342,9 @@ public class GroupService(
     {
         try
         {
-            var validationResult = await _validator.ValidateUpdate(dto);
-            if (!validationResult.IsValid)
-                throw new ValidationException(validationResult.Errors);
+            //var validationResult = await _validator.ValidateUpdate(dto);
+            //if (!validationResult.IsValid)
+            //    throw new ValidationException(validationResult.Errors);
 
             var group = await _unitOfWork.Group.GetAllAsync()
                 .Where(x => x.IsDeleted == false && x.Id == id)
