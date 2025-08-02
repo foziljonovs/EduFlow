@@ -18,6 +18,7 @@
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
@@ -65,16 +66,25 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
 
-            <TextBlock Grid.Column="5"
-                       x:Name="tbStartedDate"
-                       Text="2025-04-11"
+            <TextBlock x:Name="tbTime"
+                       Grid.Column="5"
+                       Text="08:00"
                        FontSize="14"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
 
-            <StackPanel Grid.Column="6"
+            <TextBlock x:Name="tbDay"
+                       Grid.Column="6"
+                       Text="Toq kunlar"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <StackPanel Grid.Column="7"
                         Orientation="Horizontal"
                         HorizontalAlignment="Right">
                 <Button x:Name="ViewButton"

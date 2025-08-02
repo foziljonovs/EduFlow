@@ -293,7 +293,8 @@ public partial class MainPage : Page
                     group.Id,
                     group.Name,
                     group.Students?.Count ?? 0,
-                    group.CreatedAt);
+                    group.PreferredTime ?? TimeSpan.Zero,
+                    group.PreferredDay);
 
                 if (_teacher is not null)
                     component.OnGroupView += GetAllGroupByTeacherId;

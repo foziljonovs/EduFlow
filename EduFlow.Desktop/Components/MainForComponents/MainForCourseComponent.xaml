@@ -16,7 +16,8 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
 
@@ -45,16 +46,25 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
 
-            <TextBlock x:Name="tbStartedDate"
+            <TextBlock x:Name="tbTime"
                        Grid.Column="3"
-                       Text="16-03-2024"
+                       Text="08:00"
                        FontSize="14"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
-            <StackPanel Grid.Column="4"
+            <TextBlock x:Name="tbDay"
+                       Grid.Column="4"
+                       Text="Toq kunlar"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <StackPanel Grid.Column="5"
                         Orientation="Horizontal">
                 <Button x:Name="ViewButton"
                         Style="{DynamicResource CrudButton}"

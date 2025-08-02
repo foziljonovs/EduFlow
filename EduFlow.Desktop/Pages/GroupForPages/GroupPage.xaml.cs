@@ -204,7 +204,8 @@ public partial class GroupPage : Page
                     item.Course.Name,
                     item.Students.Count,
                     item.IsStatus,
-                    item.CreatedAt);
+                    item.PreferredTime ?? TimeSpan.Zero,
+                    item.PreferredDay);
 
                 if (_teacher is not null)
                     component.OnGroupView += GetAllGroupByTeacherId;

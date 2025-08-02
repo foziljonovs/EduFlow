@@ -176,12 +176,13 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0"
-                      Margin="3 0 18 0">
+                      Margin="3 0 21 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="120"/>
                     </Grid.ColumnDefinitions>
 
@@ -209,14 +210,22 @@
                                VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Column="3"
-                               Text="Boshlangan sana"
+                               Text="Vaqti"
                                FontSize="12"
                                FontFamily="Jetbrains Mono"
                                FontWeight="ExtraBold"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
 
-                <Button Grid.Column="4"
+                <TextBlock Grid.Column="4"
+                           Text="Kuni"
+                           FontSize="12"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="ExtraBold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+
+                <Button Grid.Column="5"
                         x:Name="createGroupBtn"
                         Style="{DynamicResource CrudButton}"
                         Tag="add"

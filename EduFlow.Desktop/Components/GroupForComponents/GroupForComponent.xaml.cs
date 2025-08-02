@@ -41,7 +41,7 @@ public partial class GroupForComponent : UserControl
         cfg.Dispatcher = Application.Current.Dispatcher;
     });
 
-    public void setValues(long id, int number, string name, string courseName, int studentCount, Status status, DateTime startedDate)
+    public void setValues(long id, int number, string name, string courseName, int studentCount, Status status, TimeSpan preferredTime, Day preferredDay)
     {
         Id = id;
         tbNumber.Text = number.ToString();
@@ -56,7 +56,14 @@ public partial class GroupForComponent : UserControl
         };
 
         tbStatus.Text = groupStatus;
-        tbStartedDate.Text = startedDate.ToString("dd/MM/yyyy");
+        tbTime.Text = preferredTime.ToString(@"hh\:mm");
+        tbDay.Text = preferredDay switch
+        {
+            Day.None => "Belgilanmagan",
+            Day.ToqKunlar => "Toq kunlar",
+            Day.JuftKunlar => "Juft kunlar",
+            _ => "Belgilanmagan"
+        };
     }
 
     private async void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)

@@ -2,6 +2,7 @@
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Windows;
 using EduFlow.Desktop.Windows.GroupForWindows;
+using EduFlow.Domain.Enums;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -40,13 +41,20 @@ public partial class MainForCourseComponent : UserControl
         cfg.Dispatcher = Application.Current.Dispatcher;
     });
 
-    public void SetValues(int number, long id, string name, int studentCount, DateTime startedDate)
+    public void SetValues(int number, long id, string name, int studentCount, TimeSpan preferredTime, Day preferredDay)
     {
         this.Id = id;
         tbNumber.Text = number.ToString();
         tbName.Text = name;
         tbStudentCount.Text = studentCount.ToString();
-        tbStartedDate.Text = startedDate.ToString("dd/MM/yyyy");
+        tbTime.Text = preferredTime.ToString(@"hh\:mm");
+        tbDay.Text = preferredDay switch
+        {
+            Day.None => "Belgilanmagan",
+            Day.ToqKunlar => "Toq kunlar",
+            Day.JuftKunlar => "Juft kunlar",
+            _ => "Belgilanmagan"
+        };
     }
 
     private async void ViewButton_Click(object sender, System.Windows.RoutedEventArgs e)
