@@ -1,4 +1,5 @@
 ﻿using EduFlow.Domain.Entities.Base;
+using EduFlow.Domain.Entities.Companies;
 using EduFlow.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,4 +22,7 @@ public class User : BaseEntity
     public UserRole Role { get; set; }
     [Column("salt")]
     public string Salt { get; set; }
+    [Column("company_id")]
+    public required long CompanyId { get; set; }
+    public Company Company { get; set; }
 }

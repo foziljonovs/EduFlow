@@ -1,4 +1,5 @@
 ﻿using EduFlow.Domain.Entities.Base;
+using EduFlow.Domain.Entities.Companies;
 using EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
@@ -34,4 +35,7 @@ public class Payment : BaseEntity
     public string? ReceiptNumber { get; set; }
     [Column("notes")]
     public string? Notes { get; set; }
+    [Column("company_id")]
+    public required long CompanyId { get; set; }
+    public Company Company { get; set; }
 }

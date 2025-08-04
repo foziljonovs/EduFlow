@@ -1,4 +1,5 @@
 ﻿using EduFlow.Domain.Entities.Base;
+using EduFlow.Domain.Entities.Companies;
 using EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Users;
 using System.ComponentModel.DataAnnotations;
@@ -18,4 +19,7 @@ public class Message : BaseEntity
     public required string Text { get; set; }
     [Column("phone_number"), MaxLength(13)]
     public string PhoneNumber { get; set; }
+    [Column("company_id")]
+    public required long CompanyId { get; set; }
+    public Company Company { get; set; }
 }

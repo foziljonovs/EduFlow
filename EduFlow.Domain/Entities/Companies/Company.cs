@@ -18,18 +18,18 @@ public class Company : BaseEntity
     [Column("phone_number")]
     public required string PhoneNumber { get; set; }
     [Column("logo_id")]
-    public long? LogoId { get; set; }
-    public Logo? Logo { get; set; }
-    [Column("subcription_id")]
-    public required long CompanySubscriptionId { get; set; }
-    public CompanySubscription CompanySubscription { get; set; }
+    public required long LogoId { get; set; }
+    public Logo Logo { get; set; }
+    public List<CompanySubscription> Subscriptions { get; set; } = new List<CompanySubscription>();
     public List<User> Users { get; set; } = new List<User>();
     public List<Course> Courses { get; set; } = new List<Course>();
     public List<Group> Groups { get; set; } = new List<Group>();
     public List<Category> Categories { get; set; } = new List<Category>();
     public List<Teacher> Teachers { get; set; } = new List<Teacher>();
     public List<Student> Students { get; set; } = new List<Student>();
-    public List<Registry> Registries { get; set; } = new List<Registry>();
+    [Column("registry_id")]
+    public long RegistryId { get; set; }
+    public Registry Registry { get; set; }
     public List<Payment> Payments { get; set; } = new List<Payment>();
     public List<Message> Messages { get; set; } = new List<Message>();
 }
