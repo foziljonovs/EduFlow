@@ -1,4 +1,5 @@
 ﻿using EduFlow.Domain.Entities.Base;
+using EduFlow.Domain.Entities.Companies;
 using EduFlow.Domain.Entities.Payments;
 using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
@@ -26,4 +27,7 @@ public class Group : BaseEntity
     public TimeSpan? PreferredTime { get; set; }
     [Column("preferred_days")]
     public Day PreferredDay { get; set; }
+    [Column("company_id")]
+    public required long CompanyId { get; set; }
+    public Company Company { get; set; }
 }

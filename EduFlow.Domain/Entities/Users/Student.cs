@@ -1,4 +1,5 @@
 ﻿using EduFlow.Domain.Entities.Base;
+using EduFlow.Domain.Entities.Companies;
 using EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Payments;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,9 @@ public class Student : BaseEntity
     public string? Address { get; set; }
     [Column("phone_number")]
     public required string PhoneNumber { get; set; }
+    [Column("company_id")]
+    public required long CompanyId { get; set; }
+    public Company Company { get; set; }
     public List<StudentCourse> StudentCourses { get; set; } = new List<StudentCourse>();
     public List<Payment> Payments { get; set; } = new List<Payment>();
     public List<Group> Groups { get; set; } = new List<Group>();
