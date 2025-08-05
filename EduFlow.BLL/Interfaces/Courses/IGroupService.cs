@@ -16,4 +16,5 @@ public interface IGroupService
     Task<bool> AddStudentsToGroupAsync(long id, List<long> students, CancellationToken cancellationToken = default);
     Task<bool> DeleteForStudentAsync(long id, long studentId, CancellationToken cancellationToken = default);
     Task<PagedList<GroupForResultDto>> GetAllPaginationByTeacherIdAsync(long teacherId, int pageSize, int pageNumber, CancellationToken cancellationToken = default);
+    Task<PagedList<GroupForResultDto>> GetAllPaginationByCompanyIdAsync(long companyId, int pageSize, int pageNumber, CancellationToken cancellationToken = default);
 }

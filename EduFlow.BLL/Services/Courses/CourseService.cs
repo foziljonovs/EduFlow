@@ -150,6 +150,27 @@ public class CourseService(
         }
     }
 
+    public async Task<IEnumerable<CourseForResultDto>> GetAllByCompanyIdAsync(long companyId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var courses = await _unitOfWork.Course
+                .GetAllFullInformation()
+                .Where(x => x.CompanyId == companyId)
+                .ToListAsync(cancellationToken);
+
+            if (!courses.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Courses not found.");
+
+            return _mapper.Map<IEnumerable<CourseForResultDto>>(courses);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all course by company id: {companyId}. {ex}");
+            throw;
+        }
+    }
+
     public async Task<IEnumerable<CourseForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellationToken = default)
     {
         try
