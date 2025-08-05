@@ -1,9 +1,11 @@
 ﻿using EduFlow.DAL.Data;
 using EduFlow.DAL.Interfaces;
+using EduFlow.DAL.Interfaces.Companies;
 using EduFlow.DAL.Interfaces.Courses;
 using EduFlow.DAL.Interfaces.Messages;
 using EduFlow.DAL.Interfaces.Payments;
 using EduFlow.DAL.Interfaces.Users;
+using EduFlow.DAL.Repositories.Companies;
 using EduFlow.DAL.Repositories.Courses;
 using EduFlow.DAL.Repositories.Messages;
 using EduFlow.DAL.Repositories.Payments;
@@ -25,6 +27,9 @@ public class UnitOfWork(AppDbContext context) : IUnitOfWork, IDisposable
     public IMessageRepository Message { get; set; } = new MessageRepository(context);
     public IGroupRepository Group { get; set; } = new GroupRepository(context);
     public IStudentCourseRepository StudentCourse { get; set; } = new StudentCourseRepository(context);
+    public ICompanyRepository Company { get; set; } = new CompanyRepository(context);
+    public ICompanySubscriptionRepository CompanySubscription { get; set; } = new CompanySubscriptionRepository(context);
+    public ILogoRepository Logo { get; set; } = new LogoRepository(context);
 
     public void Dispose()
         => GC.SuppressFinalize(this);

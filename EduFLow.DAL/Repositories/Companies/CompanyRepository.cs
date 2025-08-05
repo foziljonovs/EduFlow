@@ -18,5 +18,6 @@ public class CompanyRepository : Repository<Company>, ICompanyRepository
     public IQueryable<Company> GetAllFullInformation()
         => _dbSet
             .Where(x => !x.IsDeleted)
-            .Include(x => x.Logo);
+            .Include(x => x.Registries)
+            .Include(x => x.Subscriptions);
 }
