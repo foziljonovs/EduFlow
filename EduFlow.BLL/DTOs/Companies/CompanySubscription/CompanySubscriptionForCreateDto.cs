@@ -1,0 +1,12 @@
+﻿using EduFlow.Domain.Enums;
+
+namespace EduFlow.BLL.DTOs.Companies.CompanySubscription;
+
+public class CompanySubscriptionForCreateDto
+{
+    public long CompanyId { get; set; }
+    public SubscriptionType Type { get; set; }
+    public bool IsPaid { get; set; }
+    public DateTime? SubcriptionDate { get; set; }
+    public bool IsActive { get; set; }
+}

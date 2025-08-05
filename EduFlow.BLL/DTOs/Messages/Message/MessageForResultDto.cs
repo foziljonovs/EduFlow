@@ -14,4 +14,5 @@ public class MessageForResultDto
     public Group Group { get; set; }
     public string Text { get; set; }
     public string PhoneNumber { get; set; }
+    public long CompanyId { get; set; }
 }

@@ -9,4 +9,5 @@ public class CourseForUpdateDto
     public byte Term { get; set; }
     public Status Archived { get; set; }
     public long CategoryId { get; set; }
+    public long CompanyId { get; set; }
 }

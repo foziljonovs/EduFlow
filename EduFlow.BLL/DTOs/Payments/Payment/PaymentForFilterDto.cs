@@ -10,4 +10,5 @@ public class PaymentForFilterDto
     public long? TeacherId { get; set; }
     public PaymentStatus? Status { get; set; }
     public PaymentType? Type { get; set; }
+    public long CompanyId { get; set; }
 }

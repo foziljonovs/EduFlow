@@ -10,4 +10,5 @@ public class GroupForFilterDto
     public long? TeacherId { get; set; }
     public long? CategoryId { get; set; }
     public Status? IsStatus { get; set; }
+    public long CompanyId { get; set; }
 }

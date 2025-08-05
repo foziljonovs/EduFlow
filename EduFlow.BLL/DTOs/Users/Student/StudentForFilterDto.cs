@@ -8,4 +8,5 @@ public class StudentForFilterDto
     public DateTime? FinishedDate { get; set; }
     public long? CourseId { get; set; }
     public EnrollmentStatus? CourseStatus { get; set; }
+    public long CompanyId { get; set; }
 }

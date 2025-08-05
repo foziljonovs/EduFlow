@@ -24,4 +24,5 @@ public class PaymentForResultDto
     public PaymentType Type { get; set; }
     public string? ReceiptNumber { get; set; }
     public string? Notes { get; set; }
+    public long CompanyId { get; set; }
 }

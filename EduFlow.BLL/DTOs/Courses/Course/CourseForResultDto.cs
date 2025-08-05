@@ -18,4 +18,5 @@ public class CourseForResultDto
     public CategoryForShortResultDto Category { get; set; }
     public List<TeacherForShortResultDto> Teachers { get; set; }
     public List<GroupForShortResultDto> Groups { get; set; }
+    public long CompanyId { get; set; }
 }

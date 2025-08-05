@@ -13,6 +13,7 @@ public class StudentForResultDto
     public int Age { get; set; }
     public string? Address { get; set; }
     public string PhoneNumber { get; set; }
+    public long CompanyId { get; set; }
     public List<StudentCourseForResultDto> StudentCourses { get; set; }
     public List<PaymentForShortResultDto> Payments { get; set; }
     public List<GroupForShortResultDto> Groups { get; set; }

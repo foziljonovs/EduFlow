@@ -15,4 +15,5 @@ public class TeacherForResultDto
     public long CourseId { get; set; }
     public CourseForShortResultDto Course { get; set; }
     public List<GroupForShortResultDto> Groups { get; set; }
+    public long CompanyId { get; set; }
 }

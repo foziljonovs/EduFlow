@@ -16,4 +16,7 @@ public class Registry : BaseEntity
     [Column("description")]
     public string? Description { get; set; }
     public bool IsConfirmed { get; set; } = false;
+    [Column("company_id")]
+    public required long CompanyId { get; set; }
+    public Company Company { get; set; }
 }

@@ -6,4 +6,5 @@ public class CategoryForUpdateDto
 {
     public string Name { get; set; }
     public Status Status { get; set; }
+    public long CompanyId { get; set; }
 }
