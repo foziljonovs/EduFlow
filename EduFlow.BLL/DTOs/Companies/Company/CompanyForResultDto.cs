@@ -15,7 +15,6 @@ public class CompanyForResultDto
     public string PhoneNumber { get; set; }
     public long LogoId { get; set; }
     public LogoForResultDto Logo { get; set; }
-    public long RegistryId { get; set; }
-    public RegistryForResultDto Registry { get; set; }
+    public List<RegistryForResultDto> Registries { get; set; }
     public List<CompanySubscriptionForShortResultDto> Subscriptions { get; set; }
 }

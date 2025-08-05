@@ -27,9 +27,7 @@ public class Company : BaseEntity
     public List<Category> Categories { get; set; } = new List<Category>();
     public List<Teacher> Teachers { get; set; } = new List<Teacher>();
     public List<Student> Students { get; set; } = new List<Student>();
-    [Column("registry_id")]
-    public long RegistryId { get; set; }
-    public Registry Registry { get; set; }
+    public List<Registry> Registries { get; set; } = new List<Registry>();
     public List<Payment> Payments { get; set; } = new List<Payment>();
     public List<Message> Messages { get; set; } = new List<Message>();
 }

@@ -7,5 +7,4 @@ public class CompanyForCreateDto
     public string? About { get; set; }
     public string PhoneNumber { get; set; }
     public long LogoId { get; set; }
-    public long RegistryId { get; set; }
 }
