@@ -288,6 +288,37 @@ public class GroupService(
         }
     }
 
+    public async Task<PagedList<GroupForResultDto>> GetAllPaginationByCompanyIdAsync(long companyId, int pageSize, int pageNumber, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var groups = await _unitOfWork.Group
+                .GetAllFullInformation()
+                .Where(x => x.CompanyId == companyId)
+                .ToListAsync(cancellationToken);
+
+            if (!groups.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Groups not found.");
+
+            var mappedGroups = groups
+                .Select(g => _mapper.Map<GroupForResultDto>(g))
+                .ToList();
+
+            var pagedList = new PagedList<GroupForResultDto>(
+                mappedGroups,
+                mappedGroups.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedList.ToPagedList(mappedGroups, pageSize, pageNumber);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all group with pagination by company id: {companyId}. {ex}");
+            throw;
+        }
+    }
+
     public async Task<PagedList<GroupForResultDto>> GetAllPaginationByTeacherIdAsync(long teacherId, int pageSize, int pageNumber, CancellationToken cancellationToken = default)
     {
         try

@@ -19,7 +19,8 @@ public class TokenService(IConfiguration configuration) : ITokenService
             new Claim(ClaimTypes.Name, user.Firstname + " " + user.Lastname),
             new Claim("PhoneNumber", user.PhoneNumber),
             new Claim("Age", user.Age.ToString()),
-            new Claim(ClaimTypes.Role, user.Role.ToString())
+            new Claim(ClaimTypes.Role, user.Role.ToString()),
+            new Claim("CompanyId", user.CompanyId.ToString())
         };
 
         var secutiryKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Secret"]));

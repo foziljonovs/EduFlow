@@ -78,6 +78,27 @@ public class CategoryService(
         }
     }
 
+    public async Task<IEnumerable<CategoryForResultDto>> GetAllByCompanyIdAsync(long companyId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var categories = await _unitOfWork.Category
+                .GetAllFullInformation()
+                .Where(x => x.CompanyId == companyId)
+                .ToListAsync(cancellationToken);
+
+            if (!categories.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Categories not found.");
+
+            return _mapper.Map<IEnumerable<CategoryForResultDto>>(categories);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all category by company id: {companyId}. {ex}");
+            throw;
+        }
+    }
+
     public async Task<CategoryForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
         try

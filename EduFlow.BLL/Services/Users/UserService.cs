@@ -155,7 +155,10 @@ public class UserService(
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var user = await _unitOfWork.User.GetAllAsync().FirstOrDefaultAsync(x => x.PhoneNumber == dto.PhoneNumber);
+            var user = await _unitOfWork.User
+                .GetAllAsync()
+                .FirstOrDefaultAsync(x => x.PhoneNumber == dto.PhoneNumber);
+
             if (user is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "User not found.");
 

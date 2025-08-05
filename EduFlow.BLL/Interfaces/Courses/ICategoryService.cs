@@ -9,4 +9,5 @@ public interface ICategoryService
     Task<bool> AddAsync(CategoryForCraeteDto dto, CancellationToken cancellationToken = default);
     Task<bool> UpdateAsync(long id, CategoryForUpdateDto dto, CancellationToken cancellationToken = default);
     Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default);
+    Task<IEnumerable<CategoryForResultDto>> GetAllByCompanyIdAsync(long companyId, CancellationToken cancellationToken = default);
 }

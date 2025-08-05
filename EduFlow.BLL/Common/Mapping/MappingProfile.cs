@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using EduFlow.BLL.DTOs.Companies.Company;
+using EduFlow.BLL.DTOs.Companies.CompanySubscription;
+using EduFlow.BLL.DTOs.Companies.Logo;
 using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.DTOs.Courses.Category;
 using EduFlow.BLL.DTOs.Courses.Course;
@@ -11,6 +14,7 @@ using EduFlow.BLL.DTOs.Payments.Registry;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.BLL.DTOs.Users.User;
+using EduFlow.Domain.Entities.Companies;
 using EduFlow.Domain.Entities.Courses;
 using EduFlow.Domain.Entities.Messaging;
 using EduFlow.Domain.Entities.Payments;
@@ -115,5 +119,23 @@ public class MappingProfile : Profile
         CreateMap<Registry, RegistryForResultDto>();
         CreateMap<RegistryForResultDto, Registry>();
         CreateMap<RegistryForCreateDto, Registry>();
+
+        /*--------------------------------------Company----------------------------------------*/
+        CreateMap<Company, CompanyForResultDto>();
+        CreateMap<CompanyForResultDto, Company>();
+        CreateMap<Company, CompanyForCreateDto>();
+        CreateMap<Company, CompanyForUpdateDto>();
+
+        /*--------------------------------------CompanySubscription----------------------------*/
+        CreateMap<CompanySubscription, CompanySubscriptionForResultDto>();
+        CreateMap<CompanySubscriptionForResultDto, CompanySubscription>();
+        CreateMap<CompanySubscription, CompanySubscriptionForCreateDto>();
+        CreateMap<CompanySubscription, CompanySubscriptionForUpdateDto>();
+
+        /*--------------------------------------Logo-------------------------------------------*/
+        CreateMap<Logo, LogoForResultDto>();
+        CreateMap<LogoForResultDto, Logo>();
+        CreateMap<Logo, LogoForCreateDto>();
+        CreateMap<Logo, LogoForUpdateDto>();
     }
 }
