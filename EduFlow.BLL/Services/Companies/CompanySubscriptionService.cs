@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EduFlow.BLL.Common.Validators.Companies.Interfaces;
 using EduFlow.BLL.DTOs.Companies.CompanySubscription;
 using EduFlow.BLL.Interfaces.Companies;
 using EduFlow.DAL.Interfaces;
@@ -9,11 +10,13 @@ namespace EduFlow.BLL.Services.Companies;
 public class CompanySubscriptionService(
     IUnitOfWork unitOfWork,
     IMapper mapper,
-    ILogger<CompanySubscriptionService> logger) : ICompanySubscriptionService
+    ILogger<CompanySubscriptionService> logger,
+    ICompanySubscriptionValidator validator) : ICompanySubscriptionService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly ILogger<CompanySubscriptionService> _logger = logger;
+    private readonly ICompanySubscriptionValidator _validator = validator;
     public Task<bool> AddAsync(CompanySubscriptionForCreateDto dto, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
