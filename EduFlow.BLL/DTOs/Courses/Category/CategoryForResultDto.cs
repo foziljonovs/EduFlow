@@ -11,4 +11,5 @@ public class CategoryForResultDto
     public string Name { get; set; }
     public Status Status { get; set; }
     public List<CourseForShortResultDto> Courses { get; set; }
+    public long CompanyId { get; set; }
 }

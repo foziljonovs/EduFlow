@@ -15,4 +15,5 @@ public class PaymentForShortResultDto
     public PaymentStatus Status { get; set; }
     public PaymentType Type { get; set; }
     public string? ReceiptNumber { get; set; }
+    public long CompanyId { get; set; }
 }

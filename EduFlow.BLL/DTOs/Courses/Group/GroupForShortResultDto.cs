@@ -13,4 +13,5 @@ public class GroupForShortResultDto
     public Status IsStatus { get; set; }
     public TimeSpan? PreferredTime { get; set; }
     public Day PreferredDay { get; set; }
+    public long CompanyId { get; set; }
 }

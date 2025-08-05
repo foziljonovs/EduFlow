@@ -3,4 +3,5 @@
 public class CategoryForCraeteDto
 {
     public string Name { get; set; }
+    public long CompanyId { get; set; }
 }

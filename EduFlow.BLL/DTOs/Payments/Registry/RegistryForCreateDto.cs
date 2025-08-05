@@ -9,4 +9,5 @@ public class RegistryForCreateDto
     public PaymentType Type { get; set; }
     public string? Description { get; set; }
     public bool IsConfirmed { get; set; }
+    public long CompanyId { get; set; }
 }

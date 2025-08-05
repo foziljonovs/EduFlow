@@ -9,4 +9,5 @@ public class CategoryForShortResultDto
     public DateTime UpdatedAt { get; set; }
     public string Name { get; set; }
     public Status Status { get; set; }
+    public long CompanyId { get; set; }
 }

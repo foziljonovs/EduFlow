@@ -11,4 +11,5 @@ public class RegistryForResultDto
     public double Credit { get; set; }
     public PaymentType Type { get; set; }
     public string? Description { get; set; }
+    public long CompanyId { get; set; }
 }

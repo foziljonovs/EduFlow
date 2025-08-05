@@ -5,4 +5,5 @@ public class TeacherForUpdateDto
     public string[] Skills { get; set; }
     public long UserId { get; set; }
     public long CourseId { get; set; }
+    public long CompanyId { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using EduFlow.Domain.Enums;
+﻿using EduFlow.BLL.DTOs.Companies.Company;
+using EduFlow.Domain.Enums;
 
 namespace EduFlow.BLL.DTOs.Users.User;
 
@@ -13,4 +14,5 @@ public class UserForResultDto
     public DateTime UpdatedAt { get; set; }
     public int Age { get; set; }
     public UserRole Role { get; set; }
+    public long CompanyId { get; set; }
 }
