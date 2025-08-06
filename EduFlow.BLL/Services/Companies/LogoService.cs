@@ -114,5 +114,10 @@ public class LogoService(
 
             return await _unitOfWork.Logo.UpdateAsync(logo);
         }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while update the logo by id: {id}. {ex}");
+            throw;
+        }
     }
 }
