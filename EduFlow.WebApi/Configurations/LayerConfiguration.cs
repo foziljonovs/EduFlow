@@ -1,4 +1,9 @@
-﻿using EduFlow.BLL.Common.Validators.Courses.Attendance;
+﻿using EduFlow.BLL.Common.Validators.Companies.Company;
+using EduFlow.BLL.Common.Validators.Companies.CompanySubscription;
+using EduFlow.BLL.Common.Validators.Companies.Interfaces;
+using EduFlow.BLL.Common.Validators.Companies.Logo;
+using EduFlow.BLL.Common.Validators.Companies.Services;
+using EduFlow.BLL.Common.Validators.Courses.Attendance;
 using EduFlow.BLL.Common.Validators.Courses.Course;
 using EduFlow.BLL.Common.Validators.Courses.Group;
 using EduFlow.BLL.Common.Validators.Courses.Interface;
@@ -18,6 +23,9 @@ using EduFlow.BLL.Common.Validators.Users.Services;
 using EduFlow.BLL.Common.Validators.Users.Student;
 using EduFlow.BLL.Common.Validators.Users.Teacher;
 using EduFlow.BLL.Common.Validators.Users.User;
+using EduFlow.BLL.DTOs.Companies.Company;
+using EduFlow.BLL.DTOs.Companies.CompanySubscription;
+using EduFlow.BLL.DTOs.Companies.Logo;
 using EduFlow.BLL.DTOs.Courses.Attendance;
 using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.BLL.DTOs.Courses.Group;
@@ -30,22 +38,26 @@ using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.BLL.DTOs.Users.User;
 using EduFlow.BLL.Interfaces.Auth;
+using EduFlow.BLL.Interfaces.Companies;
 using EduFlow.BLL.Interfaces.Courses;
 using EduFlow.BLL.Interfaces.Messaging;
 using EduFlow.BLL.Interfaces.Payments;
 using EduFlow.BLL.Interfaces.Users;
 using EduFlow.BLL.Services.Auth;
+using EduFlow.BLL.Services.Companies;
 using EduFlow.BLL.Services.Courses;
 using EduFlow.BLL.Services.Messaging;
 using EduFlow.BLL.Services.Payments;
 using EduFlow.BLL.Services.Users;
 using EduFlow.DAL.Data;
 using EduFlow.DAL.Interfaces;
+using EduFlow.DAL.Interfaces.Companies;
 using EduFlow.DAL.Interfaces.Courses;
 using EduFlow.DAL.Interfaces.Messages;
 using EduFlow.DAL.Interfaces.Payments;
 using EduFlow.DAL.Interfaces.Users;
 using EduFlow.DAL.Repositories;
+using EduFlow.DAL.Repositories.Companies;
 using EduFlow.DAL.Repositories.Courses;
 using EduFlow.DAL.Repositories.Messages;
 using EduFlow.DAL.Repositories.Payments;
@@ -105,6 +117,10 @@ public static class LayerConfiguration
 
         services.AddScoped<IMessageRepository, MessageRepository>();
 
+        services.AddScoped<ICompanyRepository, CompanyRepository>();
+        services.AddScoped<ILogoRepository, LogoRepository>();
+        services.AddScoped<ICompanySubscriptionRepository, CompanySubscriptionRepository>();
+
         return services;
     }
 
@@ -128,6 +144,10 @@ public static class LayerConfiguration
 
         services.AddScoped<IMessageService, MessageService>();
 
+        services.AddScoped<ICompanyService, CompanyService>();
+        services.AddScoped<ILogoService, LogoService>();
+        services.AddScoped<ICompanySubscriptionService, CompanySubscriptionService>();
+
         return services;
     }
 
@@ -148,6 +168,10 @@ public static class LayerConfiguration
         services.AddTransient<IRegistryValidator, RegistryValidator>();
 
         services.AddTransient<IMessageValidator, MessageValidator>();
+
+        services.AddTransient<ICompanyValidator, CompanyValidator>();
+        services.AddTransient<ILogoValidator, LogoValidator>();
+        services.AddTransient<ICompanySubscriptionValidator, CompanySubscriptionValidator>();
 
         return services;
     }
@@ -188,6 +212,15 @@ public static class LayerConfiguration
         services.AddTransient<IValidator<RegistryForUpdateDto>, RegistryForUpdateValidator>();
 
         services.AddTransient<IValidator<MessageForCreateDto>, MessageForCreateValidator>();
+
+        services.AddTransient<IValidator<CompanyForCreateDto>, CompanyForCreateValidator>();
+        services.AddTransient<IValidator<CompanyForUpdateDto>, CompanyForUpdateValidator>();
+
+        services.AddTransient<IValidator<LogoForCreateDto>, LogoForCreateValidator>();
+        services.AddTransient<IValidator<LogoForUpdateDto>, LogoForUpdateValidator>();
+
+        services.AddTransient<IValidator<CompanySubscriptionForCreateDto>, CompanySubscriptionForCreateValidator>();
+        services.AddTransient<IValidator<CompanySubscriptionForUpdateDto>, CompanySubscriptionForUpdateValidator>();
 
         return services;
     }
