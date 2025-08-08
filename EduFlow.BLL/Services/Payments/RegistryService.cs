@@ -103,6 +103,27 @@ public class RegistryService(
         }
     }
 
+    public async Task<IEnumerable<RegistryForResultDto>> GetByCompanyIdAsync(long companyId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var registries = await _unitOfWork.Registry
+                .GetAllAsync()
+                .Where(x => x.CompanyId == companyId && x.IsDeleted == false)
+                .ToListAsync(cancellationToken);
+
+            if(!registries.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Registries not found for the given company.");
+
+            return _mapper.Map<IEnumerable<RegistryForResultDto>>(registries);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get registries by company id: {companyId}. {ex}");
+            throw;
+        }
+    }
+
     public async Task<RegistryForResultDto> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
         try

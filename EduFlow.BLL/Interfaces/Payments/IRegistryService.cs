@@ -10,4 +10,5 @@ public interface IRegistryService
     Task<long> OutlayAsync(RegistryForCreateDto dto, CancellationToken cancellationToken = default);
     Task<bool> DeleteAsync(long id, CancellationToken cancellation = default);
     Task<IEnumerable<RegistryForResultDto>> FilterAsync(RegistryForFilterDto dto, CancellationToken cancellationToken = default);
+    Task<IEnumerable<RegistryForResultDto>> GetByCompanyIdAsync(long companyId, CancellationToken cancellationToken = default);
 }

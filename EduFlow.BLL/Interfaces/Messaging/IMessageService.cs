@@ -9,4 +9,5 @@ public interface IMessageService
     Task<bool> SendAsync(MessageForCreateDto dto, CancellationToken cancellationToken = default);
     Task<IEnumerable<MessageForResultDto>> GetAllByGroupIdAsync(long groupId, CancellationToken cancellationToken = default);
     Task<IEnumerable<MessageForResultDto>> GetAllByStudentIdAsync(long studentId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<MessageForResultDto>> GetAllByCompanyIdAsync(long companyId, CancellationToken cancellationToken = default);
 }

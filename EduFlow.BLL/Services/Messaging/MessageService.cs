@@ -33,7 +33,7 @@ public class MessageService(
             var messages = await _unitOfWork.Message
                 .GetAllAsync()
                 .Where(x => x.IsDeleted == false)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             if (!messages.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Messages not found.");
@@ -47,6 +47,27 @@ public class MessageService(
         }
     }
 
+    public async Task<IEnumerable<MessageForResultDto>> GetAllByCompanyIdAsync(long companyId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var messages =await _unitOfWork.Message
+                .GetAllAsync()
+                .Where(x => x.CompanyId == companyId && x.IsDeleted == false)
+                .ToListAsync(cancellationToken);
+
+            if(!messages.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Messages not found.");
+
+            return _mapper.Map<IEnumerable<MessageForResultDto>>(messages);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all message by company id: {companyId}. {ex}"); 
+            throw;
+        }
+    }
+
     public async Task<IEnumerable<MessageForResultDto>> GetAllByGroupIdAsync(long groupId, CancellationToken cancellationToken = default)
     {
         try
@@ -54,7 +75,7 @@ public class MessageService(
             var messages = await _unitOfWork.Message
                 .GetAllAsync()
                 .Where(x => x.GroupId == groupId && x.IsDeleted == false)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             if (!messages.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Messages not found.");
@@ -75,7 +96,7 @@ public class MessageService(
             var messages = await _unitOfWork.Message
                 .GetAllAsync()
                 .Where(x => x.StudentId == studentId && x.IsDeleted == false)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             if (!messages.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Messages not found.");
