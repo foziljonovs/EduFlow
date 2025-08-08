@@ -23,7 +23,7 @@ public class LogoService(
     private readonly IMapper _mapper = mapper;
     private readonly ILogger<LogoService> _logger = logger;
     private readonly ILogoValidator _validator = validator;
-    public async Task<bool> AddAsync(LogoForCreateDto dto, CancellationToken cancellationToken = default)
+    public async Task<long> AddAsync(LogoForCreateDto dto, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -32,7 +32,7 @@ public class LogoService(
                 throw new ValidationException(validation.Errors);
 
             var savedLogo = _mapper.Map<Logo>(dto);
-            return await _unitOfWork.Logo.AddConfirmAsync(savedLogo);
+            return await _unitOfWork.Logo.AddAsync(savedLogo);
         }
         catch(Exception ex)
         {

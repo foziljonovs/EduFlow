@@ -123,19 +123,21 @@ public class MappingProfile : Profile
         /*--------------------------------------Company----------------------------------------*/
         CreateMap<Company, CompanyForResultDto>();
         CreateMap<CompanyForResultDto, Company>();
-        CreateMap<Company, CompanyForCreateDto>();
-        CreateMap<Company, CompanyForUpdateDto>();
+        CreateMap<Company, CompanyForShortResultDto>();
+        CreateMap<CompanyForCreateDto, Company>();
+        CreateMap<CompanyForUpdateDto, Company>();
 
         /*--------------------------------------CompanySubscription----------------------------*/
         CreateMap<CompanySubscription, CompanySubscriptionForResultDto>();
         CreateMap<CompanySubscriptionForResultDto, CompanySubscription>();
-        CreateMap<CompanySubscription, CompanySubscriptionForCreateDto>();
-        CreateMap<CompanySubscription, CompanySubscriptionForUpdateDto>();
+        CreateMap<CompanySubscription, CompanySubscriptionForShortResultDto>();
+        CreateMap<CompanySubscriptionForCreateDto, CompanySubscription>();
+        CreateMap<CompanySubscriptionForUpdateDto, CompanySubscription>();
 
         /*--------------------------------------Logo-------------------------------------------*/
         CreateMap<Logo, LogoForResultDto>();
         CreateMap<LogoForResultDto, Logo>();
-        CreateMap<Logo, LogoForCreateDto>();
-        CreateMap<Logo, LogoForUpdateDto>();
+        CreateMap<LogoForCreateDto, Logo>();
+        CreateMap<LogoForUpdateDto, Logo>();
     }
 }
