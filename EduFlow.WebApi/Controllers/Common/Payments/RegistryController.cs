@@ -129,4 +129,22 @@ public class RegistryController(
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpGet("companyId/{companyId:long}")]
+    public async Task<IActionResult> GetByCompanyIdAsync([FromRoute] long companyId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.GetByCompanyIdAsync(companyId, cancellation);
+            return Ok(response);
+        }
+        catch(StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }

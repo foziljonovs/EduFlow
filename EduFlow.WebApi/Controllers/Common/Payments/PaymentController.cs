@@ -263,4 +263,51 @@ public class PaymentController(
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpGet("company/{companyId:long}")]
+    public async Task<IActionResult> GetAllByCompanyIdAsync([FromRoute] long companyId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.GetAllByCompanyIdAsync(companyId, cancellation);
+            return Ok(response);
+        }
+        catch(StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("company/{companyId:long}/pagination")]
+    public async Task<IActionResult> GetAllPaginationByCompanyIdAsync([FromRoute] long companyId, int pageSize = 10, int pageNumber = 1, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.GetAllPaginationByCompanyIdAsync(companyId, pageSize, pageNumber, cancellation);
+            var metadata = new
+            {
+                response.TotalCount,
+                response.PageSize,
+                response.CurrentPage,
+                response.HasNext,
+                response.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(response.Data);
+        }
+        catch(StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }

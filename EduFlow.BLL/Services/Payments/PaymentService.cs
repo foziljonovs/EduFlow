@@ -12,6 +12,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Net;
+using System.Threading;
 
 namespace EduFlow.BLL.Services.Payments;
 
@@ -188,6 +189,27 @@ public class PaymentService(
         }
     }
 
+    public async Task<IEnumerable<PaymentForResultDto>> GetAllByCompanyIdAsync(long companyId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var payments = await _unitOfWork.Payment
+                .GetAllFullInformation()
+                .Where(x => x.CompanyId == companyId)
+                .ToListAsync(cancellation);
+
+            if (!payments.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
+
+            return _mapper.Map<IEnumerable<PaymentForResultDto>>(payments);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all payment by company id: {companyId}. {ex}");
+            throw;
+        }   
+    }
+
     public async Task<PagedList<PaymentForResultDto>> GetAllByGroupIdAsync(int pageSize, int pageNumber, long groupId, CancellationToken cancellationToken = default)
     {
         try
@@ -267,6 +289,37 @@ public class PaymentService(
         catch(Exception ex)
         {
             _logger.LogError($"An error occured while get all payment by teacher id: {teacherId}. {ex}");
+            throw;
+        }
+    }
+
+    public async Task<PagedList<PaymentForResultDto>> GetAllPaginationByCompanyIdAsync(long companyId, int pageSize, int pageNumber, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var payments = await _unitOfWork.Payment
+                .GetAllFullInformation()
+                .Where(x => x.CompanyId == companyId)
+                .ToListAsync(cancellation);
+
+            if(!payments.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
+
+            var mappedPayments = payments
+                .Select(p => _mapper.Map<PaymentForResultDto>(p))
+                .ToList();
+
+            var pagedlist = new PagedList<PaymentForResultDto>(
+                mappedPayments,
+                mappedPayments.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedPayments, pageSize, pageNumber);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all payment by company id: {companyId}. {ex}");
             throw;
         }
     }
