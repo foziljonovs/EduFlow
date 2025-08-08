@@ -36,4 +36,8 @@
     <ProjectReference Include="..\EduFlow.BLL\EduFlow.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

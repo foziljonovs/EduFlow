@@ -1,4 +1,6 @@
-﻿namespace EduFlow.BLL.DTOs.Companies.Logo;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace EduFlow.BLL.DTOs.Companies.Logo;
 
 public class LogoForCreateDto
 {
