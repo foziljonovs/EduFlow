@@ -9,7 +9,7 @@ public class CompanySubscriptionForResultDto
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public long CompanyId { get; set; }
-    public CompanyForResultDto Company { get; set; }
+    public CompanyForShortResultDto Company { get; set; }
     public SubscriptionType Type { get; set; }
     public bool IsPaid { get; set; }
     public DateTime? SubcriptionDate { get; set; }

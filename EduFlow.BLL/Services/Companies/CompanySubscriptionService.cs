@@ -55,6 +55,7 @@ public class CompanySubscriptionService(
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Company subscription not found.");
 
             companySubscription.IsDeleted = true;
+            companySubscription.IsActive = false;
             return await _unitOfWork.SaveAsync(cancellationToken) > 0;
         }
         catch(Exception ex)

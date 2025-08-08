@@ -123,6 +123,7 @@ public class MappingProfile : Profile
         /*--------------------------------------Company----------------------------------------*/
         CreateMap<Company, CompanyForResultDto>();
         CreateMap<CompanyForResultDto, Company>();
+        CreateMap<Company, CompanyForShortResultDto>();
         CreateMap<CompanyForCreateDto, Company>();
         CreateMap<CompanyForUpdateDto, Company>();
 
