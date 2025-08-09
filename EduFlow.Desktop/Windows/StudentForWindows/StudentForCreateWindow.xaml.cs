@@ -1,5 +1,6 @@
 ﻿using EduFlow.BLL.DTOs.Courses.StudentCourse;
 using EduFlow.BLL.DTOs.Users.Student;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.StudentCourse;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
@@ -21,6 +22,7 @@ public partial class StudentForCreateWindow : Window
     private readonly IStudentService _studentService;
     private readonly IStudentCourseService _studentCourseService;
     private readonly ICourseService _courseService;
+    private long CompanyId { get; set; }
     public StudentForCreateWindow()
     {
         InitializeComponent();
@@ -102,7 +104,10 @@ public partial class StudentForCreateWindow : Window
     {
         try
         {
-            StudentForCreateDto dto = new StudentForCreateDto();
+            StudentForCreateDto dto = new StudentForCreateDto
+            {
+                CompanyId = this.CompanyId
+            };
 
             if (!string.IsNullOrEmpty(fullNameTxt.Text))
                 dto.Fullname = fullNameTxt.Text;
@@ -249,8 +254,20 @@ public partial class StudentForCreateWindow : Window
         e.Handled = !regex.IsMatch(futureText);
     }
 
+    private void GetCompanyId()
+    {
+        long companyId = IdentitySingelton.GetInstance().CompanyId;
+
+        if (companyId > 0)
+            this.CompanyId = companyId;
+        else
+            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
+    }
+
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
         await GetAllCourse();
+
+        GetCompanyId();
     }
 }

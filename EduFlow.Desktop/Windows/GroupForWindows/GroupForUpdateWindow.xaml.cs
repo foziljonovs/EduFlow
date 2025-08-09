@@ -23,6 +23,7 @@ public partial class GroupForUpdateWindow : Window
     private readonly ICourseService _courseService;
     private readonly ITeacherService _teacherService;
     private long Id { get; set; }
+    private long CompanyId { get; set; }
     private GroupForResultDto Group {  get; set; } = new GroupForResultDto();
     public GroupForUpdateWindow()
     {
@@ -37,8 +38,8 @@ public partial class GroupForUpdateWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 50,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -52,8 +53,8 @@ public partial class GroupForUpdateWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 50,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -241,6 +242,16 @@ public partial class GroupForUpdateWindow : Window
             notifierThis.ShowWarning("Guruh ma'lumotlari noto'g'ri, iltimos qayta yuklang!");
     }
 
+    private void GetCompanyId()
+    {
+        long companyId = IdentitySingelton.GetInstance().CompanyId;
+
+        if (companyId > 0)
+            this.CompanyId = companyId;
+        else
+            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
+    }
+
     private async void LoadedWindow()
     {
         await GetGroup();
@@ -248,6 +259,7 @@ public partial class GroupForUpdateWindow : Window
         await GetAllCourse();
 
         Favourites();
+        GetCompanyId();
     }
 
     private bool IsLoaded = false;
@@ -264,7 +276,10 @@ public partial class GroupForUpdateWindow : Window
     {
         try
         {
-            GroupForUpdateDto dto = new GroupForUpdateDto();
+            GroupForUpdateDto dto = new GroupForUpdateDto
+            {
+                CompanyId = this.CompanyId
+            };
 
             if(!string.IsNullOrWhiteSpace(nameTxt.Text))
                 dto.Name = nameTxt.Text;

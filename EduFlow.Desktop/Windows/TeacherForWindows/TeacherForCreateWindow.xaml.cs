@@ -1,5 +1,6 @@
 ﻿using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.BLL.DTOs.Users.User;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Integrated.Services.Users.User.Interfaces;
@@ -21,6 +22,7 @@ public partial class TeacherForCreateWindow : Window
     private readonly ITeacherService _teacherService;
     private readonly IUserService _userService;
     private readonly ICourseService _courseService;
+    private long CompanyId { get; set; }
     public TeacherForCreateWindow()
     {
         InitializeComponent();
@@ -34,8 +36,8 @@ public partial class TeacherForCreateWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.MainWindow,
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -52,8 +54,8 @@ public partial class TeacherForCreateWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -98,8 +100,15 @@ public partial class TeacherForCreateWindow : Window
     {
         try
         {
-            UserForCreateDto userDto = new UserForCreateDto();
-            TeacherForCreateDto teacherDto = new TeacherForCreateDto();
+            UserForCreateDto userDto = new UserForCreateDto
+            {
+                CompanyId = this.CompanyId
+            };
+
+            TeacherForCreateDto teacherDto = new TeacherForCreateDto
+            {
+                CompanyId = this.CompanyId
+            };
 
             if (!string.IsNullOrEmpty(fullNameTxt.Text))
             {
@@ -216,9 +225,21 @@ public partial class TeacherForCreateWindow : Window
     private void closeBtn_Click(object sender, RoutedEventArgs e)
         => this.Close();
 
+    private void GetCompanyId()
+    {
+        long companyId = IdentitySingelton.GetInstance().CompanyId;
+
+        if (companyId > 0)
+            this.CompanyId = companyId;
+        else
+            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
+    }
+
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         GetAllCourse();
+
+        GetCompanyId();
     }
 
     private async void saveBtn_Click(object sender, RoutedEventArgs e)
