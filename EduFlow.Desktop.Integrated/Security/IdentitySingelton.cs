@@ -19,6 +19,7 @@ public class IdentitySingelton
     public string Name { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public UserRole Role { get; set; }
+    public long CompanyId { get; set; }
 
     public void Reset()
     {
@@ -27,5 +28,6 @@ public class IdentitySingelton
         Name = string.Empty;
         PhoneNumber = string.Empty;
         Role = UserRole.Administrator;
+        CompanyId = 0;
     }
 }

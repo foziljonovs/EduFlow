@@ -23,6 +23,7 @@ public static class TokenHandler
                 case "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": identity.Name = claim.Value; break;
                 case "PhoneNumber": identity.PhoneNumber = claim.Value; break;
                 case "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": identity.Role = Enum.Parse<UserRole>(claim.Value); break;
+                case "CompanyId": identity.CompanyId = long.Parse(claim.Value); break;
             }
         }
 
