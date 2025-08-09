@@ -41,6 +41,7 @@ public partial class MainPage : Page
     private bool hasPrevious = false;
     private bool isFiltered = false;
     private GroupForFilterDto? isFilterDto = new GroupForFilterDto();
+    private long CompanyId { get; set; }
 
     public MainPage()
     {
@@ -423,6 +424,7 @@ public partial class MainPage : Page
     { 
         var id = IdentitySingelton.GetInstance().Id;
         var role = IdentitySingelton.GetInstance().Role;
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
 
         if (role is Domain.Enums.UserRole.Teacher)
         {
