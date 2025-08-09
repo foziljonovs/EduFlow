@@ -88,6 +88,30 @@ public class CategoryServer : ICategoryServer
         }
     }
 
+    public async Task<List<CategoryForResultDto>> GetAllByCompanyIdAsync(long companyId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/categories/company/{companyId}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<List<CategoryForResultDto>>(content)!;
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return new List<CategoryForResultDto>();
+        }
+    }
+
     public async Task<CategoryForResultDto> GetByIdAsync(long id)
     {
         try
