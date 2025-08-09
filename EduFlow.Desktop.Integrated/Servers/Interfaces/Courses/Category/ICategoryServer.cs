@@ -9,4 +9,5 @@ public interface ICategoryServer
     Task<bool> AddAsync(CategoryForCraeteDto dto);
     Task<bool> UpdateAsync(long id, CategoryForUpdateDto dto);
     Task<bool> DeleteAsync(long id);
+    Task<List<CategoryForResultDto>> GetAllByCompanyIdAsync(long companyId);
 }

@@ -1,4 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Courses.Course;
+﻿using EduFlow.BLL.DTOs.Courses.Category;
+using EduFlow.BLL.DTOs.Courses.Course;
 
 namespace EduFlow.Desktop.Integrated.Servers.Interfaces.Courses.Course;
 
@@ -13,4 +14,5 @@ public interface ICourseServer
     Task<List<CourseForResultDto>> GetAllByCategoryIdAsync(long categoryId);
     Task<List<CourseForResultDto>> FilterAsync(CourseForFilterDto dto);
     Task<bool> AddStudentsAsync(long id, List<long> studentIds);
+    Task<List<CourseForResultDto>> GetAllByCompanyIdAsync(long companyId);
 }

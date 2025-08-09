@@ -1,4 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Payments.Payment;
+﻿using EduFlow.BLL.DTOs.Courses.Category;
+using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.Desktop.Integrated.Helpers;
 
 namespace EduFlow.Desktop.Integrated.Servers.Interfaces.Payments;
@@ -15,5 +16,7 @@ public interface IPaymentServer
     Task<PagedResponse<PaymentForResultDto>> FilterAsync(PaymentForFilterDto dto, int pageSize, int pageNumber);
     Task<PagedResponse<PaymentForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber);
     Task<List<PaymentForResultDto>> GetAllByTeacherIdAsync(long teacherId);
+    Task<List<CategoryForResultDto>> GetAllByCompanyIdAsync(long companyId);
     Task<PagedResponse<PaymentForResultDto>> GetAllPaginationByTeacherIdAsync(long teacherId, int pageSize, int pageNumber);
+    Task<PagedResponse<CategoryForResultDto>> GetAllPaginationByCompanyIdAsync(long companyId, int pageSize, int pageNumber);
 }

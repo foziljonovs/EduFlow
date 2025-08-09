@@ -9,7 +9,7 @@ public class CourseService : ICourseService
     private readonly ICourseServer _server;
     public CourseService()
     {
-        this._server  = new CourseServer();
+        this._server = new CourseServer();
     }
     public async Task<bool> AddAsync(CourseForCreateDto dto)
     {

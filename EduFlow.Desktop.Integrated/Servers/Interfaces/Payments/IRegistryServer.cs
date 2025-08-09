@@ -1,4 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Payments.Registry;
+﻿using EduFlow.BLL.DTOs.Courses.Category;
+using EduFlow.BLL.DTOs.Payments.Registry;
 
 namespace EduFlow.Desktop.Integrated.Servers.Interfaces.Payments;
 
@@ -10,4 +11,5 @@ public interface IRegistryServer
     Task<long> OutlayAsync(RegistryForCreateDto dto);
     Task<bool> DeleteAsync(long id);
     Task<List<RegistryForResultDto>> FilterAsync(RegistryForFilterDto dto);
+    Task<List<CategoryForResultDto>> GetAllByCompanyIdAsync(long companyId);
 }
