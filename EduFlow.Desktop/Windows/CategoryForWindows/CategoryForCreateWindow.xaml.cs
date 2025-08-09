@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Category;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,6 +16,7 @@ namespace EduFlow.Desktop.Windows.CategoryForWindows;
 public partial class CategoryForCreateWindow : Window
 {
     private readonly ICategoryService _service;
+    private long CompanyId { get; set; }
     public CategoryForCreateWindow()
     {
         InitializeComponent();
@@ -26,8 +28,8 @@ public partial class CategoryForCreateWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.MainWindow,
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -44,8 +46,8 @@ public partial class CategoryForCreateWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -74,7 +76,8 @@ public partial class CategoryForCreateWindow : Window
 
             var dto = new CategoryForCraeteDto
             {
-                Name = nameTxt.Text
+                Name = nameTxt.Text,
+                CompanyId = this.CompanyId
             };
 
             var result = await _service.AddAsync(dto);
@@ -115,5 +118,20 @@ public partial class CategoryForCreateWindow : Window
         {
             SaveBtn.IsEnabled = true;
         }
+    }
+
+    private void GetCompanyId()
+    {
+        long companyId = IdentitySingelton.GetInstance().CompanyId;
+
+        if(companyId > 0)
+            this.CompanyId = companyId;
+        else
+            notifierThis.ShowWarning("Iltimos oynani qayta oching!");
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        GetCompanyId();
     }
 }

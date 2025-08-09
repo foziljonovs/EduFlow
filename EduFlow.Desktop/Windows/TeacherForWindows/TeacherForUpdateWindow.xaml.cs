@@ -1,5 +1,6 @@
 ﻿using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.BLL.DTOs.Users.User;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Integrated.Services.Users.User.Interfaces;
@@ -23,6 +24,7 @@ public partial class TeacherForUpdateWindow : Window
     private readonly ICourseService _courseService;
     private readonly IUserService _userService;
     private long Id { get; set; }
+    private long CompanyId { get; set; }
     private TeacherForResultDto Teacher { get; set; } = new TeacherForResultDto();
     public TeacherForUpdateWindow()
     {
@@ -37,8 +39,8 @@ public partial class TeacherForUpdateWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 50,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -52,8 +54,8 @@ public partial class TeacherForUpdateWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 50,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -151,9 +153,21 @@ public partial class TeacherForUpdateWindow : Window
         Favourites();
     }
 
+    private void GetCompanyId()
+    {
+        long companyId = IdentitySingelton.GetInstance().CompanyId;
+
+        if (companyId > 0)
+            this.CompanyId = companyId;
+        else
+            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
+    }
+
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         LoadedWindow();
+
+        GetCompanyId();
     }
 
     private void closeBtn_Click(object sender, RoutedEventArgs e)
@@ -174,11 +188,13 @@ public partial class TeacherForUpdateWindow : Window
             TeacherForUpdateDto teacherDto = new TeacherForUpdateDto()
             {
                 UserId = this.Teacher.UserId,
+                CompanyId = this.CompanyId
             };
 
             UserForUpdateDto userDto = new UserForUpdateDto()
             {
-                Role = Domain.Enums.UserRole.Teacher
+                Role = Domain.Enums.UserRole.Teacher,
+                CompanyId = this.CompanyId
             };
 
             if(!string.IsNullOrEmpty(fullNameTxt.Text))

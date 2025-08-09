@@ -37,8 +37,8 @@ public partial class CourseForViewWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.MainWindow,
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -55,8 +55,8 @@ public partial class CourseForViewWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),

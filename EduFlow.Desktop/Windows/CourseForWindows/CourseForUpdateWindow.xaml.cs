@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Course;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Domain.Entities.Courses;
@@ -18,6 +19,7 @@ public partial class CourseForUpdateWindow : Window
 {
     private readonly ICourseService _service;
     private readonly ICategoryService _categoryService;
+    private long CompanyId { get; set; }
     private long Id { get; set; }
     private CourseForResultDto Course { get; set; } = new CourseForResultDto();
     public CourseForUpdateWindow()
@@ -32,8 +34,8 @@ public partial class CourseForUpdateWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 50,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -47,8 +49,8 @@ public partial class CourseForUpdateWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 50,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -136,12 +138,23 @@ public partial class CourseForUpdateWindow : Window
             notifierThis.ShowWarning("Kurs malumotlari noto'g'ri, iltimos qayta yuklang!");
     }
 
+    private void GetCompanyId()
+    {
+        long companyId = IdentitySingelton.GetInstance().CompanyId;
+
+        if (companyId > 0)
+            this.CompanyId = companyId;
+        else
+            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
+    }
+
     private async void LoadedWindow()
     {
         await GetAllCategory();
         await GetCourse();
 
         Favourites();
+        GetCompanyId();
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -153,7 +166,10 @@ public partial class CourseForUpdateWindow : Window
     {
         try
         {
-            var dto = new CourseForUpdateDto();
+            var dto = new CourseForUpdateDto
+            {
+                CompanyId = this.CompanyId
+            };
 
             if(!string.IsNullOrEmpty(nameTxt.Text))
                 dto.Name = nameTxt.Text;

@@ -24,6 +24,7 @@ public partial class StudentForUpdateWindow : Window
     private readonly ICourseService _courseService;
     private readonly IStudentCourseService _studentCourseService;
     private long Id { get; set; }
+    private long CompanyId { get; set; }
     private StudentForResultDto Student { get; set; } = new StudentForResultDto();
     public StudentForUpdateWindow()
     {
@@ -38,8 +39,8 @@ public partial class StudentForUpdateWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.MainWindow,
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -56,8 +57,8 @@ public partial class StudentForUpdateWindow : Window
         cfg.PositionProvider = new WindowPositionProvider(
             parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
-            offsetX: 20,
-            offsetY: 20);
+            offsetX: 10,
+            offsetY: 10);
 
         cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
             notificationLifetime: TimeSpan.FromSeconds(3),
@@ -120,11 +121,22 @@ public partial class StudentForUpdateWindow : Window
         e.Handled = !regex.IsMatch(futureText);
     }
 
+    private void GetCompanyId()
+    {
+        long companyId = IdentitySingelton.GetInstance().CompanyId;
+
+        if (companyId > 0)
+            this.CompanyId = companyId;
+        else
+            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
+    }
+
     private async Task LoadedWindow()
     {
         await GetStudent();
 
         Favourites();
+        GetCompanyId();
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -139,7 +151,10 @@ public partial class StudentForUpdateWindow : Window
     {
         try
         {
-            StudentForUpdateDto dto = new StudentForUpdateDto();
+            StudentForUpdateDto dto = new StudentForUpdateDto
+            {
+                CompanyId = this.CompanyId
+            };
 
             if (!string.IsNullOrEmpty(fullNameTxt.Text))
                 dto.Fullname = fullNameTxt.Text;
