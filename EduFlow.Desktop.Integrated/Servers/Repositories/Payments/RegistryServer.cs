@@ -1,4 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Payments.Registry;
+﻿using EduFlow.BLL.DTOs.Courses.Category;
+using EduFlow.BLL.DTOs.Payments.Registry;
 using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Payments;
@@ -83,6 +84,30 @@ public class RegistryServer : IRegistryServer
             return registries;
         }
         catch(Exception ex)
+        {
+            return new List<RegistryForResultDto>();
+        }
+    }
+
+    public async Task<List<RegistryForResultDto>> GetAllByCompanyIdAsync(long companyId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/registries/company/{companyId}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<RegistryForResultDto> registries = JsonConvert.DeserializeObject<List<RegistryForResultDto>>(result)!;
+
+            return registries;
+        }
+        catch (Exception ex)
         {
             return new List<RegistryForResultDto>();
         }

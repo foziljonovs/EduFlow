@@ -11,5 +11,5 @@ public interface IRegistryServer
     Task<long> OutlayAsync(RegistryForCreateDto dto);
     Task<bool> DeleteAsync(long id);
     Task<List<RegistryForResultDto>> FilterAsync(RegistryForFilterDto dto);
-    Task<List<CategoryForResultDto>> GetAllByCompanyIdAsync(long companyId);
+    Task<List<RegistryForResultDto>> GetAllByCompanyIdAsync(long companyId);
 }
