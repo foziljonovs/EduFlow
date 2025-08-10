@@ -1,6 +1,7 @@
 ﻿using EduFlow.BLL.Common.Exceptions;
 using EduFlow.BLL.DTOs.Users.User;
 using EduFlow.BLL.Interfaces.Users;
+using EduFlow.Domain.Enums;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -158,6 +159,42 @@ public class UserController(
         try
         {
             var response = await _service.ChangePasswordAsync(id, dto, cancellation);
+            return Ok(response);
+        }
+        catch(StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("company/{companyId:long}"), Authorize]
+    public async Task<IActionResult> GetAllByCompanyIdAsync([FromRoute] long companyId, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.GetAllByCompanyIdAsync(companyId, cancellation);
+            return Ok(response);
+        }
+        catch(StatusCodeException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpGet("role/{role}"), Authorize]
+    public async Task<IActionResult> GetAllByRoleAsync([FromRoute] UserRole role, CancellationToken cancellation = default)
+    {
+        try
+        {
+            var response = await _service.GetAllByRoleAsync(role, cancellation);
             return Ok(response);
         }
         catch(StatusCodeException ex)
