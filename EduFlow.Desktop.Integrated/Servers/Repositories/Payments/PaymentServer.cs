@@ -1,4 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Payments.Payment;
+﻿using EduFlow.BLL.DTOs.Courses.Category;
+using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Security;
@@ -137,6 +138,30 @@ public class PaymentServer : IPaymentServer
         }
     }
 
+    public async Task<List<PaymentForResultDto>> GetAllByCompanyIdAsync(long companyId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();   
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/payments/company/{companyId}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<PaymentForResultDto> categories = JsonConvert.DeserializeObject<List<PaymentForResultDto>>(result)!;
+
+            return categories;
+        }
+        catch (Exception ex)
+        {
+            return new List<PaymentForResultDto>();
+        } 
+    }
+
     public async Task<List<PaymentForResultDto>> GetAllByGroupIdAsync(long groupId)
     {
         try
@@ -238,6 +263,40 @@ public class PaymentServer : IPaymentServer
             };
         }
         catch(Exception ex)
+        {
+            return new PagedResponse<PaymentForResultDto>();
+        }
+    }
+
+    public async Task<PagedResponse<PaymentForResultDto>> GetAllPaginationByCompanyIdAsync(long companyId, int pageSize, int pageNumber)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/payments/company/{companyId}/pagination");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.GetAsync($"{client.BaseAddress}?pageSize={pageSize}&pageNumber={pageNumber}");
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            List<PaymentForResultDto> payments = JsonConvert.DeserializeObject<List<PaymentForResultDto>>(result)!;
+
+            var pageNavigation = response.Headers.GetValues("X-Pagination").FirstOrDefault();
+            var pagination = JsonConvert.DeserializeObject<PaginationMetadata>(pageNavigation!);
+
+            return new PagedResponse<PaymentForResultDto>
+            {
+                Data = payments,
+                PageSize = pagination.PageSize,
+                CurrentPage = pagination.CurrentPage,
+                HasNext = pagination.HasNext,
+                HasPrevious = pagination.HasPrevious
+            };
+        }
+        catch (Exception ex)
         {
             return new PagedResponse<PaymentForResultDto>();
         }

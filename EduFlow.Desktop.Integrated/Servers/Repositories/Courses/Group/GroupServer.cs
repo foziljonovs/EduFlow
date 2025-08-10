@@ -192,7 +192,7 @@ public class GroupServer : IGroupServer
             var client = new HttpClient(); 
             var token = IdentitySingelton.GetInstance().Token;
 
-            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/groups/company/{companyId}");
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/groups/company/{companyId}?pageSize={pageSize}&pageNumber={pageNumber}");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await client.GetAsync(client.BaseAddress);
