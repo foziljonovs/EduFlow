@@ -237,6 +237,31 @@ public class StudentService(
         }
     }
 
+    public async Task<IEnumerable<StudentForResultDto>> GetAllByCompanyIdAsync(long companyId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var existsCompany = await _unitOfWork.Company.GetAsync(companyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
+
+            var students = await _unitOfWork.Student
+                .GetAllFullInformation()
+                .Where(x => x.CompanyId == companyId)
+                .ToListAsync(cancellationToken);
+
+            if (!students.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
+
+            return _mapper.Map<IEnumerable<StudentForResultDto>>(students);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all by company id: {companyId}. {ex}");
+            throw;
+        }
+    }
+
     public async Task<PagedList<StudentForResultDto>> GetAllByCourseIdAsync(long courseId, int pageSize, int pageNumber, CancellationToken cancellationToken = default)
     {
         try
@@ -293,6 +318,41 @@ public class StudentService(
         catch(Exception ex)
         {
             _logger.LogError($"An error occured while get all by teacher id: {teacherId}. {ex}");
+            throw;
+        }
+    }
+
+    public async Task<PagedList<StudentForResultDto>> GetAllPaginationByCompanyIdAsync(long companyId, int pageSize, int pageNumber, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var existsCompany = await _unitOfWork.Company.GetAsync(companyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
+
+            var students = await _unitOfWork.Student
+                .GetAllFullInformation()
+                .Where(x => x.CompanyId == companyId)
+                .ToListAsync(cancellationToken);
+
+            if (!students.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Students not found.");
+
+            var mappedStudents = students
+                .Select(p => _mapper.Map<StudentForResultDto>(p))
+                .ToList();
+
+            var pagedlist = new PagedList<StudentForResultDto>(
+                mappedStudents,
+                mappedStudents.Count,
+                pageNumber,
+                pageSize);
+
+            return pagedlist.ToPagedList(mappedStudents, pageSize, pageNumber);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while getting the students by company id: {companyId}. {ex}");
             throw;
         }
     }

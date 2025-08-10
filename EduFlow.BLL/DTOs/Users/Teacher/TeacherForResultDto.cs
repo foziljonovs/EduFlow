@@ -1,4 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Courses.Course;
+﻿using EduFlow.BLL.DTOs.Companies.Company;
+using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Users.User;
 
@@ -16,4 +17,5 @@ public class TeacherForResultDto
     public CourseForShortResultDto Course { get; set; }
     public List<GroupForShortResultDto> Groups { get; set; }
     public long CompanyId { get; set; }
+    public CompanyForShortResultDto? Company { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using EduFlow.BLL.DTOs.Courses.Group;
+﻿using EduFlow.BLL.DTOs.Companies.Company;
+using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Courses.StudentCourse;
 using EduFlow.BLL.DTOs.Payments.Payment;
 
@@ -14,6 +15,7 @@ public class StudentForResultDto
     public string? Address { get; set; }
     public string PhoneNumber { get; set; }
     public long CompanyId { get; set; }
+    public CompanyForShortResultDto? Company { get; set; }
     public List<StudentCourseForResultDto> StudentCourses { get; set; }
     public List<PaymentForShortResultDto> Payments { get; set; }
     public List<GroupForShortResultDto> Groups { get; set; }

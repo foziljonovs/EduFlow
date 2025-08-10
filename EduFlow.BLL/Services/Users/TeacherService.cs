@@ -90,18 +90,47 @@ public class TeacherService(
         }
     }
 
+    public async Task<IEnumerable<TeacherForResultDto>> GetByCompanyIdAsync(long companyId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var existsCompany = await _unitOfWork.Company.GetAsync(companyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
+
+            var teachers = await _unitOfWork.Teacher
+                .GetAllFullInformation()
+                .Where(x => x.CompanyId == companyId)
+                .ToListAsync(cancellationToken);
+
+            if (!teachers.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Teachers not found.");
+
+            return _mapper.Map<IEnumerable<TeacherForResultDto>>(teachers);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"An error occured while get by company id the teacher. {ex}");
+            throw;
+        }
+    }
+
     public async Task<IEnumerable<TeacherForResultDto>> GetByCourseIdAsync(long courseId, CancellationToken cancellationToken = default)
     {
         try
         {
-            var courses = await _unitOfWork.Teacher.GetAllFullInformation()
+            var existsCourse = await _unitOfWork.Course.GetAsync(courseId);
+            if (existsCourse is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");
+
+            var teachers = await _unitOfWork.Teacher.GetAllFullInformation()
                 .Where(x => x.CourseId == courseId)
                 .ToListAsync(cancellationToken);
 
-            if(!courses.Any())
+            if(!teachers.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Teachers not found.");
 
-            return _mapper.Map<IEnumerable<TeacherForResultDto>>(courses);
+            return _mapper.Map<IEnumerable<TeacherForResultDto>>(teachers);
         }
         catch(Exception ex)
         {

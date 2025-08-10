@@ -14,10 +14,12 @@ public interface IStudentService
     Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default);
     Task<PagedList<StudentForResultDto>> GetByPhoneNumberAsync(string phoneNumberSuffix, int pageNumber, int pageSize, CancellationToken cancellationToken = default);
     Task<IEnumerable<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<StudentForResultDto>> GetAllByCompanyIdAsync(long companyId, CancellationToken cancellationToken = default);
     Task<PagedList<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId, int pageSize, int pageNumber, CancellationToken cancellationToken = default); 
     Task<bool> AddStudentByGroupAsync(long studentId, long groupId, CancellationToken cancellationToken = default);
     Task<bool> UpdateStudentByGroupAsync(long id, long groupId, Status status, CancellationToken cancellationToken = default);
     Task<PagedList<StudentForResultDto>> GetAllByCourseIdAsync(long courseId, int pageSize, int pageNumber, CancellationToken cancellationToken = default);
     Task<PagedList<StudentForResultDto>> FilterAsync(StudentForFilterDto dto, int pageSize, int pageNumber, CancellationToken cancellation = default);
     Task<PagedList<StudentForResultDto>> GetAllPaginationByTeacherIdAsync(long teacherId, int pageSize, int pageNumber, CancellationToken cancellationToken = default);
+    Task<PagedList<StudentForResultDto>> GetAllPaginationByCompanyIdAsync(long companyId, int pageSize, int pageNumber, CancellationToken cancellationToken = default);
 }

@@ -21,5 +21,6 @@ public class StudentRepository : Repository<Student>, IStudentRepository
             .Include(x => x.Payments)
             .Include(x => x.Groups)
             .Include(x => x.StudentCourses)
+            .Include(x => x.Company)
             .OrderByDescending(x => x.CreatedAt);
 }
