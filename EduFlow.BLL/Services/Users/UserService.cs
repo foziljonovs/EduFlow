@@ -7,6 +7,7 @@ using EduFlow.BLL.Interfaces.Auth;
 using EduFlow.BLL.Interfaces.Users;
 using EduFlow.DAL.Interfaces;
 using EduFlow.Domain.Entities.Users;
+using EduFlow.Domain.Enums;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -123,6 +124,52 @@ public class UserService(
         catch(Exception ex)
         {
             _logger.LogError($"An error occured while get all the users. {ex}");
+            throw;
+        }
+    }
+
+    public async Task<IEnumerable<UserForResultDto>> GetAllByCompanyIdAsync(long companyId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var existsCompany = await _unitOfWork.Company.GetAsync(companyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
+
+            var users = await _unitOfWork.User
+                .GetAllAsync()
+                .Where(x => x.CompanyId == companyId && x.IsDeleted == false)
+                .ToListAsync(cancellationToken);
+
+            if (!users.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Users not found for this company.");
+
+            return _mapper.Map<IEnumerable<UserForResultDto>>(users);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all the users by company id: {companyId}. {ex}");
+            throw;
+        }
+    }
+
+    public async Task<IEnumerable<UserForResultDto>> GetAllByRoleAsync(UserRole role, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var users = await _unitOfWork.User
+                .GetAllAsync()
+                .Where(x => x.Role == role && x.IsDeleted == false)
+                .ToListAsync(cancellationToken);
+
+            if (!users.Any())
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Users not found for this role.");
+
+            return _mapper.Map<IEnumerable<UserForResultDto>>(users);
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError($"An error occured while get all the users by role: {role}. {ex}");
             throw;
         }
     }

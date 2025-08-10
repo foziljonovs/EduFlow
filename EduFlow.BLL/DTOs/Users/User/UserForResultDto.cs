@@ -15,4 +15,5 @@ public class UserForResultDto
     public int Age { get; set; }
     public UserRole Role { get; set; }
     public long CompanyId { get; set; }
+    public CompanyForResultDto? Company { get; set; }
 }
