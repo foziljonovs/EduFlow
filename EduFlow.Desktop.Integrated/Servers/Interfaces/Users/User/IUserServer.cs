@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Users.User;
+using EduFlow.Domain.Enums;
 
 namespace EduFlow.Desktop.Integrated.Servers.Interfaces.Users.User;
 
@@ -12,4 +13,6 @@ public interface IUserServer
     Task<bool> DeleteAsync(long id);
     Task<bool> ChangePasswordAsync(long id, UserForChangePasswordDto dto);
     Task<bool> VerifyPasswordAsync(long id, string password);
+    Task<List<UserForResultDto>> GetAllByCompanyIdAsync(long companyId);
+    Task<List<UserForResultDto>> GetAllByRoleAsync(UserRole role);
 }

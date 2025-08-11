@@ -11,4 +11,5 @@ public interface ITeacherServer
     Task<bool> DeleteAsync(long id);
     Task<TeacherForResultDto> GetByUserIdAsync(long userId);
     Task<List<TeacherForResultDto>> GetAllByCourseIdAsync(long courseId);
+    Task<List<TeacherForResultDto>> GetAllByCompanyIdAsync(long companyId);
 }

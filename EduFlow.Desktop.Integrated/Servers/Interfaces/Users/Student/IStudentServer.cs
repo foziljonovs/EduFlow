@@ -15,9 +15,11 @@ public interface IStudentServer
     Task<PagedResponse<StudentForResultDto>> GetByPhoneNumberAsync(string phoneNumberSuffix, int pageSize, int pageNumber);
     Task<List<StudentForResultDto>> GetAllByTeacherIdAsync(long teacherId);
     Task<List<StudentForResultDto>> GetAllByCategoryIdAsync(long categoryId);
+    Task<List<StudentForResultDto>> GetAllByCompanyIdAsync(long companyId);
     Task<bool> AddStudentByCourseAsync(long studentId, long courseId);
     Task<bool> UpdateStudentByGroupAsync(long id, long groupId, Status status);
     Task<List<StudentForResultDto>> GetAllByCourseIdAsync(long courseId);
     Task<PagedResponse<StudentForResultDto>> FilterAsync(StudentForFilterDto dto, int pageSize, int pageNumber);
     Task<PagedResponse<StudentForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber);
+    Task<PagedResponse<StudentForResultDto>> GetAllPaginationByCompanyIdAsync(long companyId, int pageSize, int pageNumber);
 }
