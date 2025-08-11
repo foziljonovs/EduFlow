@@ -50,6 +50,19 @@ public class TeacherService : ITeacherService
         }
     }
 
+    public async Task<List<TeacherForResultDto>> GetAllByCompanyIdAsync(long companyId)
+    {
+        try
+        {
+            var result = await _server.GetAllByCompanyIdAsync(companyId);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new List<TeacherForResultDto>();
+        }
+    }
+
     public async Task<List<TeacherForResultDto>> GetAllByCourseIdAsync(long courseId)
     {
         try

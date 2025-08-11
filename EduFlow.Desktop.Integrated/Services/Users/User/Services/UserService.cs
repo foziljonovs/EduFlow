@@ -2,6 +2,7 @@
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.User;
 using EduFlow.Desktop.Integrated.Servers.Repositories.Users.User;
 using EduFlow.Desktop.Integrated.Services.Users.User.Interfaces;
+using EduFlow.Domain.Enums;
 
 namespace EduFlow.Desktop.Integrated.Services.Users.User.Services;
 
@@ -43,6 +44,32 @@ public class UserService : IUserService
         try
         {
             var result = await _server.GetAllAsync();
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new List<UserForResultDto>();
+        }
+    }
+
+    public async Task<List<UserForResultDto>> GetAllByCompanyIdAsync(long companyId)
+    {
+        try
+        {
+            var result = await _server.GetAllByCompanyIdAsync(companyId);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new List<UserForResultDto>();
+        }
+    }
+
+    public async Task<List<UserForResultDto>> GetAllByRoleAsync(UserRole role)
+    {
+        try
+        {
+            var result = await _server.GetAllByRoleAsync(role);
             return result;
         }
         catch(Exception ex)

@@ -1,5 +1,4 @@
-﻿using EduFlow.BLL.Common.Pagination;
-using EduFlow.BLL.DTOs.Users.Student;
+﻿using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.Student;
 using EduFlow.Desktop.Integrated.Servers.Repositories.Users.Student;
@@ -106,6 +105,19 @@ public class StudentService : IStudentService
         }
     }
 
+    public async Task<List<StudentForResultDto>> GetAllByCompanyIdAsync(long companyId)
+    {
+        try
+        {
+            var result = await _server.GetAllByCompanyIdAsync(companyId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return new List<StudentForResultDto>();
+        }
+    }
+
     public async Task<List<StudentForResultDto>> GetAllByCourseIdAsync(long courseId)
     {
         try
@@ -140,6 +152,19 @@ public class StudentService : IStudentService
             return result;
         }
         catch(Exception ex)
+        {
+            return new PagedResponse<StudentForResultDto>();
+        }
+    }
+
+    public async Task<PagedResponse<StudentForResultDto>> GetAllPaginationByCompanyIdAsync(long companyId, int pageSize, int pageNumber)
+    {
+        try
+        {
+            var result = await _server.GetAllPaginationByCompanyIdAsync(companyId, pageSize, pageNumber);
+            return result;
+        }
+        catch (Exception ex)
         {
             return new PagedResponse<StudentForResultDto>();
         }

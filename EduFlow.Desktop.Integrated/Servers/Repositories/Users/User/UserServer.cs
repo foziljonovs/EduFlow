@@ -2,6 +2,7 @@
 using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.User;
+using EduFlow.Domain.Enums;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -74,6 +75,54 @@ public class UserServer : IUserServer
             var response = await message.Content.ReadAsStringAsync();
 
             List<UserForResultDto> users = JsonConvert.DeserializeObject<List<UserForResultDto>>(response)!;
+            return users;
+        }
+        catch(Exception ex)
+        {
+            return new List<UserForResultDto>();
+        }
+    }
+
+    public async Task<List<UserForResultDto>> GetAllByCompanyIdAsync(long companyId)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();   
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/users/company/{companyId}");
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer {token}");
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            List<UserForResultDto> users = JsonConvert.DeserializeObject<List<UserForResultDto>>(content)!;
+
+            return users;
+        }
+        catch(Exception ex)
+        {
+            return new List<UserForResultDto>();
+        }
+    }
+
+    public async Task<List<UserForResultDto>> GetAllByRoleAsync(UserRole role)
+    {
+        try
+        {
+            HttpClient client = new HttpClient(); 
+            var token = IdentitySingelton.GetInstance().Token;
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/users/role/{role}");
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer {token}");
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            List<UserForResultDto> users = JsonConvert.DeserializeObject<List<UserForResultDto>>(content)!;
+
             return users;
         }
         catch(Exception ex)
