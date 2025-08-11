@@ -1,5 +1,4 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
-using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.MainForComponents;
 using EduFlow.Desktop.Integrated.Helpers;
@@ -14,7 +13,6 @@ using EduFlow.Desktop.Windows.CategoryForWindows;
 using EduFlow.Desktop.Windows.CourseForWindows;
 using EduFlow.Desktop.Windows.GroupForWindows;
 using EduFlow.Desktop.Windows.TeacherForWindows;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -106,7 +104,7 @@ public partial class MainPage : Page
 
     private async Task GetAllCategories()
     {
-        var categories = await Task.Run(async () => await _categoryService.GetAllAsync());
+        var categories = await Task.Run(async () => await _categoryService.GetByCompanyIdAsync(this.CompanyId));
         if (categories.Any())
         {
             categoryComboBox.Items.Clear();
@@ -135,7 +133,10 @@ public partial class MainPage : Page
             stCourses.Children.Clear();
             courseForLoader.Visibility = Visibility.Visible;
 
-            GroupForFilterDto dto = new GroupForFilterDto();
+            GroupForFilterDto dto = new GroupForFilterDto
+            {
+                CompanyId = this.CompanyId
+            };
 
             if(dtStartDate.SelectedDate is not null)
                 dto.StartedDate = dtStartDate.SelectedDate.Value;
@@ -185,27 +186,27 @@ public partial class MainPage : Page
         }
     }
 
-    private async Task GetAllTeacherCourses(long teacherId)
-    {
-        try
-        {
-            stCourses.Children.Clear();
-            courseForLoader.Visibility = Visibility.Visible;
+    //private async Task GetAllTeacherCourses(long teacherId)
+    //{
+    //    try
+    //    {
+    //        stCourses.Children.Clear();
+    //        courseForLoader.Visibility = Visibility.Visible;
 
-            var courses = await Task.Run(async () => await _courseService.GetAllByTeacherIdAsync(teacherId));
-            //ShowCourse(courses);
-        }
-        catch(Exception ex)
-        {
-            notifier.ShowWarning("Kurslarni yuklashda xatolik yuz berdi, Iltimos qayta urining!");
-        }
-    }
+    //        var courses = await Task.Run(async () => await _courseService.GetAllByTeacherIdAsync(teacherId));
+    //        //ShowCourse(courses);
+    //    }
+    //    catch(Exception ex)
+    //    {
+    //        notifier.ShowWarning("Kurslarni yuklashda xatolik yuz berdi, Iltimos qayta urining!");
+    //    }
+    //}
 
     private async Task GetAllTeachers()
     {
         try
         {
-            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+            var teachers = await Task.Run(async () => await _teacherService.GetAllByCompanyIdAsync(this.CompanyId));
 
             if (teachers.Any())
             {
@@ -245,7 +246,7 @@ public partial class MainPage : Page
         {
             courseForLoader.Visibility = Visibility.Visible;
 
-            var groups = await Task.Run(async () => await _groupService.GetAllPaginationAsync(pageSize, pageNumber));
+            var groups = await Task.Run(async () => await _groupService.GetAllPaginationByCompanyIdAsync(this.CompanyId, pageSize, pageNumber));
 
             ShowGroup(groups.Data);
             Pagination(groups);
@@ -319,7 +320,7 @@ public partial class MainPage : Page
     {
         try
         {
-            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
             //ShowCourse(courses);
 
             if (courses.Any())
@@ -406,7 +407,7 @@ public partial class MainPage : Page
 
     private async Task GetAllStudent()
     {
-        var students = await _studentService.GetAllAsync();
+        var students = await _studentService.GetAllByCompanyIdAsync(this.CompanyId);
 
         if (!students.Any())
         {

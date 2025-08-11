@@ -36,6 +36,10 @@ public class PaymentService(
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
+            var existsCompany = await _unitOfWork.Company.GetAsync(dto.CompanyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
+
             var existsStudent = await _unitOfWork.Student.GetAsync(dto.StudentId);
             if (existsStudent is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Student not found.");
@@ -104,8 +108,13 @@ public class PaymentService(
     {
         try
         {
+            var existsCompany = await _unitOfWork.Company.GetAsync(dto.CompanyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
+
             var paymentQuery = _unitOfWork.Payment
-                .GetAllFullInformation();
+                .GetAllFullInformation()
+                .Where(x => x.CompanyId == dto.CompanyId);
 
             if (!paymentQuery.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payments not found.");
@@ -389,6 +398,10 @@ public class PaymentService(
 
             if (existsPayment is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Payment not found.");
+
+            var existsCompany = await _unitOfWork.Company.GetAsync(dto.CompanyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
 
             if (existsPayment.IsDeleted)
                 throw new StatusCodeException(HttpStatusCode.Gone, "This payment has been deleted.");

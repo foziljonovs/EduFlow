@@ -68,8 +68,13 @@ public class CourseService(
     {
         try
         {
+            var existsCompany = await _unitOfWork.Company.GetAsync(dto.CompanyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
+
             var courseQuery = _unitOfWork.Course
-                .GetAllFullInformation();
+                .GetAllFullInformation()
+                .Where(x => x.CompanyId == dto.CompanyId);
 
             if(!courseQuery.Any())
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Course not found.");

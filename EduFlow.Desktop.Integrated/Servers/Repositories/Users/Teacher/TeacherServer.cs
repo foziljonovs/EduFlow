@@ -93,7 +93,7 @@ public class TeacherServer : ITeacherServer
             HttpClient client = new HttpClient();
             var token = IdentitySingelton.GetInstance().Token;
 
-            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/teachers/{companyId}/company");
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/teachers/company/{companyId}");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await client.GetAsync(client.BaseAddress);

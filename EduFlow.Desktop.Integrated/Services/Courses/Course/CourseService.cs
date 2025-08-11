@@ -89,6 +89,19 @@ public class CourseService : ICourseService
         }
     }
 
+    public async Task<List<CourseForResultDto>> GetAllByCompanyIdAsync(long companyId)
+    {
+        try
+        {
+            var res = await _server.GetAllByCompanyIdAsync(companyId);
+            return res;
+        }
+        catch(Exception ex)
+        {
+            return new List<CourseForResultDto>();
+        }
+    }
+
     public async Task<List<CourseForResultDto>> GetAllByTeacherIdAsync(long teacherId)
     {
         try

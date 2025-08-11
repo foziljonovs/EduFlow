@@ -49,9 +49,14 @@ public class RegistryService(
     {
         try
         {
+            var existsCompany = await _unitOfWork.Company.GetAsync(dto.CompanyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
+
             var registries = await _unitOfWork.Registry
                 .GetAllAsync()
-                .Where(x => x.IsDeleted == false)
+                .Where(x => x.IsDeleted == false &&
+                            x.CompanyId == dto.CompanyId)
                 .ToListAsync(cancellationToken);
 
             if(!registries.Any())
@@ -152,6 +157,10 @@ public class RegistryService(
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
+            var existsCompany = await _unitOfWork.Company.GetAsync(dto.CompanyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
+
             var registry = _mapper.Map<Registry>(dto);
             registry.Type = dto.Type;
 
@@ -172,6 +181,10 @@ public class RegistryService(
             var validationResult = await _validator.ValidateCreate(dto);
             if(!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
+
+            var existsCompany = await _unitOfWork.Company.GetAsync(dto.CompanyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
 
             var registry = _mapper.Map<Registry>(dto);
             registry.Type = dto.Type;

@@ -125,7 +125,13 @@ public class StudentService(
     {
         try
         {
-            var studentsQuery = _unitOfWork.Student.GetAllFullInformation();
+            var existsCompany = await _unitOfWork.Company.GetAsync(dto.CompanyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
+
+            var studentsQuery = _unitOfWork.Student
+                .GetAllFullInformation()
+                .Where(x => x.CompanyId == dto.CompanyId);
 
             if (dto.StartedDate.HasValue && dto.FinishedDate.HasValue)
             {
