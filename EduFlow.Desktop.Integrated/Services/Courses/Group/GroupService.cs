@@ -129,6 +129,19 @@ public class GroupService : IGroupService
         }
     }
 
+    public async Task<PagedResponse<GroupForResultDto>> GetAllPaginationByCompanyIdAsync(long companyId, int pageSize, int pageNumber)
+    {
+        try
+        {
+            var res = await _server.GetAllByCompanyIdAsync(companyId, pageSize, pageNumber);
+            return res;
+        }
+        catch(Exception ex)
+        {
+            return new PagedResponse<GroupForResultDto>();
+        }
+    }
+
     public async Task<GroupForResultDto> GetByIdAsync(long id)
     {
         try

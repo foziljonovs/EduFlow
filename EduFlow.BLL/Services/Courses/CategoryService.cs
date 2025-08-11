@@ -22,6 +22,10 @@ public class CategoryService(
     {
         try
         {
+            var existsCompany = await _unitOfWork.Company.GetAsync(dto.CompanyId);
+            if (existsCompany is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Company not found.");
+
             var existsCategory = await _unitOfWork.Category
                 .GetAllAsync()
                 .FirstOrDefaultAsync(x => x.Name == dto.Name);

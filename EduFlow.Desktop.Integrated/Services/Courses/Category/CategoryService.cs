@@ -50,6 +50,19 @@ public class CategoryService : ICategoryService
         }
     }
 
+    public async Task<List<CategoryForResultDto>> GetByCompanyIdAsync(long companyId)
+    {
+        try
+        {
+            var result = await _server.GetAllByCompanyIdAsync(companyId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return new List<CategoryForResultDto>();
+        }
+    }
+
     public async Task<CategoryForResultDto> GetByIdAsync(long id)
     {
         try

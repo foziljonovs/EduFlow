@@ -16,4 +16,5 @@ public interface IGroupService
     Task<bool> AddStudentsToGroupAsync(long groupId, List<long> studentIds);
     Task<bool> DeleteForStudentAsync(long id, long studentId);
     Task<PagedResponse<GroupForResultDto>> GetAllPaginationAsync(int pageSize, int pageNumber);
+    Task<PagedResponse<GroupForResultDto>> GetAllPaginationByCompanyIdAsync(long companyId, int pageSize, int pageNumber);
 }
