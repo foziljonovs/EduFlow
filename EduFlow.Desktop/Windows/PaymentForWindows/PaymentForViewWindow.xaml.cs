@@ -2,6 +2,7 @@
 using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.Desktop.Components.PaymentForComponents;
 using EduFlow.Desktop.Integrated.Helpers;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,6 +26,7 @@ public partial class PaymentForViewWindow : Window
     private bool hasPrevious = false;
     private bool isFiltered = false;
     private PaymentForFilterDto? isFilterDto = new PaymentForFilterDto();
+    private long CompanyId { get; set; }
     public PaymentForViewWindow()
     {
         InitializeComponent();
@@ -152,7 +154,8 @@ public partial class PaymentForViewWindow : Window
 
             PaymentForFilterDto dto = new PaymentForFilterDto
             {
-                TeacherId = this._teacherId
+                TeacherId = this._teacherId,
+                CompanyId = this.CompanyId
             };
 
             if (dtStartDate.SelectedDate is not null)
@@ -239,6 +242,8 @@ public partial class PaymentForViewWindow : Window
         if (!IsWindowLoaded)
         {
             IsWindowLoaded = true;
+            this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
             await GetAllPaginationPayment();
             await GetAllPayment();
         }

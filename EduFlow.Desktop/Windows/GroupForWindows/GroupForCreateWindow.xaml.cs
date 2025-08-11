@@ -72,7 +72,7 @@ public partial class GroupForCreateWindow : Window
 
     private async Task GetAllCourse()
     {
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+        var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
 
         if (courses.Any())
         {
@@ -88,7 +88,7 @@ public partial class GroupForCreateWindow : Window
 
     private async Task GetAllTeacher()
     {
-        var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+        var teachers = await Task.Run(async () => await _teacherService.GetAllByCompanyIdAsync(this.CompanyId));
 
         if (teachers.Any())
         {
@@ -223,22 +223,12 @@ public partial class GroupForCreateWindow : Window
         }
     }
 
-    private void GetCompanyId()
-    {
-        long companyId = IdentitySingelton.GetInstance().CompanyId;
-
-        if (companyId > 0)
-            this.CompanyId = companyId;
-        else
-            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
-    }
-
     private async void LoadedWindow()
     {
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
         await GetAllCourse();
         await GetAllTeacher();   
-
-        GetCompanyId();
     }
 
     private bool IsLoaded = false;

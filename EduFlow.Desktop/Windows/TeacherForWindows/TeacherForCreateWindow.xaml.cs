@@ -71,7 +71,7 @@ public partial class TeacherForCreateWindow : Window
     {
         courseComboBox.Items.Clear();
 
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+        var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
         if (courses != null)
         {
             var defaultItem = new ComboBoxItem
@@ -225,21 +225,11 @@ public partial class TeacherForCreateWindow : Window
     private void closeBtn_Click(object sender, RoutedEventArgs e)
         => this.Close();
 
-    private void GetCompanyId()
+    private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        long companyId = IdentitySingelton.GetInstance().CompanyId;
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
 
-        if (companyId > 0)
-            this.CompanyId = companyId;
-        else
-            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
-    }
-
-    private void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-        GetAllCourse();
-
-        GetCompanyId();
+        await GetAllCourse();
     }
 
     private async void saveBtn_Click(object sender, RoutedEventArgs e)

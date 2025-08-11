@@ -67,7 +67,7 @@ public partial class CourseForUpdateWindow : Window
 
     private async Task GetAllCategory()
     {
-        var categories = await Task.Run(async () => await _categoryService.GetAllAsync());
+        var categories = await Task.Run(async () => await _categoryService.GetByCompanyIdAsync(this.CompanyId));
 
         if (categories.Any())
         {
@@ -138,23 +138,14 @@ public partial class CourseForUpdateWindow : Window
             notifierThis.ShowWarning("Kurs malumotlari noto'g'ri, iltimos qayta yuklang!");
     }
 
-    private void GetCompanyId()
-    {
-        long companyId = IdentitySingelton.GetInstance().CompanyId;
-
-        if (companyId > 0)
-            this.CompanyId = companyId;
-        else
-            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
-    }
-
     private async void LoadedWindow()
     {
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
         await GetAllCategory();
         await GetCourse();
 
         Favourites();
-        GetCompanyId();
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)

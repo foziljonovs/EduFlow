@@ -96,7 +96,7 @@ public partial class TeacherForUpdateWindow : Window
     {
         try
         {
-            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
 
             if (courses.Any())
             {
@@ -147,27 +147,17 @@ public partial class TeacherForUpdateWindow : Window
 
     private async Task LoadedWindow()
     {
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
         await GetTeacher();
         await GetAllCourse();
 
         Favourites();
     }
 
-    private void GetCompanyId()
+    private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        long companyId = IdentitySingelton.GetInstance().CompanyId;
-
-        if (companyId > 0)
-            this.CompanyId = companyId;
-        else
-            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
-    }
-
-    private void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-        LoadedWindow();
-
-        GetCompanyId();
+        await LoadedWindow();
     }
 
     private void closeBtn_Click(object sender, RoutedEventArgs e)

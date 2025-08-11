@@ -1,5 +1,6 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.BLL.DTOs.Courses.StudentCourse;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.StudentCourse;
 using EduFlow.Domain.Enums;
@@ -20,6 +21,7 @@ public partial class StudentForRegisterCourseWindow : Window
     private readonly IStudentCourseService _studentCourseService;
     private readonly ICourseService _courseService;
     private long _studentId;
+    private long CompanyId { get; set; }
     public StudentForRegisterCourseWindow()
     {
         InitializeComponent();
@@ -76,7 +78,7 @@ public partial class StudentForRegisterCourseWindow : Window
     {
         try
         {
-            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
 
             ShowCourses(courses);
         }
@@ -202,6 +204,8 @@ public partial class StudentForRegisterCourseWindow : Window
 
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
         await GetAllCourse();
     }
 }

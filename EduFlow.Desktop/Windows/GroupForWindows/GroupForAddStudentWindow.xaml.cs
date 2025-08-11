@@ -1,6 +1,7 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Desktop.Components.StudentForComponents;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
@@ -28,6 +29,7 @@ public partial class GroupForAddStudentWindow : Window
     private bool hasPrevious = false;
     private bool isFiltered = false;
     private StudentForFilterDto? isFilterDto = new StudentForFilterDto();
+    private long CompanyId { get; set; }
 
     private readonly IStudentService _studentService;
     private readonly IGroupService _groupService;
@@ -114,7 +116,7 @@ public partial class GroupForAddStudentWindow : Window
     {
         try
         {
-            var students = await Task.Run(async () => await _studentService.GetAllAsync());
+            var students = await Task.Run(async () => await _studentService.GetAllByCompanyIdAsync(this.CompanyId));
         
             var result = students
                 .Where(x => x.StudentCourses
@@ -138,7 +140,10 @@ public partial class GroupForAddStudentWindow : Window
             stStudents.Children.Clear();
             studentLoader.Visibility = Visibility.Visible;
 
-            StudentForFilterDto dto = new StudentForFilterDto();
+            StudentForFilterDto dto = new StudentForFilterDto
+            {
+                CompanyId = this.CompanyId
+            };
 
             if (dtStartDate.SelectedDate != null)
                 dto.StartedDate = dtStartDate.SelectedDate.Value;
@@ -165,7 +170,7 @@ public partial class GroupForAddStudentWindow : Window
         }
         catch(Exception ex)
         {
-            notifierThis.ShowError("Malumotlarni filterlashda xatolik yuz berdi, Iltimos qayta yuklang!");
+            notifierThis.ShowWarning("Ma'lumotlar topilmadi, Iltimos qayta urining!");
             studentLoader.Visibility = Visibility.Collapsed;
             studentforEmptyData.Visibility = Visibility.Visible;
         }
@@ -217,6 +222,8 @@ public partial class GroupForAddStudentWindow : Window
 
     private async void LoadWindow()
     {
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
         await GetGroup();
         await GetStudents();
     }
