@@ -329,7 +329,7 @@ public class StudentServer : IStudentServer
             HttpClient client = new HttpClient();
             var token = IdentitySingelton.GetInstance().Token;
 
-            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/company/{companyId}?pageSize={pageSize}&pageNumber={pageNumber}");
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/company/{companyId}/pagination?pageSize={pageSize}&pageNumber={pageNumber}");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await client.GetAsync(client.BaseAddress);

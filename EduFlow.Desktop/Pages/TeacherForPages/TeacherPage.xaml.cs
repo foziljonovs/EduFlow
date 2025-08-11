@@ -9,6 +9,7 @@ using ToastNotifications.Position;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
 using EduFlow.Desktop.Windows.TeacherForWindows;
+using EduFlow.Desktop.Integrated.Security;
 
 namespace EduFlow.Desktop.Pages.TeacherForPages;
 
@@ -19,6 +20,7 @@ public partial class TeacherPage : Page
 {
     private readonly ITeacherService _teacherService;
     private readonly ICourseService _courseService;
+    private long CompanyId { get; set; }
     public TeacherPage()
     {
         InitializeComponent();
@@ -48,7 +50,7 @@ public partial class TeacherPage : Page
     {
         try
         {
-            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
             if (courses != null)
             {
                 foreach (var item in courses)
@@ -75,7 +77,7 @@ public partial class TeacherPage : Page
         try
         {
             teacherLoader.Visibility = Visibility.Visible;
-            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+            var teachers = await Task.Run(async () => await _teacherService.GetAllByCompanyIdAsync(this.CompanyId));
 
             ShowTeachers(teachers);
         }
@@ -147,6 +149,8 @@ public partial class TeacherPage : Page
 
     private async Task PageLoaded()
     {
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
         await GetAllTeacher();
         await GetAllCourse();
     }

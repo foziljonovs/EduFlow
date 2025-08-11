@@ -35,6 +35,7 @@ public partial class StudentPage : Page
     private int pageNumber = 1;
     private bool hasNext = false;
     private bool hasPrevious = false;
+    private long CompanyId { get; set; }
     public StudentPage()
     {
         InitializeComponent();
@@ -101,7 +102,7 @@ public partial class StudentPage : Page
         try
         {
             studentLoader.Visibility = Visibility.Visible;
-            var students = await Task.Run(async () => await _service.GetAllPaginationAsync(pageSize, pageNumber));
+            var students = await Task.Run(async () => await _service.GetAllPaginationByCompanyIdAsync(this.CompanyId, pageSize, pageNumber));
 
             if (students.Data.Any())
             {
@@ -144,7 +145,7 @@ public partial class StudentPage : Page
     {
         try
         {
-            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
 
             if (courses.Any())
             {
@@ -262,8 +263,9 @@ public partial class StudentPage : Page
     {
         var id = IdentitySingelton.GetInstance().Id;
         var role = IdentitySingelton.GetInstance().Role;
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
 
-        if(role is UserRole.Teacher)
+        if (role is UserRole.Teacher)
         {
             courseComboBox.Visibility = Visibility.Collapsed;
             createStudent.Visibility = Visibility.Collapsed;

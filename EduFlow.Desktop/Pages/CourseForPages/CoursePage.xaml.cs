@@ -6,7 +6,6 @@ using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Desktop.Windows.CourseForWindows;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -25,6 +24,7 @@ public partial class CoursePage : Page
     private readonly ICourseService _courseService;
     private readonly ITeacherService _teacherService;
     private TeacherForResultDto _teacher;
+    private long CompanyId { get; set; }
     public CoursePage()
     {
         InitializeComponent();
@@ -53,7 +53,7 @@ public partial class CoursePage : Page
 
     private async Task GetAllCategory()
     {
-        var categories = await Task.Run(async () => await _categoryService.GetAllAsync());
+        var categories = await Task.Run(async () => await _categoryService.GetByCompanyIdAsync(this.CompanyId));
 
         if (categories.Any())
         {
@@ -77,7 +77,7 @@ public partial class CoursePage : Page
         {
             stCategories.Children.Clear();
             courseLoader.Visibility = Visibility.Visible;
-            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
 
             ShowCourses(courses);
         }
@@ -181,8 +181,9 @@ public partial class CoursePage : Page
     {
         var id = IdentitySingelton.GetInstance().Id;
         var role = IdentitySingelton.GetInstance().Role;
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
 
-        if(role == Domain.Enums.UserRole.Teacher)
+        if (role == Domain.Enums.UserRole.Teacher)
         {
             categoryComboBox.Visibility = Visibility.Collapsed;
             var teacherId = await GetTeacher(id);

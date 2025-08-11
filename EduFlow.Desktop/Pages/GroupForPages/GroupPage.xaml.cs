@@ -32,6 +32,7 @@ public partial class GroupPage : Page
     private bool hasPrevious = false;
     private bool isFiltered = false;
     private GroupForFilterDto isFilteredDto = new GroupForFilterDto();
+    private long CompanyId { get; set; }
     public GroupPage()
     {
         InitializeComponent();
@@ -74,7 +75,7 @@ public partial class GroupPage : Page
     {
         try
         {
-            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
             if (courses.Any())
             {
                 foreach (var item in courses)
@@ -100,7 +101,7 @@ public partial class GroupPage : Page
     {
         try
         {
-            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+            var teachers = await Task.Run(async () => await _teacherService.GetAllByCompanyIdAsync(this.CompanyId));
             if (teachers.Any())
             {
                 foreach (var item in teachers)
@@ -152,7 +153,7 @@ public partial class GroupPage : Page
         {
             stGroups.Children.Clear();
             groupLoader.Visibility = Visibility.Visible;
-            var groups = await Task.Run(async () => await _groupService.GetAllPaginationAsync(pageSize, pageNumber));
+            var groups = await Task.Run(async () => await _groupService.GetAllPaginationByCompanyIdAsync(this.CompanyId, pageSize, pageNumber));
 
             ShowGroups(groups.Data);
             Pagination(groups);
@@ -231,7 +232,10 @@ public partial class GroupPage : Page
             emptyData.Visibility = Visibility.Collapsed;
             groupLoader.Visibility = Visibility.Visible;
 
-            GroupForFilterDto dto = new GroupForFilterDto();
+            GroupForFilterDto dto = new GroupForFilterDto
+            {
+                CompanyId = this.CompanyId
+            };
 
             if(courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem
                 && selectedCourseItem.Tag != null)
@@ -318,8 +322,9 @@ public partial class GroupPage : Page
     {
         var id = IdentitySingelton.GetInstance().Id;
         var role = IdentitySingelton.GetInstance().Role;
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
 
-        if(role == Domain.Enums.UserRole.Teacher)
+        if (role == Domain.Enums.UserRole.Teacher)
         {
             courseComboBox.Visibility = Visibility.Collapsed;
             teacherComboBox.Visibility = Visibility.Collapsed;
