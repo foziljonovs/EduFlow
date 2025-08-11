@@ -104,7 +104,7 @@ public partial class GroupForUpdateWindow : Window
     {
         try
         {
-            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+            var teachers = await Task.Run(async () => await _teacherService.GetAllByCompanyIdAsync(this.CompanyId));
 
             if (teachers.Any())
             {
@@ -160,7 +160,7 @@ public partial class GroupForUpdateWindow : Window
     {
         try
         {
-            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
 
             if (courses.Any())
             {
@@ -242,24 +242,15 @@ public partial class GroupForUpdateWindow : Window
             notifierThis.ShowWarning("Guruh ma'lumotlari noto'g'ri, iltimos qayta yuklang!");
     }
 
-    private void GetCompanyId()
-    {
-        long companyId = IdentitySingelton.GetInstance().CompanyId;
-
-        if (companyId > 0)
-            this.CompanyId = companyId;
-        else
-            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
-    }
-
     private async void LoadedWindow()
     {
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
         await GetGroup();
         await GetAllTeacher();
         await GetAllCourse();
 
         Favourites();
-        GetCompanyId();
     }
 
     private bool IsLoaded = false;

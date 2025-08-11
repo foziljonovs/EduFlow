@@ -1,8 +1,7 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
-using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.GroupForComponents;
-using EduFlow.Desktop.Integrated.Helpers;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
@@ -27,6 +26,7 @@ public partial class TeacherForViewWindow : Window
     private int pageSize = 15;
     private int pageNumber = 1;
     private TeacherForResultDto _teacher { get; set; } = new TeacherForResultDto();
+    private long CompanyId { get; set; }
     public TeacherForViewWindow()
     {
         InitializeComponent();
@@ -137,7 +137,10 @@ public partial class TeacherForViewWindow : Window
             stGroups.Children.Clear();
             groupsForLoader.Visibility = Visibility.Visible;
 
-            GroupForFilterDto dto = new GroupForFilterDto();
+            GroupForFilterDto dto = new GroupForFilterDto
+            {
+                CompanyId = this.CompanyId
+            };
 
             if(startedDate.SelectedDate is not null)
                 dto.StartedDate = startedDate.SelectedDate.Value;
@@ -228,6 +231,8 @@ public partial class TeacherForViewWindow : Window
     {
         if(!isLoaded)
         {
+            this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
             ShowValues();
             isLoaded = true;
         }

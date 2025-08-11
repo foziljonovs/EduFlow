@@ -69,7 +69,7 @@ public partial class StudentForCreateWindow : Window
 
     private async Task GetAllCourse()
     {
-        var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+        var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
 
         if (courses.Any())
         {
@@ -254,20 +254,10 @@ public partial class StudentForCreateWindow : Window
         e.Handled = !regex.IsMatch(futureText);
     }
 
-    private void GetCompanyId()
-    {
-        long companyId = IdentitySingelton.GetInstance().CompanyId;
-
-        if (companyId > 0)
-            this.CompanyId = companyId;
-        else
-            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
-    }
-
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        await GetAllCourse();
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
 
-        GetCompanyId();
+        await GetAllCourse();
     }
 }

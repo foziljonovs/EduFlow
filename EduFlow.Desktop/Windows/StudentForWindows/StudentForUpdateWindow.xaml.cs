@@ -121,22 +121,13 @@ public partial class StudentForUpdateWindow : Window
         e.Handled = !regex.IsMatch(futureText);
     }
 
-    private void GetCompanyId()
-    {
-        long companyId = IdentitySingelton.GetInstance().CompanyId;
-
-        if (companyId > 0)
-            this.CompanyId = companyId;
-        else
-            notifierThis.ShowWarning("Iltimos oynani qayta yuklang!");
-    }
-
     private async Task LoadedWindow()
     {
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
         await GetStudent();
 
         Favourites();
-        GetCompanyId();
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
