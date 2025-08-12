@@ -31,12 +31,18 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <materialDesign:PackIcon
+                <!--<materialDesign:PackIcon
                     Kind="SchoolOutline"
                     Height="40"
                     Width="40"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Center"/>
+                    VerticalAlignment="Center"/>-->
+
+                <Image Grid.Column="0"
+                       x:Name="imgLogo"
+                       Height="40"
+                       Width="40"
+                       HorizontalAlignment="Right"/>
 
                 <TextBlock Grid.Column="1"
                            x:Name="tbCompanyName"

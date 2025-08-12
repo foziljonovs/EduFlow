@@ -2,9 +2,7 @@
 using EduFlow.BLL.DTOs.Companies.Logo;
 using EduFlow.BLL.Interfaces.Companies;
 using EduFlow.WebApi.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace EduFlow.WebApi.Controllers.Common.Companies;
 
@@ -118,7 +116,7 @@ public class LogoController(
         }
     }
 
-    [HttpGet("{fileName}/download")]
+    [HttpGet("{fileName}/file")]
     public IActionResult GetLogo(string fileName)
     {
         try

@@ -1,5 +1,6 @@
 ﻿using EduFlow.BLL.DTOs.Companies.Logo;
 using EduFlow.Desktop.Integrated.Api.Auth;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Companies.Logo;
 using Newtonsoft.Json;
 using System.Text;
@@ -105,6 +106,46 @@ public class LogoServer : ILogoServer
         catch (Exception ex)
         {
             return new LogoForResultDto();
+        }
+    }
+
+    public async Task<byte[]> GetLogoByIdAsync(long id)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/logos/{id}/download");
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            byte[] bytes = await response.Content.ReadAsByteArrayAsync();
+
+            return bytes;
+        }
+        catch(Exception ex)
+        {
+            return Array.Empty<byte>();
+        }
+    }
+
+    public async Task<byte[]> GetLogoByNameAsync(string fileName)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/logos/{fileName}/file");
+
+            var response = await client.GetAsync(client.BaseAddress);
+
+            byte[] bytes = await response.Content.ReadAsByteArrayAsync();
+
+            return bytes;
+        }
+        catch (Exception ex)
+        {
+            return Array.Empty<byte>();
         }
     }
 

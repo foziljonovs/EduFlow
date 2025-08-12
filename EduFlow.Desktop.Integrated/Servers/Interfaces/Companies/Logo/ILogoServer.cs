@@ -9,4 +9,6 @@ public interface ILogoServer
     Task<long> AddAsync(LogoForCreateDto dto);
     Task<bool> UpdateAsync(long id, LogoForUpdateDto dto);
     Task<bool> DeleteAsync(long id);
+    Task<byte[]> GetLogoByNameAsync(string fileName);
+    Task<byte[]> GetLogoByIdAsync(long id);
 }

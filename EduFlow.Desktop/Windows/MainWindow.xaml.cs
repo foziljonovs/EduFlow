@@ -1,9 +1,14 @@
-﻿using EduFlow.Desktop.Integrated.Security;
+﻿using EduFlow.Desktop.Helpers;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Companies.Company;
 using EduFlow.Desktop.Integrated.Services.Companies.Logo;
 using EduFlow.Desktop.Pages.MainForPage;
+using EduFlow.Desktop.State;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace EduFlow.Desktop.Windows;
 
@@ -60,7 +65,69 @@ public partial class MainWindow : Window
         }
     }
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private async Task GetCompany()
+    {
+        try
+        {
+            var company = await _companyService.GetByIdAsync(this.CompanyId);
+
+            if(company is not null)
+            {
+                var existsLogo = await _logoService.GetByIdAsync(company.LogoId);
+                if (existsLogo is null)
+                    return;
+
+                AppState.CompanyId = company.Id;
+                AppState.Name = company.Name;
+                AppState.PhoneNumber = company.PhoneNumber;
+                tbCompanyName.Text = company.Name;
+
+                var logo = await _logoService.GetLogoByIdAsync(existsLogo.Id);
+
+                if(logo is not null)
+                {
+                    string savedPath = await FileHelper.SaveLogoAsync(logo, existsLogo.FileName);
+
+                    AppState.LogoFilePath = savedPath;
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            tbCompanyName.Text = "Edu Flow";
+        }
+    }
+
+    private bool SetLogoToImage(string filePath)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+                return false;
+
+            byte[] imageBytes = File.ReadAllBytes(filePath);
+
+            using (var ms = new MemoryStream(imageBytes))
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = ms;
+                bitmap.EndInit();
+                bitmap.Freeze();
+                imgLogo.Source = bitmap;
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+    }
+
+
+    private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
         NormalButton.IsChecked = true;
 
@@ -77,6 +144,18 @@ public partial class MainWindow : Window
             ManagerNavigationPage page = new ManagerNavigationPage();
             MainMenuNavigation.Content = page;
         }
+
+        await GetCompany();
+
+        if(!string.IsNullOrWhiteSpace(AppState.LogoFilePath))
+        {
+            bool logoResult = SetLogoToImage(AppState.LogoFilePath);
+
+            if(!logoResult)
+                imgLogo.Source = new BitmapImage(new Uri("pack://application:,,,/Assets/logo.png"));
+        }
+        else
+            imgLogo.Source = new BitmapImage(new Uri("pack://application:,,,/Assets/logo.png"));
     }
 
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
