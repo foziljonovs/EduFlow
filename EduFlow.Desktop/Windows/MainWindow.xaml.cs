@@ -80,6 +80,7 @@ public partial class MainWindow : Window
                 AppState.CompanyId = company.Id;
                 AppState.Name = company.Name;
                 AppState.PhoneNumber = company.PhoneNumber;
+                tbCompanyName.Text = company.Name;
 
                 var logo = await _logoService.GetLogoByIdAsync(existsLogo.Id);
 
