@@ -148,12 +148,12 @@ public class StudentController(
         }
     }
 
-    [HttpGet("{phoneNumberSuffix}/phone-number")]
-    public async Task<IActionResult> GetAllByPhoneNumberAsync([FromRoute] string phoneNumberSuffix, int pageSize = 10, int pageNumber = 1, CancellationToken cancellation = default)
+    [HttpGet("{companyId:long}/company/{phoneNumberSuffix}/phone-number")]
+    public async Task<IActionResult> GetAllByPhoneNumberAsync([FromRoute] long companyId, [FromRoute] string phoneNumberSuffix, int pageSize = 10, int pageNumber = 1, CancellationToken cancellation = default)
     {
         try
         {
-            var response = await _service.GetByPhoneNumberAsync(phoneNumberSuffix, pageNumber, pageSize, cancellation);
+            var response = await _service.GetByPhoneNumberAsync(companyId, phoneNumberSuffix, pageNumber, pageSize, cancellation);
 
             var metaData = new
             {

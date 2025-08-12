@@ -420,13 +420,14 @@ public class StudentService(
         }
     }
 
-    public async Task<PagedList<StudentForResultDto>> GetByPhoneNumberAsync(string phoneNumberSuffix, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<PagedList<StudentForResultDto>> GetByPhoneNumberAsync(long companyId, string phoneNumberSuffix, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
         try
         {
             var students = await _unitOfWork.Student
                 .GetAllFullInformation()
-                .Where(x => x.PhoneNumber.EndsWith(phoneNumberSuffix))
+                .Where(x => x.PhoneNumber.EndsWith(phoneNumberSuffix) && 
+                            x.CompanyId == companyId)
                 .ToListAsync(cancellationToken);
 
             if (!students.Any())

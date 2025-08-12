@@ -1,4 +1,6 @@
 ﻿using EduFlow.Desktop.Integrated.Security;
+using EduFlow.Desktop.Integrated.Services.Companies.Company;
+using EduFlow.Desktop.Integrated.Services.Companies.Logo;
 using EduFlow.Desktop.Pages.MainForPage;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,9 +12,14 @@ namespace EduFlow.Desktop.Windows;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private readonly ICompanyService _companyService;
+    private readonly ILogoService _logoService;
+    private long CompanyId { get; set; }
     public MainWindow()
     {
         InitializeComponent();
+        this._companyService = new CompanyService();
+        this._logoService = new LogoService();
     }
 
     public void NavigatePage(Page page)
@@ -56,7 +63,10 @@ public partial class MainWindow : Window
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         NormalButton.IsChecked = true;
+
         var role = IdentitySingelton.GetInstance().Role;
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
         if (role is Domain.Enums.UserRole.Teacher)
         {
             TeacherNavigationPage page = new TeacherNavigationPage();

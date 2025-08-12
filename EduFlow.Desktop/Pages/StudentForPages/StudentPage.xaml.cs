@@ -307,10 +307,11 @@ public partial class StudentPage : Page
     {
         try
         {
+            stStudents.Children.Clear();
             studentLoader.Visibility = Visibility.Visible;
             this.pageNumber = 1;
 
-            var students = await Task.Run(async () => await _service.GetByPhoneNumberAsync(phoneNumber, pageSize, pageNumber));
+            var students = await Task.Run(async () => await _service.GetByPhoneNumberAsync(this.CompanyId, phoneNumber, pageSize, pageNumber));
 
             if(!students.Data.Any())
             {
@@ -323,7 +324,7 @@ public partial class StudentPage : Page
         }
         catch(Exception ex)
         {
-            notifier.ShowWarning("Telefon raqam orqali o'quvchini qidirishda xatolik yuz berdi, Iltimos qayta urining!");
+            notifier.ShowWarning("Telefon raqam bo'yicha o'quvchi topilmadi!");
             studentLoader.Visibility = Visibility.Collapsed;
             emptyDataForStudent.Visibility = Visibility.Visible;
         }

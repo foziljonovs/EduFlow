@@ -183,11 +183,11 @@ public class StudentService : IStudentService
         }
     }
 
-    public async Task<PagedResponse<StudentForResultDto>> GetByPhoneNumberAsync(string phoneNumberSuffix, int pageSize, int pageNumber)
+    public async Task<PagedResponse<StudentForResultDto>> GetByPhoneNumberAsync(long companyId, string phoneNumberSuffix, int pageSize, int pageNumber)
     {
         try
         {
-            var result = await _server.GetByPhoneNumberAsync(phoneNumberSuffix, pageSize, pageNumber);
+            var result = await _server.GetByPhoneNumberAsync(companyId, phoneNumberSuffix, pageSize, pageNumber);
             return result;
         }
         catch (Exception ex)

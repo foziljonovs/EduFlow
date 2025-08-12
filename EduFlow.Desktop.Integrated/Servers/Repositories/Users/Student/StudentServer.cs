@@ -380,14 +380,14 @@ public class StudentServer : IStudentServer
         }
     }
 
-    public async Task<PagedResponse<StudentForResultDto>> GetByPhoneNumberAsync(string phoneNumberSuffix, int pageSize, int pageNumber)
+    public async Task<PagedResponse<StudentForResultDto>> GetByPhoneNumberAsync(long companyId, string phoneNumberSuffix, int pageSize, int pageNumber)
     {
         try
         {
             HttpClient client = new HttpClient();
             var token = IdentitySingelton.GetInstance().Token;
 
-            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/{phoneNumberSuffix}/phone-number?pageSize={pageSize}&pageNumber={pageNumber}");
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/students/{companyId}/company/{phoneNumberSuffix}/phone-number?pageSize={pageSize}&pageNumber={pageNumber}");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await client.GetAsync(client.BaseAddress);
