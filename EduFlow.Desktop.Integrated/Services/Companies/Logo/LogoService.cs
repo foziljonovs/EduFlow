@@ -63,6 +63,32 @@ public class LogoService : ILogoService
         }
     }
 
+    public async Task<byte[]> GetLogoByIdAsync(long id)
+    {
+        try
+        {
+            var result = await _server.GetLogoByIdAsync(id);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return Array.Empty<byte>();
+        }
+    }
+
+    public async Task<byte[]> GetLogoByNameAsync(string fileName)
+    {
+        try
+        {
+            var result = await _server.GetLogoByNameAsync(fileName);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return Array.Empty<byte>();
+        }
+    }
+
     public async Task<bool> UpdateAsync(long id, LogoForUpdateDto dto)
     {
         try
