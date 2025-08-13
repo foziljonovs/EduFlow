@@ -3,10 +3,10 @@ using EduFlow.BLL.DTOs.Courses.Course;
 using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Payments.Registry;
-using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.MainForComponents;
 using EduFlow.Desktop.Integrated.Helpers;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Category;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
@@ -14,7 +14,6 @@ using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Payments.Registry;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -42,6 +41,7 @@ public partial class MainPage : Page
     private bool hasPrevious = false;
     private bool isFiltered = false;
     private GroupForFilterDto isFilterDto = new GroupForFilterDto();
+    private long CompanyId { get; set; }
     public MainPage()
     {
         InitializeComponent();
@@ -100,7 +100,7 @@ public partial class MainPage : Page
     {
         try
         {
-            var categories = await Task.Run(async () => await _categoryService.GetAllAsync());
+            var categories = await Task.Run(async () => await _categoryService.GetByCompanyIdAsync(this.CompanyId));
         
             ShowCategories(categories);
         }
@@ -114,7 +114,7 @@ public partial class MainPage : Page
     {
         try
         {
-            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
 
             ShowCourses(courses);
         }
@@ -128,7 +128,7 @@ public partial class MainPage : Page
     {
         try
         {
-            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+            var teachers = await Task.Run(async () => await _teacherService.GetAllByCompanyIdAsync(this.CompanyId));
 
             ShowTeachers(teachers);
         }
@@ -144,7 +144,7 @@ public partial class MainPage : Page
         {
             groupLoader.Visibility = Visibility.Visible;
 
-            var groups = await Task.Run(async () => await _groupService.GetAllPaginationAsync(pageSize, pageNumber));
+            var groups = await Task.Run(async () => await _groupService.GetAllPaginationByCompanyIdAsync(this.CompanyId, pageSize, pageNumber));
 
             ShowGroup(groups.Data);
             Pagination(groups);
@@ -213,7 +213,7 @@ public partial class MainPage : Page
 
     private async Task GetAllActiveStudent()
     {
-        var students = await Task.Run(async () => await _studentService.GetAllAsync());
+        var students = await Task.Run(async () => await _studentService.GetAllByCompanyIdAsync(this.CompanyId));
 
         if (students.Any())
         {
@@ -323,8 +323,11 @@ public partial class MainPage : Page
             stGroups.Children.Clear();
             groupLoader.Visibility = Visibility.Visible;
 
-            GroupForFilterDto dto = new GroupForFilterDto();
-            dto.IsStatus = Domain.Enums.Status.Active;
+            GroupForFilterDto dto = new GroupForFilterDto
+            {
+                CompanyId = this.CompanyId,
+                IsStatus = Domain.Enums.Status.Active
+            };
 
             if (categoryComboBox.SelectedItem is ComboBoxItem selectedCategoryItem &&
                 selectedCategoryItem.Tag != null)
@@ -414,12 +417,13 @@ public partial class MainPage : Page
     }
 
     private bool isPageLoaded = false;
-    private void Page_Loaded(object sender, RoutedEventArgs e)
+    private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
         if(!isPageLoaded)
         {
             isPageLoaded = true;
-            LoadPage();
+            this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+            await LoadPage();
         }
     }
 
