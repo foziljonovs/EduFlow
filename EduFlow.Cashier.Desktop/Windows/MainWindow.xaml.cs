@@ -1,8 +1,14 @@
-﻿using EduFlow.Cashier.Desktop.Pages.MainForPages;
+﻿using EduFlow.Cashier.Desktop.Helpers;
+using EduFlow.Cashier.Desktop.Pages.MainForPages;
 using EduFlow.Cashier.Desktop.Pages.PaymentForPages;
 using EduFlow.Cashier.Desktop.Pages.StatsForPages;
 using EduFlow.Cashier.Desktop.Pages.StudentForPages;
+using EduFlow.Cashier.Desktop.State;
 using EduFlow.Cashier.Desktop.Windows.SettingsForWindows;
+using EduFlow.Desktop.Integrated.Security;
+using EduFlow.Desktop.Integrated.Services.Companies.Company;
+using EduFlow.Desktop.Integrated.Services.Companies.Logo;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -13,9 +19,14 @@ namespace EduFlow.Cashier.Desktop;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private readonly ICompanyService _companyService;
+    private readonly ILogoService _logoService;
+    private long CompanyId { get; set; }
     public MainWindow()
     {
         InitializeComponent();
+        this._companyService = new CompanyService();
+        this._logoService = new LogoService();
     }
 
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
@@ -59,12 +70,45 @@ public partial class MainWindow : Window
     public void NavigatePage(Page page)
         => Navigate.Content = page;
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private async Task GetCompany()
     {
+        try
+        {
+            var company = await _companyService.GetByIdAsync(this.CompanyId);
+
+            if (company is not null)
+            {
+                var existsLogo = await _logoService.GetByIdAsync(company.LogoId);
+                if (existsLogo is null)
+                    return;
+
+                AppState.CompanyId = company.Id;
+                AppState.Name = company.Name;
+                AppState.PhoneNumber = company.PhoneNumber;
+
+                var logo = await _logoService.GetLogoByIdAsync(existsLogo.Id);
+
+                if (logo is not null)
+                {
+                    string savedPath = await FileHelper.SaveLogoAsync(logo, existsLogo.FileName);
+
+                    AppState.LogoFilePath = savedPath;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    private async void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
         homeBtn.IsChecked = true;
 
         MainPage page = new MainPage();
         NavigatePage(page);
+        await GetCompany();
     }
 
     private void homeBtn_Click(object sender, RoutedEventArgs e)

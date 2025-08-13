@@ -101,6 +101,7 @@ public partial class LoginWindow : Window
         identity.PhoneNumber = tkn.PhoneNumber;
         identity.Name = tkn.Name;
         identity.Role = tkn.Role;
+        identity.CompanyId = tkn.CompanyId;
     }
 
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
