@@ -26,10 +26,10 @@
             </Grid.RowDefinitions>
 
             <Grid>
-                <Grid.ColumnDefinitions>
+                <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>-->
 
                 <!--<materialDesign:PackIcon
                     Kind="SchoolOutline"
@@ -38,19 +38,19 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"/>-->
 
-                <Image Grid.Column="0"
+                <!--<Image Grid.Column="0"
                        x:Name="imgLogo"
-                       Height="40"
-                       Width="40"
-                       HorizontalAlignment="Right"/>
+                       Height="auto"
+                       Width="auto"
+                       HorizontalAlignment="Center"/>-->
 
                 <TextBlock Grid.Column="1"
                            x:Name="tbCompanyName"
-                           Text="Edu Flow"
-                           FontSize="20"
+                           FontSize="24"
                            FontWeight="Bold"
                            Margin="10"
-                           VerticalAlignment="Center"/>
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
             </Grid>
 
             <Grid Grid.Row="1"
