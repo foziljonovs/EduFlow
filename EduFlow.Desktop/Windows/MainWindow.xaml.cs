@@ -98,35 +98,6 @@ public partial class MainWindow : Window
         }
     }
 
-    private bool SetLogoToImage(string filePath)
-    {
-        try
-        {
-            if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
-                return false;
-
-            byte[] imageBytes = File.ReadAllBytes(filePath);
-
-            using (var ms = new MemoryStream(imageBytes))
-            {
-                var bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.StreamSource = ms;
-                bitmap.EndInit();
-                bitmap.Freeze();
-                imgLogo.Source = bitmap;
-            }
-
-            return true;
-        }
-        catch (Exception ex)
-        {
-            return false;
-        }
-    }
-
-
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
         NormalButton.IsChecked = true;
@@ -146,16 +117,6 @@ public partial class MainWindow : Window
         }
 
         await GetCompany();
-
-        if(!string.IsNullOrWhiteSpace(AppState.LogoFilePath))
-        {
-            bool logoResult = SetLogoToImage(AppState.LogoFilePath);
-
-            if(!logoResult)
-                imgLogo.Source = new BitmapImage(new Uri("pack://application:,,,/Assets/logo.png"));
-        }
-        else
-            imgLogo.Source = new BitmapImage(new Uri("pack://application:,,,/Assets/logo.png"));
     }
 
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
