@@ -96,7 +96,7 @@ public class RegistryServer : IRegistryServer
             HttpClient client = new HttpClient();
             var token = IdentitySingelton.GetInstance().Token;
 
-            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/registries/company/{companyId}");
+            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/registries/companyId/{companyId}");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await client.GetAsync(client.BaseAddress);

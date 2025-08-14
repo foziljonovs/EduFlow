@@ -1,4 +1,5 @@
 ﻿using EduFlow.BLL.DTOs.Payments.Registry;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Payments.Registry;
 using EduFlow.Domain.Enums;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace EduFlow.Cashier.Desktop.Windows.PaymentForWindows;
 public partial class OutlayForPaymentWindow : Window
 {
     private readonly IRegistryService _registryService;
+    private long CompanyId { get; set; }
     public OutlayForPaymentWindow()
     {
         InitializeComponent();
@@ -66,9 +68,12 @@ public partial class OutlayForPaymentWindow : Window
     {
         try
         {
-            RegistryForCreateDto dto = new RegistryForCreateDto();
-            dto.Debit = 0;
-            dto.IsConfirmed = true;
+            RegistryForCreateDto dto = new RegistryForCreateDto
+            {
+                CompanyId = this.CompanyId,
+                IsConfirmed = true,
+                Debit = 0
+            };
 
             if(!string.IsNullOrEmpty(creditTxt.Text))
             {
@@ -152,5 +157,10 @@ public partial class OutlayForPaymentWindow : Window
         {
             SaveBtn.IsEnabled = true;
         }
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
     }
 }

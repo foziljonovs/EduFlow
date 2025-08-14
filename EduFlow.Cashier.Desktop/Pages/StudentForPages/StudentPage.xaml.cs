@@ -3,6 +3,7 @@ using EduFlow.BLL.DTOs.Payments.Payment;
 using EduFlow.BLL.DTOs.Users.Student;
 using EduFlow.Cashier.Desktop.Components.StudentForComponents;
 using EduFlow.Desktop.Integrated.Helpers;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Domain.Enums;
@@ -29,6 +30,7 @@ public partial class StudentPage : Page
     private bool hasPrevious = false;
     private bool isFiltered = false;
     private StudentForFilterDto? isFilterDto = new StudentForFilterDto();
+    private long CompanyId { get; set; }
     public StudentPage()
     {
         InitializeComponent();
@@ -73,7 +75,7 @@ public partial class StudentPage : Page
         {
             studentLoader.Visibility = Visibility.Visible;
 
-            var students = await Task.Run(async () => await _studentService.GetAllPaginationAsync(pageSize, pageNumber));
+            var students = await Task.Run(async () => await _studentService.GetAllPaginationByCompanyIdAsync(this.CompanyId, pageSize, pageNumber));
 
             ShowStudents(students.Data);
             Pagination(students);
@@ -90,7 +92,7 @@ public partial class StudentPage : Page
     {
         try
         {
-            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
 
             ShowCourses(courses);    
         }
@@ -107,7 +109,11 @@ public partial class StudentPage : Page
             stStudents.Children.Clear();
             studentLoader.Visibility = Visibility.Visible;
 
-            StudentForFilterDto dto = new StudentForFilterDto();
+            StudentForFilterDto dto = new StudentForFilterDto
+            {
+                CompanyId = this.CompanyId
+            };
+
             if (courseComboBox.SelectedItem is ComboBoxItem selectedCourseItem &&
                 selectedCourseItem.Tag is not null)
                 dto.CourseId = (long)selectedCourseItem.Tag;
@@ -250,10 +256,13 @@ public partial class StudentPage : Page
     }
 
     private bool IsPageLoaded = false;
-    private void Page_Loaded(object sender, RoutedEventArgs e)
+    private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        if(!IsPageLoaded)
-            LoadedPage();
+        if (!IsPageLoaded)
+        {
+            this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+            await LoadedPage();
+        }
     }
 
     private async void courseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

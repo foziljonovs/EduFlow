@@ -1,6 +1,7 @@
 ﻿using EduFlow.BLL.DTOs.Payments.Registry;
 using EduFlow.Cashier.Desktop.Components.PaymentForComponents;
 using EduFlow.Cashier.Desktop.Windows.PaymentForWindows;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Payments.Registry;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace EduFlow.Cashier.Desktop.Pages.StatsForPages;
 public partial class StatsPage : Page
 {
     private readonly IRegistryService _registryService;
+    private long CompanyId { get; set; }
     public StatsPage()
     {
         InitializeComponent();
@@ -50,6 +52,7 @@ public partial class StatsPage : Page
 
             RegistryForFilterDto dto = new RegistryForFilterDto
             {
+                CompanyId = this.CompanyId,
                 StartedDate = DateTime.UtcNow.Date,
                 FinishedDate = DateTime.UtcNow.Date.AddDays(1)
             };
@@ -73,7 +76,10 @@ public partial class StatsPage : Page
             ClearStats();
             statsLoader.Visibility = Visibility.Visible;
 
-            RegistryForFilterDto dto = new RegistryForFilterDto();
+            RegistryForFilterDto dto = new RegistryForFilterDto
+            {
+                CompanyId = this.CompanyId
+            };
 
             if (startedDate.SelectedDate is not null)
                 dto.StartedDate = startedDate.SelectedDate.Value;
@@ -272,6 +278,8 @@ public partial class StatsPage : Page
     {
         if (!IsPageLoaded)
         {
+            this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
             await GetAllRegistry();
             IsPageLoaded = true;
         }

@@ -51,6 +51,19 @@ public class RegistryService : IRegistryService
         }
     }
 
+    public async Task<List<RegistryForResultDto>> GetAllByCompanyIdAsync(long companyId)
+    {
+        try
+        {
+            var result = await _server.GetAllByCompanyIdAsync(companyId);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new List<RegistryForResultDto>();
+        }
+    }
+
     public async Task<RegistryForResultDto> GetByIdAsync(long id)
     {
         try

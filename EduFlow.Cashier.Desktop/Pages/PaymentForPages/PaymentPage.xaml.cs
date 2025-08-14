@@ -4,6 +4,7 @@ using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.PaymentForComponents;
 using EduFlow.Cashier.Desktop.Windows.PaymentForWindows;
 using EduFlow.Desktop.Integrated.Helpers;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Course;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
@@ -31,6 +32,7 @@ public partial class PaymentPage : Page
     private bool hasPrevious = false;
     private bool isFiltered = false;
     private PaymentForFilterDto? lastFilterDto = new PaymentForFilterDto();
+    private long CompanyId { get; set; }
     public PaymentPage()
     {
         InitializeComponent();
@@ -75,7 +77,7 @@ public partial class PaymentPage : Page
         {
             paymentLoader.Visibility = Visibility.Visible;
 
-            var payments = await Task.Run(async () => await _paymentService.GetAllPaginationAsync(pageSize, pageNumber));
+            var payments = await Task.Run(async () => await _paymentService.GetAllPaginationByCompanyIdAsync(this.CompanyId, pageSize, pageNumber));
 
             ShowPayments(payments.Data);
             Pagination(payments);
@@ -116,7 +118,7 @@ public partial class PaymentPage : Page
     {
         try
         {
-            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+            var teachers = await Task.Run(async () => await _teacherService.GetAllByCompanyIdAsync(this.CompanyId));
 
             ShowTeachers(teachers);
         }
@@ -133,7 +135,11 @@ public partial class PaymentPage : Page
             stPayments.Children.Clear();
             paymentLoader.Visibility = Visibility.Visible;
 
-            PaymentForFilterDto dto = new PaymentForFilterDto();
+            PaymentForFilterDto dto = new PaymentForFilterDto
+            {
+                CompanyId = this.CompanyId
+            };
+
             if (StartedDate.SelectedDate is not null)
                 dto.StartedDate = StartedDate.SelectedDate.Value;
 
@@ -198,7 +204,7 @@ public partial class PaymentPage : Page
     {
         try
         {
-            var courses = await Task.Run(async () => await _courseService.GetAllAsync());
+            var courses = await Task.Run(async () => await _courseService.GetAllByCompanyIdAsync(this.CompanyId));
 
             ShowCourses(courses);
         }
@@ -308,6 +314,8 @@ public partial class PaymentPage : Page
     {
         if(!isPageLoaded)
         {
+            this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+
             LoadPage();
             isPageLoaded = true;
         }

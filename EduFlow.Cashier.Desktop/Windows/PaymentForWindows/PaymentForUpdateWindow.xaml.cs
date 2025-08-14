@@ -6,14 +6,13 @@ using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Components.GroupForComponents;
 using EduFlow.Cashier.Desktop.Components.StudentForComponents;
 using EduFlow.Cashier.Desktop.Services;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Payments.Registry;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
-using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -34,6 +33,7 @@ public partial class PaymentForUpdateWindow : Window
     private readonly IGroupService _groupService;
     private readonly IStudentService _studentService;
     PrinterService _printerService = new PrinterService();
+    private long CompanyId { get; set; }
     private long Id { get; set; }
     private long TeacherId { get; set; }
     private long StudentId { get; set; }
@@ -127,7 +127,7 @@ public partial class PaymentForUpdateWindow : Window
     {
         try
         {
-            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+            var teachers = await Task.Run(async () => await _teacherService.GetAllByCompanyIdAsync(this.CompanyId));
 
             ShowTeachers(teachers);
         }
@@ -436,9 +436,10 @@ public partial class PaymentForUpdateWindow : Window
         isInitialLoad = false;
     }
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        Load();
+        this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
+        await Load();
     }
 
     private async Task SavedAsync()
@@ -454,8 +455,15 @@ public partial class PaymentForUpdateWindow : Window
                 return;
             }
 
-            RegistryForCreateDto registryDto = new RegistryForCreateDto();
-            PaymentForUpdateDto paymentDto = new PaymentForUpdateDto();
+            RegistryForCreateDto registryDto = new RegistryForCreateDto
+            {
+                CompanyId = this.CompanyId
+            };
+
+            PaymentForUpdateDto paymentDto = new PaymentForUpdateDto
+            {
+                CompanyId = this.CompanyId
+            };
 
 
             if (teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem &&
