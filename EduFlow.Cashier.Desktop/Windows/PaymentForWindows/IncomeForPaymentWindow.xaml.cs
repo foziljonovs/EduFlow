@@ -7,6 +7,7 @@ using EduFlow.Cashier.Desktop.Components.GroupForComponents;
 using EduFlow.Cashier.Desktop.Components.PaymentForComponents;
 using EduFlow.Cashier.Desktop.Components.StudentForComponents;
 using EduFlow.Cashier.Desktop.Services;
+using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Courses.Group;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Payments.Registry;
@@ -34,6 +35,7 @@ public partial class IncomeForPaymentWindow : Window
     private readonly IStudentService _studentService;
     private TeacherForResultDto _teacher = new TeacherForResultDto();
     PrinterService _printerService = new PrinterService();
+    private long CompanyId { get; set; }
     private long _studentId { get; set; }
     private long _groupId { get; set; }
     public IncomeForPaymentWindow()
@@ -124,7 +126,7 @@ public partial class IncomeForPaymentWindow : Window
     {
         try
         {
-            var teachers = await Task.Run(async () => await _teacherService.GetAllAsync());
+            var teachers = await Task.Run(async () => await _teacherService.GetAllByCompanyIdAsync(this.CompanyId));
 
             ShowTeachers(teachers);
         }
@@ -191,6 +193,7 @@ public partial class IncomeForPaymentWindow : Window
     {
         if (!isWindowLoaded)
         {
+            this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
             isWindowLoaded = true;
             LoadWindow();
         }
@@ -222,7 +225,7 @@ public partial class IncomeForPaymentWindow : Window
             studentLoader.Visibility = Visibility.Visible;
             emptyDataForStudents.Visibility = Visibility.Collapsed;
 
-            var groups = await Task.Run(async () => await _studentService.GetAllAsync());
+            var groups = await Task.Run(async () => await _studentService.GetAllByCompanyIdAsync(this.CompanyId));
 
             var thisGroupStudents = groups.Where(x => x.Groups.Any(x => x.Id == groupId)).ToList();
 
@@ -446,8 +449,15 @@ public partial class IncomeForPaymentWindow : Window
                 return;
             }
 
-            RegistryForCreateDto registryDto = new RegistryForCreateDto();
-            PaymentForCreateDto paymentDto = new PaymentForCreateDto();
+            RegistryForCreateDto registryDto = new RegistryForCreateDto
+            {
+                CompanyId = this.CompanyId
+            };
+
+            PaymentForCreateDto paymentDto = new PaymentForCreateDto
+            {
+                CompanyId = this.CompanyId
+            };
 
             if(teacherComboBox.SelectedItem is ComboBoxItem selectedTeacherItem &&
                 selectedTeacherItem.Tag != null)

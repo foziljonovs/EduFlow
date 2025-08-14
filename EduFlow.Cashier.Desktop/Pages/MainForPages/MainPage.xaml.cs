@@ -161,7 +161,7 @@ public partial class MainPage : Page
     {
         try
         {
-            var registries = await Task.Run(async () => await _registryService.GetAllAsync());
+            var registries = await Task.Run(async () => await _registryService.GetAllByCompanyIdAsync(this.CompanyId));
 
             if (registries.Any())
                 ShowMonthlyDebit(registries);
@@ -178,7 +178,7 @@ public partial class MainPage : Page
     {
         try
         {
-            var payments = await Task.Run(async () => await _paymentService.GetAllAsync());
+            var payments = await Task.Run(async () => await _paymentService.GetAllByCompanyIdAsync(this.CompanyId));
 
             if (payments.Any())
                 ShowStudentsOfPaid(payments);

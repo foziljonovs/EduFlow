@@ -64,6 +64,19 @@ public class PaymentService : IPaymentService
         }
     }
 
+    public async Task<List<PaymentForResultDto>> GetAllByCompanyIdAsync(long companyId)
+    {
+        try
+        {
+            var result = await _server.GetAllByCompanyIdAsync(companyId);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return new List<PaymentForResultDto>();
+        }
+    }
+
     public async Task<List<PaymentForResultDto>> GetAllByGroupIdAsync(long groupId)
     {
         try
@@ -108,6 +121,19 @@ public class PaymentService : IPaymentService
         try
         {
             var result = await _server.GetAllPaginationAsync(pageSize, pageNumber);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            return new PagedResponse<PaymentForResultDto>();
+        }
+    }
+
+    public async Task<PagedResponse<PaymentForResultDto>> GetAllPaginationByCompanyIdAsync(long companyId, int pageSize, int pageNumber)
+    {
+        try
+        {
+            var result = await _server.GetAllPaginationByCompanyIdAsync(companyId, pageSize, pageNumber);
             return result;
         }
         catch(Exception ex)

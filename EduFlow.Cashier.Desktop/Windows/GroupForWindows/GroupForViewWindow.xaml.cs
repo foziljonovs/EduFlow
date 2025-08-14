@@ -9,7 +9,6 @@ using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Domain.Enums;
-using System.Threading.Tasks;
 using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
