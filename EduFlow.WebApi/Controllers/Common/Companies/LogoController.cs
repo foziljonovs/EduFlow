@@ -57,11 +57,11 @@ public class LogoController(
             if (dto.File is null || dto.File.Length == 0)
                 return BadRequest("File is required.");
 
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            var allowedExtensions = new[] { ".bmp" };
             var extension = Path.GetExtension(dto.File.FileName).ToLowerInvariant();
 
             if (!allowedExtensions.Contains(extension))
-                return BadRequest("Invalid file type. Allowed types are: .jpg, .jpeg, .png");
+                return BadRequest("Invalid file type. Allowed types are: .bmp");
 
             long maxFileSize = 4 * 1024 * 1024; // 4 MB
             if (dto.File.Length > maxFileSize)

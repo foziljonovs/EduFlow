@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Drawing;
+using System.IO;
 
 namespace EduFlow.Cashier.Desktop.Helpers;
 
