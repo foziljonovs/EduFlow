@@ -1,10 +1,13 @@
 ﻿using EduFlow.BLL.DTOs.Payments.Payment;
+using EduFlow.Cashier.Desktop.State;
 using EduFlow.Desktop.Integrated.Security;
 using ESC_POS_USB_NET.Printer;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Management;
 using System.Text;
+using System.Windows.Media;
 
 namespace EduFlow.Cashier.Desktop.Services;
 
@@ -28,10 +31,32 @@ public class PrinterService : IDisposable
         printer = new Printer(PRINTER_NAME, "UTF-8");
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-        printer.AlignCenter();
-        printer.DoubleWidth2();
-        printer.Append("Edu Flow");
-        printer.Separator();
+        int maxWidth = 384;
+
+        if(!string.IsNullOrEmpty(AppState.LogoFilePath) && File.Exists(AppState.LogoFilePath))
+        {
+            try
+            {
+                using (var imgTemp = Image.FromFile(AppState.LogoFilePath))
+                {
+                    using (var img = new Bitmap(imgTemp))
+                    {
+                        printer.AlignCenter();
+                        printer.Image(img);
+                        printer.Append("\n");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                printer.AlignCenter();
+                printer.DoubleWidth2();
+                printer.Append(AppState.Name);
+                printer.Separator();
+            }
+        }
+
         printer.AlignLeft();
         printer.Append($"Kurs to'lovi:      {coursePrice} so'm");
         printer.Append($"To'lov turi:       {paymentType}");
@@ -142,6 +167,29 @@ public class PrinterService : IDisposable
         {
             return string.Empty;
         }
+    }
+    private Bitmap ResizeAndConvertToMonochrome(Image original, int maxWidth)
+    {
+        int newWidth = Math.Min(maxWidth, original.Width);
+        int newHeight = (int)(original.Height * ((float)newWidth / original.Width));
+
+        // 24-bit RGB format (safer for Get/SetPixel)
+        Bitmap resized = new Bitmap(original, new Size(newWidth, newHeight));
+        Bitmap bwBitmap = new Bitmap(resized.Width, resized.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
+        for (int y = 0; y < resized.Height; y++)
+        {
+            for (int x = 0; x < resized.Width; x++)
+            {
+                var pixelColor = resized.GetPixel(x, y);
+                int grayscale = (int)(pixelColor.R * 0.3 + pixelColor.G * 0.59 + pixelColor.B * 0.11);
+                var bwColor = grayscale < 128 ? System.Drawing.Color.Black : System.Drawing.Color.White;
+                bwBitmap.SetPixel(x, y, bwColor);
+            }
+        }
+
+        resized.Dispose();
+        return bwBitmap;
     }
 
     public void Dispose()
