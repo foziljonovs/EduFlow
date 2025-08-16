@@ -131,20 +131,6 @@ public partial class PaymentForViewWindow : Window
         }
     }
 
-    private async Task GetAllPayment()
-    {
-        try
-        {
-            var payments = await Task.Run(async () => await _paymentService.GetAllByTeacherIdAsync(this._teacherId));
-
-            PaymentAmount(payments);
-        }
-        catch(Exception ex)
-        {
-            notifierThis.ShowWarning("Bu oydagi tushumlarni olishda xatolik yuz berdi, Iltimos qayta yuklang!");
-        }
-    }
-
     private async Task FilterAsync()
     {
         try
@@ -175,6 +161,7 @@ public partial class PaymentForViewWindow : Window
         }
         catch(Exception ex)
         {
+            tbAllPaymentAmount.Text = "0";
             paymentLoader.Visibility = Visibility.Collapsed;
             emptyDataForPayment.Visibility = Visibility.Visible;
         }
@@ -182,6 +169,7 @@ public partial class PaymentForViewWindow : Window
 
     private void ShowPayments(List<PaymentForResultDto> payments)
     {
+        double totalAmount = 0;
         int count = 1;
         stPayments.Children.Clear();
 
@@ -204,33 +192,18 @@ public partial class PaymentForViewWindow : Window
                     payment.PaymentDate);
 
                 stPayments.Children.Add(component);
+                totalAmount += payment.Amount;
                 count++;
             }
+
+            tbAllPaymentAmount.Text = totalAmount.ToString();
         }
         else
         {
+            tbAllPaymentAmount.Text = "0";
             paymentLoader.Visibility = Visibility.Collapsed;
             emptyDataForPayment.Visibility = Visibility.Visible;
         }
-    }
-
-    private void PaymentAmount(List<PaymentForResultDto> payments)
-    {
-        if (payments.Any())
-        {
-            DateTime now = DateTime.UtcNow.AddHours(5);
-
-            double allAmount = payments
-                .Where(x => x.PaymentDate.Year == now.Year &&
-                            x.PaymentDate.Month == now.Month &&
-                           (x.Status == Domain.Enums.PaymentStatus.Pending ||
-                            x.Status == Domain.Enums.PaymentStatus.Completed))
-                .Sum(x => x.Amount);
-
-            tbAllPaymentAmount.Text = allAmount.ToString();
-        }
-        else
-            tbAllPaymentAmount.Text = "0";
     }
 
     public void SetId(long id)
@@ -245,7 +218,6 @@ public partial class PaymentForViewWindow : Window
             this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
 
             await GetAllPaginationPayment();
-            await GetAllPayment();
         }
     }
 
