@@ -215,7 +215,7 @@ public partial class StudentForCreateWindow : Window
             }
             else
             {
-                notifierThis.ShowError("O'quvchini saqlashda xatolik yuz berdi!");
+                notifierThis.ShowError("O'quvchini guruhga qo'shib bo'lmadi, iltimos qayta urining!");
                 saveBtn.IsEnabled = true;
             }
         }
