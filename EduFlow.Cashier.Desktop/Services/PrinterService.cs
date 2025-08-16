@@ -2,12 +2,10 @@
 using EduFlow.Cashier.Desktop.State;
 using EduFlow.Desktop.Integrated.Security;
 using ESC_POS_USB_NET.Printer;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Management;
 using System.Text;
-using System.Windows.Media;
 
 namespace EduFlow.Cashier.Desktop.Services;
 
@@ -16,6 +14,7 @@ public class PrinterService : IDisposable
     private readonly string PRINTER_NAME = Properties.Settings.Default.PrinterName;
     public string printerName { get; set; } = string.Empty;
     Printer? printer;
+
     public PrinterService()
     {
         printerName = GetPrinterName();
@@ -27,74 +26,69 @@ public class PrinterService : IDisposable
             throw new ArgumentException("Printer aniqlanmadi. Printerni sozlang!");
 
         var cashier = IdentitySingelton.GetInstance().Name;
-
         printer = new Printer(PRINTER_NAME, "UTF-8");
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-        int maxWidth = 384;
+        printer.AlignCenter();
 
-        if(!string.IsNullOrEmpty(AppState.LogoFilePath) && File.Exists(AppState.LogoFilePath))
+        if (!string.IsNullOrEmpty(AppState.LogoFilePath) && File.Exists(AppState.LogoFilePath))
         {
             try
             {
                 using (var imgTemp = Image.FromFile(AppState.LogoFilePath))
+                using (var bitmap = new Bitmap(imgTemp))
                 {
-                    using (var img = new Bitmap(imgTemp))
-                    {
-                        printer.AlignCenter();
-                        printer.Image(img);
-                        printer.Append("\n");
-                    }
+                    printer.Image(bitmap);
+                    printer.Append("\n\n");
                 }
-
             }
-            catch (Exception ex)
+            catch
             {
                 printer.AlignCenter();
                 printer.DoubleWidth2();
                 printer.Append(AppState.Name);
-                printer.Separator();
+                printer.Append("\n\n");
             }
         }
+        else
+        {
+            printer.AlignCenter();
+            printer.DoubleWidth2();
+            printer.Append(AppState.Name);
+            printer.Append("\n\n");
+        }
 
+        printer.Separator();
         printer.AlignLeft();
-        printer.Append($"Kurs to'lovi:      {coursePrice} so'm");
-        printer.Append($"To'lov turi:       {paymentType}");
-        printer.Append($"Chegirma:          {paymentDto.Discount} so'm");
-        printer.Append($"Yo'nalish:         {course}");
-        printer.Append($"O'qituvchi:\n{teacher}");
-        printer.Append($"O'quvchi:\n{paymentDto.Student.Fullname}");
-        printer.Append($"Jami summa:        {paymentDto.Amount + paymentDto.Discount} so'm");
-        printer.Append($"To'langan summa:   {paymentDto.Amount} so'm");
+
+        printer.Append($"{Pad("Kurs to'lovi:", 15)} {coursePrice:N0} so'm");
+        printer.Append($"{Pad("To'lov turi:", 15)} {paymentType}");
+        if (paymentDto.Discount > 0)
+            printer.Append($"{Pad("Chegirma:", 15)} {paymentDto.Discount:N0} so'm");
+        printer.Append($"{Pad("Yo'nalish:", 15)} {course}");
+        printer.Append($"{Pad("O'qituvchi:", 15)} {teacher}");
+        printer.Append($"{Pad("O'quvchi:", 15)} {paymentDto.Student.Fullname}");
+        printer.Append($"{Pad("Jami summa:", 15)} {(paymentDto.Amount + paymentDto.Discount):N0} so'm");
+        printer.Append($"{Pad("To'langan summa:", 15)} {paymentDto.Amount:N0} so'm");
         printer.Append("\n");
-        printer.AlignLeft();
-        printer.Append($"Kassir: {cashier}");
-        printer.Append($"To'lov sanasi:     {paymentDto.PaymentDate:dd/MM/yyyy}");
-        printer.Append($"To'lov raqami:\n{paymentDto.ReceiptNumber}");
-        printer.Append("\n");
+        printer.Append($"{Pad("Kassir:", 15)} {cashier}");
+        printer.Append($"{Pad("To'lov sanasi:", 15)} {paymentDto.PaymentDate:dd/MM/yyyy HH:mm}");
+        string receipt = paymentDto.ReceiptNumber;
+        if (receipt.Length > 16)
+            receipt = receipt.Substring(0, 13) + "...";
+        printer.Append($"{Pad("To'lov raqami:", 15)} {receipt}");
+        printer.Separator();
 
         printer.AlignCenter();
         printer.BoldMode("Tashakkur!");
-
         printer.Append("\n");
-
         printer.FullPaperCut();
         printer.PrintDocument();
     }
 
-    public string GetPrinterName()
+    private string Pad(string text, int length)
     {
-        if (string.IsNullOrEmpty(printerName))
-        {
-            printerName = GetSavedPrinterName();
-        }
-
-        if (string.IsNullOrEmpty(printerName))
-        {
-            printerName = GetUsbPrinterName();
-        }
-        
-        return printerName;
+        return text.PadRight(length, ' ');
     }
 
     public void Test()
@@ -111,36 +105,43 @@ public class PrinterService : IDisposable
         printer.PrintDocument();
     }
 
+    public string GetPrinterName()
+    {
+        if (string.IsNullOrEmpty(printerName))
+            printerName = GetSavedPrinterName();
+
+        if (string.IsNullOrEmpty(printerName))
+            printerName = GetUsbPrinterName();
+
+        return printerName;
+    }
+
     public string GetSavedPrinterName()
     {
         try
         {
-            StreamReader streamReader = new StreamReader(PRINTER_NAME);
-            string res = streamReader.ReadToEnd();
-            streamReader.Close();
-            return res;
+            using var reader = new StreamReader(PRINTER_NAME);
+            return reader.ReadToEnd();
         }
-        catch(Exception ex)
+        catch
         {
             return string.Empty;
-        } 
+        }
     }
 
     public void SavePrinter(string name)
     {
-        StreamWriter writer = new StreamWriter(PRINTER_NAME);
+        using var writer = new StreamWriter(PRINTER_NAME);
         writer.Write(name);
-        writer.Flush();
-        writer.Close();
     }
+
     public List<string> ConnectedPrinters()
     {
-        List<string> printers = new List<string>();
+        List<string> printers = new();
         foreach (var print in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
         {
             printers.Add(print.ToString()!);
         }
-
         return printers;
     }
 
@@ -149,7 +150,7 @@ public class PrinterService : IDisposable
         try
         {
             var usbPrinters = new List<string>();
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Printer WHERE PortName LIKE 'USB%'");
+            ManagementObjectSearcher searcher = new("SELECT * FROM Win32_Printer WHERE PortName LIKE 'USB%'");
             foreach (ManagementObject printer in searcher.Get())
             {
                 usbPrinters.Add(printer["Name"].ToString()!);
@@ -168,31 +169,6 @@ public class PrinterService : IDisposable
             return string.Empty;
         }
     }
-    private Bitmap ResizeAndConvertToMonochrome(Image original, int maxWidth)
-    {
-        int newWidth = Math.Min(maxWidth, original.Width);
-        int newHeight = (int)(original.Height * ((float)newWidth / original.Width));
 
-        // 24-bit RGB format (safer for Get/SetPixel)
-        Bitmap resized = new Bitmap(original, new Size(newWidth, newHeight));
-        Bitmap bwBitmap = new Bitmap(resized.Width, resized.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-
-        for (int y = 0; y < resized.Height; y++)
-        {
-            for (int x = 0; x < resized.Width; x++)
-            {
-                var pixelColor = resized.GetPixel(x, y);
-                int grayscale = (int)(pixelColor.R * 0.3 + pixelColor.G * 0.59 + pixelColor.B * 0.11);
-                var bwColor = grayscale < 128 ? System.Drawing.Color.Black : System.Drawing.Color.White;
-                bwBitmap.SetPixel(x, y, bwColor);
-            }
-        }
-
-        resized.Dispose();
-        return bwBitmap;
-    }
-
-    public void Dispose()
-         => GC.SuppressFinalize(this);
+    public void Dispose() => GC.SuppressFinalize(this);
 }
-
