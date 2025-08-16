@@ -13,6 +13,7 @@ using EduFlow.Desktop.Integrated.Services.Courses.Lesson;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using EduFlow.Desktop.Windows.StudentForWindows;
 using EduFlow.Domain.Enums;
 using System.Windows;
 using ToastNotifications;
@@ -315,8 +316,8 @@ public partial class GroupForViewWindow : Window
 
     private async Task LoadedWindow()
     {
-        if (IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
-            addStudents.Visibility = Visibility.Collapsed;
+        //if (IdentitySingelton.GetInstance().Role is Domain.Enums.UserRole.Teacher)
+        //    addStudents.Visibility = Visibility.Collapsed;
 
         await ShowValues();
         ShowLessons();
@@ -329,10 +330,20 @@ public partial class GroupForViewWindow : Window
 
     private async void addStudents_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-        GroupForAddStudentWindow window = new GroupForAddStudentWindow();
-        window.SetId(Id);
-        window.ShowDialog();
-        await LoadedWindow();
+        if(IdentitySingelton.GetInstance().Role is UserRole.Teacher)
+        {
+            StudentForCreateByTeacherWindow window = new StudentForCreateByTeacherWindow();
+            window.SetGroupId(this.Id);
+            window.ShowDialog();
+            await LoadedWindow();
+        }
+        else
+        {
+            GroupForAddStudentWindow window = new GroupForAddStudentWindow();
+            window.SetId(Id);
+            window.ShowDialog();
+            await LoadedWindow();
+        }
     }
 
     private async void createLessonBtn_Click(object sender, RoutedEventArgs e)
