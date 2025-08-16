@@ -78,6 +78,21 @@
 
             <StackPanel Orientation="Horizontal" 
                         HorizontalAlignment="Right">
+                <Border x:Name="PaymentForUploadPDF"
+                        Width="120"
+                        Background="MediumSeaGreen"
+                        CornerRadius="8"
+                        Margin="10 0"
+                        MouseDown="PaymentForUploadPDF_MouseDown">
+                    <TextBlock Text="Chop etish"
+                               FontSize="18"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+
                 <TextBlock Text="Jami summa: "
                            FontSize="14"
                            FontFamily="Jetbrains Mono"

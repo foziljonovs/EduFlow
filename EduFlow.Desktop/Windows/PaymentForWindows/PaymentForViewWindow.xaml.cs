@@ -261,4 +261,9 @@ public partial class PaymentForViewWindow : Window
         else
             await GetAllPaginationPayment();
     }
+
+    private void PaymentForUploadPDF_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+
+    }
 }

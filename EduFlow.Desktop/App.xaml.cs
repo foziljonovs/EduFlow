@@ -1,4 +1,5 @@
 ﻿using EduFlow.SharedConfig;
+using QuestPDF.Infrastructure;
 using System.Windows;
 
 namespace EduFlow.Desktop;
@@ -13,5 +14,6 @@ public partial class App : Application
         var baseUrl = ConfigurationManager.GetValue("ApiConfig:BaseUrl");
 
         base.OnStartup(e);
+        QuestPDF.Settings.License = LicenseType.Community;
     }
 }
