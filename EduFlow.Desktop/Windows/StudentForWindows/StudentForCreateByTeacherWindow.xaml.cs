@@ -169,30 +169,37 @@ public partial class StudentForCreateByTeacherWindow : Window
                 return;
             }
 
-            //StudentCourseForCreateDto studentCourseDto = new StudentCourseForCreateDto
-            //{
-            //    CourseId = this.Group.CourseId,
-            //    StudentId = studentResult,
-            //    PreferredTime = this.Group.PreferredTime.HasValue
-            //        ? TimeOnly.FromTimeSpan(this.Group.PreferredTime.Value)
-            //        : null,
-            //    PreferredDay = this.Group.PreferredDay
-            //};
-
-            //var studentCourseResult = await _studentCourseService.AddAsync(studentCourseDto);
-
-            List<long> studentIds = new List<long>{ studentResult };    
-
-            var addedGroupResult = await _groupService.AddStudentsToGroupAsync(this.GroupId, studentIds);
-
-            if (addedGroupResult)
+            StudentCourseForCreateDto studentCourseDto = new StudentCourseForCreateDto
             {
-                this.Close();
-                notifier.ShowSuccess("O'quvchi guruhga muvaffaqiyatli qo'shildi!");
+                CourseId = this.Group.CourseId,
+                StudentId = studentResult,
+                PreferredTime = this.Group.PreferredTime.HasValue
+                    ? TimeOnly.FromTimeSpan(this.Group.PreferredTime.Value)
+                    : null,
+                PreferredDay = this.Group.PreferredDay
+            };
+
+            var studentCourseResult = await _studentCourseService.AddAsync(studentCourseDto);
+
+            if (studentCourseResult)
+            {
+                List<long> studentIds = new List<long>{ studentResult };
+                var addedGroupResult = await _groupService.AddStudentsToGroupAsync(this.GroupId, studentIds);
+
+                if (addedGroupResult)
+                {
+                    this.Close();
+                    notifier.ShowSuccess("O'quvchi guruhga muvaffaqiyatli qo'shildi!");
+                }
+                else
+                {
+                    notifierThis.ShowError("O'quvchini guruhga qo'shib bo'lmadi, iltimos qayta urining!");
+                    saveBtn.IsEnabled = true;
+                }
             }
             else
             {
-                notifierThis.ShowError("O'quvchini guruhga qo'shib bo'lmadi, iltimos qayta urining!");
+                notifierThis.ShowWarning("O'quvchi malumotini saqlab bo'lmadi, iltimos qayta urining!");
                 saveBtn.IsEnabled = true;
             }
         }
