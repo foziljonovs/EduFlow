@@ -1,9 +1,14 @@
 ﻿using EduFlow.BLL.DTOs.Courses.Group;
 using EduFlow.BLL.DTOs.Payments.Payment;
+using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Desktop.Components.PaymentForComponents;
+using EduFlow.Desktop.Helpers;
 using EduFlow.Desktop.Integrated.Helpers;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
+using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using QuestPDF.Fluent;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using ToastNotifications;
@@ -19,7 +24,9 @@ namespace EduFlow.Desktop.Windows.PaynentForWindows;
 public partial class PaymentForViewWindow : Window
 {
     private readonly IPaymentService _paymentService;
+    private readonly ITeacherService _teacherService;
     private long _teacherId { get; set; }
+    private TeacherForResultDto Teacher { get; set; }
     private int pageSize = 10;
     private int pageNumber = 1;
     private bool hasNext = false;
@@ -31,6 +38,7 @@ public partial class PaymentForViewWindow : Window
     {
         InitializeComponent();
         this._paymentService = new PaymentService();
+        this._teacherService = new TeacherService();
     }
 
     Notifier notifierThis = new Notifier(cfg =>
@@ -131,6 +139,23 @@ public partial class PaymentForViewWindow : Window
         }
     }
 
+    private async Task GetTeacher()
+    {
+        try
+        {
+            var teacher = await _teacherService.GetByIdAsync(this._teacherId);
+
+            if (teacher is null)
+                notifierThis.ShowWarning("O'qituvchi ma'lumotlari topilmadi, iltimos qayta urining!");
+            else
+                this.Teacher = teacher;
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowWarning("Xatolik yuz berdi, iltimos qayta urinig!");
+        }
+    }
+
     private async Task FilterAsync()
     {
         try
@@ -218,6 +243,7 @@ public partial class PaymentForViewWindow : Window
             this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
 
             await GetAllPaginationPayment();
+            await GetTeacher();
         }
     }
 
@@ -262,8 +288,83 @@ public partial class PaymentForViewWindow : Window
             await GetAllPaginationPayment();
     }
 
-    private void PaymentForUploadPDF_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private string SanitizeFileName(string fileName)
     {
+        foreach (char invalidChar in System.IO.Path.GetInvalidFileNameChars())
+        {
+            fileName = fileName.Replace(invalidChar, '_');
+        }
+        return fileName;
+    }
 
+    private async Task<(List<PaymentForResultDto>, DateTime, DateTime)> GetAllByTeacherIdAsync()
+    {
+        try
+        {
+            var payments = await Task.Run(async () => await _paymentService.GetAllByTeacherIdAsync(this._teacherId));
+
+            DateTime startedDate;
+            DateTime finishedDate;
+
+            if (isFilterDto is not null && isFilterDto.StartedDate.HasValue && isFilterDto.FinishedDate.HasValue)
+            {
+                startedDate = isFilterDto.StartedDate.Value;
+                finishedDate = isFilterDto.FinishedDate.Value;
+            }
+            else
+            {
+                startedDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                finishedDate = DateTime.UtcNow.AddHours(5);
+            }
+
+            if (payments.Any())
+            {
+                var filteredPayments = payments
+                    .Where(x => x.PaymentDate >= startedDate
+                        && x.PaymentDate <= finishedDate)
+                    .ToList();
+
+                return (filteredPayments, startedDate, finishedDate);
+            }
+            else
+                return (new List<PaymentForResultDto>(), DateTime.Now, DateTime.Now);
+        }
+        catch(Exception ex)
+        {
+            return (new List<PaymentForResultDto>(), DateTime.Now, DateTime.Now);
+        }
+    }
+
+    private async void PaymentForUploadPDF_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        try
+        {
+            (List<PaymentForResultDto> payments, DateTime startedDate, DateTime finishedDate) = await GetAllByTeacherIdAsync();
+
+            if (!payments.Any())
+            {
+                notifierThis.ShowWarning("To'lovlar topilmadi, iltimos qayta urining!");
+                return;
+            }
+
+            string title = SanitizeFileName($"{Teacher.User.Firstname} {Teacher.User.Lastname}" +
+                $" {startedDate.ToString("yyyy:MM:dd")} dan {finishedDate.ToString("yyyy:MM:dd")} gacha tushumlari");
+
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string filePath = System.IO.Path.Combine(path, $"{title}.pdf");
+
+            var document = new PDFGenerator(
+                Teacher,
+                payments,
+                startedDate,
+                finishedDate);
+
+            document.GeneratePdf(filePath);
+            notifierThis.ShowSuccess($"{title} yuklandi!");
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowWarning("Faylni yuklab bo'lmadi, iltimos qayta urining!");
+        }
     }
 }
