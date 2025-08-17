@@ -1,0 +1,87 @@
+﻿@page "/login"
+@using EduFlow.BLL.DTOs.Users.User
+@inject EduFlow.Desktop.Integrated.Services.Auth.IAuthService authService
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject NavigationManager Navigation
+
+<MudPaper Class="d-flex flex-column pa-6 mx-auto mt-12" MaxWidth="400px" Elevation="25" Rounded="true">
+    <MudText Typo="Typo.h5" Class="mb-4 text-center">Login</MudText>
+
+    <MudTextField @bind-Value="_phone"
+                  Label="Telefon raqam"
+                  Variant="Variant.Outlined"
+                  FullWidth="true"
+                  Adornment="Adornment.Start"
+                  AdornmentText="+998" 
+                  Required="true"
+                  RequiredError="Telefon raqam kiritilishi shart!"/>
+
+
+    <MudTextField T="string"
+                  Label="Parol"
+                  @bind-Value="_password"
+                  Variant="Variant.Outlined"
+                  Margin="Margin.Dense"
+                  Required="true"
+                  RequiredError="Parol kiritilishi shart!"
+                  InputType="@(_showPassword ? InputType.Text : InputType.Password)"
+                  Adornment="Adornment.End"
+                  AdornmentIcon="@(_showPassword ? Icons.Material.Filled.VisibilityOff : Icons.Material.Filled.Visibility)"
+                  AdornmentIconColor="Color.Primary"
+                  OnAdornmentClick="TogglePasswordVisibility" />
+
+
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Primary"
+               Class="mt-6"
+               FullWidth="true"
+               OnClick="LoginAsync">
+        Login
+    </MudButton>
+
+    @if(!string.IsNullOrEmpty(_message))
+    {
+        <MudAlert Severity="Severity.Warning" Class="mt-4">@_message</MudAlert>
+    }
+</MudPaper>
+
+@code {
+    private string _phone;
+    private string _password;
+    private bool _showPassword;
+    private string _message;
+
+    private void TogglePasswordVisibility()
+    {
+        _showPassword = !_showPassword;
+    }
+
+    private async Task LoginAsync()
+    {
+        try
+        {
+            var request = new UserForLoginDto
+            {
+                PhoneNumber = $"+998{_phone}",
+                Password = _password
+            };
+
+            (bool result, string token) = await authService.LoginAsync(request);
+
+            if (result && !string.IsNullOrWhiteSpace(token))
+            {
+                await LocalStorage.SetItemAsync("authToken", token);
+
+                Navigation.NavigateTo("/");
+            }
+            else
+            {
+                _message = "Kirish muvaffaqiyatsiz bo'ldi!";
+            }
+        }
+        catch (Exception ex)
+        {
+            _message = "Kirishda xatolik yuz berdi!";
+        }
+    }
+}
