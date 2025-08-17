@@ -36,13 +36,18 @@ public class PDFGenerator : IDocument
             // Header
             page.Header().Column(col =>
             {
-                col.Item().Text($"{_teacher.User.Firstname} {_teacher.User.Lastname}")
+                col.Item().Text("📄 To'lov Hisoboti")
                     .FontSize(20)
                     .Bold()
                     .FontColor("#003049")
                     .AlignCenter();
 
-                col.Item().Text($"Sanadan: {_startedDate:dd.MM.yyyy} sanagacha: {_finishedDate:dd.MM.yyyy} bo'lgan tushumlar")
+                col.Item().Text($"{_teacher.User.Firstname} {_teacher.User.Lastname}")
+                    .FontSize(14)
+                    .Bold()
+                    .AlignCenter();
+
+                col.Item().Text($"{_startedDate:dd.MM.yyyy} - {_finishedDate:dd.MM.yyyy} oralig'idagi tushumlar")
                     .FontSize(12)
                     .FontColor("#555")
                     .AlignCenter();
@@ -56,46 +61,78 @@ public class PDFGenerator : IDocument
                     // define columns
                     table.ColumnsDefinition(cols =>
                     {
-                        cols.RelativeColumn(3); // Student
-                        cols.RelativeColumn(3); // Group
-                        cols.RelativeColumn(3); // Payment Date
-                        cols.RelativeColumn(2); // Amount
-                        cols.RelativeColumn(2); // Discount
-                        cols.RelativeColumn(3); // Type
+                        cols.RelativeColumn(4); // Student
+                        cols.RelativeColumn(3); // Date
+                        cols.RelativeColumn(3); // Amount
+                        cols.RelativeColumn(3); // Discount
                         cols.RelativeColumn(3); // Status
                     });
 
                     // header row
                     table.Header(header =>
                     {
-                        header.Cell().Text("O'quvchi").Bold();
-                        header.Cell().Text("Guruh").Bold();
-                        header.Cell().Text("Sana").Bold();
-                        header.Cell().Text("Summa").Bold();
-                        header.Cell().Text("Chegirma").Bold();
-                        header.Cell().Text("To'lov turi").Bold();
-                        header.Cell().Text("Holati").Bold();
+                        header.Cell().Background("#003049").Padding(5).Text("O'quvchi").FontColor("#fff").Bold();
+                        header.Cell().Background("#003049").Padding(5).Text("Sana").FontColor("#fff").Bold();
+                        header.Cell().Background("#003049").Padding(5).Text("Summa").FontColor("#fff").Bold();
+                        header.Cell().Background("#003049").Padding(5).Text("Chegirma").FontColor("#fff").Bold();
+                        header.Cell().Background("#003049").Padding(5).Text("Holati").FontColor("#fff").Bold();
                     });
 
                     // data rows
                     foreach (var p in _payments)
                     {
-                        table.Cell().Text($"{p.Student.Fullname}");
-                        table.Cell().Text(p.Group.Name);
-                        table.Cell().Text(p.PaymentDate.ToString("dd.MM.yyyy"));
-                        table.Cell().Text($"{p.Amount:C}");
-                        table.Cell().Text($"{p.Discount:C}");
-                        table.Cell().Text(p.Type.ToString());
-                        table.Cell().Text(p.Status.ToString());
+                        table.Cell()
+                            .PaddingVertical(7)   // yuqoridan va pastdan 7px bo‘sh joy
+                            .PaddingHorizontal(5) // chap-o‘ngdan 5px
+                            .BorderBottom(1)
+                            .BorderColor("#cccccc")
+                            .Text(p.Student.Fullname);
+
+                        table.Cell()
+                            .PaddingVertical(7)
+                            .PaddingHorizontal(5)
+                            .BorderBottom(1)
+                            .BorderColor("#cccccc")
+                            .Text(p.PaymentDate.ToString("dd.MM.yyyy"));
+
+                        table.Cell()
+                            .PaddingVertical(7)
+                            .PaddingHorizontal(5)
+                            .BorderBottom(1)
+                            .BorderColor("#cccccc")
+                            .Text($"{p.Amount}");
+
+                        table.Cell()
+                            .PaddingVertical(7)
+                            .PaddingHorizontal(5)
+                            .BorderBottom(1)
+                            .BorderColor("#cccccc")
+                            .Text($"{p.Discount}");
+
+                        table.Cell()
+                            .PaddingVertical(7)
+                            .PaddingHorizontal(5)
+                            .BorderBottom(1)
+                            .BorderColor("#cccccc")
+                            .Text(p.Status switch
+                            {
+                                Domain.Enums.PaymentStatus.Pending => "Kutilmoqda",
+                                Domain.Enums.PaymentStatus.Completed => "Yakunlangan",
+                                Domain.Enums.PaymentStatus.Refunded => "Qaytarilgan",
+                                Domain.Enums.PaymentStatus.Failed => "Muvaffaqiyatsiz"
+                            });
                     }
+
 
                     // summary row
                     var totalCount = _payments.Count;
-                    var totalAmount = _payments.Sum(x => x.Amount - x.Discount);
+                    var totalAmount = _payments.Sum(x => x.Amount);
+                    var totalDiscount = _payments.Sum(x => x.Discount);
+                    var netAmount = totalAmount - totalDiscount;
 
-                    table.Cell().ColumnSpan(7).PaddingTop(10).BorderTop(1).AlignRight().Text(
-                        $"Umumiy To'lovlar soni: {totalCount},   Umumiy tushum: {totalAmount:C}"
-                    ).Bold();
+                    table.Cell().ColumnSpan(5).Padding(8).Background("#e0e0e0").Text(
+                        $"Umumiy to'lovlar soni: {totalCount}   |   Umumiy summa: {totalAmount}   |   Umumiy chegirma: {totalDiscount}   |   Sof tushum: {netAmount}"
+                    ).Bold().AlignCenter();
                 });
             });
 
