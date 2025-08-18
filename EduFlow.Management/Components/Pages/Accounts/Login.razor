@@ -1,7 +1,11 @@
 ﻿@page "/login"
+@using Blazored.SessionStorage
 @using EduFlow.BLL.DTOs.Users.User
+@using EduFlow.Management.Authentication
+@using Microsoft.AspNetCore.Components.Authorization
 @inject EduFlow.Desktop.Integrated.Services.Auth.IAuthService authService
-@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject ISessionStorageService sessionStorage
+@inject AuthenticationStateProvider authenticationStateProvider
 @inject NavigationManager Navigation
 
 <MudPaper Class="d-flex flex-column pa-6 mx-auto mt-12" MaxWidth="400px" Elevation="25" Rounded="true">
@@ -12,10 +16,9 @@
                   Variant="Variant.Outlined"
                   FullWidth="true"
                   Adornment="Adornment.Start"
-                  AdornmentText="+998" 
+                  AdornmentText="+998"
                   Required="true"
-                  RequiredError="Telefon raqam kiritilishi shart!"/>
-
+                  RequiredError="Telefon raqam kiritilishi shart!" />
 
     <MudTextField T="string"
                   Label="Parol"
@@ -30,7 +33,6 @@
                   AdornmentIconColor="Color.Primary"
                   OnAdornmentClick="TogglePasswordVisibility" />
 
-
     <MudButton Variant="Variant.Filled"
                Color="Color.Primary"
                Class="mt-6"
@@ -39,7 +41,7 @@
         Login
     </MudButton>
 
-    @if(!string.IsNullOrEmpty(_message))
+    @if (!string.IsNullOrEmpty(_message))
     {
         <MudAlert Severity="Severity.Warning" Class="mt-4">@_message</MudAlert>
     }
@@ -70,7 +72,12 @@
 
             if (result && !string.IsNullOrWhiteSpace(token))
             {
-                await LocalStorage.SetItemAsync("authToken", token);
+                await sessionStorage.SetItemAsync("token", token);
+
+                if (authenticationStateProvider is CustomAuthenticationStateProvider customAuthProvider)
+                {
+                    customAuthProvider.AuthenticateUser(token);
+                }
 
                 Navigation.NavigateTo("/");
             }
@@ -79,7 +86,7 @@
                 _message = "Kirish muvaffaqiyatsiz bo'ldi!";
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             _message = "Kirishda xatolik yuz berdi!";
         }
