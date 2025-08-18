@@ -1,0 +1,25 @@
+﻿@page "/"
+@namespace EduFlow.Management.Pages
+@using EduFlow.Management.Components
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Your App</title>
+    <base href="~/" />
+    <link href="css/app.css" rel="stylesheet" />
+</head>
+<body>
+    <app>
+        @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
+    </app>
+
+    <script src="_framework/blazor.server.js"></script>
+    <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+</body>
+</html>
