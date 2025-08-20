@@ -8,6 +8,23 @@
       Title="MainPage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <ScrollViewer>
+                <StackPanel x:Name="companies"/>
+            </ScrollViewer>
+
+            <TextBlock x:Name="emptyDataForCompany"
+                       Text="O'quv markazlar topilmadi!"
+                       FontSize="14"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Grid>
     </Grid>
 </Page>
