@@ -1,28 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
-namespace EduFlow.Management.Components.MainForComponents
+namespace EduFlow.Management.Components.MainForComponents;
+
+/// <summary>
+/// Interaction logic for MainForCompanyComponent.xaml
+/// </summary>
+public partial class MainForCompanyComponent : UserControl
 {
-    /// <summary>
-    /// Interaction logic for MainForCompanyComponent.xaml
-    /// </summary>
-    public partial class MainForCompanyComponent : UserControl
+    private long Id { get; set; }
+
+    public MainForCompanyComponent()
     {
-        public MainForCompanyComponent()
+        InitializeComponent();
+    }
+
+    public void SetValues(long id, int number, string name, string phoneNumber, bool subscriptionStatus)
+    {
+        this.Id = id;
+        tbNumber.Text = number.ToString();
+        tbName.Text = name;
+        tbPhoneNumber.Text = phoneNumber;
+
+        if (subscriptionStatus)
         {
-            InitializeComponent();
+            activeBorder.Visibility = System.Windows.Visibility.Visible;
+            noActiveBorder.Visibility = System.Windows.Visibility.Collapsed;
+        }
+        else
+        {
+            activeBorder.Visibility = System.Windows.Visibility.Collapsed;
+            noActiveBorder.Visibility = System.Windows.Visibility.Visible;
         }
     }
 }

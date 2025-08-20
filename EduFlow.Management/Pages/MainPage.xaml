@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EduFlow.Management.Pages"
       mc:Ignorable="d" 
-      Title="MainPage">
+      Title="MainPage"
+      Loaded="Page_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -13,9 +14,51 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Grid Grid.Row="0"
+              Margin="3 0 21 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="130"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="No"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="1"
+                       Text="Nomi"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="2"
+                       Text="Telefon raqam"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+
+            <TextBlock Grid.Column="3"
+                       Text="Obuna holati"
+                       FontSize="16"
+                       FontWeight="ExtraBold"
+                       FontFamily="Jetbrains Mono"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Grid>
+
         <Grid Grid.Row="1">
             <ScrollViewer>
-                <StackPanel x:Name="companies"/>
+                <StackPanel x:Name="stCompanies"/>
             </ScrollViewer>
 
             <TextBlock x:Name="emptyDataForCompany"

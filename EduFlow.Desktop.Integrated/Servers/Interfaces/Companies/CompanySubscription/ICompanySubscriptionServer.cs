@@ -1,6 +1,6 @@
 ﻿using EduFlow.BLL.DTOs.Companies.CompanySubscription;
 
-namespace EduFlow.Desktop.Integrated.Services.Companies.CompanySubscription;
+namespace EduFlow.Desktop.Integrated.Servers.Interfaces.Companies.CompanySubscription;
 
 public interface ICompanySubscriptionServer
 {

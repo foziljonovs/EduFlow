@@ -129,7 +129,7 @@
                         CornerRadius="8"
                         Width="200">
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock x:Name="tbNoActiveSubscription"
+                        <TextBlock x:Name="tbNoActiveSubscriptionCount"
                                    FontSize="32"
                                    FontFamily="Jetbrains Mono"
                                    FontWeight="Bold"

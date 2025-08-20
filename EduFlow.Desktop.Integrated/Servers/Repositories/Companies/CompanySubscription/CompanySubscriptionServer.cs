@@ -1,7 +1,7 @@
 ﻿using EduFlow.BLL.DTOs.Companies.CompanySubscription;
 using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
-using EduFlow.Desktop.Integrated.Services.Companies.CompanySubscription;
+using EduFlow.Desktop.Integrated.Servers.Interfaces.Companies.CompanySubscription;
 using Newtonsoft.Json;
 using System.Text;
 
