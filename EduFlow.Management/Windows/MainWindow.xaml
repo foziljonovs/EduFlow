@@ -10,7 +10,8 @@
         Width="1024"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
-        WindowState="Normal">
+        WindowState="Normal"
+        Loaded="Window_Loaded">
     <Grid Background="#ffffff">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
@@ -48,7 +49,8 @@
                 <RadioButton x:Name="HomeBtn"
                              Style="{DynamicResource MainButton}"
                              Tag="Home"
-                             ToolTip="Asosiy sahifa"/>
+                             ToolTip="Asosiy sahifa"
+                             Click="HomeBtn_Click"/>
 
                 <RadioButton x:Name="SubscriptionBtn"
                              Style="{DynamicResource SubscriptionButton}"
@@ -72,25 +74,29 @@
                 <RadioButton x:Name="MinButton"
                              Style="{DynamicResource StateButton}"
                              Tag="ChevronDown"
-                             ToolTip="Yashirish"/>
+                             ToolTip="Yashirish"
+                             Click="MinButton_Click"/>
 
                 <StackPanel VerticalAlignment="Center">
                     <RadioButton x:Name="NormalButton"
                                  Style="{DynamicResource StateButton}"
                                  Tag="ArrowCollapse"
                                  ToolTip="Oddiy holat"
-                                 Visibility="Collapsed"/>
+                                 Visibility="Collapsed"
+                                 Click="NormalButton_Click"/>
 
                     <RadioButton x:Name="MaxButton"
                                  Style="{DynamicResource StateButton}"
                                  Tag="ArrowExpand"
-                                 ToolTip="Kattalashtirish"/>
+                                 ToolTip="Kattalashtirish"
+                                 Click="MaxButton_Click"/>
                 </StackPanel>
 
                 <RadioButton x:Name="CloseBtn"
                              Style="{DynamicResource StateButton}"
                              Tag="Close"
-                             ToolTip="Yopish"/>
+                             ToolTip="Yopish"
+                             Click="CloseBtn_Click"/>
             </StackPanel>
 
             <StackPanel Grid.Row="1"
@@ -123,7 +129,7 @@
                         CornerRadius="8"
                         Width="200">
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock x:Name="tbNoActiveSubscription"
+                        <TextBlock x:Name="tbNoActiveSubscriptionCount"
                                    FontSize="32"
                                    FontFamily="Jetbrains Mono"
                                    FontWeight="Bold"

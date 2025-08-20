@@ -1,15 +1,15 @@
 ﻿using EduFlow.BLL.DTOs.Companies.CompanySubscription;
+using EduFlow.Desktop.Integrated.Servers.Interfaces.Companies.CompanySubscription;
 using EduFlow.Desktop.Integrated.Servers.Repositories.Companies.CompanySubscription;
-using EduFlow.Desktop.Integrated.Services.Companies.CompanySubscription;
 
-namespace EduFlow.Desktop.Integrated.Servers.Interfaces.Companies.CompanySubscription;
+namespace EduFlow.Desktop.Integrated.Services.Companies.CompanySubscription;
 
 public class CompanySubscriptionService : ICompanySubscriptionService
 {
     private readonly ICompanySubscriptionServer _server;
     public CompanySubscriptionService()
     {
-        this._server = new CompanySubscriptionServer();
+        _server = new CompanySubscriptionServer();
     }
     public async Task<bool> AddAsync(CompanySubscriptionForCreateDto dto)
     {
