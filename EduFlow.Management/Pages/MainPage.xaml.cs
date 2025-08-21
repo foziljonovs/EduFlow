@@ -44,6 +44,7 @@ public partial class MainPage : Page
     {
         try
         {
+            companyLoader.Visibility = Visibility.Visible;
             var companies = await Task.Run(async () => await _companyService.GetAllAsync());
 
             ShowCompanies(companies);
@@ -57,9 +58,11 @@ public partial class MainPage : Page
     private void ShowCompanies(List<CompanyForResultDto> companies)
     {
         int count = 1;
+        stCompanies.Children.Clear();
 
         if (companies.Any())
         {
+            companyLoader.Visibility = Visibility.Collapsed;
             emptyDataForCompany.Visibility = Visibility.Collapsed;
 
             foreach(var item in companies)
@@ -80,6 +83,7 @@ public partial class MainPage : Page
         }
         else
         {
+            companyLoader.Visibility = Visibility.Collapsed;
             emptyDataForCompany.Visibility = Visibility.Collapsed;
         }
     }

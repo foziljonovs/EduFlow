@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:EduFlow.Management.Pages"
+      xmlns:local="clr-namespace:EduFlow.Management.Pages" xmlns:local1="clr-namespace:EduFlow.Management.Components.Loader"
       mc:Ignorable="d" 
       Title="MainPage"
       Loaded="Page_Loaded">
@@ -54,20 +54,34 @@
                        FontFamily="Jetbrains Mono"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
+
+            <Button Grid.Column="4"
+                    x:Name="CreateCompanyButton"
+                    Style="{DynamicResource CrudButton}"
+                    Tag="add"
+                    Background="MediumSeaGreen"
+                    HorizontalAlignment="Right"
+                    ToolTip="O'quv markaz ro'yxatga olish"/>
         </Grid>
 
         <Grid Grid.Row="1">
+            <local1:Loader x:Name="companyLoader"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Visibility="Collapsed"/>
+
             <ScrollViewer>
                 <StackPanel x:Name="stCompanies"/>
             </ScrollViewer>
 
             <TextBlock x:Name="emptyDataForCompany"
                        Text="O'quv markazlar topilmadi!"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Center"
+                       Visibility="Collapsed"/>
         </Grid>
     </Grid>
 </Page>
