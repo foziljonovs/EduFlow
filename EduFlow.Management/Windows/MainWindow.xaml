@@ -55,7 +55,8 @@
                 <RadioButton x:Name="SubscriptionBtn"
                              Style="{DynamicResource SubscriptionButton}"
                              Tag="Subscription"
-                             ToolTip="Obunalar sahifasi"/>
+                             ToolTip="Obunalar sahifasi"
+                             Click="SubscriptionBtn_Click"/>
             </StackPanel>
         </Grid>
 

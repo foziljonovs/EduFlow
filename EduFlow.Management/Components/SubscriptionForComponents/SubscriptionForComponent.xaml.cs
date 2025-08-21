@@ -1,28 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using EduFlow.Domain.Enums;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace EduFlow.Management.Components.SubscriptionForComponents
+namespace EduFlow.Management.Components.SubscriptionForComponents;
+
+/// <summary>
+/// Interaction logic for SubscriptionForComponent.xaml
+/// </summary>
+public partial class SubscriptionForComponent : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SubscriptionForComponent.xaml
-    /// </summary>
-    public partial class SubscriptionForComponent : UserControl
+    private long Id { get; set; }
+    public SubscriptionForComponent()
     {
-        public SubscriptionForComponent()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
+
+    public void SetValues(long id, int number, string company, SubscriptionType type, bool isPaid, DateTime subscriptionDate, bool isActived)
+    {
+        this.Id = id;
+        tbNumber.Text = number.ToString();
+        tbCompanyName.Text = company;
+
+        if(type == SubscriptionType.Monthly)
+            TypeMonthlyBorder.Visibility = System.Windows.Visibility.Visible;
+        else
+            TypeYearBorder.Visibility = System.Windows.Visibility.Visible;
+
+        if (isPaid)
+            IsPaidBorder.Visibility = System.Windows.Visibility.Visible;
+        else
+            IsNoPaidBorder.Visibility = System.Windows.Visibility.Visible;
+
+        tbSubscriptionDate.Text = subscriptionDate.ToString("dd/MM/yyyy");
+
+        if(isActived)
+            IsActiveBorder.Visibility = System.Windows.Visibility.Visible;
+        else
+            IsNoActiveBorder.Visibility = System.Windows.Visibility.Visible;
     }
 }

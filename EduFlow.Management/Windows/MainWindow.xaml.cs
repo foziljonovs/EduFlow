@@ -3,6 +3,7 @@ using EduFlow.BLL.DTOs.Companies.CompanySubscription;
 using EduFlow.Desktop.Integrated.Services.Companies.Company;
 using EduFlow.Desktop.Integrated.Services.Companies.CompanySubscription;
 using EduFlow.Management.Pages;
+using EduFlow.Management.Pages.SubscriptionForPages;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -137,5 +138,13 @@ public partial class MainWindow : Window
 
         await GetAllCompanyCount();
         await GetAllSubscription();
+    }
+
+    private void SubscriptionBtn_Click(object sender, RoutedEventArgs e)
+    {
+        SubscriptionBtn.IsChecked = true;
+
+        SubscriptionForPage page = new SubscriptionForPage();
+        NavigatePage(page);
     }
 }

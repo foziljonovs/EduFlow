@@ -13,6 +13,65 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="130"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="No"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="1"
+                       Text="O'quv markaz"
+                       FontSize="16"
+                       FontWeight="ExtraBold"
+                       FontFamily="Jetbrains Mono"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="2"
+                       Text="Turi"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+
+            <TextBlock Grid.Column="3"
+                       Text="To'lov"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="4"
+                       Text="Sana"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="5"
+                       Text="Holati"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="ExtraBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Grid>
+
         <Grid Grid.Row="1">
             <local1:Loader x:Name="subscriptionLoader"
                            HorizontalAlignment="Center"
