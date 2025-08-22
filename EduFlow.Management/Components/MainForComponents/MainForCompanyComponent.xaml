@@ -97,7 +97,8 @@
                         Style="{DynamicResource CrudButton}"
                         Tag="CreditCardRefreshOutline"
                         Background="MediumSeaGreen"
-                        ToolTip="Obunani yangilash"/>
+                        ToolTip="Obunani yangilash"
+                        Click="EditSubscriptionButton_Click"/>
             </StackPanel>
         </Grid>
     </Border>
