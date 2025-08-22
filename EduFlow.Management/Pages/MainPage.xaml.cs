@@ -79,6 +79,7 @@ public partial class MainPage : Page
                     item.PhoneNumber,
                     companySubscription);
 
+                companyComponent.IsClicked += async () => await GetCompanies();
                 stCompanies.Children.Add(companyComponent);
                 count++;
             }

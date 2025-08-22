@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid>
+        <Grid Margin="3 0 21 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
@@ -45,8 +45,8 @@
                        FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="3"
                        Text="To'lov"
