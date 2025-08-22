@@ -94,7 +94,8 @@ public partial class EnableForSubscriptionWindow : Window
         {
             CompanySubscriptionForCreateDto dto = new CompanySubscriptionForCreateDto()
             {
-                CompanyId = this.CompanyId
+                CompanyId = this.CompanyId,
+                SubcriptionDate = DateTime.UtcNow.AddHours(5)
             };
 
             if (SubscriptionTypeComboBox.SelectedItem is ComboBoxItem selectedSubscriptionTypeItem)
