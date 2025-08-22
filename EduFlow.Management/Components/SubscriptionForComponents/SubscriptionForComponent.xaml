@@ -45,13 +45,14 @@
                         Height="25"
                         Width="80"
                         CornerRadius="8"
-                        Background="MediumSeaGreen"
+                        Background="#fca311"
+                        HorizontalAlignment="Center"
                         Visibility="Collapsed">
                     <TextBlock Text="Oylik"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                FontSize="16"
-                               Foreground="White"
+                               Foreground="#14213d"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
                 </Border>
@@ -60,13 +61,14 @@
                         Height="25"
                         Width="80"
                         CornerRadius="8"
-                        Background="DeepSkyBlue"
+                        Background="#fca311"
+                        HorizontalAlignment="Center"
                         Visibility="Collapsed">
                     <TextBlock Text="Yillik"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                FontSize="16"
-                               Foreground="White"
+                               Foreground="#14213d"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
                 </Border>
@@ -80,6 +82,7 @@
                         Width="120"
                         CornerRadius="8"
                         Background="MediumSeaGreen"
+                        HorizontalAlignment="Center"
                         Visibility="Collapsed">
                     <TextBlock Text="To'langan"
                                FontFamily="Jetbrains Mono"
@@ -95,6 +98,7 @@
                         Width="100"
                         CornerRadius="8"
                         Background="Tomato"
+                        HorizontalAlignment="Center"
                         Visibility="Collapsed">
                     <TextBlock Text="To'lanmagan"
                                FontFamily="Jetbrains Mono"
