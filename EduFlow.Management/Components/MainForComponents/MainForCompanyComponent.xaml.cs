@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using EduFlow.Management.Windows.SubscriptionForWindows;
+using System.Windows.Controls;
 
 namespace EduFlow.Management.Components.MainForComponents;
 
@@ -31,5 +32,12 @@ public partial class MainForCompanyComponent : UserControl
             activeBorder.Visibility = System.Windows.Visibility.Collapsed;
             noActiveBorder.Visibility = System.Windows.Visibility.Visible;
         }
+    }
+
+    private void EditSubscriptionButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        EnableForSubscriptionWindow window = new EnableForSubscriptionWindow();
+        window.SetCompanyId(this.Id);
+        window.ShowDialog();
     }
 }

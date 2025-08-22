@@ -51,7 +51,9 @@ public partial class MainPage : Page
         }
         catch(Exception ex)
         {
-            notifier.ShowWarning("O'quv markazlar topilmadi!");   
+            notifier.ShowWarning("O'quv markazlar topilmadi!"); 
+            companyLoader.Visibility = Visibility.Collapsed;
+            emptyDataForCompany.Visibility = Visibility.Visible;
         }
     }
 
