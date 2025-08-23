@@ -119,7 +119,8 @@
             </StackPanel>
 
             <Button x:Name="SaveButton"
-                    Style="{DynamicResource saveButton}"/>
+                    Style="{DynamicResource saveButton}"
+                    Click="SaveButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>

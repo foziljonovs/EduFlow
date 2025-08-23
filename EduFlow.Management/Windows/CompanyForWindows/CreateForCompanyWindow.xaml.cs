@@ -1,4 +1,5 @@
-﻿using EduFlow.Desktop.Integrated.Services.Companies.Company;
+﻿using EduFlow.BLL.DTOs.Companies.Company;
+using EduFlow.Desktop.Integrated.Services.Companies.Company;
 using EduFlow.Desktop.Integrated.Services.Companies.Logo;
 using Microsoft.Win32;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ public partial class CreateForCompanyWindow : Window
     Notifier notifier = new Notifier(cfg =>
     {
         cfg.PositionProvider = new WindowPositionProvider(
-            parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
+            parentWindow: Application.Current.MainWindow,
             corner: Corner.TopRight,
             offsetX: 20,
             offsetY: 20);
@@ -47,7 +48,7 @@ public partial class CreateForCompanyWindow : Window
     Notifier notifierThis = new Notifier(cfg =>
     {
         cfg.PositionProvider = new WindowPositionProvider(
-            parentWindow: Application.Current.MainWindow,
+            parentWindow: Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive),
             corner: Corner.TopRight,
             offsetX: 20,
             offsetY: 20);
@@ -69,7 +70,58 @@ public partial class CreateForCompanyWindow : Window
     {
         try
         {
+            CompanyForCreateDto dto = new CompanyForCreateDto();
 
+            if (!string.IsNullOrEmpty(txtName.Text))
+                dto.Name = txtName.Text;
+            else
+            {
+                notifierThis.ShowWarning("O'quv markaz nomi kiritilmagan!");
+                SaveButton.IsEnabled = true;
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(txtAddress.Text))
+                dto.Address = txtAddress.Text;
+            else
+            {
+                notifierThis.ShowWarning("Manzil kiritilmagan!");
+                SaveButton.IsEnabled = true;
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(txtPhoneNumber.Text) && txtPhoneNumber.Text.Length == 13)
+                dto.PhoneNumber = txtPhoneNumber.Text;
+            else
+            {
+                notifierThis.ShowWarning("Telefon raqam noto'g'ri kiritilgan!");
+                SaveButton.IsEnabled = true;
+                return;
+            }
+
+            dto.About = txtAbout.Text;
+
+            if (this._logoId > 0)
+                dto.LogoId = this._logoId;
+            else
+            {
+                notifierThis.ShowWarning("Logotipni yuklanmagan yoki yuklanmoqda!");
+                SaveButton.IsEnabled = true;
+                return;
+            }
+
+            var result = await _companyService.AddAsync(dto);
+
+            if (result)
+            {
+                this.Close();
+                notifier.ShowSuccess($"{dto.Name} - muvaffaqiyatli saqlandi!");
+            }
+            else
+            {
+                notifierThis.ShowWarning("Malumotlarni saqlashda muammo yuz berdi, iltimos qayta urining!");
+                SaveButton.IsEnabled = true;
+            }
         }
         catch(Exception ex)
         {
@@ -115,6 +167,26 @@ public partial class CreateForCompanyWindow : Window
                 notifierThis.ShowWarning("Logotipni yuklab bo'lmadi, iltimos qayta urinig");
                 return;
             }
+        }
+    }
+
+    private async void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (!SaveButton.IsEnabled)
+        {
+            notifierThis.ShowWarning("Iltimos, kuting!");
+            return;
+        }
+
+        SaveButton.IsEnabled = false;
+
+        try
+        {
+            await SavedAsync();
+        }
+        finally
+        {
+            SaveButton.IsEnabled = true;
         }
     }
 }

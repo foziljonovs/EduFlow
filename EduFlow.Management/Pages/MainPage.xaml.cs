@@ -2,7 +2,6 @@
 using EduFlow.Desktop.Integrated.Services.Companies.Company;
 using EduFlow.Management.Components.MainForComponents;
 using EduFlow.Management.Windows.CompanyForWindows;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -18,6 +17,7 @@ namespace EduFlow.Management.Pages;
 public partial class MainPage : Page
 {
     private readonly ICompanyService _companyService;
+    public Func<Task> IsLoaded { get; set; } = () => Task.CompletedTask;
     public MainPage()
     {
         InitializeComponent();
@@ -46,6 +46,7 @@ public partial class MainPage : Page
     {
         try
         {
+            await IsLoaded.Invoke();
             companyLoader.Visibility = Visibility.Visible;
             var companies = await Task.Run(async () => await _companyService.GetAllAsync());
 

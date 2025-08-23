@@ -127,6 +127,7 @@ public partial class MainWindow : Window
 
         MainPage page = new MainPage();
         NavigatePage(page);
+        page.IsLoaded += async () => await GetAllCompanyCount();
     }
 
     private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -146,5 +147,6 @@ public partial class MainWindow : Window
 
         SubscriptionForPage page = new SubscriptionForPage();
         NavigatePage(page);
+        page.IsLoaded += async () => await GetAllSubscription();
     }
 }

@@ -17,6 +17,7 @@ namespace EduFlow.Management.Pages.SubscriptionForPages;
 public partial class SubscriptionForPage : Page
 {
     private readonly ICompanySubscriptionService _companySubscriptionService;
+    public Func<Task> IsLoaded { get; set; } = () => Task.CompletedTask;
     public SubscriptionForPage()
     {
         InitializeComponent();
@@ -45,6 +46,7 @@ public partial class SubscriptionForPage : Page
     {
         try
         {
+            await IsLoaded.Invoke();
             subscriptionLoader.Visibility = Visibility.Visible;
             var subscriptions = await Task.Run(async () => await _companySubscriptionService.GetAllAsync());
 
