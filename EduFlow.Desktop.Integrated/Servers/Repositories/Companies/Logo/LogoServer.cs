@@ -3,38 +3,41 @@ using EduFlow.Desktop.Integrated.Api.Auth;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Companies.Logo;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace EduFlow.Desktop.Integrated.Servers.Repositories.Companies.Logo;
 
 public class LogoServer : ILogoServer
 {
-    public async Task<long> AddAsync(LogoForCreateDto dto)
+    public async Task<long> AddAsync(string filePath)
     {
         try
         {
-            HttpClient client = new HttpClient();
-
-            client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/logos");
-
-            var request = new HttpRequestMessage(HttpMethod.Post, client.BaseAddress)
+            using (HttpClient client = new HttpClient())
             {
-                Content = new StringContent(
-                    JsonConvert.SerializeObject(dto),
-                    Encoding.UTF8,
-                    "application/json")
-            };
+                client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/logos");
 
-            var response = await client.SendAsync(request);
+                using (var form = new MultipartFormDataContent())
+                {
+                    var fileBytes = File.ReadAllBytes(filePath);
+                    var fileContent = new ByteArrayContent(fileBytes);
+                    fileContent.Headers.ContentType = new MediaTypeHeaderValue("image/bmp");
 
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<long>(content);
-                return result;
+                    form.Add(fileContent, "File", Path.GetFileName(filePath));
+
+                    var response = await client.PostAsync(client.BaseAddress, form);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
+                        var result = JsonConvert.DeserializeObject<long>(content);
+                        return result;
+                    }
+                    else
+                        return 0;
+                }
             }
-            else
-                return 0;
         }
         catch (Exception ex)
         {

@@ -114,7 +114,8 @@
                         Style="{DynamicResource CrudButton}"
                         Tag="Upload"
                         Background="#fca311"
-                        ToolTip="Logotip yuklash"/>
+                        ToolTip="Logotip yuklash"
+                        Click="UploadLogoButton_Click"/>
             </StackPanel>
 
             <Button x:Name="SaveButton"

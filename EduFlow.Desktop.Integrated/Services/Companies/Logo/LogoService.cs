@@ -11,11 +11,11 @@ public class LogoService : ILogoService
     {
         this._server = new LogoServer();
     }
-    public async Task<long> AddAsync(LogoForCreateDto dto)
+    public async Task<long> AddAsync(string filePath)
     {
         try
         {
-            var result = await _server.AddAsync(dto);
+            var result = await _server.AddAsync(filePath);
             return result;
         }
         catch(Exception ex)
