@@ -1,0 +1,124 @@
+﻿<Window x:Class="EduFlow.Management.Windows.CompanyForWindows.CreateForCompanyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EduFlow.Management.Windows.CompanyForWindows"
+        mc:Ignorable="d"
+        Title="CreateForCompanyWindow" 
+        Height="550" 
+        Width="450"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <TextBlock Text="O'quv markaz qo'shish"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"
+                       Margin="10 0"/>
+
+            <RadioButton x:Name="CloseButton"
+                         Style="{DynamicResource StateButton}"
+                         Tag="close"
+                         HorizontalAlignment="Right"
+                         Click="CloseButton_Click"/>
+        </Grid>
+
+        <StackPanel Grid.Row="1"
+                    Margin="10">
+            <StackPanel Margin="0 5">
+                <TextBlock Text="Nomi"
+                           FontSize="14"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Foreground="Gray"
+                           Margin="10 0"/>
+
+                <TextBox x:Name="txtName"
+                         Style="{DynamicResource CustomTextBoxStyle}"
+                         FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <StackPanel Margin="0 5">
+                <TextBlock Text="Telefon raqam"
+                           FontSize="14"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Foreground="Gray"
+                           Margin="10 0"/>
+
+                <TextBox x:Name="txtPhoneNumber"
+                         Text="+998"
+                         Style="{DynamicResource CustomTextBoxStyle}"
+                         FontWeight="SemiBold"
+                         MaxLength="13"
+                         PreviewTextInput="phoneNumberTxt_PreviewTextInput"/>
+            </StackPanel>
+
+            <StackPanel Margin="0 5">
+                <TextBlock Text="Manzil"
+                           FontSize="14"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Foreground="Gray"
+                           Margin="10 0"/>
+
+                <TextBox x:Name="txtAddress"
+                         Style="{DynamicResource CustomTextBoxStyle}"
+                         FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <StackPanel Margin="0 5">
+                <TextBlock Text="Qo'shimcha"
+                           FontSize="14"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Foreground="Gray"
+                           Margin="10 0"/>
+
+                <Border CornerRadius="8"
+                        Margin="0 10"
+                        Background="#FFF5F5F5"
+                        Height="80"
+                        BorderThickness="1"
+                        BorderBrush="Silver">
+                    <TextBox x:Name="txtAbout"
+                             BorderThickness="0"
+                             Margin="5"
+                             Background="Transparent"
+                             FontFamily="Jetbrains Mono"
+                             FontWeight="SemiBold"
+                             FontSize="16"
+                             TextWrapping="Wrap"/>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Margin="10 5"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <TextBlock Text="Logotipni yuklash"
+                           FontSize="14"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Foreground="Gray"
+                           VerticalAlignment="Center"/>
+
+                <Button x:Name="UploadLogoButton"
+                        Style="{DynamicResource CrudButton}"
+                        Tag="Upload"
+                        Background="#fca311"
+                        ToolTip="Logotip yuklash"/>
+            </StackPanel>
+
+            <Button x:Name="SaveButton"
+                    Style="{DynamicResource saveButton}"/>
+        </StackPanel>
+    </Grid>
+</Window>

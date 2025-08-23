@@ -1,6 +1,8 @@
 ﻿using EduFlow.BLL.DTOs.Companies.Company;
 using EduFlow.Desktop.Integrated.Services.Companies.Company;
 using EduFlow.Management.Components.MainForComponents;
+using EduFlow.Management.Windows.CompanyForWindows;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -93,6 +95,13 @@ public partial class MainPage : Page
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        await GetCompanies();
+    }
+
+    private async void CreateCompanyButton_Click(object sender, RoutedEventArgs e)
+    {
+        CreateForCompanyWindow window = new CreateForCompanyWindow();
+        window.ShowDialog();
         await GetCompanies();
     }
 }

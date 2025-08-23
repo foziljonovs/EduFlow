@@ -61,7 +61,8 @@
                     Tag="add"
                     Background="MediumSeaGreen"
                     HorizontalAlignment="Right"
-                    ToolTip="O'quv markaz ro'yxatga olish"/>
+                    ToolTip="O'quv markaz ro'yxatga olish"
+                    Click="CreateCompanyButton_Click"/>
         </Grid>
 
         <Grid Grid.Row="1">
