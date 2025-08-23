@@ -91,7 +91,8 @@
                         Style="{DynamicResource CrudButton}"
                         Tag="Edit"
                         Background="Gold"
-                        ToolTip="O'zgartirish"/>
+                        ToolTip="O'zgartirish"
+                        Click="EditButton_Click"/>
 
                 <Button x:Name="EditSubscriptionButton"
                         Style="{DynamicResource CrudButton}"
