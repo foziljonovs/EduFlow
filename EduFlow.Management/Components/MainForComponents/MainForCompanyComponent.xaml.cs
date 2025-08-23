@@ -1,5 +1,7 @@
 ﻿using EduFlow.Desktop.Integrated.Services.Companies.CompanySubscription;
+using EduFlow.Management.Windows.CompanyForWindows;
 using EduFlow.Management.Windows.SubscriptionForWindows;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -113,5 +115,13 @@ public partial class MainForCompanyComponent : UserControl
         {
             return true;
         }
+    }
+
+    private async void EditButton_Click(object sender, RoutedEventArgs e)
+    {
+        UpdateForCompanyWindow window = new UpdateForCompanyWindow();
+        window.SetCompanyId(this.Id);
+        window.ShowDialog();
+        await IsClicked?.Invoke();
     }
 }
