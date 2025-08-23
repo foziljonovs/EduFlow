@@ -87,7 +87,7 @@ public partial class CreateForCompanyWindow : Window
     }
 
     private async void UploadLogoButton_Click(object sender, RoutedEventArgs e)
-    {
+    { 
         OpenFileDialog openFileDialog = new OpenFileDialog();
         openFileDialog.Filter = "Image files (*.bmp)|*.bmp";
 
