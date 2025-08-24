@@ -124,4 +124,11 @@ public partial class MainForCompanyComponent : UserControl
         window.ShowDialog();
         await IsClicked?.Invoke();
     }
+
+    private void ViewButton_Click(object sender, RoutedEventArgs e)
+    {
+        ViewForCompanyWindow window = new ViewForCompanyWindow();
+        window.SetCompanyId(this.Id);
+        window.ShowDialog();
+    }
 }

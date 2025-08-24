@@ -1,0 +1,185 @@
+﻿<Window x:Class="EduFlow.Management.Windows.CompanyForWindows.ViewForCompanyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EduFlow.Management.Windows.CompanyForWindows" xmlns:local1="clr-namespace:EduFlow.Management.Components.Loader" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="ViewForCompanyWindow"
+        Height="450" 
+        Width="500"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <TextBlock Text="O'quv markaz malumotlari"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"
+                       Margin="10 0"/>
+
+            <RadioButton x:Name="CloseButton"
+                         Style="{DynamicResource StateButton}"
+                         Tag="close"
+                         HorizontalAlignment="Right"
+                         Click="CloseButton_Click"/>
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Margin="10 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0"
+                        Margin="10 0">
+                <Grid Height="150"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+                    <local1:Loader x:Name="CompanyLogoLoader"
+                                   Visibility="Collapsed"/>
+
+                    <Image x:Name="CompanyLogo"
+                           VerticalAlignment="Center"
+                           Source="{Binding LogoUrl}"/>
+
+                    <materialDesign:PackIcon x:Name="CompanyFallbackIcon"
+                                             Kind="Domain" 
+                                             Width="64"
+                                             Height="64"
+                                             Foreground="Gray"
+                                             VerticalAlignment="Center"
+                                             Visibility="Collapsed"/>
+                </Grid>
+
+                <StackPanel Margin="0 5">
+                    <TextBlock Text="Nomi"
+                               FontSize="14"
+                               Foreground="Gray"
+                               VerticalAlignment="Center"
+                               Margin="0 5"/>
+
+                    <TextBlock x:Name="tbCompanyName"
+                               FontSize="16"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               Text="Raqamli Texnalogiyalar Markazi"
+                               Margin="0 5"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <StackPanel Margin="0 5">
+                    <TextBlock Text="Manzil"
+                               FontSize="14"
+                               Foreground="Gray"
+                               VerticalAlignment="Center"
+                               Margin="0 5"/>
+
+                    <TextBlock x:Name="tbAddress"
+                               FontSize="16"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               Text="Farg'ona viloyati, Marg'ilon shahar, Hiyobon 65J"
+                               Margin="0 5"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <StackPanel Margin="0 5">
+                    <TextBlock Text="Telefon raqam"
+                               FontSize="14"
+                               Foreground="Gray"
+                               VerticalAlignment="Center"
+                               Margin="0 5"/>
+
+                    <TextBlock x:Name="tbPhoneNumber"
+                               FontSize="16"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               Text="+998732542404"
+                               Margin="0 5"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1"
+                        Margin="10 0">
+                <StackPanel>
+                    <TextBlock Text="Tavsif"
+                               FontSize="14"
+                               Foreground="Gray"
+                               FontFamily="Jetbrains Mono"
+                               Margin="0 5"/>
+
+                    <TextBlock x:Name="tbAbout"
+                               Text="Zamonaviy IT texnalogiyalar markazi"
+                               FontSize="16"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               Margin="0 5"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Obunalar"
+                               FontSize="14"
+                               Foreground="Gray"
+                               FontFamily="Jetbrains Mono"
+                               Margin="0 5"/>
+
+                    <Grid>
+                        <local1:Loader x:Name="CompanySubscriptionLoader"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Visibility="Collapsed"/>
+
+                        <ScrollViewer>
+                            <StackPanel x:Name="stSubscriptions"/>
+                        </ScrollViewer>
+
+                        <TextBlock x:Name="emptyDataForCompanySubscription"
+                                   Text="Obunalar topilmadi!"
+                                   FontSize="14"
+                                   FontFamily="Jetbrains Mono"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="Collapsed"/>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Admin"
+                               Foreground="Gray"
+                               FontSize="14"
+                               FontFamily="Jetbrains Mono"
+                               Margin="0 5"/>
+
+                    <Grid>
+                        <local1:Loader x:Name="CompanyAdminLoader"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Visibility="Collapsed"/>
+
+                        <ScrollViewer>
+                            <StackPanel x:Name="stAdmins"/>
+                        </ScrollViewer>
+
+                        <TextBlock x:Name="emptyDataForCompanyAdmin"
+                                   Text="Obunalar topilmadi!"
+                                   FontSize="14"
+                                   FontFamily="Jetbrains Mono"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="Collapsed"/>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
