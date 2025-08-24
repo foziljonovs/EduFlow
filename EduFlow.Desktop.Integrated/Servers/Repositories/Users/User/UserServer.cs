@@ -4,6 +4,7 @@ using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Servers.Interfaces.Users.User;
 using EduFlow.Domain.Enums;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace EduFlow.Desktop.Integrated.Servers.Repositories.Users.User;
@@ -91,7 +92,7 @@ public class UserServer : IUserServer
             var token = IdentitySingelton.GetInstance().Token;
 
             client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/users/company/{companyId}");
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer {token}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token); ;
 
             var response = await client.GetAsync(client.BaseAddress);
 
@@ -115,7 +116,7 @@ public class UserServer : IUserServer
             var token = IdentitySingelton.GetInstance().Token;
 
             client.BaseAddress = new Uri($"{AuthApi.BASE_URL}/api/users/role/{role}");
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer {token}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await client.GetAsync(client.BaseAddress);
 
