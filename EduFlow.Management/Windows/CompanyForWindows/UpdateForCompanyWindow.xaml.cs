@@ -135,7 +135,7 @@ public partial class UpdateForCompanyWindow : Window
 
                 if (result > 0)
                 {
-                    _logoId = result;
+                    this._logoId = result;
                     notifierThis.ShowSuccess("Logotip yuklandi!");
                 }
                 else
@@ -155,5 +155,84 @@ public partial class UpdateForCompanyWindow : Window
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
         await GetCompany();
+    }
+
+    private async Task SavedAsync()
+    {
+        try
+        {
+            CompanyForUpdateDto dto = new CompanyForUpdateDto();
+
+            if(this._logoId > 0)
+                dto.LogoId = this._logoId;
+            else
+                dto.LogoId = this.Company.LogoId;
+
+            if(!string.IsNullOrEmpty(txtName.Text))
+                dto.Name = txtName.Text;
+            else
+            {
+                notifierThis.ShowWarning("O'quv markaz nomi kiritilmagan!");
+                SaveButton.IsEnabled = true;
+                return;
+            }
+
+            if(!string.IsNullOrEmpty(txtAddress.Text))
+                dto.Address = txtAddress.Text;
+            else
+            {
+                notifierThis.ShowWarning("Manzil kiritilmagan!");
+                SaveButton.IsEnabled = true;
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(txtPhoneNumber.Text) && txtPhoneNumber.Text.Length == 13)
+                dto.PhoneNumber = txtPhoneNumber.Text;
+            else
+            {
+                notifierThis.ShowWarning("Telefon raqam noto'g'ri kiritilgan!");
+                SaveButton.IsEnabled = true;
+                return;
+            }
+
+            dto.About = txtAbout.Text;
+
+            var result = await _companyService.UpdateAsync(this._companyId, dto);
+
+            if (result)
+            {
+                this.Close();
+                notifier.ShowSuccess($"{this.Company.Name} muvaffaqiyatli yangilandi!");
+            }
+            else
+            {
+                notifierThis.ShowWarning("Ma'lumotlarni yangilab bo'lmadi, iltimos qayta urining!");
+                SaveButton.IsEnabled = true;
+            }
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowWarning("Ma'lumotlarni yangilashda muammo yuz berdi, iltimos qayta urining!");
+        }
+    }
+
+    private async void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (!SaveButton.IsEnabled)
+        {
+            notifierThis.ShowWarning("Iltimos, kuting!");
+            return;
+        }
+
+        SaveButton.IsEnabled = false;
+
+        try
+        {
+            await SavedAsync();
+        }
+        finally
+        {
+            SaveButton.IsEnabled = true;
+        }
     }
 }
