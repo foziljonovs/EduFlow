@@ -4,6 +4,7 @@ using EduFlow.BLL.DTOs.Users.Teacher;
 using EduFlow.Cashier.Desktop.Services;
 using EduFlow.Desktop.Integrated.Services.Payments.Payment;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
+using EduFlow.Domain.Entities.Users;
 using EduFlow.Domain.Enums;
 using System.Windows;
 using ToastNotifications;
@@ -162,11 +163,16 @@ public partial class PaymentForViewWindow : Window
                     _ => "Aniq emas"
                 };
 
+                var firstInitial = string.IsNullOrWhiteSpace(this.teacher.User?.Firstname)
+                        ? "" : this.teacher.User.Firstname[0] + ".";
+
+                var fullName = $"{firstInitial} {this.teacher.User?.Lastname}";
+
                 _printerService.Print(
                     this.payment,
                     this.teacher.Course.Price,
                     paymentType,
-                    $"{this.teacher.User?.Firstname} {this.teacher.User?.Lastname}",
+                    fullName,
                     this.teacher.Course.Name);
             }
             else
