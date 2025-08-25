@@ -8,31 +8,97 @@
              Height="40">
     <Border CornerRadius="5"
             BorderThickness="1"
-            BorderBrush="Gray">
+            BorderBrush="Gray"
+            Margin="3 5 3 0">
         <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
+                       x:Name="tbNumber"
+                       Text="1"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Column="1"
                        x:Name="tbName"
                        Text="Abdulvosid Foziljonov"
                        TextWrapping="Wrap"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        Margin="5"
                        VerticalAlignment="Center"/>
 
-            <TextBlock Grid.Column="1"
+            <TextBlock Grid.Column="2"
                        x:Name="tbPhoneNumber"
                        Text="+998900000000"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        FontFamily="Jetbrains Mono"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
+
+            <StackPanel Grid.Column="3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <Border x:Name="AdminBorder"
+                        CornerRadius="8"
+                        Height="30"
+                        Width="80"
+                        Background="#fca311"
+                        Visibility="Collapsed">
+                    <TextBlock Text="Admin"
+                               FontSize="16"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+
+                <Border x:Name="AdministratorBorder"
+                        CornerRadius="8"
+                        Height="30"
+                        Width="80"
+                        Background="#fca311"
+                        Visibility="Collapsed">
+                    <TextBlock Text="Administrator"
+                               FontSize="16"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+
+                <Border x:Name="CashierBorder"
+                        CornerRadius="8"
+                        Height="30"
+                        Width="80"
+                        Background="#fca311"
+                        Visibility="Collapsed">
+                    <TextBlock Text="Kassir"
+                               FontSize="16"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </StackPanel>
+
+            <Button Grid.Column="5"
+                    x:Name="DeleteButton"
+                    Style="{DynamicResource CrudButton}"
+                    Tag="Delete"
+                    Background="Tomato"
+                    ToolTip="Xodimni o'chirish"/>
         </Grid>
     </Border>
 </UserControl>

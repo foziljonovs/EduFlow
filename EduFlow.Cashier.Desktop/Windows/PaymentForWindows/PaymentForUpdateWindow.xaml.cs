@@ -602,7 +602,12 @@ public partial class PaymentForUpdateWindow : Window
 
             if (updatedPayment)
             {
-                WriteToPrinter(this.payment.Id, $"{this.teacher.Course.Name ?? "Nomalum"}", $"{this.teacher.User?.Firstname + this.teacher.User?.Lastname ?? "Nomalum"}");
+                var firstInitial = string.IsNullOrWhiteSpace(this.teacher.User?.Firstname)
+                        ? "" : this.teacher.User.Firstname[0] + ".";
+
+                var fullName = $"{firstInitial} {this.teacher.User?.Lastname}";
+
+                WriteToPrinter(this.payment.Id, $"{this.teacher.Course.Name ?? "Nomalum"}", fullName);
 
                 this.Close();
                 notifier.ShowSuccess("To'lov muvaffaqiyatli saqlandi!");

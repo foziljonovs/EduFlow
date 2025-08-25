@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using EduFlow.Domain.Enums;
+using System.Windows.Controls;
 
 namespace EduFlow.Management.Components.UserForComponents;
 
@@ -13,10 +14,18 @@ public partial class CompanyForUserComponent : UserControl
         InitializeComponent();
     }
 
-    public void SetValues(long id, string fullName, string phoneNumber)
+    public void SetValues(long id, int number, string fullName, string phoneNumber, UserRole role)
     {
         this.UserId = id;
+        tbNumber.Text = number.ToString();
         tbName.Text = fullName;
         tbPhoneNumber.Text = phoneNumber;
+
+        if(role == UserRole.Manager)
+            AdminBorder.Visibility = System.Windows.Visibility.Visible;
+        else if(role == UserRole.Administrator)
+            AdministratorBorder.Visibility = System.Windows.Visibility.Visible;
+        else
+            CashierBorder.Visibility = System.Windows.Visibility.Visible;
     }
 }

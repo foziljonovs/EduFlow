@@ -131,4 +131,11 @@ public partial class MainForCompanyComponent : UserControl
         window.SetCompanyId(this.Id);
         window.ShowDialog();
     }
+
+    private void ViewAdminsButton_Click(object sender, RoutedEventArgs e)
+    {
+        ViewForCompanyEmployeeWindow window = new ViewForCompanyEmployeeWindow();
+        window.SetCompanyId(this.Id);
+        window.ShowDialog();
+    }
 }

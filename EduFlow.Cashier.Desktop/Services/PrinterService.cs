@@ -29,62 +29,66 @@ public class PrinterService : IDisposable
         printer = new Printer(PRINTER_NAME, "UTF-8");
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
+        // ✅ Sarlavha (Markaz nomi)
         printer.AlignCenter();
-
-        if (!string.IsNullOrEmpty(AppState.LogoFilePath) && File.Exists(AppState.LogoFilePath))
+        
+        if(AppState.Name.Length < 10)
         {
-            try
-            {
-                using (var imgTemp = Image.FromFile(AppState.LogoFilePath))
-                using (var bitmap = new Bitmap(imgTemp))
-                {
-                    printer.Image(bitmap);
-                    printer.Append("\n\n");
-                }
-            }
-            catch
-            {
-                printer.AlignCenter();
-                printer.DoubleWidth2();
-                printer.Append(AppState.Name);
-                printer.Append("\n\n");
-            }
+            printer.DoubleWidth3();
+            printer.Append($"{AppState.Name}\n\n");
         }
         else
         {
-            printer.AlignCenter();
             printer.DoubleWidth2();
-            printer.Append(AppState.Name);
-            printer.Append("\n\n");
+            printer.Append($"{AppState.Name}\n\n");
+        }
+
+        if (!string.IsNullOrEmpty(AppState.PhoneNumber))
+        {
+            printer.NormalWidth();
+            printer.Append($"Tel: {AppState.PhoneNumber}\n\n");
         }
 
         printer.Separator();
-        printer.AlignLeft();
 
-        printer.Append($"{Pad("Kurs to'lovi:", 15)} {coursePrice:N0} so'm");
-        printer.Append($"{Pad("To'lov turi:", 15)} {paymentType}");
+        // ✅ Asosiy ma’lumotlar
+        printer.AlignLeft();
+        printer.Append($"O'quvchi:\n{paymentDto.Student.Fullname}\n\n");
+        printer.Append($"Yo'nalish:     {course}\n");
+        printer.Append($"O'qituvchi:    {teacher}\n");
+        printer.Append($"To'lov turi:   {paymentType}\n");
+        printer.Append($"Kurs narxi:    {coursePrice:N0} so'm\n");
+
         if (paymentDto.Discount > 0)
-            printer.Append($"{Pad("Chegirma:", 15)} {paymentDto.Discount:N0} so'm");
-        printer.Append($"{Pad("Yo'nalish:", 15)} {course}");
-        printer.Append($"{Pad("O'qituvchi:", 15)} {teacher}");
-        printer.Append($"{Pad("O'quvchi:", 15)} {paymentDto.Student.Fullname}");
-        printer.Append($"{Pad("Jami summa:", 15)} {(paymentDto.Amount + paymentDto.Discount):N0} so'm");
-        printer.Append($"{Pad("To'langan summa:", 15)} {paymentDto.Amount:N0} so'm");
-        printer.Append("\n");
-        printer.Append($"{Pad("Kassir:", 15)} {cashier}");
-        printer.Append($"{Pad("To'lov sanasi:", 15)} {paymentDto.PaymentDate:dd/MM/yyyy HH:mm}");
+        {
+            printer.Append($"Chegirma:      {paymentDto.Discount:N0} so'm\n");
+            printer.Append($"Jami summa:    {(paymentDto.Amount + paymentDto.Discount):N0} so'm\n");
+        }
+
+        printer.Append($"To'langan:     {paymentDto.Amount:N0} so'm\n\n");
+
+        printer.Separator();
+
+        // ✅ Kassir va sana
+        printer.Append($"Kassir:        {cashier}\n");
+        printer.Append($"Sana:          {paymentDto.PaymentDate:dd/MM/yyyy}\n");
+
         string receipt = paymentDto.ReceiptNumber;
         if (receipt.Length > 16)
             receipt = receipt.Substring(0, 13) + "...";
-        printer.Append($"{Pad("To'lov raqami:", 15)} {receipt}");
+
+        printer.Append($"To'lov raqami: {receipt}\n\n");
+
         printer.Separator();
 
+        // ✅ Pastki qism
         printer.AlignCenter();
-        printer.BoldMode("Tashakkur!");
-        printer.Append("\n");
+        printer.BoldMode("To'lovingiz uchun tashakkur!\n\n");
+
         printer.FullPaperCut();
         printer.PrintDocument();
     }
+
 
     private string Pad(string text, int length)
     {

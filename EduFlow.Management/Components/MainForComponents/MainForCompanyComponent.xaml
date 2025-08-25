@@ -16,7 +16,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="140"/>
                 <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="160"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
@@ -79,8 +79,7 @@
             </StackPanel>
 
             <StackPanel Grid.Column="4"
-                        Orientation="Horizontal"
-                        Margin="5 0">
+                        Orientation="Horizontal">
                 <Button x:Name="ViewButton"
                         Style="{DynamicResource CrudButton}"
                         Tag="Eye"
@@ -101,6 +100,13 @@
                         Background="MediumSeaGreen"
                         ToolTip="Obunani yangilash"
                         Click="EditSubscriptionButton_Click"/>
+
+                <Button x:Name="ViewAdminsButton"
+                        Style="{DynamicResource CrudButton}"
+                        Tag="AccountMultiple"
+                        Background="#14213d"
+                        ToolTip="Adminlarni ko'rish"
+                        Click="ViewAdminsButton_Click"/>
             </StackPanel>
         </Grid>
     </Border>

@@ -14,6 +14,7 @@ using EduFlow.Desktop.Integrated.Services.Payments.Registry;
 using EduFlow.Desktop.Integrated.Services.Users.Student;
 using EduFlow.Desktop.Integrated.Services.Users.Teacher;
 using EduFlow.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -577,7 +578,12 @@ public partial class IncomeForPaymentWindow : Window
 
                 if (paymentResult > 0)
                 {
-                    WriteToPrinter(paymentResult, $"{_teacher.Course.Name ?? "Nomalum"}", $"{_teacher.User?.Firstname + _teacher.User?.Lastname ?? "Nomalum"}");
+                    var firstInitial = string.IsNullOrWhiteSpace(_teacher.User?.Firstname)
+                        ? "" : _teacher.User.Firstname[0] + ".";
+
+                    var fullName = $"{firstInitial} {_teacher.User?.Lastname}";
+
+                    WriteToPrinter(paymentResult, $"{_teacher.Course.Name ?? "Nomalum"}", fullName);
 
                     this.Close();
                     notifier.ShowSuccess("To'lov muvaffaqiyatli saqlandi!");
