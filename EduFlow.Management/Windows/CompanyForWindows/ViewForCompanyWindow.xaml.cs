@@ -1,12 +1,8 @@
 ﻿using EduFlow.BLL.DTOs.Companies.Company;
 using EduFlow.BLL.DTOs.Companies.CompanySubscription;
-using EduFlow.BLL.DTOs.Users.User;
 using EduFlow.Desktop.Integrated.Services.Companies.Company;
 using EduFlow.Desktop.Integrated.Services.Companies.Logo;
-using EduFlow.Desktop.Integrated.Services.Users.User.Interfaces;
-using EduFlow.Desktop.Integrated.Services.Users.User.Services;
 using EduFlow.Management.Components.SubscriptionForComponents;
-using EduFlow.Management.Components.UserForComponents;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -24,7 +20,6 @@ public partial class ViewForCompanyWindow : Window
 {
     private readonly ICompanyService _companyService;
     private readonly ILogoService _logoService;
-    private readonly IUserService _userService;
 
     private long Id { get; set; }
     private CompanyForResultDto Company { get; set; } = new CompanyForResultDto();
@@ -33,7 +28,6 @@ public partial class ViewForCompanyWindow : Window
         InitializeComponent();
         this._companyService = new CompanyService();
         this._logoService = new LogoService();
-        this._userService = new UserService();
     }
 
     Notifier notifierThis = new Notifier(cfg =>
@@ -128,61 +122,6 @@ public partial class ViewForCompanyWindow : Window
         }
     }
 
-    private async Task GetAdmins()
-    {
-        CompanyLogoLoader.Visibility = Visibility.Visible;
-        
-        try
-        {
-            var admins = await _userService.GetAllByCompanyIdAsync(this.Id);
-
-            if(!admins.Any())
-            {
-                CompanyAdminLoader.Visibility = Visibility.Collapsed;
-                emptyDataForCompanyAdmin.Visibility = Visibility.Visible;
-                return;
-            }
-
-            ShowCompanyAdmins(admins);
-        }
-        catch(Exception ex)
-        {
-            CompanyAdminLoader.Visibility = Visibility.Collapsed;
-            emptyDataForCompanyAdmin.Visibility = Visibility.Visible;
-        }
-    }
-
-    private void ShowCompanyAdmins(List<UserForResultDto> users)
-    {
-        CompanyAdminLoader.Visibility = Visibility.Collapsed;
-        stAdmins.Children.Clear();
-
-        if (users.Any())
-        {
-            emptyDataForCompanyAdmin.Visibility = Visibility.Collapsed;
-
-            var admins = users.Where(x => x.Role == Domain.Enums.UserRole.Manager).ToList();
-
-            if (admins.Any())
-            {
-                foreach (var admin in admins)
-                {
-                    CompanyForUserComponent adminComponent = new CompanyForUserComponent();
-                    adminComponent.SetValues(
-                        admin.Id,
-                        $"{admin.Firstname} {admin.Lastname}",
-                        admin.PhoneNumber);
-
-                    stAdmins.Children.Add(adminComponent);
-                }
-            }
-            else
-                emptyDataForCompanyAdmin.Visibility = Visibility.Visible;
-        }
-        else
-            emptyDataForCompanyAdmin.Visibility = Visibility.Visible;
-    }
-
     private void ShowCompanyValues(CompanyForResultDto company)
     {
         tbCompanyName.Text = company.Name;
@@ -232,6 +171,5 @@ public partial class ViewForCompanyWindow : Window
     {
         await GetCompany();
         await GetCompanyLogo();
-        await GetAdmins();
     }
 }

@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:EduFlow.Management.Windows.CompanyForWindows" xmlns:local1="clr-namespace:EduFlow.Management.Components.Loader" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="ViewForCompanyWindow"
-        Height="450" 
-        Width="500"
+        Height="500" 
+        Width="600"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded">
@@ -108,9 +108,13 @@
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Grid.Column="1"
+            <Grid Grid.Column="1"
                         Margin="10 0">
-                <StackPanel>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
                     <TextBlock Text="Tavsif"
                                FontSize="14"
                                Foreground="Gray"
@@ -126,14 +130,14 @@
                                TextWrapping="Wrap"/>
                 </StackPanel>
 
-                <StackPanel>
+                <Grid Grid.Row="1">
                     <TextBlock Text="Obunalar"
                                FontSize="14"
                                Foreground="Gray"
                                FontFamily="Jetbrains Mono"
                                Margin="0 5"/>
 
-                    <Grid>
+                    <Grid Margin="0 25 0 5">
                         <local1:Loader x:Name="CompanySubscriptionLoader"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -151,35 +155,8 @@
                                    VerticalAlignment="Center"
                                    Visibility="Collapsed"/>
                     </Grid>
-                </StackPanel>
-
-                <StackPanel>
-                    <TextBlock Text="Admin"
-                               Foreground="Gray"
-                               FontSize="14"
-                               FontFamily="Jetbrains Mono"
-                               Margin="0 5"/>
-
-                    <Grid>
-                        <local1:Loader x:Name="CompanyAdminLoader"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Visibility="Collapsed"/>
-
-                        <ScrollViewer>
-                            <StackPanel x:Name="stAdmins"/>
-                        </ScrollViewer>
-
-                        <TextBlock x:Name="emptyDataForCompanyAdmin"
-                                   Text="Obunalar topilmadi!"
-                                   FontSize="14"
-                                   FontFamily="Jetbrains Mono"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Visibility="Collapsed"/>
-                    </Grid>
-                </StackPanel>
-            </StackPanel>
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
 </Window>
