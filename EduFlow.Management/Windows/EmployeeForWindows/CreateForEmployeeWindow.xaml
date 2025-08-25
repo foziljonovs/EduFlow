@@ -1,0 +1,124 @@
+﻿<Window x:Class="EduFlow.Management.Windows.EmployeeForWindows.CreateForEmployeeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EduFlow.Management.Windows.EmployeeForWindows"
+        mc:Ignorable="d"
+        Title="CreateForEmployeeWindow" 
+        Height="550" 
+        Width="450"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <TextBlock Text="Hodim qo'shish"
+                       FontSize="16"
+                       FontFamily="Jetbrains Mono"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"
+                       Margin="10 0"/>
+
+            <RadioButton x:Name="CloseButton"
+                         Style="{DynamicResource StateButton}"
+                         Tag="close"
+                         HorizontalAlignment="Right"
+                         Click="CloseButton_Click"/>
+        </Grid>
+
+        <StackPanel Grid.Row="1"
+                    VerticalAlignment="Center"
+                    Margin="10 0">
+            <StackPanel>
+                <TextBlock Text="Ism"
+                           FontSize="14"
+                           Foreground="Gray"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Margin="10 0"/>
+
+                <TextBox x:Name="txtFirstName"
+                         Style="{DynamicResource CustomTextBoxStyle}"
+                         FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Familya"
+                           FontSize="14"
+                           Foreground="Gray"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Margin="10 0"/>
+
+                <TextBox x:Name="txtLastName"
+                         Style="{DynamicResource CustomTextBoxStyle}"
+                         FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Telefon raqam"
+                           FontSize="14"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Foreground="Gray"
+                           Margin="10 0"/>
+
+                <TextBox x:Name="txtPhoneNumber"
+                         Text="+998"
+                         Style="{DynamicResource CustomTextBoxStyle}"
+                         FontWeight="SemiBold"
+                         MaxLength="13"
+                         PreviewTextInput="phoneNumberTxt_PreviewTextInput"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Parol"
+                           FontSize="14"
+                           Foreground="Gray"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Margin="10 0"/>
+
+                <TextBox x:Name="txtPassword"
+                         Style="{DynamicResource CustomTextBoxStyle}"
+                         FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Yoshi"
+                           FontSize="14"
+                           Foreground="Gray"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Margin="10 0"/>
+
+                <TextBox x:Name="txtAge"
+                         Style="{DynamicResource CustomTextBoxStyle}"
+                         FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <ComboBox x:Name="RoleComboBox"
+                      FontSize="16"
+                      FontWeight="SemiBold"
+                      FontFamily="Jetbrains Mono"
+                      Height="40"
+                      VerticalContentAlignment="Center"
+                      ToolTip="Lavozim tanlash">
+                <ComboBoxItem Content="Lavozim" IsSelected="True" IsEnabled="False"/>
+                <ComboBoxItem Tag="0" Content="Admin"/>
+                <ComboBoxItem Tag="1" Content="Administrator"/>
+                <ComboBoxItem Tag="2" Content="Kassir"/>
+            </ComboBox>
+
+            <Button x:Name="SaveButton"
+                    Style="{DynamicResource saveButton}"
+                    Margin="0 10"
+                    Click="SaveButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

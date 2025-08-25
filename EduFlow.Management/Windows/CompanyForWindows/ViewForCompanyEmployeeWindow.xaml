@@ -78,7 +78,8 @@
                     x:Name="AddAdminButton"
                     Style="{DynamicResource CrudButton}"
                     Tag="add"
-                    Background="MediumSeaGreen"/>
+                    Background="MediumSeaGreen"
+                    Click="AddAdminButton_Click"/>
         </Grid>
 
         <Grid Grid.Row="2">

@@ -2,6 +2,7 @@
 using EduFlow.Desktop.Integrated.Services.Users.User.Interfaces;
 using EduFlow.Desktop.Integrated.Services.Users.User.Services;
 using EduFlow.Management.Components.UserForComponents;
+using EduFlow.Management.Windows.EmployeeForWindows;
 using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -113,6 +114,15 @@ public partial class ViewForCompanyEmployeeWindow : Window
 
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
+        await GetAllUsers();
+    }
+
+    private async void AddAdminButton_Click(object sender, RoutedEventArgs e)
+    {
+        CreateForEmployeeWindow window = new CreateForEmployeeWindow();
+        window.SetCompanyId(this.CompanyId);
+        window.ShowDialog();
+
         await GetAllUsers();
     }
 }
