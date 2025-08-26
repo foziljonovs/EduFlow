@@ -25,4 +25,10 @@
     <Resource Include="Assets\animat.gif" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Windows\MessageBoxWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

@@ -172,7 +172,8 @@
                         Style="{DynamicResource CrudButton}"
                         Tag="Cancel"
                         Background="Tomato"
-                        ToolTip="To'xtatish"/>
+                        ToolTip="To'xtatish"
+                        Click="NoActiveButton_Click"/>
             </StackPanel>
         </Grid>
     </Border>

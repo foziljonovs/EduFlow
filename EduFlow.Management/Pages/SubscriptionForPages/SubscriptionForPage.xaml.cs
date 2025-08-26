@@ -83,6 +83,7 @@ public partial class SubscriptionForPage : Page
                     item.SubcriptionDate ?? DateTime.UtcNow.AddHours(5),
                     item.IsActive);
 
+                component.IsClicked += async () => await GetAllSubscription();
                 stSubscriptions.Children.Add(component);
                 count++;
             }
