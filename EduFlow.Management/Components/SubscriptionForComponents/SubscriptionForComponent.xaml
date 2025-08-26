@@ -160,7 +160,8 @@
                         Style="{DynamicResource CrudButton}"
                         Tag="Eye"
                         Background="DeepSkyBlue"
-                        ToolTip="Ko'rish"/>
+                        ToolTip="Ko'rish"
+                        Click="ViewButton_Click"/>
 
                 <Button x:Name="EditButton"
                         Style="{DynamicResource CrudButton}"

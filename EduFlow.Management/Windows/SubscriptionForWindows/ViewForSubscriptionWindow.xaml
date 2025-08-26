@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:EduFlow.Management.Windows.SubscriptionForWindows"
         mc:Ignorable="d"
         Title="ViewForSubscriptionWindow"
-        Height="550" 
-        Width="500"
+        Height="250" 
+        Width="400"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -30,6 +31,114 @@
                          ToolTip="Chiqish"
                          HorizontalAlignment="Right"
                          Click="CloseButton_Click"/>
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Margin="10 0"
+              VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="O'quv markaz :"
+                           FontSize="16"
+                           FontFamily="Jetbarins Mono"
+                           FontWeight="SemiBold"
+                           Foreground="Gray"
+                           Margin="0 10"/>
+
+                <TextBlock Text="Telefon raqam :"
+                           FontSize="16"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Foreground="Gray"
+                           Margin="0 10"/>
+
+                <TextBlock Text="Obuna turi :"
+                           FontSize="16"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Foreground="Gray"
+                           Margin="0 10"/>
+
+                <TextBlock Text="Obuna sanasi :"
+                           FontSize="16"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Foreground="Gray"
+                           Margin="0 10"/>
+
+                <TextBlock Text="Obuna to'lovi :"
+                           FontSize="16"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Foreground="Gray"
+                           Margin="0 10"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1">
+                <TextBlock x:Name="tbName"
+                           Text="RTM"
+                           FontSize="16"
+                           FontFamily="Jetbarins Mono"
+                           FontWeight="SemiBold"
+                           Margin="0 10"/>
+
+                <TextBlock x:Name="tbPhoneNumber"
+                           Text="+998732542404"
+                           FontSize="16"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Margin="0 10"/>
+
+                <TextBlock x:Name="tbSubscriptionType"
+                           Text="1 oylik"
+                           FontSize="16"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Margin="0 10"/>
+
+                <TextBlock x:Name="tbSubscriptionDate"
+                           Text="26.08.2025"
+                           FontSize="16"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           Margin="0 10"/>
+
+                <StackPanel>
+                    <Border x:Name="IsPaidBorder"
+                            Height="30"
+                            Width="100"
+                            CornerRadius="8"
+                            Background="MediumSeaGreen"
+                            HorizontalAlignment="Left"
+                            Visibility="Collapsed">
+                        <TextBlock Text="Qilingan"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+
+                    <Border x:Name="NoIsPaidBorder"
+                            Height="30"
+                            Width="100"
+                            CornerRadius="8"
+                            Background="Tomato"
+                            HorizontalAlignment="Left"
+                            Visibility="Collapsed">
+                        <TextBlock Text="Qilinmagan"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

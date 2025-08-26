@@ -1,6 +1,7 @@
 ﻿using EduFlow.Desktop.Integrated.Services.Companies.CompanySubscription;
 using EduFlow.Domain.Enums;
 using EduFlow.Management.Windows;
+using EduFlow.Management.Windows.SubscriptionForWindows;
 using Microsoft.Extensions.Logging;
 using System.Windows;
 using System.Windows.Controls;
@@ -81,5 +82,12 @@ public partial class SubscriptionForComponent : UserControl
             else
                 notifier.ShowWarning("O'chirib bo'lmadi, iltimos qayta urining!");
         }
+    }
+
+    private void ViewButton_Click(object sender, RoutedEventArgs e)
+    {
+        ViewForSubscriptionWindow window = new ViewForSubscriptionWindow();
+        window.SetId(this.Id);
+        window.ShowDialog();
     }
 }
