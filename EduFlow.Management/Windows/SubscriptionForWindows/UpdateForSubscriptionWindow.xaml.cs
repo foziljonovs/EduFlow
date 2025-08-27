@@ -85,26 +85,17 @@ public partial class UpdateForSubscriptionWindow : Window
 
     private void ShowValues(CompanySubscriptionForResultDto subscription)
     {
-        foreach(ComboBoxItem item in SubscriptionTypeComboBox.Items)
-        {
-            int itemTag = int.Parse(item.Tag.ToString());
+        int type = (int)subscription.Type;
 
-            if(itemTag == (int)subscription.Type)
+        foreach (ComboBoxItem item in SubscriptionTypeComboBox.Items)
+            if(int.TryParse(item.Tag?.ToString(), out int tagValue) && tagValue == type)
             {
                 SubscriptionTypeComboBox.SelectedItem = item;
                 break;
             }
-        }
 
-        if (subscription.IsPaid)
-            IsPaidCheckBox.IsChecked = true;
-        else
-            IsPaidCheckBox.IsChecked = false;
-
-        if (subscription.IsActive)
-            IsActiveCheckBox.IsChecked = true;
-        else
-            IsActiveCheckBox.IsChecked = false;
+        IsPaidCheckBox.IsChecked = subscription.IsPaid;
+        IsActiveCheckBox.IsChecked = subscription.IsActive;
     }
 
     private async void Window_Loaded(object sender, RoutedEventArgs e)
