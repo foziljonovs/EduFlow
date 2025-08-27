@@ -16,7 +16,7 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="100"/>
@@ -26,7 +26,7 @@
             <TextBlock Grid.Column="0"
                        x:Name="tbNumber"
                        Text="1"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
@@ -35,7 +35,7 @@
             <TextBlock Grid.Column="1"
                        x:Name="tbName"
                        Text="Founadtion 1"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -43,15 +43,16 @@
             <TextBlock Grid.Column="2"
                        x:Name="tbCourse"
                        Text="Foundation"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
 
             <TextBlock Grid.Column="3"
                        x:Name="tbStudentCount"
                        Text="12"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
@@ -60,7 +61,7 @@
             <TextBlock Grid.Column="4"
                        x:Name="tbStatus"
                        Text="Faol"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
@@ -69,7 +70,7 @@
             <TextBlock x:Name="tbTime"
                        Grid.Column="5"
                        Text="08:00"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
@@ -78,7 +79,7 @@
             <TextBlock x:Name="tbDay"
                        Grid.Column="6"
                        Text="Toq kunlar"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"

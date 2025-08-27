@@ -100,9 +100,12 @@ public partial class MainWindow : Window
 
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        NormalButton.IsChecked = true;
+        if (this.WindowState == WindowState.Maximized)
+            NormalButton.Visibility = Visibility.Visible;
+        else
+            MaxButton.Visibility = Visibility.Visible;
 
-        var role = IdentitySingelton.GetInstance().Role;
+            var role = IdentitySingelton.GetInstance().Role;
         this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
 
         if (role is Domain.Enums.UserRole.Teacher)
@@ -121,4 +124,18 @@ public partial class MainWindow : Window
 
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
         => this.Close();
+
+    private void Window_StateChanged(object sender, EventArgs e)
+    {
+        if (this.WindowState == WindowState.Normal)
+        {
+            var screen = System.Windows.SystemParameters.WorkArea;
+
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+
+            this.Left = (screen.Width - windowWidth) / 2 + screen.Left;
+            this.Top = (screen.Height - windowHeight) / 2 + screen.Top;
+        }
+    }
 }

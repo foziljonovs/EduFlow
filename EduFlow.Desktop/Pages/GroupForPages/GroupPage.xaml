@@ -22,6 +22,7 @@
                       ToolTip="Kurs tanlash"
                       VerticalAlignment="Center"
                       Margin="10 0"
+                      FontSize="16"
                       SelectionChanged="courseComboBox_SelectionChanged">
                 <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
             </ComboBox>
@@ -31,6 +32,7 @@
                       ToolTip="O'qituvchi tanlash"
                       VerticalAlignment="Center"
                       Margin="10 0"
+                      FontSize="16"
                       SelectionChanged="teacherComboBox_SelectionChanged">
                 <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
             </ComboBox>
@@ -40,6 +42,7 @@
                       ToolTip="Guruh holatini tanlash"
                       VerticalAlignment="Center"
                       Margin="10 0"
+                      FontSize="16"
                       SelectionChanged="activeComboBox_SelectionChanged">
                 <ComboBoxItem Content="Faol" IsSelected="True"/>
                 <ComboBoxItem Content="Arxivlangan"/>
@@ -60,7 +63,7 @@
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="80"/>
                     <ColumnDefinition Width="80"/>
                     <ColumnDefinition Width="100"/>
@@ -71,29 +74,30 @@
                            Text="No"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="12"
+                           FontSize="16"
                            FontWeight="ExtraBold"
                            FontFamily="Jetbrains Mono"/>
 
                 <TextBlock Grid.Column="1"
                            Text="Nomi"
                            VerticalAlignment="Center"
-                           FontSize="12"
+                           FontSize="16"
                            FontWeight="ExtraBold"
                            FontFamily="Jetbrains Mono"/>
 
                 <TextBlock Grid.Column="2"
                             Text="Kurs"
                             VerticalAlignment="Center"
-                            FontSize="12"
+                            HorizontalAlignment="Center"
+                            FontSize="16"
                             FontWeight="ExtraBold"
                             FontFamily="Jetbrains Mono"/>
 
                 <TextBlock Grid.Column="3"
-                           Text="O'quvchilar soni"
+                           Text="O'quvchi soni"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="12"
+                           FontSize="16"
                            FontWeight="ExtraBold"
                            FontFamily="Jetbrains Mono"/>
 
@@ -101,7 +105,7 @@
                            Text="Holati"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="12"
+                           FontSize="16"
                            FontWeight="ExtraBold"
                            FontFamily="Jetbrains Mono"/>
 
@@ -109,7 +113,7 @@
                            Text="Vaqti"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="12"
+                           FontSize="16"
                            FontWeight="ExtraBold"
                            FontFamily="Jetbrains Mono"/>
 
@@ -117,7 +121,7 @@
                            Text="Kuni"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="12"
+                           FontSize="16"
                            FontWeight="ExtraBold"
                            FontFamily="Jetbrains Mono"/>
 
@@ -148,7 +152,7 @@
 
                     <TextBlock x:Name="emptyData"
                                Text="Guruhlar topilmadi!"
-                               FontSize="14"
+                               FontSize="16"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontFamily="Jetbrains Mono"

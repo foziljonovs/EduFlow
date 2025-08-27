@@ -26,7 +26,7 @@
 
             <TextBlock Grid.Column="0"
                        Text="No"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"
                        HorizontalAlignment="Center"
@@ -34,14 +34,14 @@
 
             <TextBlock Grid.Column="1"
                        Text="Nomi"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"
                        VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="2"
                        Text="Guruhlar soni"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"
                        HorizontalAlignment="Center"
@@ -55,6 +55,7 @@
                               Width="110"
                               VerticalAlignment="Center"
                               Margin="10 0"
+                              FontSize="16"
                               SelectionChanged="categoryComboBox_SelectionChanged">
                         <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
                     </ComboBox>
@@ -81,7 +82,7 @@
 
             <TextBlock x:Name="emptyDataForCategories"
                        Text="Kurslar topilmadi!"
-                       FontSize="14"
+                       FontSize="16"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        FontFamily="Jetbrains Mono"
