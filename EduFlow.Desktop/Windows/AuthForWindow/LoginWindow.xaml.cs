@@ -1,7 +1,9 @@
 ﻿using EduFlow.BLL.DTOs.Users.User;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Auth;
+using EduFlow.Desktop.Integrated.Services.Companies.CompanySubscription;
 using System.Windows;
+using System.Windows.Media.Animation;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
@@ -15,10 +17,12 @@ namespace EduFlow.Desktop.Windows.AuthForWindow;
 public partial class LoginWindow : Window
 {
     private readonly IAuthService _service;
+    private readonly ICompanySubscriptionService _subscriptionService;
     public LoginWindow()
     {
         InitializeComponent();
         this._service = new AuthService();
+        this._subscriptionService = new CompanySubscriptionService();
     }
 
 
@@ -104,6 +108,28 @@ public partial class LoginWindow : Window
         identity.Role = tkn.Role;
         identity.CompanyId = tkn.CompanyId;
     }
+
+    private async Task<bool> CheckCompanySubscription(long companyId)
+    {
+        try
+        {
+            var subscription = await Task.Run(async () => await _subscriptionService.GetAllByCompanyIdAsync(companyId));
+
+            if (subscription is null)
+            {
+                notifierThis.ShowWarning("Tekshiruvda muammo yuz berdi, iltimos qayta urining!");
+                return false;
+            }
+
+            return subscription.Any(x => x.IsActive == true);
+        }
+        catch(Exception ex)
+        {
+            notifierThis.ShowWarning("Tekshiruvda muammo yuz berdi, iltimos qayta urining!");
+            return false;
+        }
+    }
+
     private async void LoginBtn_Click(object sender, RoutedEventArgs e)
     {
         LoginBtn.Visibility = Visibility.Collapsed;
@@ -144,6 +170,18 @@ public partial class LoginWindow : Window
                     if (role == Domain.Enums.UserRole.Cashier)
                     {
                         notifierThis.ShowWarning("Siz ushbu tizimga kirish huquqiga ega emassiz!");
+                        LoginLoader.Visibility = Visibility.Collapsed;
+                        LoginBtn.Visibility = Visibility.Visible;
+                        return;
+                    }
+
+                    var companyId = IdentitySingelton.GetInstance().CompanyId;
+
+                    var existsCompanySubscription = await CheckCompanySubscription(companyId);
+
+                    if(!existsCompanySubscription)
+                    {
+                        notifierThis.ShowWarning("Obuna muddati tugagan, supportga murojat qiling!");
                         LoginLoader.Visibility = Visibility.Collapsed;
                         LoginBtn.Visibility = Visibility.Visible;
                         return;
