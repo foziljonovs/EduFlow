@@ -113,15 +113,15 @@ public partial class LoginWindow : Window
     {
         try
         {
-            var subscription = await Task.Run(async () => await _subscriptionService.GetAllByCompanyIdAsync(companyId));
+            var subscriptions = await Task.Run(async () => await _subscriptionService.GetAllByCompanyIdAsync(companyId));
 
-            if (subscription is null)
+            if (!subscriptions.Any())
             {
                 notifierThis.ShowWarning("Tekshiruvda muammo yuz berdi, iltimos qayta urining!");
                 return false;
             }
 
-            return subscription.Any(x => x.IsActive == true);
+            return subscriptions.Any(x => x.IsActive == true);
         }
         catch(Exception ex)
         {
@@ -181,7 +181,7 @@ public partial class LoginWindow : Window
 
                     if(!existsCompanySubscription)
                     {
-                        notifierThis.ShowWarning("Obuna muddati tugagan, supportga murojat qiling!");
+                        notifierThis.ShowWarning("Obuna muddati tugagan, iltimos supportga bog'laning!");
                         LoginLoader.Visibility = Visibility.Collapsed;
                         LoginBtn.Visibility = Visibility.Visible;
                         return;

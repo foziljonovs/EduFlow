@@ -2,6 +2,7 @@
 using EduFlow.Cashier.Desktop.Services;
 using EduFlow.Desktop.Integrated.Security;
 using EduFlow.Desktop.Integrated.Services.Auth;
+using EduFlow.Desktop.Integrated.Services.Companies.CompanySubscription;
 using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -16,11 +17,13 @@ namespace EduFlow.Cashier.Desktop.Windows.AuthForWindow;
 public partial class LoginWindow : Window
 {
     private readonly IAuthService _authService;
+    private readonly ICompanySubscriptionService _subscriptionService;
     PrinterService _printerService = new PrinterService();
     public LoginWindow()
     {
         InitializeComponent();
         this._authService = new AuthService();
+        this._subscriptionService = new CompanySubscriptionService();
     }
 
     Notifier notifier = new Notifier(cfg =>
@@ -117,6 +120,26 @@ public partial class LoginWindow : Window
             notifierMain.ShowInformation($"Printer {printerName} o'rnatilgan!");
     }
 
+    private async Task<bool> CheckCompanySubscription(long companyId)
+    {
+        try
+        {
+            var subscriptions = await Task.Run(async () => await _subscriptionService.GetAllByCompanyIdAsync(companyId));
+
+            if (!subscriptions.Any())
+            {
+                notifierMain.ShowWarning("Tekshiruvda muammo yuz berdi, iltimos qayta urining!");
+                return false;
+            }
+
+            return subscriptions.Any(x => x.IsActive == true);
+        }
+        catch(Exception ex)
+        {
+            notifierMain.ShowWarning("Tekshiruvda muammo yuz berdi, iltimos qayta urining!");
+            return false;
+        }
+    }
 
     private async void LoginBtn_Click(object sender, RoutedEventArgs e)
     {
@@ -162,6 +185,18 @@ public partial class LoginWindow : Window
                     {
                         notifier.ShowWarning("Siz ushbu tizimga kirish huquqiga ega emassiz!");
                         LoginLoader.Visibility = Visibility.Collapsed;
+                        LoginBtn.Visibility = Visibility.Visible;
+                        return;
+                    }
+
+                    var companyId = IdentitySingelton.GetInstance().CompanyId;
+
+                    var existsCompanySubscription = await CheckCompanySubscription(companyId);
+
+                    if(!existsCompanySubscription)
+                    {
+                        notifierMain.ShowWarning("Obuna muddati tugagan, iltimos supportga bog'laning!");
+                        LoginLoader.Visibility = Visibility.Collapsed; 
                         LoginBtn.Visibility = Visibility.Visible;
                         return;
                     }
