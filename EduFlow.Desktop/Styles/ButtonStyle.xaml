@@ -9,9 +9,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
                     <Border x:Name="B"
-                        CornerRadius="5"
-                        BorderThickness="0"
-                        Background="Transparent">
+                            CornerRadius="5"
+                            BorderThickness="0"
+                            Background="Transparent">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
@@ -22,7 +22,7 @@
                                 Grid.Column="0"
                                 x:Name="Icon"
                                 Kind="HomeVariant"
-                                Foreground="Black"
+                                Foreground="#e5e5e5"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Width="25"
@@ -33,8 +33,8 @@
                                 Grid.Column="1"
                                 FontFamily="Jetbrains Mono"
                                 Content="Asosiy"
-                                FontWeight="SemiBold"
-                                Foreground="Black"
+                                FontWeight="ExtraBold"
+                                Foreground="#e5e5e5"
                                 FontSize="16"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Left"/>
@@ -43,15 +43,14 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="#ffffff"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="#ffffff"/>
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="B" Property="Background" Value="Silver"/>
-                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
-                            
+                            <Setter TargetName="B" Property="Background" Value="Transparent"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="#fca311"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="#fca311"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -142,9 +141,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
                     <Border x:Name="B"
-                        CornerRadius="5"
-                        BorderThickness="0"
-                        Background="Transparent">
+                            CornerRadius="5"
+                            BorderThickness="0"
+                            Background="Transparent">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
@@ -155,7 +154,7 @@
                                 Grid.Column="0"
                                 x:Name="Icon"
                                 Kind="BookVariant"
-                                Foreground="Black"
+                                Foreground="#e5e5e5"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Width="25"
@@ -166,8 +165,8 @@
                                 Grid.Column="1"
                                 FontFamily="Jetbrains Mono"
                                 Content="Kurslar"
-                                FontWeight="SemiBold"
-                                Foreground="Black"
+                                FontWeight="ExtraBold"
+                                Foreground="#e5e5e5"
                                 FontSize="16"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Left"/>
@@ -176,15 +175,14 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="#ffffff"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="#ffffff"/>
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="B" Property="Background" Value="Silver"/>
-                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
-
+                            <Setter TargetName="B" Property="Background" Value="Transparent"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="#fca311"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="#fca311"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -213,7 +211,7 @@
                                     Grid.Column="0"
                                     x:Name="Icon"
                                     Kind="AccountStudent"
-                                    Foreground="Black"
+                                    Foreground="#e5e5e5"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
                                     Width="25"
@@ -224,8 +222,8 @@
                                     Grid.Column="1"
                                     FontFamily="Jetbrains Mono"
                                     Content="O'quvchilar"
-                                    FontWeight="SemiBold"
-                                    Foreground="Black"
+                                    FontWeight="ExtraBold"
+                                    Foreground="#e5e5e5"
                                     FontSize="16"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Left"/>
@@ -234,15 +232,14 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="#ffffff"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="#ffffff"/>
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="B" Property="Background" Value="Silver"/>
-                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
-
+                            <Setter TargetName="B" Property="Background" Value="Transparent"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="#fca311"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="#fca311"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -271,7 +268,7 @@
                                 Grid.Column="0"
                                 x:Name="Icon"
                                 Kind="Group"
-                                Foreground="Black"
+                                Foreground="#e5e5e5"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Width="25"
@@ -282,8 +279,8 @@
                                 Grid.Column="1"
                                 FontFamily="Jetbrains Mono"
                                 Content="Guruhlar"
-                                FontWeight="SemiBold"
-                                Foreground="Black"
+                                FontWeight="ExtraBold"
+                                Foreground="#e5e5e5"
                                 FontSize="16"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Left"/>
@@ -292,15 +289,14 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="#ffffff"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="#ffffff"/>
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="B" Property="Background" Value="Silver"/>
-                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
-
+                            <Setter TargetName="B" Property="Background" Value="Transparent"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="#fca311"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="#fca311"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -329,7 +325,7 @@
                                     Grid.Column="0"
                                     x:Name="Icon"
                                     Kind="Teacher"
-                                    Foreground="Black"
+                                    Foreground="#e5e5e5"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
                                     Width="25"
@@ -340,8 +336,8 @@
                                     Grid.Column="1"
                                     FontFamily="Jetbrains Mono"
                                     Content="O'qituvchilar"
-                                    FontWeight="SemiBold"
-                                    Foreground="Black"
+                                    FontWeight="ExtraBold"
+                                    Foreground="#e5e5e5"
                                     FontSize="16"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Left"/>
@@ -350,15 +346,14 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Icon" Property="Foreground" Value="Gray"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="#ffffff"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="#ffffff"/>
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="B" Property="Background" Value="Silver"/>
-                            <Setter TargetName="Icon" Property="Foreground" Value="White"/>
-                            <Setter TargetName="Lbl" Property="Foreground" Value="White"/>
-
+                            <Setter TargetName="B" Property="Background" Value="Transparent"/>
+                            <Setter TargetName="Icon" Property="Foreground" Value="#fca311"/>
+                            <Setter TargetName="Lbl" Property="Foreground" Value="#fca311"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

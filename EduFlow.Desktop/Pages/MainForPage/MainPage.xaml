@@ -30,6 +30,7 @@
                                 Width="110"
                                 VerticalAlignment="Center"
                                 ToolTip="Sanadan"
+                                FontSize="16"
                                 Margin="10 0 10 0"/>
 
                     <DatePicker x:Name="dtEndDate"
@@ -38,6 +39,7 @@
                                 VerticalAlignment="Center"
                                 Margin="10 0 10 0"
                                 ToolTip="Sanagacha"
+                                FontSize="16"
                                 SelectedDateChanged="dtEndDate_SelectedDateChanged"/>
 
                     <StackPanel Orientation="Horizontal">
@@ -46,6 +48,7 @@
                                   Width="110"
                                   VerticalAlignment="Center"
                                   Margin="10 0"
+                                  FontSize="16"
                                   SelectionChanged="categoryComboBox_SelectionChanged_1">
                         </ComboBox>
 
@@ -53,6 +56,7 @@
                                 Style="{DynamicResource CrudButton}"
                                 Tag="add"
                                 Background="Gold"
+                                FontSize="16"
                                 ToolTip="Kategoriya qo'shish"
                                 Click="createCategoryBtn_Click"/>
                     </StackPanel>
@@ -63,6 +67,7 @@
                                   Width="110"
                                   VerticalAlignment="Center"
                                   Margin="10 0"
+                                  FontSize="16"
                                   SelectionChanged="categoryComboBox_SelectionChanged">
                         </ComboBox>
 
@@ -80,6 +85,7 @@
                                   Width="110"
                                   VerticalAlignment="Center"
                                   Margin="10 0"
+                                  FontSize="16"
                                   SelectionChanged="teacherComboBox_SelectionChanged">
                         </ComboBox>
 
@@ -111,13 +117,13 @@
                         <TextBlock x:Name="YourCoursesCount"
                                    Text="0"
                                    Foreground="White"
-                                   FontSize="22"
+                                   FontSize="24"
                                    HorizontalAlignment="Center"
                                    FontWeight="Heavy"/>
 
                         <TextBlock Text="Jami guruhlar soni"
                                    Foreground="White"
-                                   FontSize="14"
+                                   FontSize="16"
                                    HorizontalAlignment="Center"
                                    FontWeight="SemiBold"
                                    FontFamily="Jetbrains Mono"/>
@@ -132,13 +138,13 @@
                         <TextBlock x:Name="YourStudentsCount"
                                    Text="0"
                                    Foreground="White"
-                                   FontSize="22"
+                                   FontSize="24"
                                    HorizontalAlignment="Center"
                                    FontWeight="Heavy"/>
 
                         <TextBlock Text="Faol o'quvchilar soni"
                                    Foreground="White"
-                                   FontSize="14"
+                                   FontSize="16"
                                    HorizontalAlignment="Center"
                                    FontWeight="SemiBold"
                                    FontFamily="Jetbrains Mono"/>
@@ -154,13 +160,13 @@
                         <TextBlock x:Name="WaitingStudentsCount"
                                    Text="0"
                                    Foreground="White"
-                                   FontSize="22"
+                                   FontSize="24"
                                    HorizontalAlignment="Center"
                                    FontWeight="Heavy"/>
 
-                        <TextBlock Text="Navbatdagi o'quvchilar"
+                        <TextBlock Text="Ro'yxatga olinganlar"
                                    Foreground="White"
-                                   FontSize="14"
+                                   FontSize="16"
                                    HorizontalAlignment="Center"
                                    FontWeight="SemiBold"
                                    FontFamily="Jetbrains Mono"/>   
@@ -180,7 +186,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="120"/>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="120"/>
@@ -188,22 +194,22 @@
 
                     <TextBlock Grid.Column="0"
                                Text="No"
-                               FontSize="12"
+                               FontSize="16"
                                FontWeight="ExtraBold"
                                FontFamily="Jetbrains Mono"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Column="1"
-                               Text="Guruh nomi"
-                               FontSize="12"
+                               Text="Nomi"
+                               FontSize="16"
                                FontWeight="ExtraBold"
                                FontFamily="Jetbrains Mono"
                                VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Column="2"
                                Text="O'quvchi soni"
-                               FontSize="12"
+                               FontSize="16"
                                FontWeight="ExtraBold"
                                FontFamily="Jetbrains Mono"
                                HorizontalAlignment="Center"
@@ -211,7 +217,7 @@
 
                     <TextBlock Grid.Column="3"
                                Text="Vaqti"
-                               FontSize="12"
+                               FontSize="16"
                                FontFamily="Jetbrains Mono"
                                FontWeight="ExtraBold"
                                HorizontalAlignment="Center"
@@ -219,7 +225,7 @@
 
                 <TextBlock Grid.Column="4"
                            Text="Kuni"
-                           FontSize="12"
+                           FontSize="16"
                            FontFamily="Jetbrains Mono"
                            FontWeight="ExtraBold"
                            HorizontalAlignment="Center"
@@ -254,7 +260,7 @@
                                Text="Guruhlar topilmadi!"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="14"
+                               FontSize="16"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                Visibility="Collapsed"/>

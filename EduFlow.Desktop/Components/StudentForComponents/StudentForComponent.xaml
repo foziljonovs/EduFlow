@@ -25,7 +25,7 @@
             <TextBlock Grid.Column="0"
                        x:Name="tbNumber"
                        Text="0"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
@@ -34,7 +34,7 @@
             <TextBlock Grid.Column="1"
                        x:Name="tbFullname"
                        Text="Abdulaziz Hikmatov"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -42,7 +42,7 @@
             <TextBlock Grid.Column="2"
                        x:Name="tbAge"
                        Text="17"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
@@ -52,7 +52,7 @@
                        x:Name="tbAddress"
                        Text="Marg'ilon"
                        FontFamily="Jetbrains Mono"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
 
@@ -60,7 +60,7 @@
                        x:Name="tbPhoneNumber"
                        Text="+998909000909"
                        FontFamily="Jetbrains Mono"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
 
@@ -68,7 +68,7 @@
                        x:Name="tbCourse"
                        Text="AKT Pro - 1"
                        FontFamily="Jetbrains Mono"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        Margin="5 0 0 0"
                        VerticalAlignment="Center"/>

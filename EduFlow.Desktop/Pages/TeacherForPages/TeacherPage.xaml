@@ -19,39 +19,39 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="160"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
                        Text="No"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"/>
 
             <TextBlock Grid.Column="1"
                        Text="Ism"
                        VerticalAlignment="Center"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"/>
             
             <TextBlock Grid.Column="2"
                        Text="Telefon raqam"
                        VerticalAlignment="Center"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"/>
 
             <TextBlock Grid.Column="3"
                        Text="Kurs"
                        VerticalAlignment="Center"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"/>
 
@@ -59,7 +59,7 @@
                        Text="Guruhlar soni"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"/>
 
@@ -68,7 +68,7 @@
                        Text="Ko'nikmalar"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"/>
 
@@ -76,11 +76,11 @@
                         Orientation="Horizontal"
                         HorizontalAlignment="Right">
                 <ComboBox x:Name="courseComboBox"
-                          Width="140"
+                          Width="110"
                           ToolTip="Kursni tanlash"
                           VerticalAlignment="Center"
                           Margin="10 0"
-                          FontSize="14"
+                          FontSize="16"
                           FontFamily="Jetbrains Mono"
                           SelectionChanged="courseComboBox_SelectionChanged">
                     <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
@@ -106,7 +106,7 @@
 
             <TextBlock x:Name="emptyData"
                        Text="O'qituvchilar topilmadi!"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"

@@ -43,7 +43,7 @@
 
                         <TextBox Grid.Column="1"
                                  x:Name="searchPhoneNumberForStudentTxt"
-                                 FontSize="14"
+                                 FontSize="16"
                                  FontFamily="Jetbrains Mono"
                                  FontWeight="SemiBold"
                                  VerticalContentAlignment="Center"
@@ -58,7 +58,7 @@
                           ToolTip="Kursni tanlash"
                           VerticalAlignment="Center"
                           Margin="10 0"
-                          FontSize="14"
+                          FontSize="16"
                           FontFamily="Jetbrains Mono"
                           SelectionChanged="courseComboBox_SelectionChanged">
                     <ComboBoxItem Content="Barcha" IsSelected="True" IsEnabled="False"/>
@@ -80,7 +80,7 @@
 
             <TextBlock Grid.Column="0"
                        Text="No"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"
                        HorizontalAlignment="Center"
@@ -88,14 +88,14 @@
 
             <TextBlock Grid.Column="1"
                        Text="Ism"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBlack"
                        VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="2"
                        Text="Yosh"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"
                        HorizontalAlignment="Center"
@@ -103,21 +103,21 @@
 
             <TextBlock Grid.Column="3"
                        Text="Manzil"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        VerticalAlignment="Center"
                        FontWeight="ExtraBold"/>
 
             <TextBlock Grid.Column="4"
                        Text="Telefon raqam"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"
                        VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="5"
                        Text="Guruh"
-                       FontSize="12"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="ExtraBold"
                        Margin="5 0 0 0"
@@ -144,7 +144,7 @@
 
             <TextBlock x:Name="emptyDataForStudent"
                        Text="O'quvchilar topilmadi!"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"

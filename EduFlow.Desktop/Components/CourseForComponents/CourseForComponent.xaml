@@ -23,7 +23,7 @@
                        x:Name="tbNumber"
                        Text="1"
                        FontFamily="Jetbrains Mono"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
@@ -32,7 +32,7 @@
                        x:Name="tbName"
                        Text="Foundation"
                        FontFamily="Jetbrains Mono"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
 
@@ -40,7 +40,7 @@
                        x:Name="tbCourseCount"
                        Text="18"
                        FontFamily="Jetbrains Mono"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>

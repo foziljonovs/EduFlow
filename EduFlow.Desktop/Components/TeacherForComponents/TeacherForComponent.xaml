@@ -16,11 +16,11 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="160"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
@@ -28,7 +28,7 @@
                        Text="1"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"/>
             
@@ -36,7 +36,7 @@
                        x:Name="tbFirstname"
                        Text="Abdulvosid"
                        VerticalAlignment="Center"
-                       FontSize="14"
+                       FontSize="16"
                        Margin="0 0 5 0"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"/>
@@ -46,7 +46,7 @@
                        Text="+998945666964"
                        Margin="0 0 5 0"
                        VerticalAlignment="Center"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"/>
 
@@ -54,7 +54,7 @@
                        x:Name="tbCourse"
                        Text="Foundation"
                        VerticalAlignment="Center"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"/>
 
@@ -63,7 +63,7 @@
                        Text="6"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"/>
 
@@ -72,7 +72,7 @@
                        Text="C#"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"/>
 

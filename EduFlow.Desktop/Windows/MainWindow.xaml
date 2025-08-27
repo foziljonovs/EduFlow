@@ -8,17 +8,17 @@
         Title="EduFlow - dashboard"
         Height="600" 
         Width="1024"
-        WindowStartupLocation="CenterScreen"
-        WindowState="Normal"
+        WindowState="Maximized"
         WindowStyle="None"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        StateChanged="Window_StateChanged">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid>
+        <Grid Background="#14213d">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.2*"/>
                 <RowDefinition Height="*"/>
@@ -49,8 +49,9 @@
                            FontSize="24"
                            FontWeight="Bold"
                            Margin="10"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center"/>
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
             </Grid>
 
             <Grid Grid.Row="1"
@@ -89,6 +90,7 @@
                                      Style="{DynamicResource StateButton}"
                                      Tag="ArrowExpand"
                                      ToolTip="Kattalashtirish"
+                                     Visibility="Collapsed"
                                      Click="MaxButton_Click"/>
                     </StackPanel>
 
