@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EduFlow.Management.Windows.SubscriptionForWindows"
         mc:Ignorable="d"
         Title="UpdateForSubscriptionWindow"
-        Height="200"
+        Height="250"
         Width="420"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -46,6 +46,13 @@
                 <ComboBoxItem Content="Bir oylik" Tag="2"/>
             </ComboBox>
 
+            <DatePicker x:Name="SubscriptionDatePicker"
+                        ToolTip="Obuna sanasi"
+                        FontSize="16"
+                        FontFamily="Jetbrains Mono"
+                        FontWeight="SemiBold"
+                        Margin="0 5 0 10"/>
+
             <StackPanel Orientation="Horizontal"
                         Margin="0 5 0 10"
                         HorizontalAlignment="Center">
@@ -65,7 +72,8 @@
             </StackPanel>
 
             <Button x:Name="SaveButton"
-                    Style="{DynamicResource saveButton}"/>
+                    Style="{DynamicResource saveButton}"
+                    Click="SaveButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>
