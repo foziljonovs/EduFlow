@@ -3,6 +3,7 @@ using EduFlow.Domain.Enums;
 using EduFlow.Management.Windows;
 using EduFlow.Management.Windows.SubscriptionForWindows;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ToastNotifications;
@@ -89,5 +90,13 @@ public partial class SubscriptionForComponent : UserControl
         ViewForSubscriptionWindow window = new ViewForSubscriptionWindow();
         window.SetId(this.Id);
         window.ShowDialog();
+    }
+
+    private async void EditButton_Click(object sender, RoutedEventArgs e)
+    {
+        UpdateForSubscriptionWindow window = new UpdateForSubscriptionWindow();
+        window.SetId(this.Id);
+        window.ShowDialog();
+        await IsClicked?.Invoke();
     }
 }
