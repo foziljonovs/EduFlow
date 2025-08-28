@@ -205,7 +205,16 @@ public partial class GroupForViewWindow : Window
 
         nameTxt.Text = group.Name;
         teacherNameTxt.Text = teacher.User.Firstname + " " + teacher.User.Lastname;
-        statusTxt.Text = group.IsStatus.ToString();
+
+        if (group.IsStatus is Status.Active)
+            ActiveBorder.Visibility = Visibility.Visible;
+        else if (group.IsStatus is Status.Archived)
+            ArchivedBorder.Visibility = Visibility.Visible;
+        else if (group.IsStatus is Status.Deleted)
+            DeletedBorder.Visibility = Visibility.Visible;
+        else
+            GratuatedBorder.Visibility = Visibility.Visible;
+
         statedDateTxt.Text = group.CreatedAt.ToString("dd/MM/yyyy");
 
         ShowStudents(group.Students);

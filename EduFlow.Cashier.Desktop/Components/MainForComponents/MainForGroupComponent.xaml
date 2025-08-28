@@ -21,7 +21,7 @@
 
             <TextBlock x:Name="tbNumber"
                        Text="1"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
@@ -30,7 +30,7 @@
             <TextBlock Grid.Column="1"
                        x:Name="tbName"
                        Text="Foundation 11.06"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -38,7 +38,7 @@
             <TextBlock Grid.Column="2"
                        x:Name="tbStudentCount"
                        Text="11"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
@@ -47,7 +47,7 @@
             <TextBlock Grid.Column="3"
                        x:Name="tbStartedDate"
                        Text="11-06-2025"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>

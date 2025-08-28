@@ -65,7 +65,8 @@
             <StackPanel Grid.Column="0">
                 <Grid Height="50">
                     <TextBlock Text="Nomi: "
-                               FontSize="18"
+                               FontSize="16"
+                               Foreground="Gray"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -73,7 +74,7 @@
 
                     <TextBlock x:Name="nameTxt"
                                Text="Foundation 22.04.25"
-                               FontSize="14"
+                               FontSize="16"
                                FontFamily="JetBrains Mono"
                                FontWeight="DemiBold"
                                VerticalAlignment="Center"
@@ -82,7 +83,8 @@
 
                 <Grid Height="50">
                     <TextBlock Text="O'qituvchi: "
-                               FontSize="18"
+                               FontSize="16"
+                               Foreground="Gray"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -90,40 +92,102 @@
 
                     <TextBlock x:Name="teacherNameTxt"
                                Text="Abdulvosid Foziljonov"
-                               FontSize="14"
+                               FontSize="16"
+                               Width="150"
+                               TextWrapping="Wrap"
                                FontFamily="JetBrains Mono"
                                FontWeight="DemiBold"
                                VerticalAlignment="Center"
+                               TextAlignment="Right"
                                HorizontalAlignment="Right"/>
                 </Grid>
 
                 <Grid Height="50">
                     <TextBlock Text="Holati: "
-                               FontSize="18"
+                               FontSize="16"
+                               Foreground="Gray"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"/>
 
-                    <TextBlock x:Name="statusTxt"
-                               Text="Faol"
-                               FontSize="14"
-                               FontFamily="JetBrains Mono"
-                               FontWeight="DemiBold"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Right"/>
+                    <StackPanel Width="120"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center">
+                        <Border x:Name="ActiveBorder"
+                                CornerRadius="8"
+                                Height="30"
+                                Width="100"
+                                Visibility="Collapsed"
+                                HorizontalAlignment="Right"
+                                Background="MediumSeaGreen">
+                            <TextBlock Text="Faol"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <Border x:Name="ArchivedBorder"
+                                CornerRadius="8"
+                                Height="30"
+                                Width="100"
+                                Visibility="Collapsed"
+                                HorizontalAlignment="Right"
+                                Background="Gold">
+                            <TextBlock Text="Saqlangan"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <Border x:Name="GratuatedBorder"
+                                CornerRadius="8"
+                                Height="30"
+                                Width="100"
+                                Visibility="Collapsed"
+                                HorizontalAlignment="Right"
+                                Background="MediumSeaGreen">
+                            <TextBlock Text="Yakunlangan"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <Border x:Name="DeletedBorder"
+                                CornerRadius="8"
+                                Height="30"
+                                Width="100"
+                                Background="Tomato"
+                                HorizontalAlignment="Right"
+                                Visibility="Collapsed">
+                            <TextBlock Text="O'chirilgan"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                    </StackPanel>
                 </Grid>
 
                 <Grid Height="50">
-                    <TextBlock Text="To'lovlar summasi: "
-                               FontSize="14"
+                    <TextBlock Text="Jami to'lov: "
+                               FontSize="16"
+                               Foreground="Gray"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"/>
 
                     <TextBlock x:Name="tbMonthlyIncome"
-                               FontSize="18"
+                               FontSize="16"
                                FontWeight="SemiBold"
                                FontFamily="Jetbrains Mono"
                                Text="0"
@@ -133,7 +197,8 @@
 
                 <Grid Height="50">
                     <TextBlock Text="Boshlangan sana: "
-                               FontSize="18"
+                               FontSize="16"
+                               Foreground="Gray"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -141,7 +206,7 @@
 
                     <TextBlock x:Name="statedDateTxt"
                                Text="22.04.25"
-                               FontSize="14"
+                               FontSize="16"
                                FontFamily="JetBrains Mono"
                                FontWeight="DemiBold"
                                VerticalAlignment="Center"
@@ -159,28 +224,30 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <TextBlock Text="O'quvchilar soni: "
-                               FontSize="14"
+                               FontSize="16"
+                               Foreground="Gray"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"/>
 
                     <TextBlock x:Name="studentCountTbc"
                                Text="12"
-                               FontSize="14"
+                               FontSize="16"
                                FontFamily="Jetbrains Mono"
                                FontWeight="DemiBold"
                                VerticalAlignment="Center"
                                Margin="5 0 20 0"/>
 
                     <TextBlock Text="Darslar soni: "
-                                FontSize="14"
+                                FontSize="16"
+                                Foreground="Gray"
                                 FontFamily="Jetbrains Mono"
                                 FontWeight="SemiBold"
                                 VerticalAlignment="Center"/>
 
                     <TextBlock x:Name="lessonCountTbc"
                                 Text="12"
-                                FontSize="14"
+                                FontSize="16"
                                 FontFamily="Jetbrains Mono"
                                 FontWeight="DemiBold"
                                 VerticalAlignment="Center"
@@ -228,7 +295,7 @@
 
                                     <TextBlock Grid.Column="0"
                                                    Text="No"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    FontFamily="Jetbrains Mono"
                                                    FontWeight="SemiBold"
                                                    HorizontalAlignment="Center"
@@ -236,7 +303,7 @@
 
                                     <TextBlock Grid.Column="1"
                                                    Text="FISH"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    FontFamily="Jetbrains Mono"
                                                    FontWeight="SemiBold"
                                                    VerticalAlignment="Center"/>
@@ -244,7 +311,7 @@
 
                                 <Grid Grid.Column="1">
                                     <TextBlock Text="Darslar"
-                                                   FontSize="14"
+                                                   FontSize="16"
                                                    FontFamily="Jetbrains Mono"
                                                    FontWeight="SemiBold"
                                                    VerticalAlignment="Center"/>

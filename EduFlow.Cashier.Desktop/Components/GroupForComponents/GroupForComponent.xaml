@@ -21,7 +21,7 @@
             <TextBlock Grid.Column="0"
                        x:Name="tbName"
                        Text="Foundation 22.06"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -29,7 +29,7 @@
             <TextBlock Grid.Column="1"
                        x:Name="tbCreatedDate"
                        Text="22.06.2025"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"

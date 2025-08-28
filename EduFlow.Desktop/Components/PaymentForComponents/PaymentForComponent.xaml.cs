@@ -21,14 +21,15 @@ public partial class PaymentForComponent : UserControl
         tbStudentName.Text = studentName;
         tbAmount.Text = amount.ToString();
         tbDiscount.Text = discount.ToString();
-        tbStatus.Text = status switch
-        {
-            PaymentStatus.Pending => "Kutilmoqda",
-            PaymentStatus.Completed => "Yakunlangan",
-            PaymentStatus.Failed => "Muvaffaqiyatsiz",
-            PaymentStatus.Refunded => "Qaytarilgan",
-            _ => "Tekshirilishi kerak"
-        };
+
+        if (status is PaymentStatus.Pending)
+            PendingBorder.Visibility = System.Windows.Visibility.Visible;
+        else if (status is PaymentStatus.Completed)
+            CompletedBorder.Visibility = System.Windows.Visibility.Visible;
+        else if (status is PaymentStatus.Failed)
+            FailedBorder.Visibility = System.Windows.Visibility.Visible;
+        else
+            RefundedBorder.Visibility = System.Windows.Visibility.Visible;
 
         tbType.Text = type switch
         {
