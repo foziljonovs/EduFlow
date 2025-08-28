@@ -13,11 +13,11 @@
             ToolTip="Guruh malumotlari">
         <Grid>
             <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="120"/>
-                </Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
                        x:Name="tbNumber"

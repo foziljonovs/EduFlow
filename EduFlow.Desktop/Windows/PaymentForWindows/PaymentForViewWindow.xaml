@@ -66,6 +66,7 @@
                             Width="110"
                             VerticalAlignment="Center"
                             ToolTip="Sanadan"
+                            FontSize="16"
                             Margin="10 0 10 0"/>
 
                 <DatePicker x:Name="dtEndDate"
@@ -73,6 +74,7 @@
                             VerticalAlignment="Center"
                             Margin="10 0 10 0"
                             ToolTip="Sanagacha"
+                            FontSize="16"
                             SelectedDateChanged="dtEndDate_SelectedDateChanged"/>
             </StackPanel>
 
@@ -94,7 +96,8 @@
                 </Border>
 
                 <TextBlock Text="Jami summa: "
-                           FontSize="14"
+                           FontSize="16"
+                           Foreground="Gray"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
@@ -122,7 +125,7 @@
 
             <TextBlock Grid.Column="0"
                        Text="No"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
@@ -130,14 +133,14 @@
 
             <TextBlock Grid.Column="1"
                        Text="O'quvchi ismi"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="2"
                        Text="Summa"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
@@ -145,7 +148,7 @@
 
             <TextBlock Grid.Column="3"
                        Text="Chegirma"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
@@ -153,7 +156,7 @@
 
             <TextBlock Grid.Column="4"
                        Text="Holati"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
@@ -161,7 +164,7 @@
 
             <TextBlock Grid.Column="5"
                        Text="Turi"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
@@ -169,7 +172,7 @@
 
             <TextBlock Grid.Column="6"
                        Text="Sana"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
@@ -188,7 +191,7 @@
 
             <TextBlock x:Name="emptyDataForPayment"
                        Text="To'lovlar topilmadi!"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        FontFamily="Jetbrains Mono"
                        HorizontalAlignment="Center"

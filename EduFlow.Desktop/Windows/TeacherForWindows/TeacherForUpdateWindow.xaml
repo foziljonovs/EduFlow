@@ -36,7 +36,7 @@
                     Margin="10 0"
                     VerticalAlignment="Center">
             <TextBlock Text="To'liq ism"
-                       FontSize="13"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="Medium"
                        Foreground="Gray"
@@ -46,7 +46,7 @@
                      FontWeight="SemiBold"/>
 
             <TextBlock Text="Telefon raqam"
-                       FontSize="13"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="Medium"
                        Foreground="Gray"
@@ -80,7 +80,7 @@
             </ComboBox>
 
             <TextBlock Text="Ko'nikmalar"
-                       FontSize="13"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="Medium"
                        Foreground="Gray"
