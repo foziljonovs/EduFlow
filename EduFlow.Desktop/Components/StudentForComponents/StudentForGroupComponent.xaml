@@ -28,7 +28,7 @@
             <TextBlock Grid.Column="0"
                        x:Name="tbNumber"
                        Text="1"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
@@ -37,7 +37,7 @@
             <TextBlock Grid.Column="1"
                        x:Name="tbFullname"
                        Text="Abdulaziz Hikmatov"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
@@ -45,7 +45,7 @@
             <TextBlock Grid.Column="2"
                        x:Name="tbAge"
                        Text="17"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
@@ -55,7 +55,7 @@
                        x:Name="tbAddress"
                        Text="Marg'ilon"
                        FontFamily="Jetbrains Mono"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"/>
 
@@ -63,7 +63,7 @@
                        x:Name="tbPhoneNumber"
                        Text="+998909000909"
                        FontFamily="Jetbrains Mono"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
@@ -72,7 +72,7 @@
                        x:Name="tbStatus"
                        Text="Faol emas"
                        FontFamily="Jetbrains Mono"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
@@ -81,7 +81,7 @@
                        x:Name="tbPreferredTime"
                        Text="00:00"
                        FontFamily="Jetbrains Mono"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
@@ -90,7 +90,7 @@
                        x:Name="tbPreferredDate"
                        Text="Toq kunlar"
                        FontFamily="Jetbrains Mono"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>

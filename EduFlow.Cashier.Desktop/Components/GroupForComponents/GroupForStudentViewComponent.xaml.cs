@@ -18,13 +18,15 @@ public partial class GroupForStudentViewComponent : UserControl
     {
         this.Id = id;
         tbName.Text = name;
-        tbStatus.Text = status switch
-        {
-            Status.Active => "Faol",
-            Status.Archived => "Saqlangan",
-            Status.Graduated => "Bitirgan",
-            Status.Deleted => "Chiqarib yuborilgan"
-        };
+
+        if (status == Status.Active)
+            ActiveBorder.Visibility = System.Windows.Visibility.Visible;
+        else if (status == Status.Archived)
+            ArchivedBorder.Visibility = System.Windows.Visibility.Visible;
+        else if(status == Status.Graduated)
+            GratuatedBorder.Visibility = System.Windows.Visibility.Visible;
+        else
+            DeletedBorder.Visibility = System.Windows.Visibility.Visible;
     }
 
     public long GetId()

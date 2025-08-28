@@ -18,7 +18,15 @@ public partial class GroupForStudentViewWindowComponent : UserControl
     {
         this.Id = id;
         tbName.Text = name;
-        tbStatus.Text = status.ToString();
+
+        if(status is Status.Active)
+            ActiveBorder.Visibility = System.Windows.Visibility.Visible;
+        else if(status is Status.Archived)
+            ArchivedBorder.Visibility = System.Windows.Visibility.Visible;
+        else if(status is Status.Graduated)
+            GratuatedBorder.Visibility = System.Windows.Visibility.Visible;
+        else
+            DeletedBorder.Visibility = System.Windows.Visibility.Visible;
     }
 
     public long GetId()

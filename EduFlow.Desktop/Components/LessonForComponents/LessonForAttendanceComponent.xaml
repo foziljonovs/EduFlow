@@ -62,7 +62,7 @@
             <TextBlock Grid.Row="2"
                        x:Name="tbDate"
                        Text="29/04/2025"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"

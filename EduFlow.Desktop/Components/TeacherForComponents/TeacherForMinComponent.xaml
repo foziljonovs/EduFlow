@@ -15,7 +15,7 @@
             ToolTip="O'qituvchi">
         <TextBlock x:Name="tbName"
                    Text="Abdulvosid Foziljonov"
-                   FontSize="14"
+                   FontSize="16"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontWeight="SemiBold"
