@@ -8,9 +8,9 @@
         Title="MainWindow"
         Height="600"
         Width="1024"
-        WindowState="Normal"
+        WindowState="Maximized"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen"
+        StateChanged="Window_StateChanged"
         Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
@@ -41,6 +41,7 @@
                 <RadioButton x:Name="MaxButton"
                              Style="{DynamicResource StateButton}"
                              Tag="ArrowExpand"
+                             Visibility="Collapsed"
                              ToolTip="Kattalashtirish"
                              Click="MaxButton_Click"/>  
             </StackPanel>

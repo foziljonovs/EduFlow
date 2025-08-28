@@ -55,7 +55,15 @@ public partial class GroupForComponent : UserControl
             Status.Graduated => "Yakunlangan",
         };
 
-        tbStatus.Text = groupStatus;
+        if (status is Status.Active)
+            ActiveBorder.Visibility = Visibility.Visible;
+        else if(status is Status.Archived)
+            ArchivedBorder.Visibility = Visibility.Visible;
+        else if(status is Status.Graduated)
+            GratuatedBorder.Visibility = Visibility.Visible;
+        else
+            DeletedBorder.Visibility = Visibility.Visible;
+
         tbTime.Text = preferredTime.ToString(@"hh\:mm");
         tbDay.Text = preferredDay switch
         {

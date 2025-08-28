@@ -103,6 +103,11 @@ public partial class MainWindow : Window
 
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
+        if (this.WindowState is WindowState.Maximized)
+            NormalButton.Visibility = Visibility.Visible;
+        else
+            MaxButton.Visibility = Visibility.Visible;
+
         this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
         homeBtn.IsChecked = true;
 
@@ -149,5 +154,19 @@ public partial class MainWindow : Window
 
         SettingsForPrinterWindow window = new SettingsForPrinterWindow();
         window.ShowDialog();
+    }
+
+    private void Window_StateChanged(object sender, EventArgs e)
+    {
+        if (this.WindowState == WindowState.Normal)
+        {
+            var screen = System.Windows.SystemParameters.WorkArea;
+
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+
+            this.Left = (screen.Width - windowWidth) / 2 + screen.Left;
+            this.Top = (screen.Height - windowHeight) / 2 + screen.Top;
+        }
     }
 }

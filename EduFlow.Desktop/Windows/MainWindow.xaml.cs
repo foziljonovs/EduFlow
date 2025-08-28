@@ -105,7 +105,7 @@ public partial class MainWindow : Window
         else
             MaxButton.Visibility = Visibility.Visible;
 
-            var role = IdentitySingelton.GetInstance().Role;
+        var role = IdentitySingelton.GetInstance().Role;
         this.CompanyId = IdentitySingelton.GetInstance().CompanyId;
 
         if (role is Domain.Enums.UserRole.Teacher)

@@ -24,11 +24,13 @@
                       Width="110"
                       VerticalAlignment="Center"
                       Margin="10 0"
+                      FontSize="16"
                       SelectionChanged="categoryComboBox_SelectionChanged"/>
 
             <ComboBox x:Name="courseComboBox"
                       ToolTip="Kurs tanlash"
                       Width="110"
+                      FontSize="16"
                       VerticalAlignment="Center"
                       Margin="10 0"
                       SelectionChanged="courseComboBox_SelectionChanged"/>
@@ -36,6 +38,7 @@
             <ComboBox x:Name="teacherComboBox"
                       ToolTip="O'qituvchi tanlash"
                       Width="110"
+                      FontSize="16"
                       VerticalAlignment="Center"
                       Margin="10 0"
                       SelectionChanged="teacherComboBox_SelectionChanged"/>
@@ -43,6 +46,7 @@
             <ComboBox x:Name="groupStatusComboBox"
                       ToolTip="Guruh holatini tanlash"
                       Width="110"
+                      FontSize="16"
                       VerticalAlignment="Center"
                       Margin="10 0"
                       SelectionChanged="groupStatusComboBox_SelectionChanged">
@@ -72,13 +76,13 @@
                     <TextBlock x:Name="tbActiveGroupCount"
                                Text="0"
                                Foreground="White"
-                               FontSize="22"
+                               FontSize="24"
                                HorizontalAlignment="Center"
                                FontWeight="Heavy"/>
 
                     <TextBlock Text="Faol guruhlar soni"
                                Foreground="White"
-                               FontSize="14"
+                               FontSize="16"
                                HorizontalAlignment="Center"
                                FontWeight="SemiBold"
                                FontFamily="Jetbrains Mono"/>
@@ -93,13 +97,13 @@
                     <TextBlock x:Name="ActiveStudentsCount"
                                Text="0"
                                Foreground="White"
-                               FontSize="22"
+                               FontSize="24"
                                HorizontalAlignment="Center"
                                FontWeight="Heavy"/>
 
                     <TextBlock Text="Faol o'quvchilar soni"
                                Foreground="White"
-                               FontSize="14"
+                               FontSize="16"
                                HorizontalAlignment="Center"
                                FontWeight="SemiBold"
                                FontFamily="Jetbrains Mono"/>
@@ -115,13 +119,13 @@
                     <TextBlock x:Name="MonthlyIncome"
                                Text="0"
                                Foreground="White"
-                               FontSize="22"
+                               FontSize="24"
                                HorizontalAlignment="Center"
                                FontWeight="Heavy"/>
 
                     <TextBlock Text="Shu oylik tushum"
                                Foreground="White"
-                               FontSize="14"
+                               FontSize="16"
                                HorizontalAlignment="Center"
                                FontWeight="SemiBold"
                                FontFamily="Jetbrains Mono"/>
@@ -137,13 +141,13 @@
                     <TextBlock x:Name="NumberOfStudentsPaid"
                                Text="0"
                                Foreground="White"
-                               FontSize="22"
+                               FontSize="24"
                                HorizontalAlignment="Center"
                                FontWeight="Heavy"/>
 
                     <TextBlock Text="To'lov qilganlar soni"
                                Foreground="White"
-                               FontSize="14"
+                               FontSize="16"
                                HorizontalAlignment="Center"
                                FontWeight="SemiBold"
                                FontFamily="Jetbrains Mono"/>
@@ -163,14 +167,14 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="140"/>
                     <ColumnDefinition Width="40"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0"
                            Text="No"
-                           FontSize="12"
+                           FontSize="16"
                            FontWeight="ExtraBold"
                            FontFamily="Jetbrains Mono"
                            HorizontalAlignment="Center"
@@ -178,7 +182,7 @@
 
                 <TextBlock Grid.Column="1"
                            Text="Nomi"
-                           FontSize="12"
+                           FontSize="16"
                            FontWeight="ExtraBold"
                            FontFamily="Jetbrains Mono"
                            VerticalAlignment="Center"/>
@@ -186,15 +190,17 @@
                 <TextBlock Grid.Column="2"
                            Text="O'quvchi soni"
                            FontWeight="ExtraBold"
+                           FontSize="16"
                            FontFamily="Jetbrains Mono"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"/>
 
                 <TextBlock Grid.Column="3"
-                           Text="Boshlanish sanasi"
-                           FontSize="12"
+                           Text="Boshlangan sana"
+                           FontSize="16"
                            FontWeight="ExtraBold"
                            FontFamily="Jetbrains Mono"
+                           HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
             </Grid>
 
