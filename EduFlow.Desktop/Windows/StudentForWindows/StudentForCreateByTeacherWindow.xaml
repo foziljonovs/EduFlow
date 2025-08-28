@@ -37,7 +37,7 @@
                     Margin="10 5"
                     VerticalAlignment="Center">
             <TextBlock Text="To'liq ism"
-                       FontSize="13"
+                       FontSize="16"
                        Foreground="Gray"
                        FontWeight="Medium"
                        Margin="10 0"/>
@@ -46,7 +46,7 @@
                      FontWeight="SemiBold"/>
 
             <TextBlock Text="Yashash manzil"
-                       FontSize="13"
+                       FontSize="16"
                        Foreground="Gray"
                        FontWeight="Medium"
                        Margin="10 0"/>
@@ -55,7 +55,7 @@
                      FontWeight="SemiBold"/>
 
             <TextBlock Text="Telefon raqam"
-                       FontSize="13"
+                       FontSize="16"
                        Foreground="Gray"
                        FontWeight="Medium"
                        Margin="10 0"/>

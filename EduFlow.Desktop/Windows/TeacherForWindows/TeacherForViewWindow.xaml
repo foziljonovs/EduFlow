@@ -64,7 +64,8 @@
             <StackPanel Grid.Column="0">
                 <Grid Height="50">
                     <TextBlock Text="Ism: "
-                               FontSize="18"
+                               FontSize="16"
+                               Foreground="Gray"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -72,7 +73,10 @@
 
                     <TextBlock x:Name="tbName"
                                Text="Abdulvosid Foziljonov"
-                               FontSize="14"
+                               FontSize="16"
+                               Width="180"
+                               TextAlignment="Right"
+                               TextWrapping="Wrap"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -81,7 +85,8 @@
 
                 <Grid Height="50">
                     <TextBlock Text="Telefon raqam: "
-                               FontSize="18"
+                               FontSize="16"
+                               Foreground="Gray"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -89,7 +94,7 @@
 
                     <TextBlock x:Name="tbPhoneNumber"
                                Text="+998945666964"
-                               FontSize="14"
+                               FontSize="16"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -98,7 +103,8 @@
 
                 <Grid Height="50">
                     <TextBlock Text="Ko'nikmalar: "
-                               FontSize="18"
+                               FontSize="16"
+                               Foreground="Gray"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -106,7 +112,7 @@
 
                     <TextBlock x:Name="tbSkills"
                                Text="C#, .NET, Web, Desktop"
-                               FontSize="14"
+                               FontSize="16"
                                Width="120"
                                TextWrapping="Wrap"
                                TextAlignment="Right"
@@ -118,7 +124,8 @@
 
                 <Grid Height="50">
                     <TextBlock Text="Kurs: "
-                               FontSize="18"
+                               FontSize="16"
+                               Foreground="Gray"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -126,7 +133,7 @@
 
                     <TextBlock x:Name="tbCourseName"
                                Text="Foundation"
-                               FontSize="14"
+                               FontSize="16"
                                FontFamily="Jetbrains Mono"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -136,11 +143,11 @@
                 <StackPanel Height="50"
                             Orientation="Horizontal">
                     <Border x:Name="teacherForPasswordEditBtn"
-                            Margin="5 0"
                             Height="30"
                             Width="110"
                             Background="DeepSkyBlue"
                             CornerRadius="5"
+                            Margin="5 0"
                             HorizontalAlignment="Left"
                             ToolTip="Bu funksiya hozirda faol emas.">
                         <Label Content="Parol o'zgartirish"
@@ -152,13 +159,13 @@
                     </Border>
 
                     <Border x:Name="btnTeacherForViewPayments"
-                            Margin="5 0"
                             Height="30"
                             Width="110"
                             Background="MediumSeaGreen"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
                             CornerRadius="5"
+                            Margin="5 0"
                             ToolTip="Joriy oydagi tushumlarni ko'rish"
                             MouseDown="btnTeacherForViewPayments_MouseDown">
                         <Label Content="To'lovlarni ko'rish"
@@ -184,12 +191,14 @@
                                     Width="110"
                                     VerticalAlignment="Center"
                                     Margin="10 0"
+                                    FontSize="16"
                                     ToolTip="Boshlanish sanasi"/>
 
                         <DatePicker x:Name="endDate"
                                     Width="110"
                                     VerticalAlignment="Center"
                                     Margin="10 0 0 0"
+                                    FontSize="16"
                                     ToolTip="Tugash sanasi"
                                     SelectedDateChanged="endDate_SelectedDateChanged"/>
                     </StackPanel>
@@ -211,13 +220,13 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="100"/>
                                 <ColumnDefinition Width="120"/>
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Column="0"
                                        Text="No"
-                                       FontSize="12"
+                                       FontSize="16"
                                        FontFamily="Jetbrains Mono"
                                        FontWeight="ExtraBold"
                                        HorizontalAlignment="Center"
@@ -225,7 +234,7 @@
 
                             <TextBlock Grid.Column="1"
                                         Text="Nomi"
-                                        FontSize="12"
+                                        FontSize="16"
                                         FontFamily="Jetbrains Mono"
                                         FontWeight="ExtraBold"
                                         HorizontalAlignment="Left"
@@ -233,7 +242,7 @@
 
                             <TextBlock Grid.Column="2"
                                         Text="O'quvchilar"
-                                        FontSize="12"
+                                        FontSize="16"
                                         FontFamily="Jetbrains Mono"
                                         FontWeight="ExtraBold"
                                         HorizontalAlignment="Center"
@@ -241,7 +250,7 @@
 
                             <TextBlock Grid.Column="3"
                                         Text="Holati"
-                                        FontSize="12"
+                                        FontSize="16"
                                         FontFamily="Jetbrains Mono"
                                         FontWeight="ExtraBold"
                                         HorizontalAlignment="Center"

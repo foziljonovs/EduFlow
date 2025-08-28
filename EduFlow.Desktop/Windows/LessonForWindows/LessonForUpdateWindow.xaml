@@ -39,7 +39,7 @@
                     Margin="5"
                     VerticalAlignment="Center">
             <TextBlock Text="Dars sanasi"
-                       FontSize="14"
+                       FontSize="16"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        Foreground="Gray"
@@ -48,7 +48,8 @@
             <DatePicker x:Name="dtDateTime"
                         materialDesign:HintAssist.Hint="Tugash sanasini tanlang"
                         VerticalAlignment="Center"
-                        ToolTip="Sanagacha"/>
+                        ToolTip="Sanagacha"
+                        FontSize="16"/>
         </StackPanel>
 
         <Button Grid.Row="2"
