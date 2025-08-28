@@ -75,7 +75,8 @@
                     <Label Content="Nomi: "
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
-                           FontSize="18"
+                           FontSize="16"
+                           Foreground="Gray"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Center"/>
 
@@ -83,7 +84,7 @@
                            Content="Foundation"
                            FontFamily="Jetbrains Mono"
                            FontWeight="DemiBold"
-                           FontSize="14"
+                           FontSize="16"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Center"/>
                 </Grid>
@@ -92,7 +93,8 @@
                     <Label Content="Narxi: "
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
-                           FontSize="18"
+                           FontSize="16"
+                           Foreground="Gray"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Center"/>
 
@@ -100,7 +102,7 @@
                            Content="400000"
                            FontFamily="Jetbrains Mono"
                            FontWeight="DemiBold"
-                           FontSize="14"
+                           FontSize="16"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Center"/>
                 </Grid>
@@ -109,7 +111,8 @@
                     <Label Content="Muddati: "
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
-                           FontSize="18"
+                           FontSize="16"
+                           Foreground="Gray"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Center"/>
 
@@ -117,7 +120,7 @@
                            Content="3 oy"
                            FontFamily="Jetbrains Mono"
                            FontWeight="DemiBold"
-                           FontSize="14"
+                           FontSize="16"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Center"/>                    
                 </Grid>
@@ -126,24 +129,83 @@
                     <Label Content="Xolati: "
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
-                           FontSize="18"
+                           FontSize="16"
+                           Foreground="Gray"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Center"/>
 
-                    <Label x:Name="tbStatus"
-                           Content="Faol"
-                           FontFamily="Jetbrains Mono"
-                           FontWeight="DemiBold"
-                           FontSize="14"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Center"/>                    
+                    <StackPanel Width="120"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center">
+                        <Border x:Name="ActiveBorder"
+                                CornerRadius="8"
+                                Height="30"
+                                Width="100"
+                                Visibility="Collapsed"
+                                HorizontalAlignment="Right"
+                                Background="MediumSeaGreen">
+                            <TextBlock Text="Faol"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <Border x:Name="ArchivedBorder"
+                                CornerRadius="8"
+                                Height="30"
+                                Width="100"
+                                Visibility="Collapsed"
+                                HorizontalAlignment="Right"
+                                Background="Gold">
+                            <TextBlock Text="Saqlangan"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <Border x:Name="GratuatedBorder"
+                                CornerRadius="8"
+                                Height="30"
+                                Width="100"
+                                Visibility="Collapsed"
+                                HorizontalAlignment="Right"
+                                Background="MediumSeaGreen">
+                            <TextBlock Text="Bitirgan"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <Border x:Name="DeletedBorder"
+                                CornerRadius="8"
+                                Height="30"
+                                Width="100"
+                                Background="Tomato"
+                                HorizontalAlignment="Right"
+                                Visibility="Collapsed">
+                            <TextBlock Text="O'chirilgan"
+                                       FontSize="16"
+                                       FontFamily="Jetbrains Mono"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                    </StackPanel>                    
                 </Grid>
 
                 <Grid Grid.Row="4">
                     <Label Content="Kategoriya: "
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
-                           FontSize="18"
+                           FontSize="16"
+                           Foreground="Gray"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Center"/>
 
@@ -151,7 +213,7 @@
                            Content="Dasturlash"
                            FontFamily="Jetbrains Mono"
                            FontWeight="DemiBold"
-                           FontSize="14"
+                           FontSize="16"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Center"/>                    
                 </Grid>
@@ -214,7 +276,7 @@
                             <TextBlock Grid.Column="0"
                                        Text="No"
                                        FontFamily="Jetbrains Mono"
-                                       FontSize="14"
+                                       FontSize="16"
                                        FontWeight="SemiBold"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"/>
@@ -222,14 +284,14 @@
                             <TextBlock Grid.Column="1"
                                         Text="Nomi"
                                         FontFamily="Jetbrains Mono"
-                                        FontSize="14"
+                                        FontSize="16"
                                         FontWeight="SemiBold"
                                         VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Column="2"
                                         Text="O'quvchilar"
                                         FontFamily="Jetbrains Mono"
-                                        FontSize="14"
+                                        FontSize="16"
                                         FontWeight="SemiBold"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"/>
@@ -237,7 +299,7 @@
                             <TextBlock Grid.Column="3"
                                         Text="Xolati"
                                         FontFamily="Jetbrains Mono"
-                                        FontSize="14"
+                                        FontSize="16"
                                         FontWeight="SemiBold"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"/>

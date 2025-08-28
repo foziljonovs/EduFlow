@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="GroupForAddStudentWindow" 
         Height="600" 
-        Width="800"
+        Width="1024"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded">
@@ -45,6 +45,7 @@
                         Width="110"
                         VerticalAlignment="Center"
                         ToolTip="Sanadan"
+                        FontSize="16"
                         Margin="10 0 5 0"/>
 
             <DatePicker x:Name="dtEndDate"
@@ -52,6 +53,7 @@
                         VerticalAlignment="Center"
                         ToolTip="Sanagacha"
                         Margin="10 0 5 0"
+                        FontSize="16"
                         SelectedDateChanged="dtEndDate_SelectedDateChanged"/>
 
         </StackPanel>
@@ -78,7 +80,7 @@
 
                 <TextBlock Grid.Column="0"
                            Text="No"
-                           FontSize="14"
+                           FontSize="16"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"
@@ -86,14 +88,14 @@
 
                 <TextBlock Grid.Column="1"
                            Text="Ism"
-                           FontSize="14"
+                           FontSize="16"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Column="2"
                            Text="Yoshi"
-                           FontSize="14"
+                           FontSize="16"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"
@@ -102,14 +104,14 @@
                 <TextBlock Grid.Column="3"
                            Text="Manzili"
                            FontFamily="Jetbrains Mono"
-                           FontSize="14"
+                           FontSize="16"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Column="4"
                            Text="Telefon raqam"
                            FontFamily="Jetbrains Mono"
-                           FontSize="14"
+                           FontSize="16"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"/>
@@ -117,7 +119,7 @@
                 <TextBlock Grid.Column="5"
                            Text="Holat"
                            FontFamily="Jetbrains Mono"
-                           FontSize="14"
+                           FontSize="16"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"/>
@@ -125,7 +127,7 @@
                 <TextBlock Grid.Column="6"
                            Text="Soat"
                            FontFamily="Jetbrains Mono"
-                           FontSize="14"
+                           FontSize="16"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"/>
@@ -133,7 +135,7 @@
                 <TextBlock Grid.Column="7"
                            Text="Kun"
                            FontFamily="Jetbrains Mono"
-                           FontSize="14"
+                           FontSize="16"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"/>

@@ -128,8 +128,16 @@ public partial class CourseForViewWindow : Window
             tbName.Content = course.Name;
             tbPrice.Content = course.Price.ToString();
             tbTerm.Content = course.Term.ToString();
-            tbStatus.Content = course.Archived.ToString();
             tbCategory.Content = course.Category?.Name ?? "Nomalum";
+
+            if (course.Archived is Domain.Enums.Status.Active)
+                ActiveBorder.Visibility = Visibility.Visible;
+            else if(course.Archived is Domain.Enums.Status.Archived)
+                ArchivedBorder.Visibility = Visibility.Visible;
+            else if(course.Archived is Domain.Enums.Status.Graduated)
+                GratuatedBorder.Visibility = Visibility.Visible;
+            else
+                DeletedBorder.Visibility = Visibility.Visible;
 
             await GetAllTeacherByTeacherId(course.Id);
             await GetAllGroupByCourseId(course.Id);
@@ -293,7 +301,6 @@ public partial class CourseForViewWindow : Window
         tbName.Content = "Nomalum";
         tbPrice.Content = "0";
         tbTerm.Content = "0";
-        tbStatus.Content = "Nomalum";
         tbCategory.Content = "Nomalum";
 
         stGroups.Visibility = Visibility.Collapsed;

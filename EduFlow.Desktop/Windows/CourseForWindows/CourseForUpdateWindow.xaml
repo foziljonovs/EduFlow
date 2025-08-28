@@ -36,7 +36,7 @@
                     VerticalAlignment="Center"
                     Margin="10 0">
             <TextBlock Text="Nomi"
-                       FontSize="13"
+                       FontSize="16"
                        Margin="10 0 0 0"
                        Foreground="Gray"
                        FontFamily="Jetbrains Mono"
@@ -47,7 +47,7 @@
                      FontWeight="SemiBold"/>
 
             <TextBlock Text="Narxi"
-                       FontSize="13"
+                       FontSize="16"
                        Margin="10 0 0 0"
                        Foreground="Gray"
                        FontFamily="Jetbrains Mono"
