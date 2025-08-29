@@ -91,6 +91,9 @@
 
                     <TextBlock x:Name="teacherNameTxt"
                                Text="..."
+                               TextWrapping="Wrap"
+                               TextAlignment="Right"
+                               Width="150"
                                FontSize="16"
                                FontFamily="JetBrains Mono"
                                FontWeight="DemiBold"

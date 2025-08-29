@@ -20,7 +20,7 @@
 
         <Grid Grid.Row="0">
             <TextBlock Text="To'lov qilish"
-                       FontSize="18"
+                       FontSize="22"
                        FontWeight="SemiBold"
                        FontFamily="Jetbrains Mono"
                        VerticalAlignment="Center"
@@ -105,7 +105,7 @@
 
                 <Grid Grid.Row="2">
                     <TextBlock Text="Summa"
-                               FontSize="13"
+                               FontSize="16"
                                FontFamily="Jetbrains Mono"
                                FontWeight="Medium"
                                Foreground="Gray"
@@ -120,7 +120,7 @@
 
                 <Grid Grid.Row="3">
                     <TextBlock Text="Chegirma summasi"
-                               FontSize="13"
+                               FontSize="16"
                                FontFamily="Jetbrains Mono"
                                FontWeight="Medium"
                                Foreground="Gray"
@@ -135,7 +135,7 @@
 
                 <StackPanel Grid.Row="4">
                     <TextBlock Text="Izoh"
-                               FontSize="13"
+                               FontSize="16"
                                FontFamily="Jetbrains Mono"
                                FontWeight="Medium"
                                Foreground="Gray"
@@ -158,9 +158,9 @@
 
                 <Grid Grid.Row="5">
                     <TextBlock Text="Oldingi to'lovlar"
-                               FontSize="14"
+                               FontSize="16"
                                FontFamily="Jetbrains Mono"
-                               FontWeight="ExtraBold"
+                               FontWeight="SemiBold"
                                HorizontalAlignment="Center"/>
 
                     <Grid Margin="5 20 5 0">
@@ -175,7 +175,7 @@
 
                         <TextBlock x:Name="emptyDataForStudentOldPayment"
                                    Text="To'lovlar topilmadi!"
-                                   FontSize="14"
+                                   FontSize="16"
                                    FontFamily="Jetbrains Mono"
                                    FontWeight="SemiBold"
                                    HorizontalAlignment="Center"
@@ -212,16 +212,16 @@
 
                             <TextBlock Grid.Column="0"
                                        Text="Nomi"
-                                       FontSize="13"
+                                       FontSize="16"
                                        FontFamily="Jetbrains Mono"
-                                       FontWeight="ExtraBold"
+                                       FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Column="1"
                                        Text="Boshlangan sana"
-                                       FontSize="13"
+                                       FontSize="16"
                                        FontFamily="Jetbrains Mono"
-                                       FontWeight="ExtraBold"
+                                       FontWeight="SemiBold"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"/>
                         </Grid>
@@ -270,23 +270,23 @@
                             <TextBlock Grid.Column="0"
                                        Text="Ism"
                                        FontFamily="Jetbrains Mono"
-                                       FontSize="13"
-                                       FontWeight="ExtraBold"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Column="1"
                                         Text="Telefon raqam"
                                         FontFamily="Jetbrains Mono"
-                                        FontSize="13"
-                                        FontWeight="ExtraBold"
+                                        FontSize="16"
+                                        FontWeight="SemiBold"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Column="2"
                                         Text="To'lovlar"
                                         FontFamily="Jetbrains Mono"
-                                        FontSize="13"
-                                        FontWeight="ExtraBold"
+                                        FontSize="16"
+                                        FontWeight="SemiBold"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"/>
                         </Grid>
