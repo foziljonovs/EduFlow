@@ -20,7 +20,7 @@
 
         <Grid Grid.Row="0">
             <TextBlock Text="Chiqim qilish"
-                       FontSize="18"
+                       FontSize="22"
                        Margin="10 0 0 0"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
@@ -37,7 +37,7 @@
         <StackPanel Grid.Row="1">
             <StackPanel Margin="5 10 5 0">
                 <TextBlock Text="Summa"
-                           FontSize="13"
+                           FontSize="16"
                            FontWeight="Medium"
                            Foreground="Gray"
                            FontFamily="Jetbrains Mono"
@@ -50,7 +50,7 @@
 
             <StackPanel Margin="5 10 5 0">
                 <TextBlock Text="Tavsif"
-                           FontSize="13"
+                           FontSize="16"
                            FontWeight="Medium"
                            Foreground="Gray"
                            FontFamily="Jetbrains Mono"

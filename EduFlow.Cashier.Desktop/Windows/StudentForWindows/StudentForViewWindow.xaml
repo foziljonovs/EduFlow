@@ -20,8 +20,8 @@
         <Grid Grid.Row="0">
             <Label Content="O'quvchi malumotlari"
                    FontFamily="Jetbrains Mono"
-                   FontWeight="Bold"
-                   FontSize="20"/>
+                   FontWeight="SemiBold"
+                   FontSize="22"/>
 
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
@@ -59,42 +59,48 @@
 
                 <TextBlock Grid.Row="0"
                            Text="To'liq ism :"
-                           FontSize="18"
+                           FontSize="16"
+                           Foreground="Gray"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Row="1"
                            Text="Telefon raqam :"
-                           FontSize="18"
+                           FontSize="16"
+                           Foreground="Gray"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Row="2"
                            Text="Manzili :"
-                           FontSize="18"
+                           FontSize="16"
+                           Foreground="Gray"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Row="3"
                            Text="Yoshi :"
-                           FontSize="18"
+                           FontSize="16"
+                           Foreground="Gray"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Row="4"
-                            Text="O'qigan guruhlar :"
-                            FontSize="18"
-                            FontFamily="Jetbrains Mono"
-                            FontWeight="SemiBold"
-                            VerticalAlignment="Top"/>
+                           Text="O'qigan guruhlar :"
+                           FontSize="16"
+                           Foreground="Gray"
+                           FontFamily="Jetbrains Mono"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Top"/>
 
                 <TextBlock Grid.Row="5"
                            Text="To'lovlar tarixi :"
-                           FontSize="18"
+                           FontSize="16"
+                           Foreground="Gray"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Top"/>
@@ -113,7 +119,7 @@
                 <TextBlock Grid.Row="0"
                            x:Name="tbFullName"
                            Text="Palonchi Pistonchiyev"
-                           FontSize="18"
+                           FontSize="16"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
@@ -121,7 +127,7 @@
                 <TextBlock Grid.Row="1"
                            x:Name="tbPhoneNumber"
                            Text="+998945666964"
-                           FontSize="18"
+                           FontSize="16"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
@@ -130,7 +136,7 @@
                 <TextBlock Grid.Row="2"
                            x:Name="tbAddress"
                            Text="Margilon shahar"
-                           FontSize="18"
+                           FontSize="16"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
@@ -138,8 +144,8 @@
 
                 <TextBlock Grid.Row="3"
                            x:Name="tbAge"
-                           Text="18"
-                           FontSize="18"
+                           Text="16"
+                           FontSize="16"
                            FontFamily="Jetbrains Mono"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"/>
@@ -157,7 +163,7 @@
 
                     <TextBlock x:Name="groupForEmptyDate"
                                Text="Guruhlar topilmadi!"
-                               FontSize="14"
+                               FontSize="16"
                                FontWeight="SemiBold"
                                FontFamily="Jetbrains Mono"
                                HorizontalAlignment="Center"
@@ -178,7 +184,7 @@
 
                     <TextBlock x:Name="paymentForEmptyDate"
                                Text="To'lovlar topilmadi!"
-                               FontSize="14"
+                               FontSize="16"
                                FontWeight="SemiBold"
                                FontFamily="Jetbrains Mono"
                                HorizontalAlignment="Center"

@@ -75,6 +75,7 @@
                         CornerRadius="8"
                         Height="30"
                         Width="70"
+                        Visibility="Collapsed"
                         Background="Tomato">
                     <TextBlock Text="O'chirilgan"
                                FontSize="14"

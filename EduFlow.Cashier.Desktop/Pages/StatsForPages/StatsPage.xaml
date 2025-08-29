@@ -20,12 +20,14 @@
                 <DatePicker x:Name="startedDate"
                             Width="110"
                             Margin="10 0"
+                            FontSize="16"
                             VerticalAlignment="Center"
                             ToolTip="Boshlang'ich sana"/>
 
                 <DatePicker x:Name="finishadDate"
                             Width="110"
                             Margin="10 0"
+                            FontSize="16"
                             VerticalAlignment="Center"
                             ToolTip="Yakuniy sana"
                             SelectedDateChanged="finishadDate_SelectedDateChanged"/>
@@ -65,7 +67,7 @@
 
                         <TextBlock Grid.Row="0"
                                    Text="Tushum"
-                                   FontSize="18"
+                                   FontSize="20"
                                    FontFamily="Jetbrains Mono"
                                    FontWeight="ExtraBold"
                                    VerticalAlignment="Bottom"
@@ -254,7 +256,7 @@
 
                         <TextBlock Grid.Row="0"
                                Text="Chiqim"
-                               FontSize="18"
+                               FontSize="20"
                                FontFamily="Jetbrains Mono"
                                FontWeight="ExtraBold"
                                VerticalAlignment="Bottom"
@@ -438,7 +440,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0"
                                Text="Chiqimlar"
-                               FontSize="18"
+                               FontSize="20"
                                FontFamily="Jetbrains Mono"
                                FontWeight="ExtraBold"
                                HorizontalAlignment="Center"
@@ -465,7 +467,7 @@
 
                                 <TextBlock Grid.Column="0"
                                            Text="No"
-                                           FontSize="12"
+                                           FontSize="16"
                                            FontFamily="Jetbrains Mono"
                                            FontWeight="Bold"
                                            VerticalAlignment="Center"
@@ -473,21 +475,21 @@
 
                                 <TextBlock Grid.Column="1"
                                            Text="Summa"
-                                           FontSize="12"
+                                           FontSize="16"
                                            FontFamily="Jetbrains Mono"
                                            FontWeight="Bold"
                                            VerticalAlignment="Center"/>
 
                                 <TextBlock Grid.Column="2"
                                            Text="Tavsif"
-                                           FontSize="12"
+                                           FontSize="16"
                                            FontFamily="Jetbrains Mono"
                                            FontWeight="Bold"
                                            VerticalAlignment="Center"/>
 
                                 <TextBlock Grid.Column="3"
                                            Text="Sana"
-                                           FontSize="12"
+                                           FontSize="16"
                                            FontFamily="Jetbrains Mono"
                                            FontWeight="Bold"
                                            VerticalAlignment="Center"
@@ -495,7 +497,7 @@
 
                                 <TextBlock Grid.Column="4"
                                            Text="Turi"
-                                           FontSize="12"
+                                           FontSize="16"
                                            FontFamily="Jetbrains Mono"
                                            FontWeight="Bold"
                                            VerticalAlignment="Center"
@@ -513,7 +515,7 @@
 
                                 <TextBlock x:Name="emptyDataForOutlay"
                                            Text="Chiqimlar topilmadi!"
-                                           FontSize="14"
+                                           FontSize="16"
                                            FontFamily="Jetbrains Mono"
                                            FontWeight="SemiBold"
                                            HorizontalAlignment="Center"
@@ -527,7 +529,7 @@
 
             <TextBlock x:Name="emptyData"
                        Text="Ma'lumotlar topilmadi!"
-                       FontSize="14"
+                       FontSize="16"
                        FontWeight="SemiBold"
                        FontFamily="Jetbrains Mono"
                        HorizontalAlignment="Center"

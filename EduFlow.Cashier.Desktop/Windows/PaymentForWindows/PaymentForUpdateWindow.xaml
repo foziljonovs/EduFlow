@@ -20,7 +20,7 @@
 
         <Grid Grid.Row="0">
             <TextBlock Text="To'lovni o'zgartirish"
-                       FontSize="18"
+                       FontSize="22"
                        FontFamily="Jetbrains Mono"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
@@ -91,7 +91,7 @@
                 </ComboBox>
 
                 <TextBlock Text="Summa"
-                            FontSize="13"
+                            FontSize="16"
                             FontFamily="Jetbrains Mono"
                             FontWeight="Medium"
                             Foreground="Gray"
@@ -103,7 +103,7 @@
                          Margin="5 0 5 10"/>
 
                 <TextBlock Text="Chegirma summasi"
-                           FontSize="13"
+                           FontSize="16"
                            FontFamily="Jetbrains Mono"
                            FontWeight="Medium"
                            Foreground="Gray"
@@ -115,7 +115,7 @@
                          Margin="5 0 5 10"/>
 
                 <TextBlock Text="Izoh"
-                           FontSize="13"
+                           FontSize="16"
                            FontFamily="Jetbrains Mono"
                            FontWeight="Medium"
                            Foreground="Gray"
@@ -163,16 +163,16 @@
 
                             <TextBlock Grid.Column="0"
                                        Text="Nomi"
-                                       FontSize="13"
+                                       FontSize="16"
                                        FontFamily="Jetbrains Mono"
-                                       FontWeight="ExtraBold"
+                                       FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Column="1"
                                        Text="Boshlangan sana"
-                                       FontSize="13"
+                                       FontSize="16"
                                        FontFamily="Jetbrains Mono"
-                                       FontWeight="ExtraBold"
+                                       FontWeight="SemiBold"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"/>
                         </Grid>
@@ -189,7 +189,7 @@
 
                             <TextBlock x:Name="emptyDataForGroups"
                                        Text="Guruhlar topilmadi!"
-                                       FontSize="14"
+                                       FontSize="16"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontFamily="Jetbrains Mono"
@@ -221,23 +221,23 @@
                             <TextBlock Grid.Column="0"
                                        Text="Ism"
                                        FontFamily="Jetbrains Mono"
-                                       FontSize="13"
-                                       FontWeight="ExtraBold"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Column="1"
                                         Text="Telefon raqam"
                                         FontFamily="Jetbrains Mono"
-                                        FontSize="13"
-                                        FontWeight="ExtraBold"
+                                        FontSize="16"
+                                        FontWeight="SemiBold"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Column="2"
                                         Text="To'lovlar"
                                         FontFamily="Jetbrains Mono"
-                                        FontSize="13"
-                                        FontWeight="ExtraBold"
+                                        FontSize="16"
+                                        FontWeight="SemiBold"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"/>
                         </Grid>
@@ -254,7 +254,7 @@
 
                             <TextBlock x:Name="emptyDataForStudents"
                                         Text="O'quvchilar topilmadi!"
-                                        FontSize="14"
+                                        FontSize="16"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         FontFamily="Jetbrains Mono"
