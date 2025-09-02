@@ -46,14 +46,66 @@
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"/>
 
-            <TextBlock Grid.Column="3"
-                       x:Name="tbStatus"
-                        Text="18"
-                        FontSize="16"
-                        FontFamily="Jetbrains Mono"
-                        FontWeight="SemiBold"
+            <StackPanel Grid.Column="3"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center"/>
+                        VerticalAlignment="Center">
+                <Border x:Name="ActiveBorder"
+                        CornerRadius="8"
+                        Height="30"
+                        Width="90"
+                        Visibility="Collapsed"
+                        Background="MediumSeaGreen">
+                    <TextBlock Text="Faol"
+                               FontSize="14"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+                <Border x:Name="ArchivedBorder"
+                        CornerRadius="8"
+                        Height="30"
+                        Width="90"
+                        Visibility="Collapsed"
+                        Background="Gold">
+                    <TextBlock Text="Saqlangan"
+                               FontSize="14"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+                <Border x:Name="GratuatedBorder"
+                        CornerRadius="8"
+                        Height="30"
+                        Width="90"
+                        Visibility="Collapsed"
+                        Background="MediumSeaGreen">
+                    <TextBlock Text="Bitirgan"
+                               FontSize="14"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+                <Border x:Name="DeletedBorder"
+                        CornerRadius="8"
+                        Height="30"
+                        Width="90"
+                        Background="Tomato"
+                        Visibility="Collapsed">
+                    <TextBlock Text="O'chirilgan"
+                               FontSize="14"
+                               FontFamily="Jetbrains Mono"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </StackPanel>
         </Grid>
     </Border>
 </UserControl>

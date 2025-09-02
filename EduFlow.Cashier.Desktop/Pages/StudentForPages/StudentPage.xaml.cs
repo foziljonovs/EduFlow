@@ -141,7 +141,6 @@ public partial class StudentPage : Page
         }
         catch(Exception ex)
         {
-            notifier.ShowError("Ma'lumotlarni filterlashda xatolik yuz berdi!");
             studentLoader.Visibility = Visibility.Collapsed;
             emptyDataForStudent.Visibility = Visibility.Visible;
         }
