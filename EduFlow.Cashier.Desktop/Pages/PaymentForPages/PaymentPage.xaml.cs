@@ -194,7 +194,6 @@ public partial class PaymentPage : Page
         }
         catch(Exception ex)
         {
-            notifier.ShowWarning("Ma'lumotlarni filterlashda xatolik yuz berdi!");
             paymentLoader.Visibility = Visibility.Collapsed;
             emptyDataForPayment.Visibility = Visibility.Visible;
         }

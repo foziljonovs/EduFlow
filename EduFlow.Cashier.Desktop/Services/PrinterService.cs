@@ -35,49 +35,49 @@ public class PrinterService : IDisposable
         if(AppState.Name.Length < 10)
         {
             printer.DoubleWidth3();
-            printer.Append($"{AppState.Name}\n\n");
+            printer.Append($"{AppState.Name}\n");
         }
         else
         {
             printer.DoubleWidth2();
-            printer.Append($"{AppState.Name}\n\n");
+            printer.Append($"{AppState.Name}\n");
         }
 
         if (!string.IsNullOrEmpty(AppState.PhoneNumber))
         {
             printer.NormalWidth();
-            printer.Append($"Tel: {AppState.PhoneNumber}\n\n");
+            printer.Append($"Tel: {AppState.PhoneNumber}\n");
         }
 
         printer.Separator();
 
         // ✅ Asosiy ma’lumotlar
         printer.AlignLeft();
-        printer.Append($"O'quvchi:\n{paymentDto.Student.Fullname}\n\n");
+        printer.Append($"O'quvchi:\n{paymentDto.Student.Fullname}\n");
         printer.Append($"Yo'nalish:     {course}\n");
         printer.Append($"O'qituvchi:    {teacher}\n");
         printer.Append($"To'lov turi:   {paymentType}\n");
         printer.Append($"Kurs narxi:    {coursePrice:N0} so'm\n");
 
+        printer.Append($"To'langan:     {paymentDto.Amount:N0} so'm\n");
+        
         if (paymentDto.Discount > 0)
         {
             printer.Append($"Chegirma:      {paymentDto.Discount:N0} so'm\n");
             printer.Append($"Jami summa:    {(paymentDto.Amount + paymentDto.Discount):N0} so'm\n");
         }
 
-        printer.Append($"To'langan:     {paymentDto.Amount:N0} so'm\n\n");
-
         printer.Separator();
 
         // ✅ Kassir va sana
-        printer.Append($"Kassir:        {cashier}\n");
+        printer.Append($"Kassir:\n{cashier}\n");
         printer.Append($"Sana:          {paymentDto.PaymentDate:dd/MM/yyyy}\n");
 
         string receipt = paymentDto.ReceiptNumber;
         if (receipt.Length > 16)
             receipt = receipt.Substring(0, 13) + "...";
 
-        printer.Append($"To'lov raqami: {receipt}\n\n");
+        printer.Append($"To'lov raqami: {receipt}\n");
 
         printer.Separator();
 
